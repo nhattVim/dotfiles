@@ -1,0 +1,107 @@
+""" Until
+nmap \r :action IdeaVim.ReloadVimRc.reload<cr>
+imap hj <esc>
+
+""" Set leader
+let mapleader = " "
+
+""" Set option
+set showmode
+set so=5
+set incsearch
+set nu
+set number relativenumber
+vim.opt.clipboard:append("unnamedplus")
+
+""" Idea sp
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Plugin
+set easymotion
+set nerdtree
+set multiple-cursors
+set surround
+set commentary
+
+"map <leader>j <Plug>(easymotion-f)
+nmap <leader>j <Plug>(easymotion-s)
+nmap <leader>e :NERDTree<cr>
+
+nmap mc <A-n>
+nmap mx <A-x>
+nmap mp <A-p>
+
+""" Mapping
+"" Navigation
+nmap <s-tab> <action>(PreviousTab)
+nmap <tab> <action>(NextTab)
+
+nmap <leader>x <action>(CloseEditor)
+nmap <leader>X <action>(CloseAllEditorsButActive)
+
+imap <c-h> <left>
+imap <c-j> <down>
+imap <c-k> <up>
+imap <c-l> <right>
+
+nmap <c-h> <c-w>h
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-l> <c-w>l
+
+nmap <leader>fc <action>(GotoClass)
+nmap <leader>ff <action>(GotoFile)
+nmap <leader>fs <action>(GotoSymbol)
+nmap <leader>fa <action>(GotoAction)
+nmap <leader>ft <action>(TextSearchAction)
+
+nmap <leader>ss <action>(WelcomeScreen.Settings)
+nmap <leader>sp <action>(WelcomeScreen.Plugins)
+nmap <leader>st <action>(ChangeLaf)
+
+nmap <leader>s <action>(FileStructurePopup)
+nmap <leader>fm <action>(FloatMode)
+
+nmap <s-Enter> O<esc>
+nmap <cr> o<esc>
+
+nmap <a-j> <action>(MoveLineDown)
+nmap <a-k> <action>(MoveLineUp)
+imap <a-j> <action>(MoveLineDown)
+imap <a-k> <action>(MoveLineUp)
+nmap <s-j> <action>(EditorDuplicate)
+
+nmap <c-c> <action>($Coppy)
+nmap <c-x> <action>($Cut)
+nmap <c-v> <action>($Paste)
+
+nmap <leader>h <action>(CollapseRegion)
+nmap <leader>H <action>(ExpandRegion)
+
+""" Free mode
+nmap <leader>z <action>(ToggleDistractionFreeMode)
+
+""" Terminal
+nmap <leader>nt <action>(Terminal.OpenInTerminal)
+nmap <leader>t <action>(ActivateTerminalToolWindow)
+"nmap <c-h> <action>(HideActiveWindow)
+
+nmap <leader>n <action>(EditSourceInNewWindow)
+" nmap <leader>n <action>(NextWindow)
+
+""" Split window
+nmap <leader>sv <action>(SplitVertically)
+nmap <leader>sh <action>(SplitHorizontally)
+
+""" Run code
+nmap <leader>rr <action>(Run)
+nmap <leader>rc <action>(RunClass)
+
+""" Debug
+nmap <leader>dd <action>(DebugClass)
+nmap <leader>db <action>(ToggleLineBreakpoint)
+
+nmap <c-n> <action>(NewElement)
+nmap z <action>(EditorToggleUseSoftWraps)
