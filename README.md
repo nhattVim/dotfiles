@@ -7,5 +7,5 @@
     - [MesloLGS NF Bold Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
 ```
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://is.gd/nhattruongNeoVim_window | iex
+irm https://is.gd/nhattVim_window | iex
 ```
