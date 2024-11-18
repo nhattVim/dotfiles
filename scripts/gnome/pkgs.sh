@@ -7,7 +7,7 @@ source <(curl -sSL https://is.gd/nhattVim_lib)
 # variable
 PIPES="https://github.com/pipeseroni/pipes.sh"
 COLORSCRIPT="https://gitlab.com/dwt1/shell-color-scripts.git"
-NODEJS="https://deb.nodesource.com/setup_22.x"
+NODEJS="https://deb.nodesource.com/setup_23.x"
 ARTTIME="https://github.com/poetaman/arttime/releases/download/v2.3.4/arttime_2.3.4-1_all.deb"
 NEOVIM="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
