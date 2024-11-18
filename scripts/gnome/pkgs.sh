@@ -50,6 +50,7 @@ if grep -qi microsoft /proc/version; then
         python3-venv
         python3-pynvim
         wslu
+        dotnet-sdk-8.0
     )
 else
     printf "\n%s - Running on Ubuntu, installing full packages... \n" "${NOTE}"
