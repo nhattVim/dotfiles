@@ -48,7 +48,7 @@ if grep -qi microsoft /proc/version; then
         ranger
         unzip
         python3-venv
-        python3-neovim
+        python3-pynvim
         wslu
     )
 else
@@ -65,7 +65,7 @@ else
         python3
         python3-pip
         python3-venv
-        python3-neovim
+        python3-pynvim
         default-jdk
         htop
         stow

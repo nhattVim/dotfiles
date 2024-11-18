@@ -111,7 +111,7 @@ printf "\n%.0s" {1..2}
 # check log
 if [ -f $HOME/install.log ]; then
     if gum confirm "${CAT} - Do you want to check log?"; then
-        if pacman -Q bat &>/dev/null; then
+        if dpkg-query -W -f='${Status}' bat 2>/dev/null | grep -q " installed"; then
             cat_command="bat"
         else
             cat_command="cat"
