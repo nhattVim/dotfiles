@@ -2,7 +2,7 @@
 # Pipewire and Pipewire Audio Stuff #
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start
 pipewire=(

@@ -2,7 +2,7 @@
 
 # This script installs and configures Microsoft SQL Server on an Ubuntu 22.04 system, including setting up the repository, installing the necessary packages, configuring the firewall, and displaying the server's IP address for connecting to SQL Server from window
 
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 printf "\n%s - Adding Microsoft GPG key ... \n" "${NOTE}"
 if curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc; then

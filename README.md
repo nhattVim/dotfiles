@@ -7,7 +7,7 @@
 
 </div>
 
-![](https://github.com/nhattruongNeoVim/assets/blob/master/dotfiles/rice1.png?raw=true)
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice1.png?raw=true)
 
 ## Window
 
@@ -22,25 +22,25 @@
 
 ```
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://is.gd/nhattruongNeoVim_window | iex
+irm https://is.gd/nhattVim_window | iex
 ```
 
 - Set up Wsl (ubuntu & arch):
 
 ```bash
-bash <(curl -sSL https://is.gd/nhattruongNeoVim_wsl)
+bash <(curl -sSL https://is.gd/nhattVim_wsl)
 ```
 
 ## Ubuntu _(gnome)_
 
-![](https://github.com/nhattruongNeoVim/assets/blob/master/dotfiles/rice2.png?raw=true)
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice2.png?raw=true)
 
 #### Dependencies
 
 ```bash
 # script to install dependencies and copy config files
 sudo apt install curl -y
-bash <(curl -sSL https://is.gd/nhattruongNeoVim_ubuntu)
+bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 ```
 
 #### Gnome config
@@ -84,20 +84,20 @@ bash <(curl -sSL https://is.gd/nhattruongNeoVim_ubuntu)
 
 ## Arch _(hyprland)_
 
-![](https://github.com/nhattruongNeoVim/assets/blob/master/dotfiles/rice5.png?raw=true)
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
 > The majority of this script comes from [JaKooLit](https://github.com/JaKooLit), that's the beauty of open-source :wink:
 
 ```bash
 # script to install and setup hyprland
-bash <(curl -sSL https://is.gd/nhattruongNeoVim_arch)
+bash <(curl -sSL https://is.gd/nhattVim_arch)
 ```
 
-![](https://github.com/nhattruongNeoVim/assets/blob/master/dotfiles/rice4.png?raw=true)
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
 >
 > # (￣ y▽ ￣)╭ Ohohoho.....
 
-<!-- https://is.gd/nhattruongNeoVim_nvim -->
-<!-- https://is.gd/nhattruongNeoVim_hyprland -->
+<!-- https://is.gd/nhattVim_nvim -->
+<!-- https://is.gd/nhattVim_hyprland -->

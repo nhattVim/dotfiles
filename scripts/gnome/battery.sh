@@ -2,7 +2,7 @@
 # set battery charge limit
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 printf "\n%s - Setting up battery charge limit. \n" "${NOTE}"

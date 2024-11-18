@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # variables
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
@@ -22,9 +22,9 @@ gum style \
     " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | " \
     " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| " \
     "                                                                              " \
-    " ------------------- Script developed by nhattruongNeoVim ------------------- " \
+    " ---------------------- Script developed by nhattVim ------------------------ " \
     "                                                                              " \
-    "  -------------- Github: https://github.com/nhattruongNeoVim ---------------  " \
+    "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
 # check dotfiles
@@ -35,7 +35,7 @@ if [ -d dotfiles ]; then
         exit 1
     }
 else
-    printf "\n${NOTE} Clone dotfiles. " && git clone -b hyprland https://github.com/nhattruongNeoVim/dotfiles.git --depth 1 || {
+    printf "\n${NOTE} Clone dotfiles. " && git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 || {
         printf "%s - Failed to clone dotfiles \n" "${ERROR}"
         exit 1
     }
@@ -228,7 +228,7 @@ printf "\n%.0s" {1..2}
 cd $HOME
 if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
     echo "${NOTE} Downloading additional wallpapers..."
-    if git clone https://github.com/nhattruongNeoVim/wallpapers --depth 1; then
+    if git clone https://github.com/nhattVim/wallpapers --depth 1; then
         echo "${NOTE} Wallpapers downloaded successfully."
 
         if cp -R wallpapers/wallpapers/* ~/Pictures/wallpapers/; then

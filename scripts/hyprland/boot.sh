@@ -2,7 +2,7 @@
 # pacman adding up extra-spices
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib) && clear
+source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # start script
 echo -e "\e[34m   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____"
@@ -14,8 +14,8 @@ echo -e " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||
 echo -e " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|      "
 echo -e "                                                                                   "
 echo -e "                                                                                   "
-echo -e "-------------------- Script developed by nhattruongNeoVim --------------------     "
-echo -e " -------------- Github: https://github.com/nhattruongNeoVim -----------------      "
+echo -e " ---------------------- Script developed by nhattVim -----------------------       "
+echo -e "  ----------------- Github: https://github.com/nhattVim ------------------         "
 
 printf "\n%s - Adding Extra Spice in pacman.conf ... \n" "${NOTE}"
 

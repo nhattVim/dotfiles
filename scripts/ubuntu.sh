@@ -2,7 +2,7 @@
 # config ubuntu
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib) && clear
+source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # require
 exScriptGnome "boot.sh"
@@ -19,9 +19,9 @@ gum style \
     " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | " \
     " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| " \
     "                                                                              " \
-    " ------------------- Script developed by nhattruongNeoVim ------------------- " \
+    " ---------------------- Script developed by nhattVim ------------------------ " \
     "                                                                              " \
-    "  -------------- Github: https://github.com/nhattruongNeoVim ---------------  " \
+    "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
 gum style \
@@ -58,7 +58,7 @@ fi
 
 # Clone dotfiles
 printf "\n%s - Clone dotfiles. \n" "${NOTE}"
-if git clone -b gnome https://github.com/nhattruongNeoVim/dotfiles.git --depth 1; then
+if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1; then
     printf "\n%s - Clone dotfiles succesfully. \n" "${OK}"
 else
     printf "\n%s - Failed to clone dotfiles. \n" "${ERROR}"

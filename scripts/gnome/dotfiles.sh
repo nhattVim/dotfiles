@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # init
 clear
@@ -18,9 +18,9 @@ gum style \
     " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | " \
     " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| " \
     "                                                                              " \
-    " ------------------- Script developed by nhattruongNeoVim ------------------- " \
+    " ---------------------- Script developed by nhattVim ------------------------ " \
     "                                                                              " \
-    "  -------------- Github: https://github.com/nhattruongNeoVim ---------------  " \
+    "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
 # check dotfiles
@@ -32,7 +32,7 @@ if [ -d dotfiles ]; then
     }
 else
     printf "\n%s - Clone dotfiles. \n" "${NOTE}" &&
-        git clone -b gnome https://github.com/nhattruongNeoVim/dotfiles.git --depth 1 || {
+        git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 || {
         printf "%s - Failed to clone dotfiles \n" "${ERROR}"
         exit 1
     }
@@ -98,7 +98,7 @@ printf "\n%s - Setup MYnvim ... \n" "${NOTE}"
 [ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || {
     printf "\n%s - Failed to backup nvim-data folder \n" "${OK}"
 }
-if git clone https://github.com/nhattruongNeoVim/MYnvim.git $HOME/.config/nvim --depth 1; then
+if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     npm install neovim -g
     printf "\n%s - Setup MYnvim successfully \n" "${OK}"
 else

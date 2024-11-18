@@ -2,7 +2,7 @@
 # Hyprland Packages
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 aur_pkgs=(

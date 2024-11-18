@@ -3,7 +3,7 @@
 # NOTE: If paru is already installed, yay will not be installed
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # Check Existing yay-bin
 cd $HOME

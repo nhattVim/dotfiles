@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 echo "${NOTE} This script will add your user to the 'input' group."

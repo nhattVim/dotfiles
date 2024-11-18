@@ -2,7 +2,7 @@
 # config wsl
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
 exScriptHypr "boot.sh"
@@ -22,9 +22,9 @@ gum style \
     " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | " \
     " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| " \
     "                                                                              " \
-    " ------------------- Script developed by nhattruongNeoVim ------------------- " \
+    " ---------------------- Script developed by nhattVim ------------------------ " \
     "                                                                              " \
-    "  -------------- Github: https://github.com/nhattruongNeoVim ---------------  " \
+    "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 printf "\n"
 ask_custom_option "Choose your AUR helper" "yay" "paru" aur_helper
@@ -106,7 +106,7 @@ if [ -d $HOME/.local/share/nvim ]; then
         echo "${OK} Failed to backup neovim folder"
     }
 fi
-if git clone https://github.com/nhattruongNeoVim/MYnvim.git ~/.config/nvim --depth 1; then
+if git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1; then
     printf "\n${OK} Setup neovim successfully\n"
 else
     printf "\n${ERROR} Failed to setup neovim\n"
@@ -121,7 +121,7 @@ fi
 
 # Clone dotfiles
 printf "\n${NOTE} Clone dotfiles. "
-if git clone -b hyprland https://github.com/nhattruongNeoVim/dotfiles.git --depth 1 && cd dotfiles; then
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 && cd dotfiles; then
     printf "\n${OK} Clone dotfiles succesfully.\n"
 fi
 

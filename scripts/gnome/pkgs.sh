@@ -2,7 +2,7 @@
 # install packages
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # variable
 PIPES="https://github.com/pipeseroni/pipes.sh"

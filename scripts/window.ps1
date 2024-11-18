@@ -7,8 +7,8 @@ Write-Host "  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |
 Write-Host "  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|" -ForegroundColor Blue
 Write-Host ""
 Write-Host ""
-Write-Host "-------------------- Script developed by nhattruongNeoVim --------------------"
-Write-Host "--------------- Github: httpls://github.com/nhhattruongNeoVim ----------------"
+Write-Host "------------------------ Script developed by nhattVim ------------------------"
+Write-Host " ------------------ Github: httpls://github.com/nhattVim -------------------- "
 Write-Host 
 
 # Util function
@@ -61,7 +61,7 @@ StartMsg -msg "Start config"
 # Clone dotfiles
 StartMsg -msg "Clone dotfiles"
     cd $HOME
-    git clone -b window https://github.com/nhattruongNeoVim/dotfiles.git --depth 1
+    git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1
     cd dotfiles
 MsgDone
 
@@ -101,7 +101,7 @@ StartMsg -msg "Config Neovim"
         Write-Warning "!!!Remove nvim data folder"
     }
 
-    git clone https://github.com/nhattruongNeoVim/MYnvim "$NvimPath" --depth 1
+    git clone https://github.com/nhattVim/MYnvim "$NvimPath" --depth 1
 
     pip install pynvim
     npm install neovim -g

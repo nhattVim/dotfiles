@@ -2,7 +2,7 @@
 # Main Hyprland Package
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 hypr=(

@@ -2,7 +2,7 @@
 # config wsl
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib) && clear
+source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # require
 exScriptGnome "boot.sh"
@@ -19,9 +19,9 @@ gum style \
     " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | " \
     " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| " \
     "                                                                              " \
-    " ------------------- Script developed by nhattruongNeoVim ------------------- " \
+    " ---------------------- Script developed by nhattVim ------------------------ " \
     "                                                                              " \
-    "  -------------- Github: https://github.com/nhattruongNeoVim ---------------  " \
+    "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
 gum style \
@@ -42,7 +42,7 @@ printf "\n%s - Setup MYnvim ... \n" "${NOTE}"
     printf "\n%s - Backup nvim folder successfully \n" "${OK}"
 [ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak &&
     printf "\n%s - Failed to backup nvim-data folder \n" "${OK}"
-if git clone https://github.com/nhattruongNeoVim/MYnvim.git $HOME/.config/nvim --depth 1; then
+if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     sudo npm install neovim -g
     printf "\n%s - Setup MYnvim successfully \n" "${OK}"
 else
@@ -52,7 +52,7 @@ fi
 # clone dotfiles
 printf "\n%s - Clone dotfiles ... \n" "${NOTE}"
 [[ -d /tmp/dotfiles ]] && rm -rf /tmp/dotfiles
-git clone -b gnome https://github.com/nhattruongNeoVim/dotfiles.git /tmp/dotfiles --depth 1 || {
+git clone -b gnome https://github.com/nhattVim/dotfiles.git /tmp/dotfiles --depth 1 || {
     printf "\n%s - Failed to clone dotfiles \n" "${ERROR}"
     exit 1
 }

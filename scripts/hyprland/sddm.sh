@@ -2,7 +2,7 @@
 # SDDM
 
 # source library
-source <(curl -sSL https://is.gd/nhattruongNeoVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start
 sddm=(
@@ -40,7 +40,7 @@ if [ -d dotfiles ]; then
 		exit 1
 	}
 else
-	printf "\n${NOTE} Clone dotfiles. " && git clone -b hyprland https://github.com/nhattruongNeoVim/dotfiles.git ~/dotfiles --depth 1 || {
+	printf "\n${NOTE} Clone dotfiles. " && git clone -b hyprland https://github.com/nhattVim/dotfiles.git ~/dotfiles --depth 1 || {
 		printf "%s - Failed to clone dotfiles \n" "${ERROR}"
 		exit 1
 	}

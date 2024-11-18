@@ -117,19 +117,19 @@ ask_custom_option() {
 
 # function to execute hyprland script
 exScriptHypr() {
-    local script_url="https://raw.githubusercontent.com/nhattruongNeoVim/dotfiles/master/scripts/hyprland/$1"
+    local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"
     bash <(curl -sSL "$script_url")
 }
 
 # function to execute hyprland gnome script
 exScriptGnome() {
-    local script_url="https://raw.githubusercontent.com/nhattruongNeoVim/dotfiles/master/scripts/gnome/$1"
+    local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"
     bash <(curl -sSL "$script_url")
 }
 
 # function to execute wsl script
 exScriptWsl() {
-    local script_url="https://raw.githubusercontent.com/nhattruongNeoVim/dotfiles/master/scripts/wsl/$1"
+    local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"
     bash <(curl -sSL "$script_url")
 }
 
