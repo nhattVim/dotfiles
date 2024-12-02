@@ -216,7 +216,7 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
     echo -e "\n${NOTE} - Oh My Zsh is already installed."
 else
     echo -e "\n${NOTE} - Download oh-my-zsh ..."
-    if sh -c "$(wget -O- https://install.ohmyz.sh)"; then
+    if sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended; then
         echo -e "\n${OK} - Download oh-my-zsh successfully"
         git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
     else
