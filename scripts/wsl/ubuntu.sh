@@ -40,14 +40,10 @@ exScriptGnome "pkgs.sh"
 echo -e "\n${NOTE} - Setting up MYnvim..."
 if [ -d "$HOME/.config/nvim" ]; then
     mv $HOME/.config/nvim $HOME/.config/nvim.bak && echo -e "${OK} - Backup of nvim folder successful"
-else
-    echo -e "${ERROR} - No nvim folder found to backup"
 fi
 
 if [ -d "$HOME/.local/share/nvim" ]; then
     mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak && echo -e "${OK} - Backup of nvim data folder successful"
-else
-    echo -e "${ERROR} - No nvim data folder found to backup"
 fi
 
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
