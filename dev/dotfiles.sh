@@ -24,17 +24,17 @@ gum style \
 cd "$HOME" || exit 1
 if [ -d dotfiles ]; then
     cd dotfiles || {
-        echo -e "${ERROR} - Failed to enter dotfiles config directory"
+        printf "%s - Failed to enter dotfiles config directory\n" "${ERROR}"
         exit 1
     }
 else
-    echo -e "${NOTE} - Cloning dotfiles..."
-    git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 || {
-        echo -e "${ERROR} - Failed to clone dotfiles"
+    printf "\n%s - Clone dotfiles. \n" "${NOTE}" &&
+        git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 || {
+        printf "%s - Failed to clone dotfiles \n" "${ERROR}"
         exit 1
     }
     cd dotfiles || {
-        echo -e "${ERROR} - Failed to enter dotfiles directory"
+        printf "%s - Failed to enter dotfiles directory\n" "${ERROR}"
         exit 1
     }
 fi
@@ -43,7 +43,7 @@ fi
 set -e
 
 # list folders to backup
-folders=(
+folder=(
     alacritty
     kitty
     neofetch
@@ -54,27 +54,32 @@ folders=(
 )
 
 # backup folders
-for DIR in "${folders[@]}"; do
+for DIR in "${folder[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        echo -e "${NOTE} - Config for $DIR found, attempting to back up."
+        printf "\n%s - Config for $DIR found, attempting to back up. \n" "${NOTE}"
         BACKUP_DIR=$(get_backup_dirname)
         mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        echo -e "${NOTE} - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR."
+        printf "\n%s - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR. \n" "${NOTE}"
     fi
 done
 
-# delete old files
+printf "\n%.0s" {1..2}
+
+# delete old file
 rm ~/.zshrc ~/.ideavimrc && rm -rf ~/.fonts ~/.icons ~/.themes
 
-# copy config folder
+# coppy config folder
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { echo -e "${OK} - Copy completed"; } || { echo -e "${ERROR} - Failed to copy config files."; }
+cp -r config/* $HOME/.config/ && { echo "${OK} - Copy completed"; } || {
+    echo "${ERROR} - Failed to copy config files."
+}
 
 # copying assets folder
-cp -r assets/* $HOME/ && { echo -e "${OK} - Copy completed"; } || { echo -e "${ERROR} - Failed to copy assets."; }
+cp -r assets/* $HOME/ && { echo "${OK} - Copy completed"; } || {
+    echo "${ERROR} - Failed to copy config files."
+}
 
-# Copy gtk-4.0 config for themes
 cd $HOME/.themes/Catppuccin-Mocha-Standard-Mauve-Dark
 mkdir -p $HOME/.config/gtk-4.0
 cp -rf gtk-4.0 $HOME/.config
@@ -83,13 +88,16 @@ cp -rf gtk-4.0 $HOME/.config
 fc-cache -fv
 
 # config Neovim
-echo -e "\n${NOTE} - Setting up MYnvim..."
-[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak || { echo -e "${OK} - Backed up existing nvim folder"; }
-[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || { echo -e "${OK} - Backed up existing nvim data"; }
-
+printf "\n%s - Setup MYnvim ... \n" "${NOTE}"
+[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak || {
+    printf "\n%s - Failed to backup nvim folder \n" "${OK}"
+}
+[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || {
+    printf "\n%s - Failed to backup nvim-data folder \n" "${OK}"
+}
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     npm install neovim -g
-    echo -e "${OK} - MYnvim setup completed successfully."
+    printf "\n%s - Setup MYnvim successfully \n" "${OK}"
 else
-    echo -e "${ERROR} - Failed to set up MYnvim."
+    printf "\n%s - Failed to setup MYnvim \n" "${ERROR}"
 fi
