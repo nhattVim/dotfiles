@@ -38,16 +38,15 @@ source $ZSH/oh-my-zsh.sh
 # User configuration -------------------------------------------
 
 function nvims() {
-  items=("Default" "Kickstart" "NvChad" "LazyVim" "AstroNvim")
-  config=$(printf "%s
-" "${items[@]}" | fzf --no-sort --preview-window=wrap --preview='echo "nhattruongNeoVim"' --prompt=" Neovim Config  " --height=10% --layout=reverse --border --exit-0)
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "Default" ]]; then
-    config=""
-  fi
-  NVIM_APPNAME=$config nvim $@
+    items=("Default" "Kickstart" "NvChad" "LazyVim" "AstroNvim")
+    config=$(printf "%s\n" "${items[@]}" | fzf --no-sort --preview-window=wrap --preview='echo "nhattruongNeoVim"' --prompt=" Neovim Config  " --height=10% --layout=reverse --border --exit-0)
+    if [[ -z $config ]]; then
+        echo "Nothing selected"
+        return 0
+    elif [[ $config == "Default" ]]; then
+        config=""
+    fi
+    NVIM_APPNAME=$config nvim $@
 }
 
 # NeoVim Switcher
