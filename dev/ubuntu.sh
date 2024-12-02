@@ -1,13 +1,13 @@
 #!/bin/bash
 # config wsl
 
-# Source library
+# source library
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
-# Require boot script
+# require
 exScriptGnome "boot.sh"
 
-# Start script
+# start script
 gum style \
     --foreground 213 --border-foreground 213 --border rounded \
     --align center --width 90 --margin "1 2" --padding "2 4" \
@@ -33,46 +33,35 @@ gum style \
     "                                                                                                                             $(tput sgr0)" \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
-# Install package
+# install package
 exScriptGnome "pkgs.sh"
 
-# Config MYnvim
-echo -e "\n${NOTE} - Setting up MYnvim..."
-if [ -d "$HOME/.config/nvim" ]; then
-    mv $HOME/.config/nvim $HOME/.config/nvim.bak && echo -e "${OK} - Backup of nvim folder successful"
-else
-    echo -e "${ERROR} - No nvim folder found to backup"
-fi
-
-if [ -d "$HOME/.local/share/nvim" ]; then
-    mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak && echo -e "${OK} - Backup of nvim data folder successful"
-else
-    echo -e "${ERROR} - No nvim data folder found to backup"
-fi
-
+# config MYnvim
+printf "\n%s - Setup MYnvim ... \n" "${NOTE}"
+[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak &&
+    printf "\n%s - Backup nvim folder successfully \n" "${OK}"
+[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak &&
+    printf "\n%s - Failed to backup nvim-data folder \n" "${OK}"
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     sudo npm install neovim -g
-    echo -e "${OK} - MYnvim setup completed successfully"
+    printf "\n%s - Setup MYnvim successfully \n" "${OK}"
 else
-    echo -e "${ERROR} - MYnvim setup failed"
+    printf "\n%s - Failed to setup MYnvim \n" "${ERROR}"
 fi
 
-# Clone dotfiles
-echo -e "\n${NOTE} - Cloning dotfiles..."
-if [[ -d /tmp/dotfiles ]]; then
-    rm -rf /tmp/dotfiles
-fi
+# clone dotfiles
+printf "\n%s - Clone dotfiles ... \n" "${NOTE}"
+[[ -d /tmp/dotfiles ]] && rm -rf /tmp/dotfiles
 git clone -b gnome https://github.com/nhattVim/dotfiles.git /tmp/dotfiles --depth 1 || {
-    echo -e "${ERROR} - Failed to clone dotfiles"
+    printf "\n%s - Failed to clone dotfiles \n" "${ERROR}"
     exit 1
 }
-
 cd /tmp/dotfiles || {
-    echo -e "${ERROR} - Failed to enter dotfiles directory"
+    printf "\n%s - Failed to enter dotfiles directory \n" "${ERROR}"
     exit 1
 }
 
-echo -e "\n${NOTE} - Starting configuration..."
+printf "\n%s - Start config .... \n" "${NOTE}"
 
 folder=(
     neofetch
@@ -81,47 +70,47 @@ folder=(
     starship.toml
 )
 
-# Back up configuration files
+# back up configuration file
 for DIR in "${folder[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        echo -e "${NOTE} - Found config for $DIR, attempting to back up..."
+        printf "\n%s - Config for $DIR found, attempting to back up. \n" "${NOTE}"
         BACKUP_DIR=$(get_backup_dirname)
         mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        echo -e "${NOTE} - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR"
+        printf "\n%s - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR. \n" "${NOTE}"
     fi
 done
 
-# Copy configuration files
+# copying configuration file
 for ITEM in "${folder[@]}"; do
     if [[ -d "config/$ITEM" ]]; then
         cp -r "config/$ITEM" ~/.config
-        echo "${OK} - Copy completed"
+        echo "${OK} Copy completed" || echo "${ERROR} Failed to copy config files."
     elif [[ -f "config/$ITEM" ]]; then
         cp "config/$ITEM" ~/.config
-        echo "${OK} - Copy completed"
+        echo "${OK} Copy completed" || echo "${ERROR} Failed to copy config files."
     fi
 done
 
-# Copy other files
-cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${OK} - Copy completed"; } || {
-    echo "${ERROR} - Failed to copy .zshrc and .ideavimrc"
+# copying other
+cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${OK} Copy completed"; } || {
+    echo "${ERROR} Failed to copy .zshrc && .ideavimrc"
 }
 
-# Copy fonts
+# copying font
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${OK} - Fonts copied successfully"; } || {
-    echo "${ERROR} - Failed to copy fonts"
+cp -r assets/.fonts/* ~/.fonts/ && { echo "${OK} Copy fonts completed"; } || {
+    echo "${ERROR} Failed to copy fonts files."
 }
 
-# Reload fonts
-echo -e "\nRebuilding font cache..."
+# reload fonts
+printf "\n%.0s" {1..2}
 fc-cache -fv
-echo -e "\nFont cache rebuilt."
+printf "\n%.0s" {1..2}
 
-# Check installation log
+# check log
 if [ -f $HOME/install.log ]; then
-    if gum confirm "${CAT} - Do you want to check the installation log?"; then
+    if gum confirm "${CAT} - Do you want to check log?"; then
         if dpkg-query -W -f='${Status}' bat 2>/dev/null | grep -q " installed"; then
             cat_command="bat"
         else
@@ -131,9 +120,12 @@ if [ -f $HOME/install.log ]; then
     fi
 fi
 
-# Change shell to zsh
-echo -e "\n${NOTE} - Changing shell to zsh..."
+# Chang shell to zsh
+printf "\n%s - Change shell to zsh \n" "${NOTE}"
 chsh -s $(which zsh) && cd $HOME
 
-echo -e "\n${OK} - Setup completed successfully!"
+printf "\n%.0s" {1..2}
+printf "\n%s - Yey! Setup Completed \n" "${OK}"
+printf "\n%.0s" {1..2}
+
 zsh

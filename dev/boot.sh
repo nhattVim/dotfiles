@@ -17,36 +17,35 @@ echo -e "                                                                       
 echo -e " ---------------------- Script developed by nhattVim -----------------------       "
 echo -e "  ----------------- Github: https://github.com/nhattVim ------------------         "
 
-GUM_VERSION="0.14.5"
+GUM_VERSION="0.14.3"
 GUM_LINKDOWNLOADS="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/gum_${GUM_VERSION}_amd64.deb"
 
 # update system
-echo -e "\n${NOTE} - Updating system..."
+printf "\n%s - Update system .... \n" "${NOTE}"
 if sudo apt update && sudo apt upgrade -y; then
-    echo -e "${OK} - System updated successfully."
+    printf "\n%s - Update system successfully \n" "${OK}"
 else
-    echo -e "${ERROR} - Failed to update the system."
+    printf "\n%s - Failed to update your system \n" "${ERROR}"
 fi
 
 # install nala
-echo -e "\n${NOTE} - Checking nala..."
+printf "\n%s - Check nala ... \n" "${NOTE}"
 if ! command -v nala &>/dev/null; then
-    echo -e "${NOTE} - Installing and initializing nala..."
+    printf "\n%s - Installing and initializing nala... \n" "${CAT}"
     if sudo apt install nala -y && sudo nala update && sudo nala upgrade -y; then
-        echo -e "${OK} - Nala installed successfully."
-        echo -e "${NOTE} - Fetching package lists..."
+        printf "\n%s - Press 1 2 3 and press Enter \n" "${NOTE}"
         sudo nala fetch
     else
-        echo -e "${ERROR} - Failed to install nala."
+        printf "\n%s - Failed to install nala \n" "${ERROR}"
     fi
 else
-    echo -e "${OK} - Nala is already installed. Skipping..."
+    printf "\n%s - Nala is already installed. Skipping... \n" "${OK}"
 fi
 
 # reload package manager
 PKGMN=$(command -v nala || command -v apt)
 
-# package list
+# package
 pkgs=(
     curl
     wget
@@ -55,28 +54,26 @@ pkgs=(
 )
 
 # install some required packages
-echo -e "\n${NOTE} - Installing required packages..."
+printf "\n%s - Installing required packages ... \n" "${NOTE}"
 for PKG in "${pkgs[@]}"; do
     sudo $PKGMN install -y "$PKG"
     if [ $? -ne 0 ]; then
-        echo -e "${ERROR} - Failed to install $PKG, please check the script."
-    else
-        echo -e "${OK} - $PKG installed successfully."
+        printf "\n%s - $PKG install had failed, please check the script. \n" "${ERROR}"
     fi
 done
 
 # install gum (requirement)
-echo -e "\n${NOTE} - Downloading gum.deb..."
+printf "\n%s - Download gum.deb ... \n" "${NOTE}"
 if wget -O /tmp/gum.deb "$GUM_LINKDOWNLOADS"; then
-    echo -e "${OK} - gum.deb downloaded successfully."
-    echo -e "${NOTE} - Installing gum..."
+    printf "\n%s - Download gum.deb successfully \n" "${OK}"
+    printf "\n%s - Installing gum ... \n" "${NOTE}"
     if sudo $PKGMN install -y /tmp/gum.deb; then
-        echo -e "${OK} - Gum installed successfully."
+        printf "\n%s - Install gum successfully \n" "${OK}"
     else
-        echo -e "${ERROR} - Failed to install gum."
+        printf "\n%s - Failed to install gum \n" "${ERROR}"
     fi
 else
-    echo -e "${ERROR} - Failed to download gum."
+    printf "\n%s - Failed to download gum \n" "${ERROR}"
 fi
 
 clear
