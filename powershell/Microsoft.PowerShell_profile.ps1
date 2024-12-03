@@ -1,25 +1,3 @@
-# Remove files or directories
-function rm
-{
-    param (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-        [string[]]$Path,
-
-        [switch]$Force,
-
-        [switch]$Recurse
-    )
-    foreach ($item in $Path)
-    {
-        if (-not (Test-Path -LiteralPath $item))
-        {
-            Write-Error "Path '$item' does not exist."
-            continue
-        }
-        Remove-Item -Path $item -Force:$Force.IsPresent -Recurse:$Recurse.IsPresent
-    }
-}
-
 # Copy files or directories
 function cp
 {
