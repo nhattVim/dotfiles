@@ -26,9 +26,9 @@ gum style \
     "                                                                              " \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
-printf "\n"
+echo -e "\n"
 ask_custom_option "Choose your AUR helper" "yay" "paru" aur_helper
-printf "\n"
+echo -e "\n"
 ask_yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 
 if [ "$aur_helper" == "paru" ]; then
@@ -77,7 +77,7 @@ aur_packages=(
 ISAUR=$(command -v yay || command -v paru)
 
 # Installation of main components
-printf "\n%s - Installing components\n" "${NOTE}"
+echo -e "\n${NOTE} - Installing components"
 
 for PKG1 in "${pacman_packages[@]}"; do
     install_pacman_pkg "$PKG1"
@@ -94,8 +94,8 @@ for PKG2 in "${aur_packages[@]}"; do
 done
 
 # Set up neovim
-printf "\n%.0s" {1..2}
-printf "\n${NOTE} Setup neovim\n"
+echo -e "\n%.0s" {1..2}
+echo -e "${NOTE} Setup neovim"
 if [ -d $HOME/.config/nvim ]; then
     mv $HOME/.config/nvim $HOME/.config/nvim_bak && { echo "${OK} Backup neovim folder completed"; } || {
         echo "${OK} Failed to backup neovim folder "
@@ -107,9 +107,9 @@ if [ -d $HOME/.local/share/nvim ]; then
     }
 fi
 if git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1; then
-    printf "\n${OK} Setup neovim successfully\n"
+    echo -e "\n${OK} Setup neovim successfully"
 else
-    printf "\n${ERROR} Failed to setup neovim\n"
+    echo -e "\n${ERROR} Failed to setup neovim"
 fi
 
 # Check if dotfiles exist
@@ -120,13 +120,13 @@ if [ -d dotfiles ]; then
 fi
 
 # Clone dotfiles
-printf "\n${NOTE} Clone dotfiles. "
+echo -e "\n${NOTE} Clone dotfiles. "
 if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 && cd dotfiles; then
-    printf "\n${OK} Clone dotfiles succesfully.\n"
+    echo -e "\n${OK} Clone dotfiles succesfully.\n"
 fi
 
-printf "\n%.0s" {1..2}
-printf "\n${NOTE} Start config\n"
+echo -e "\n%.0s" {1..2}
+echo -e "\n${NOTE} Start config"
 
 folder=(
     neofetch
@@ -191,7 +191,7 @@ if [ -d dotfiles ]; then
     echo -e "${NOTE} Remove dotfile successfully "
 fi
 
-printf "\n%.0s" {1..2}
+echo -e "\n%.0s" {1..2}
 
 if [ -f $HOME/install.log ]; then
     if gum confirm "${CAT} Do you want to check log?"; then
@@ -205,13 +205,13 @@ if [ -f $HOME/install.log ]; then
 fi
 
 # clear packages
-printf "\n${NOTE} Clear packages.\n"
+echo -e "\n${NOTE} Clear packages.\n"
 if sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm; then
-    printf "\n${OK} Clear packages succesfully.\n"
+    echo -e "\n${OK} Clear packages succesfully.\n"
 fi
 
-printf "\n%.0s" {1..2}
-printf "\n${OK} Yey! Setup Completed.\n"
-printf "\n%.0s" {1..2}
+echo -e "\n%.0s" {1..2}
+echo -e "\n${OK} Yey! Setup Completed.\n"
+echo -e "\n%.0s" {1..2}
 
 zsh

@@ -33,16 +33,16 @@ gum style \
     "                                                                                                                             $(tput sgr0)" \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
-printf "\n"
+echo -e "\n"
 ask_yes_no "Do you dual boot with window?" dual_boot
-printf "\n"
+echo -e "\n"
 ask_yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
-printf "\n"
+echo -e "\n"
 ask_yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-printf "\n"
+echo -e "\n"
 
 if [ "$dual_boot" == "Y" ]; then
-    printf "\n%s - I will set the local time on Ubuntu to display the correct time on Windows. \n" "${CAT}"
+    echo -e "\n${CAT} - I will set the local time on Ubuntu to display the correct time on Windows. \n"
     timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
@@ -53,15 +53,15 @@ exScriptGnome "pkgs.sh"
 cd $HOME || exit 1
 if [ -d dotfiles ]; then
     rm -rf dotfiles
-    printf "\n%s - Remove dotfile successfully \n" "${OK}"
+    echo -e "\n${OK} - Remove dotfile successfully \n"
 fi
 
 # Clone dotfiles
-printf "\n%s - Clone dotfiles. \n" "${NOTE}"
+echo -e "\n${NOTE} - Clone dotfiles. \n"
 if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1; then
-    printf "\n%s - Clone dotfiles succesfully. \n" "${OK}"
+    echo -e "\n${OK} - Clone dotfiles succesfully. \n"
 else
-    printf "\n%s - Failed to clone dotfiles. \n" "${ERROR}"
+    echo -e "\n${ERROR} - Failed to clone dotfiles. \n"
     exit 1
 fi
 
@@ -77,7 +77,7 @@ fi
 cd $HOME || exit 1
 if [ -d dotfiles ]; then
     rm -rf dotfiles
-    printf "\n%s - Remove dotfile successfully \n" "${NOTE}"
+    echo -e "\n${NOTE} - Remove dotfile successfully \n"
 fi
 
 # check log
@@ -92,7 +92,7 @@ if [ -f $HOME/install.log ]; then
     fi
 fi
 
-printf "\n%s - Yey! Installation Completed. Rebooting... \n" "${OK}"
+echo -e "\n${OK} - Yey! Installation Completed. Rebooting... \n"
 if gum confirm "${CAT} Would you like to reboot now?"; then
     sudo reboot
 fi

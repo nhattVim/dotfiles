@@ -3,7 +3,7 @@
 
 # check root
 if [[ $EUID -eq 0 ]]; then
-    echo -e "This script should not be executed as root! Exiting......."
+    echo "This script should not be executed as root! Exiting......."
     exit 1
 fi
 
@@ -34,15 +34,15 @@ fi
 # function to install pacman package
 install_pacman_pkg() {
     if pacman -Q "$1" &>/dev/null; then
-        echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
+        printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
-        echo -e "\n${NOTE} - Installing $1 ... \n"
+        printf "\n%s - Installing $1 ... \n" "${NOTE}"
         sudo pacman -Syu --noconfirm "$1"
         if pacman -Q "$1" &>/dev/null; then
-            echo -e "\n${OK} - $1 was installed \n"
+            printf "\n%s - $1 was installed \n" "${OK}"
         else
             erMsg="$1 failed to install. You may need to install manually! Sorry I have tried :("
-            echo -e "\n -> ${ERROR} $erMsg \n" && echo "-> $erMsg" >>"$HOME/install.log"
+            printf "\n -> %s $erMsg \n" "${ERROR}" && echo "-> $erMsg" >>"$HOME/install.log"
         fi
     fi
 }
@@ -50,15 +50,15 @@ install_pacman_pkg() {
 # function to install aur package
 install_aur_pkg() {
     if $ISAUR -Q "$1" &>>/dev/null; then
-        echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
+        printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
-        echo -e "\n${NOTE} - Installing $1 ... \n"
+        printf "\n%s - Installing $1 ... \n" "${NOTE}"
         $ISAUR -Syu --noconfirm "$1"
         if $ISAUR -Q "$1" &>>/dev/null; then
-            echo -e "\n${OK} - $1 was installed \n"
+            printf "\n%s - $1 was installed \n" "${OK}"
         else
             erMsg="$1 failed to install. You may need to install manually! Sorry I have tried :("
-            echo -e "\n -> ${ERROR} $erMsg \n" && echo "-> $erMsg" >>"$HOME/install.log"
+            printf "\n -> %s $erMsg \n" "${ERROR}" && echo "-> $erMsg" >>"$HOME/install.log"
         fi
     fi
 }
@@ -66,15 +66,15 @@ install_aur_pkg() {
 # function to install nala packages
 install_ubuntu_packages() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
-        echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
+        printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
-        echo -e "\n${NOTE} - Installing $1 ... \n"
+        printf "\n%s - Installing $1 ... \n" "${NOTE}"
         sudo $PKGMN install -y "$1"
         if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
-            echo -e "\n${OK} - $1 was installed \n"
+            printf "\n%s - $1 was installed \n" "${OK}"
         else
             erMsg="$1 failed to install. You may need to install manually! Sorry I have tried :("
-            echo -e "\n -> ${ERROR} $erMsg \n" && echo "-> $erMsg" >>"$HOME/install.log"
+            printf "\n -> %s $erMsg \n" "${ERROR}" && echo "-> $erMsg" >>"$HOME/install.log"
         fi
     fi
 }
@@ -82,13 +82,13 @@ install_ubuntu_packages() {
 # function to uninstall pacman package
 uninstall_pacman_pkg() {
     if pacman -Qi "$1" &>>/dev/null; then
-        echo -e "\n${NOTE} - Uninstalling $1 ... \n"
+        printf "\n%s - Uninstalling $1 ... \n" "${NOTE}"
         sudo pacman -Rns --noconfirm "$1"
         if ! pacman -Qi "$1" &>>/dev/null; then
-            echo -e "\n${OK} - $1 was uninstalled \n"
+            printf "\n%s - $1 was uninstalled \n" "${OK}"
         else
             erMsg="$1 failed to uninstall"
-            echo -e "\n -> ${ERROR} $erMsg \n" && echo "-> $erMsg" >>"$HOME/install.log"
+            printf "\n -> %s $erMsg \n" "${ERROR}" && echo "-> $erMsg" >>"$HOME/install.log"
         fi
     fi
 }
@@ -97,10 +97,10 @@ uninstall_pacman_pkg() {
 ask_yes_no() {
     if gum confirm "$CAT - $1"; then
         eval "$2='Y'"
-        echo -e "$CAT - $1 $YELLOW Yes"
+        echo "$CAT - $1 $YELLOW Yes"
     else
         eval "$2='N'"
-        echo -e "$CAT - $1 $YELLOW No"
+        echo "$CAT - $1 $YELLOW No"
     fi
 }
 
@@ -108,10 +108,10 @@ ask_yes_no() {
 ask_custom_option() {
     if gum confirm "$CAT - $1" --affirmative "$2" --negative "$3"; then
         eval "$4=$2"
-        echo -e "$CAT - $1 $YELLOW ${!4}"
+        echo "$CAT - $1 $YELLOW ${!4}"
     else
         eval "$4=$3"
-        echo -e "$CAT - $1 $YELLOW ${!4}"
+        echo "$CAT - $1 $YELLOW ${!4}"
     fi
 }
 
@@ -143,5 +143,5 @@ exGithub() {
 get_backup_dirname() {
     local timestamp
     timestamp=$(date +"%m%d_%H%M")
-    echo -e "back-up_${timestamp}"
+    echo "back-up_${timestamp}"
 }

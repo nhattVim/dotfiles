@@ -1,5 +1,5 @@
 #!/bin/bash
-# config wsl
+# config ubuntu
 
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
@@ -33,85 +33,57 @@ gum style \
     "                                                                                                                             $(tput sgr0)" \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
+printf "\n"
+ask_yes_no "Do you dual boot with window?" dual_boot
+printf "\n"
+ask_yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
+printf "\n"
+ask_yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+printf "\n"
+
+if [ "$dual_boot" == "Y" ]; then
+    printf "\n%s - I will set the local time on Ubuntu to display the correct time on Windows. \n" "${CAT}"
+    timedatectl set-local-rtc 1 --adjust-system-clock
+fi
+
 # install package
 exScriptGnome "pkgs.sh"
 
-# config MYnvim
-printf "\n%s - Setup MYnvim ... \n" "${NOTE}"
-[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak &&
-    printf "\n%s - Backup nvim folder successfully \n" "${OK}"
-[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak &&
-    printf "\n%s - Failed to backup nvim-data folder \n" "${OK}"
-if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
-    sudo npm install neovim -g
-    printf "\n%s - Setup MYnvim successfully \n" "${OK}"
-else
-    printf "\n%s - Failed to setup MYnvim \n" "${ERROR}"
+# Check if dotfiles exist
+cd $HOME || exit 1
+if [ -d dotfiles ]; then
+    rm -rf dotfiles
+    printf "\n%s - Remove dotfile successfully \n" "${OK}"
 fi
 
-# clone dotfiles
-printf "\n%s - Clone dotfiles ... \n" "${NOTE}"
-[[ -d /tmp/dotfiles ]] && rm -rf /tmp/dotfiles
-git clone -b gnome https://github.com/nhattVim/dotfiles.git /tmp/dotfiles --depth 1 || {
-    printf "\n%s - Failed to clone dotfiles \n" "${ERROR}"
+# Clone dotfiles
+printf "\n%s - Clone dotfiles. \n" "${NOTE}"
+if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1; then
+    printf "\n%s - Clone dotfiles succesfully. \n" "${OK}"
+else
+    printf "\n%s - Failed to clone dotfiles. \n" "${ERROR}"
     exit 1
-}
-cd /tmp/dotfiles || {
-    printf "\n%s - Failed to enter dotfiles directory \n" "${ERROR}"
-    exit 1
-}
+fi
 
-printf "\n%s - Start config .... \n" "${NOTE}"
+if [ "$battery" == "Y" ]; then
+    exScriptHypr "battery.sh"
+fi
 
-folder=(
-    neofetch
-    ranger
-    tmux
-    starship.toml
-)
+if [ "$dots" == "Y" ]; then
+    exScriptGnome "dotfiles.sh"
+fi
 
-# back up configuration file
-for DIR in "${folder[@]}"; do
-    DIRPATH=~/.config/"$DIR"
-    if [ -d "$DIRPATH" ]; then
-        printf "\n%s - Config for $DIR found, attempting to back up. \n" "${NOTE}"
-        BACKUP_DIR=$(get_backup_dirname)
-        mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        printf "\n%s - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR. \n" "${NOTE}"
-    fi
-done
-
-# copying configuration file
-for ITEM in "${folder[@]}"; do
-    if [[ -d "config/$ITEM" ]]; then
-        cp -r "config/$ITEM" ~/.config
-        echo "${OK} Copy completed" || echo "${ERROR} Failed to copy config files."
-    elif [[ -f "config/$ITEM" ]]; then
-        cp "config/$ITEM" ~/.config
-        echo "${OK} Copy completed" || echo "${ERROR} Failed to copy config files."
-    fi
-done
-
-# copying other
-cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${OK} Copy completed"; } || {
-    echo "${ERROR} Failed to copy .zshrc && .ideavimrc"
-}
-
-# copying font
-mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${OK} Copy fonts completed"; } || {
-    echo "${ERROR} Failed to copy fonts files."
-}
-
-# reload fonts
-printf "\n%.0s" {1..2}
-fc-cache -fv
-printf "\n%.0s" {1..2}
+# remove dotfiles
+cd $HOME || exit 1
+if [ -d dotfiles ]; then
+    rm -rf dotfiles
+    printf "\n%s - Remove dotfile successfully \n" "${NOTE}"
+fi
 
 # check log
 if [ -f $HOME/install.log ]; then
     if gum confirm "${CAT} - Do you want to check log?"; then
-        if dpkg-query -W -f='${Status}' bat 2>/dev/null | grep -q " installed"; then
+        if pacman -Q bat &>/dev/null; then
             cat_command="bat"
         else
             cat_command="cat"
@@ -120,12 +92,7 @@ if [ -f $HOME/install.log ]; then
     fi
 fi
 
-# Chang shell to zsh
-printf "\n%s - Change shell to zsh \n" "${NOTE}"
-chsh -s $(which zsh) && cd $HOME
-
-printf "\n%.0s" {1..2}
-printf "\n%s - Yey! Setup Completed \n" "${OK}"
-printf "\n%.0s" {1..2}
-
-zsh
+printf "\n%s - Yey! Installation Completed. Rebooting... \n" "${OK}"
+if gum confirm "${CAT} Would you like to reboot now?"; then
+    sudo reboot
+fi

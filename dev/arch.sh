@@ -36,42 +36,42 @@ gum style \
     "                                                                                                                             $(tput sgr0)" \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
 
-echo -e "\n"
+printf "\n"
 ask_custom_option "Choose your AUR helper" "yay" "paru" aur_helper
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you dual boot with window?" dual_boot
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to install GTK themes?" gtk_themes
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to configure Bluetooth?" bluetooth
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you have any nvidia gpu in your system?" nvidia
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to install Thunar file manager?" thunar
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to install Snap (GUI packages manager)?" snapd
-echo -e "\n"
+printf "\n"
 #ask_yes_no "Do you want to install & configure Firefox browser?" firefox
-#echo -e "\n"
+#printf "\n"
 ask_yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-echo -e "\n"
+printf "\n"
 ask_yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
-echo -e "\n"
+printf "\n"
 ask_yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
-echo -e "\n"
+printf "\n"
 ask_yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
-echo -e "\n"
+printf "\n"
 ask_yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
-echo -e "\n"
+printf "\n"
 
 if [ "$dual_boot" == "Y" ]; then
-    echo -e "\n${CAT} I will set the local time on Arch to display the correct time on Windows."
+    printf "\n%s - I will set the local time on Arch to display the correct time on Windows. \n" "${CAT}"
     timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
-echo -e "\n%.0s" {1..2}
+printf "\n%.0s" {1..2}
 if [ "$battery" == "Y" ]; then
     exScriptHypr "battery.sh"
 fi
@@ -88,9 +88,9 @@ if [ -d dotfiles ]; then
 fi
 
 # Clone dotfiles
-echo -e "${NOTE} Clone dotfiles. "
+printf "\n${NOTE} Clone dotfiles. "
 if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1; then
-    echo -e "${OK} Clone dotfiles successfully."
+    printf "\n${OK} Clone dotfiles succesfully.\n"
 fi
 
 if [ "$aur_helper" == "paru" ]; then
@@ -162,7 +162,7 @@ if [ -d dotfiles ]; then
     echo -e "${NOTE} Remove dotfile successfully "
 fi
 
-echo -e "\n\n"
+printf "\n%.0s" {1..2}
 
 if [ -f $HOME/install.log ]; then
     if gum confirm "${CAT} Do you want to check log?"; then
@@ -172,23 +172,22 @@ if [ -f $HOME/install.log ]; then
             cat_command="cat"
         fi
         $cat_command $HOME/install.log
-        gum confirm "${CAT} Continue?"
     fi
 fi
 
 # clear packages
-echo -e "\n${NOTE} Clear packages."
+printf "\n${NOTE} Clear packages.\n"
 if sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm; then
-    echo -e "${OK} Clear packages successfully."
+    printf "\n${OK} Clear packages succesfully.\n"
 fi
 
-echo -e "\n${OK} Yey! Installation Completed."
-echo -e "\n${NOTE} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!)."
-echo -e "\n${NOTE} It is highly recommended to reboot your system.\n"
+printf "\n${OK} Yey! Installation Completed.\n"
+printf "\n${NOTE} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!).\n"
+printf "\n${NOTE} It is highly recommended to reboot your system.\n\n"
 
 if gum confirm "${CAT} Would you like to reboot now?"; then
     if [[ "$nvidia" == "Y" ]]; then
-        echo -e "${NOTE} NVIDIA GPU detected. Rebooting the system..."
+        echo "${NOTE} NVIDIA GPU detected. Rebooting the system..."
         systemctl reboot
     else
         systemctl reboot
