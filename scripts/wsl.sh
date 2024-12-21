@@ -9,10 +9,10 @@ if grep -qi 'microsoft' /proc/sys/kernel/osrelease; then
     . /etc/os-release
     case $ID in
     ubuntu)
-        exScriptWsl "ubuntu.sh"
+        exWsl "ubuntu.sh"
         ;;
     arch)
-        exScriptWsl "arch.sh"
+        exWsl "arch.sh"
         ;;
     *)
         echo "${ERROR} This script is only available on Ubuntu or Arch distributions."

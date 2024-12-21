@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # Require boot script
-exScriptGnome "boot.sh"
+exGnome "boot.sh"
 
 # Start script
 gum style \
@@ -34,7 +34,7 @@ gum style \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
 # Install package
-exScriptGnome "pkgs.sh"
+exGnome "pkgs.sh"
 
 # Config MYnvim
 echo -e "\n${NOTE} - Setting up MYnvim..."

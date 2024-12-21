@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-exScriptHypr "boot.sh"
+exHypr "boot.sh"
 
 # init
 clear
@@ -73,12 +73,12 @@ fi
 
 echo -e "\n%.0s" {1..2}
 if [ "$battery" == "Y" ]; then
-    exScriptHypr "battery.sh"
+    exHypr "battery.sh"
 fi
 
-exScriptHypr "swapfile.sh"
+exHypr "swapfile.sh"
 sleep 0.5
-exScriptHypr "pkgs_pacman.sh"
+exHypr "pkgs_pacman.sh"
 
 # Check if dotfiles exist
 cd $HOME
@@ -94,65 +94,65 @@ if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1; the
 fi
 
 if [ "$aur_helper" == "paru" ]; then
-    exScriptHypr "paru.sh"
+    exHypr "paru.sh"
 elif [ "$aur_helper" == "yay" ]; then
-    exScriptHypr "yay.sh"
+    exHypr "yay.sh"
 fi
 
-exScriptHypr "pkgs_aur.sh"
+exHypr "pkgs_aur.sh"
 sleep 0.5
-exScriptHypr "pipewire.sh"
+exHypr "pipewire.sh"
 
 if [ "$nvidia" == "Y" ]; then
-    exScriptHypr "nvidia.sh"
+    exHypr "nvidia.sh"
 elif [ "$nvidia" == "N" ]; then
-    exScriptHypr "hypr.sh"
+    exHypr "hypr.sh"
 fi
 
 if [ "$gtk_themes" == "Y" ]; then
-    exScriptHypr "gtk_themes.sh"
+    exHypr "gtk_themes.sh"
 fi
 
 if [ "$bluetooth" == "Y" ]; then
-    exScriptHypr "bluetooth.sh"
+    exHypr "bluetooth.sh"
 fi
 
 if [ "$thunar" == "Y" ]; then
-    exScriptHypr "thunar.sh"
+    exHypr "thunar.sh"
 fi
 
 if [ "$snapd" == "Y" ]; then
-    exScriptHypr "snapd.sh"
+    exHypr "snapd.sh"
 fi
 
 if [ "$homebrew" == "Y" ]; then
-    exScriptHypr "homebrew.sh"
+    exHypr "homebrew.sh"
 fi
 
 #if [ "$firefox" == "Y" ]; then
-#	exScriptHypr "firefox.sh"
+#	exHypr "firefox.sh"
 #fi
 
 if [ "$sddm" == "Y" ]; then
-    exScriptHypr "sddm.sh"
+    exHypr "sddm.sh"
 fi
 
 if [ "$xdph" == "Y" ]; then
-    exScriptHypr "xdph.sh"
+    exHypr "xdph.sh"
 fi
 
 if [ "$zsh" == "Y" ]; then
-    exScriptHypr "zsh.sh"
+    exHypr "zsh.sh"
 fi
 
 if [ "$dual_boot" == "Y" ]; then
-    exScriptHypr "grub_themes.sh"
+    exHypr "grub_themes.sh"
 fi
 
-exScriptHypr "input_group.sh"
+exHypr "input_group.sh"
 
 if [ "$dots" == "Y" ]; then
-    exScriptHypr "dotfiles.sh"
+    exHypr "dotfiles.sh"
 fi
 
 # remove dotfiles

@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # require
-exScriptGnome "boot.sh"
+exGnome "boot.sh"
 
 # start script
 gum style \
@@ -47,7 +47,7 @@ if [ "$dual_boot" == "Y" ]; then
 fi
 
 # install package
-exScriptGnome "pkgs.sh"
+exGnome "pkgs.sh"
 
 # Check if dotfiles exist
 cd $HOME || exit 1
@@ -66,11 +66,11 @@ else
 fi
 
 if [ "$battery" == "Y" ]; then
-    exScriptHypr "battery.sh"
+    exHypr "battery.sh"
 fi
 
 if [ "$dots" == "Y" ]; then
-    exScriptGnome "dotfiles.sh"
+    exGnome "dotfiles.sh"
 fi
 
 # remove dotfiles

@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
-exScriptHypr "boot.sh"
+exHypr "boot.sh"
 
 # init
 clear
@@ -32,9 +32,9 @@ echo -e "\n"
 ask_yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 
 if [ "$aur_helper" == "paru" ]; then
-    exScriptHypr "paru.sh"
+    exHypr "paru.sh"
 elif [ "$aur_helper" == "yay" ]; then
-    exScriptHypr "yay.sh"
+    exHypr "yay.sh"
 fi
 
 pacman_packages=(
@@ -181,7 +181,7 @@ fi
 
 # zsh
 if [ "$zsh" == "Y" ]; then
-    exScriptHypr "zsh.sh"
+    exHypr "zsh.sh"
 fi
 
 # remove dotfiles
