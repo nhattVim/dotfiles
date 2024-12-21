@@ -12,7 +12,7 @@ engine=(
 
 # installing engine needed for gtk themes
 for PKG1 in "${engine[@]}"; do
-	install_aur_pkg "$PKG1"
+	iAur "$PKG1"
 	if [ $? -ne 0 ]; then
 		echo -e "\033[1A\033[K${ERROR} - $PKG1 install had failed"
 	fi

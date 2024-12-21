@@ -15,7 +15,7 @@ sddm=(
 # Install SDDM and SDDM theme
 printf "${NOTE} Installing SDDM and dependencies........\n"
 for package in "${sddm[@]}"; do
-	install_aur_pkg "$package"
+	iAur "$package"
 	[ $? -ne 0 ] && {
 		echo -e "\e[1A\e[K${ERROR} - $package install has failed"
 	}

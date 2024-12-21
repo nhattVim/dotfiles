@@ -32,7 +32,7 @@ elif command -v apt &>/dev/null; then
 fi
 
 # function to install pacman package
-install_pacman_pkg() {
+iPac() {
     if pacman -Q "$1" &>/dev/null; then
         printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
@@ -48,7 +48,7 @@ install_pacman_pkg() {
 }
 
 # function to install aur package
-install_aur_pkg() {
+iAur() {
     if $ISAUR -Q "$1" &>>/dev/null; then
         printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
@@ -64,7 +64,7 @@ install_aur_pkg() {
 }
 
 # function to install nala packages
-install_ubuntu_packages() {
+iDeb() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         printf "\n%s - $1 is already installed. Skipping ... \n" "${OK}"
     else
@@ -80,7 +80,7 @@ install_ubuntu_packages() {
 }
 
 # function to uninstall pacman package
-uninstall_pacman_pkg() {
+uPac() {
     if pacman -Qi "$1" &>>/dev/null; then
         printf "\n%s - Uninstalling $1 ... \n" "${NOTE}"
         sudo pacman -Rns --noconfirm "$1"
@@ -94,7 +94,7 @@ uninstall_pacman_pkg() {
 }
 
 # function to ask and return yes no
-ask_yes_no() {
+yes_no() {
     if gum confirm "$CAT - $1"; then
         eval "$2='Y'"
         echo "$CAT - $1 $YELLOW Yes"
@@ -105,7 +105,7 @@ ask_yes_no() {
 }
 
 # function to ask and return custom answer
-ask_custom_option() {
+choose() {
     if gum confirm "$CAT - $1" --affirmative "$2" --negative "$3"; then
         eval "$4=$2"
         echo "$CAT - $1 $YELLOW ${!4}"

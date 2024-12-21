@@ -34,11 +34,11 @@ gum style \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
 echo -e "\n"
-ask_yes_no "Do you dual boot with window?" dual_boot
+yes_no "Do you dual boot with window?" dual_boot
 echo -e "\n"
-ask_yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
+yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
 echo -e "\n"
-ask_yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+yes_no "Do you want to set battery charging limit (only for laptop)?" battery
 echo -e "\n"
 
 if [ "$dual_boot" == "Y" ]; then

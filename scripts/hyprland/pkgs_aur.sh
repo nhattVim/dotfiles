@@ -53,7 +53,7 @@ uninstall=(
 # Checking if mako or dunst is installed
 printf "\n%s - Checking if mako or dunst are installed and removing for swaync to work properly \n" "${NOTE}"
 for PKG in "${uninstall[@]}"; do
-	uninstall_pacman_pkg "$PKG"
+	uPac "$PKG"
 	if [ $? -ne 0 ]; then
 		echo -e "${ERROR} - $PKG uninstallation had failed"
 	fi
@@ -62,7 +62,7 @@ done
 # Installation of main components
 printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"
 for PKG1 in "${hypr_pkgs[@]}" "${fonts[@]}" "${aur_pkgs[@]}"; do
-	install_aur_pkg "$PKG1"
+	iAur "$PKG1"
 	if [ $? -ne 0 ]; then
 		echo -e "${ERROR} - $PKG1 install had failed"
 	fi

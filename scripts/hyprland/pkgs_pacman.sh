@@ -81,7 +81,7 @@ hypr_pkgs=(
 # Installation of main components
 printf "\n%s - Installing components\n" "${NOTE}"
 for PKG1 in "${pacman_pkgs[@]}" "${hypr_pkgs[@]}"; do
-	install_pacman_pkg "$PKG1"
+	iPac "$PKG1"
 	if [ $? -ne 0 ]; then
 		echo -e "${ERROR} - $PKG1 install had failed"
 	fi

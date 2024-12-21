@@ -27,9 +27,9 @@ gum style \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 echo -e "\n"
-ask_custom_option "Choose your AUR helper" "yay" "paru" aur_helper
+choose "Choose your AUR helper" "yay" "paru" aur_helper
 echo -e "\n"
-ask_yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
+yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 
 if [ "$aur_helper" == "paru" ]; then
     exHypr "paru.sh"
@@ -80,14 +80,14 @@ ISAUR=$(command -v yay || command -v paru)
 echo -e "\n${NOTE} - Installing components"
 
 for PKG1 in "${pacman_packages[@]}"; do
-    install_pacman_pkg "$PKG1"
+    iPac "$PKG1"
     if [ $? -ne 0 ]; then
         echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed"
     fi
 done
 
 for PKG2 in "${aur_packages[@]}"; do
-    install_aur_pkg "$PKG2"
+    iAur "$PKG2"
     if [ $? -ne 0 ]; then
         echo -e "\e[1A\e[K${ERROR} - $PKG2 install had failed"
     fi

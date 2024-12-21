@@ -4,7 +4,7 @@
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
-ask_custom_option "Choose your databases" "mysql" "sql" db
+choose "Choose your databases" "mysql" "sql" db
 
 if [ "$db" == "mysql" ]; then
 

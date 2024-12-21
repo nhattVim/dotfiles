@@ -21,7 +21,7 @@ fi
 # Hyprland
 printf "${NOTE} Installing Hyprland .......\n"
 for HYPR in "${hypr[@]}"; do
-	install_aur_pkg "$HYPR" 2>&1
+	iAur "$HYPR" 2>&1
 	[ $? -ne 0 ] && {
 		echo -e "\e[1A\e[K${ERROR} - $HYPR install had failed"
 	}

@@ -43,7 +43,7 @@ fi
 # Install packages
 echo -e "\n${NOTE} - Install packages ...."
 for PKG in "${pkgs[@]}"; do
-    install_ubuntu_packages "$PKG"
+    iDeb "$PKG"
     if [ $? -ne 0 ]; then
         echo -e "\n${ERROR} - $PKG install had failed, please check the script."
     fi

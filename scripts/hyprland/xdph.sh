@@ -12,7 +12,7 @@ xdg=(
 
 # XDG-DESKTOP-PORTAL-HYPRLAND
 for xdgs in "${xdg[@]}"; do
-	install_aur_pkg "$xdgs"
+	iAur "$xdgs"
 	if [ $? -ne 0 ]; then
 		echo -e "\e[1A\e[K${ERROR} - $xdph install had failed"
 	fi

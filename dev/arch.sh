@@ -37,33 +37,33 @@ gum style \
     "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
 
 printf "\n"
-ask_custom_option "Choose your AUR helper" "yay" "paru" aur_helper
+choose "Choose your AUR helper" "yay" "paru" aur_helper
 printf "\n"
-ask_yes_no "Do you dual boot with window?" dual_boot
+yes_no "Do you dual boot with window?" dual_boot
 printf "\n"
-ask_yes_no "Do you want to install GTK themes?" gtk_themes
+yes_no "Do you want to install GTK themes?" gtk_themes
 printf "\n"
-ask_yes_no "Do you want to configure Bluetooth?" bluetooth
+yes_no "Do you want to configure Bluetooth?" bluetooth
 printf "\n"
-ask_yes_no "Do you have any nvidia gpu in your system?" nvidia
+yes_no "Do you have any nvidia gpu in your system?" nvidia
 printf "\n"
-ask_yes_no "Do you want to install Thunar file manager?" thunar
+yes_no "Do you want to install Thunar file manager?" thunar
 printf "\n"
-ask_yes_no "Do you want to install Snap (GUI packages manager)?" snapd
+yes_no "Do you want to install Snap (GUI packages manager)?" snapd
 printf "\n"
-#ask_yes_no "Do you want to install & configure Firefox browser?" firefox
+#yes_no "Do you want to install & configure Firefox browser?" firefox
 #printf "\n"
-ask_yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
+yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
 printf "\n"
-ask_yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+yes_no "Do you want to set battery charging limit (only for laptop)?" battery
 printf "\n"
-ask_yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
+yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 printf "\n"
-ask_yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
+yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
 printf "\n"
-ask_yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
+yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
 printf "\n"
-ask_yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
+yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
 printf "\n"
 
 if [ "$dual_boot" == "Y" ]; then

@@ -25,7 +25,7 @@ systemctl --user disable --now pulseaudio.socket pulseaudio.service
 # Pipewire
 printf "${NOTE} Installing Pipewire Packages...\n"
 for PIPEWIRE in "${pipewire[@]}"; do
-    install_aur_pkg "$PIPEWIRE"
+    iAur "$PIPEWIRE"
     [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $PIPEWIRE install had failed"; exit 1; }
 done
 

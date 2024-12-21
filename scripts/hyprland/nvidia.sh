@@ -28,7 +28,7 @@ fi
 # Hyprland
 printf "${NOTE} Installing Hyprland......\n"
 for HYPR in "${hypr[@]}"; do
-	install_aur_pkg "$HYPR"
+	iAur "$HYPR"
 	[ $? -ne 0 ] && {
 		echo -e "\e[1A\e[K${ERROR} - $HYPR install had failed"
 	}
@@ -38,7 +38,7 @@ done
 printf "${YELLOW} Installing addition Nvidia packages...\n"
 for krnl in $(cat /usr/lib/modules/*/pkgbase); do
 	for NVIDIA in "${krnl}-headers" "${nvidia_pkg[@]}"; do
-		install_aur_pkg "$NVIDIA"
+		iAur "$NVIDIA"
 	done
 done
 

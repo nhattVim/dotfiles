@@ -14,7 +14,7 @@ bluetooth=(
 # install bluetooth
 printf "${NOTE} Installing Bluetooth Packages...\n"
 for BLUE in "${bluetooth[@]}"; do
-	install_aur_pkg "$BLUE"
+	iAur "$BLUE"
 	[ $? -ne 0 ] && {
 		echo -e "\e[1A\e[K${ERROR} - $BLUE install had failed"
 	}

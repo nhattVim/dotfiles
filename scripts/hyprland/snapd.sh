@@ -35,7 +35,7 @@ fi
 
 # install snapd
 printf "\n%s - Installing snapd\n" "${NOTE}"
-install_aur_pkg snapd
+iAur snapd
 
 # setup snapd before proceeding
 printf "\n%s - Set up snap.... \n" "${NOTE}"

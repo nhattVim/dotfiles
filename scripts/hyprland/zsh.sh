@@ -92,13 +92,13 @@ sed -i '/^# eval "$(starship init zsh)"/ s/^# //' assets/.zshrc
 printf "\n"
 printf "${NOTE} Installing core zsh packages...\n"
 for pkg1 in "${pacman[@]}"; do
-	install_pacman_pkg "$pkg1"
+	iPac "$pkg1"
 	if [ $? -ne 0 ]; then
 		echo -e "\e[1A\e[K${ERROR} - $pkg1 install had failed"
 	fi
 done
 for pkg2 in "${aur[@]}"; do
-	install_aur_pkg "$pkg2"
+	iAur "$pkg2"
 	if [ $? -ne 0 ]; then
 		echo -e "\e[1A\e[K${ERROR} - $pkg2 install had failed"
 	fi

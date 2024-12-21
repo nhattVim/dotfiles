@@ -1,13 +1,13 @@
 #!/bin/bash
-# library for arch
+# Library
 
-# check root
+# Check root
 if [[ $EUID -eq 0 ]]; then
     echo -e "This script should not be executed as root! Exiting......."
     exit 1
 fi
 
-# set some colors for output messages
+# Colors
 OK="$(tput setaf 2)[OK]$(tput sgr0)"
 ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
 NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
@@ -17,22 +17,21 @@ RESET=$(tput sgr0)
 BLUE=$(tput setaf 6)
 PINK=$(tput setaf 213)
 
-# check arch(AUR) package manager
+# Package manager
 if command -v yay &>/dev/null; then
     ISAUR="yay"
 elif command -v paru &>/dev/null; then
     ISAUR="paru"
 fi
 
-# check ubuntu package manager
 if command -v nala &>/dev/null; then
     PKGMN="nala"
 elif command -v apt &>/dev/null; then
     PKGMN="apt"
 fi
 
-# function to install pacman package
-install_pacman_pkg() {
+# Install pacman package
+iPac() {
     if pacman -Q "$1" &>/dev/null; then
         echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
     else
@@ -47,8 +46,8 @@ install_pacman_pkg() {
     fi
 }
 
-# function to install aur package
-install_aur_pkg() {
+# Install aur package
+iAur() {
     if $ISAUR -Q "$1" &>>/dev/null; then
         echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
     else
@@ -63,8 +62,8 @@ install_aur_pkg() {
     fi
 }
 
-# function to install nala packages
-install_ubuntu_packages() {
+# Install nala packages
+iDeb() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         echo -e "\n${OK} - $1 is already installed. Skipping ... \n"
     else
@@ -79,8 +78,8 @@ install_ubuntu_packages() {
     fi
 }
 
-# function to uninstall pacman package
-uninstall_pacman_pkg() {
+# Uninstall pacman package
+uPac() {
     if pacman -Qi "$1" &>>/dev/null; then
         echo -e "\n${NOTE} - Uninstalling $1 ... \n"
         sudo pacman -Rns --noconfirm "$1"
@@ -93,8 +92,8 @@ uninstall_pacman_pkg() {
     fi
 }
 
-# function to ask and return yes no
-ask_yes_no() {
+# Ask and return yes no
+yes_no() {
     if gum confirm "$CAT - $1"; then
         eval "$2='Y'"
         echo -e "$CAT - $1 $YELLOW Yes"
@@ -104,8 +103,8 @@ ask_yes_no() {
     fi
 }
 
-# function to ask and return custom answer
-ask_custom_option() {
+# Ask and return custom answer
+choose() {
     if gum confirm "$CAT - $1" --affirmative "$2" --negative "$3"; then
         eval "$4=$2"
         echo -e "$CAT - $1 $YELLOW ${!4}"
@@ -115,31 +114,31 @@ ask_custom_option() {
     fi
 }
 
-# function to execute hyprland script
+# Execute hyprland script
 exHypr() {
     local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"
     bash <(curl -sSL "$script_url")
 }
 
-# function to execute hyprland gnome script
+# Execute hyprland gnome script
 exGnome() {
     local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"
     bash <(curl -sSL "$script_url")
 }
 
-# function to execute wsl script
+# Execute wsl script
 exWsl() {
     local script_url="https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"
     bash <(curl -sSL "$script_url")
 }
 
-# function to execute github script
+# Execute github script
 exGithub() {
     local script_url="https://drive.usercontent.google.com/download?id=16BgS8vNvtHkVIoMjsxyxOGWtgX0KW4Tg&export=download&authuser=0&confirm=t&uuid=7362d2fa-5f01-4891-ba96-78ea32b8ffdc&at=AENtkXYmWdfH6UWqUqC5eSQDyloN:1731204228830"
     bash <(curl -sSL "$script_url")
 }
 
-# function to create a unique backup directory name with month, day, hours, and minutes
+# Get backup directory name
 get_backup_dirname() {
     local timestamp
     timestamp=$(date +"%m%d_%H%M")
