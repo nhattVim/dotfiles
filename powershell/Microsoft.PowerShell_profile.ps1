@@ -140,6 +140,12 @@ function la
     lsd -alh $args
 }
 
+# Lsd lt
+function lt
+{
+    lsd --tree $args
+}
+
 # Scoop list
 function scl
 {
