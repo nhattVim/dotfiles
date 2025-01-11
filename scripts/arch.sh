@@ -38,33 +38,19 @@ gum style \
 
 echo -e "\n"
 choose "Choose your AUR helper" "yay" "paru" aur_helper
-echo -e "\n"
 yes_no "Do you dual boot with window?" dual_boot
-echo -e "\n"
 yes_no "Do you want to install GTK themes?" gtk_themes
-echo -e "\n"
 yes_no "Do you want to configure Bluetooth?" bluetooth
-echo -e "\n"
 yes_no "Do you have any nvidia gpu in your system?" nvidia
-echo -e "\n"
 yes_no "Do you want to install Thunar file manager?" thunar
-echo -e "\n"
 yes_no "Do you want to install Snap (GUI packages manager)?" snapd
-echo -e "\n"
 #yes_no "Do you want to install & configure Firefox browser?" firefox
-#echo -e "\n"
 yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
-echo -e "\n"
 yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-echo -e "\n"
 yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
-echo -e "\n"
 yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
-echo -e "\n"
 yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
-echo -e "\n"
 yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
-echo -e "\n"
 
 if [ "$dual_boot" == "Y" ]; then
     echo -e "\n${CAT} I will set the local time on Arch to display the correct time on Windows."
@@ -165,15 +151,7 @@ fi
 echo -e "\n\n"
 
 if [ -f $HOME/install.log ]; then
-    if gum confirm "${CAT} Do you want to check log?"; then
-        if pacman -Q bat &>/dev/null; then
-            cat_command="bat"
-        else
-            cat_command="cat"
-        fi
-        $cat_command $HOME/install.log
-        gum confirm "${CAT} Continue?"
-    fi
+    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
 # clear packages

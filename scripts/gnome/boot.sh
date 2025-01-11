@@ -48,10 +48,15 @@ PKGMN=$(command -v nala || command -v apt)
 
 # package list
 pkgs=(
+    build-essential
     curl
     wget
     git
     unzip
+    zip
+    net-tools
+    htop
+    nano
 )
 
 # install some required packages

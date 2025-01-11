@@ -82,14 +82,7 @@ fi
 
 # check log
 if [ -f $HOME/install.log ]; then
-    if gum confirm "${CAT} - Do you want to check log?"; then
-        if pacman -Q bat &>/dev/null; then
-            cat_command="bat"
-        else
-            cat_command="cat"
-        fi
-        $cat_command $HOME/install.log
-    fi
+    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
 echo -e "\n${OK} - Yey! Installation Completed. Rebooting... \n"

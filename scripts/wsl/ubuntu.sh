@@ -117,14 +117,7 @@ echo -e "\nFont cache rebuilt."
 
 # Check installation log
 if [ -f $HOME/install.log ]; then
-    if gum confirm "${CAT} - Do you want to check the installation log?"; then
-        if dpkg-query -W -f='${Status}' bat 2>/dev/null | grep -q " installed"; then
-            cat_command="bat"
-        else
-            cat_command="cat"
-        fi
-        $cat_command $HOME/install.log
-    fi
+    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
 # Change shell to zsh

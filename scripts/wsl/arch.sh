@@ -28,7 +28,6 @@ gum style \
     "                                                                              "
 echo -e "\n"
 choose "Choose your AUR helper" "yay" "paru" aur_helper
-echo -e "\n"
 yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 
 if [ "$aur_helper" == "paru" ]; then
@@ -194,14 +193,7 @@ fi
 echo -e "\n%.0s" {1..2}
 
 if [ -f $HOME/install.log ]; then
-    if gum confirm "${CAT} Do you want to check log?"; then
-        if pacman -Q bat &>/dev/null; then
-            cat_command="bat"
-        else
-            cat_command="cat"
-        fi
-        $cat_command $HOME/install.log
-    fi
+    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
 # clear packages

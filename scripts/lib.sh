@@ -17,13 +17,19 @@ RESET=$(tput sgr0)
 BLUE=$(tput setaf 6)
 PINK=$(tput setaf 213)
 
-# Package manager
+# Functions
+log() {
+    echo -e "$1 $2"
+}
+
+# Check AUR package manager
 if command -v yay &>/dev/null; then
     ISAUR="yay"
 elif command -v paru &>/dev/null; then
     ISAUR="paru"
 fi
 
+# Check ubuntu package manager
 if command -v nala &>/dev/null; then
     PKGMN="nala"
 elif command -v apt &>/dev/null; then
