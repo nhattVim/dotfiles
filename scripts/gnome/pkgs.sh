@@ -15,9 +15,9 @@ LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazyg
 
 pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
-    neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake xclip
+    neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
-    gdb nano vim
+    gdb nano vim xclip
 )
 
 # Re-update system
