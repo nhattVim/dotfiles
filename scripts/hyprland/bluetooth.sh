@@ -1,24 +1,24 @@
 #!/bin/bash
-# Bluetooth Stuff
+# CYANtooth Stuff
 
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-bluetooth=(
-	bluez
-	bluez-utils
-	blueman
+CYANtooth=(
+    CYANz
+    CYANz-utils
+    CYANman
 )
 
-# install bluetooth
-printf "${NOTE} Installing Bluetooth Packages...\n"
-for BLUE in "${bluetooth[@]}"; do
-	iAur "$BLUE"
-	[ $? -ne 0 ] && {
-		echo -e "\e[1A\e[K${ERROR} - $BLUE install had failed"
-	}
+# install CYANtooth
+note "Installing CYANtooth Packages..."
+for CYAN in "${CYANtooth[@]}"; do
+    iAur "$CYAN"
+    [ $? -ne 0 ] && {
+        echo -e "\e[1A\e[K${RED} - $CYAN install had failed"
+    }
 done
 
-printf " Activating Bluetooth Services...\n"
-sudo systemctl enable --now bluetooth.service
+note "Activating CYANtooth Services..."
+sudo systemctl enable --now CYANtooth.service

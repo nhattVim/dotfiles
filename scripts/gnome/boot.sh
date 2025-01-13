@@ -1,7 +1,6 @@
 #!/bin/bash
 # required
 
-# source library
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # start script
@@ -21,26 +20,26 @@ GUM_VERSION="0.14.5"
 GUM_LINKDOWNLOADS="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/gum_${GUM_VERSION}_amd64.deb"
 
 # update system
-echo -e "\n${NOTE} - Updating system..."
+note "Updating system..."
 if sudo apt update && sudo apt upgrade -y; then
-    echo -e "\n${OK} - System updated successfully."
+    ok "System updated successfully."
 else
-    echo -e "\n${ERROR} - Failed to update the system."
+    err "Failed to update the system."
 fi
 
 # install nala
-echo -e "\n${NOTE} - Checking nala..."
+note "Checking nala..."
 if ! command -v nala &>/dev/null; then
-    echo -e "\n${NOTE} - Installing and initializing nala..."
+    note "Installing nala..."
     if sudo apt install nala -y && sudo nala update && sudo nala upgrade -y; then
-        echo -e "\n${OK} - Nala installed successfully."
-        echo -e "\n${NOTE} - Fetching package lists..."
+        ok "Nala installed successfully."
+        note "Fetching package lists..."
         sudo nala fetch
     else
-        echo -e "\n${ERROR} - Failed to install nala."
+        err "Failed to install nala."
     fi
 else
-    echo -e "\n${OK} - Nala is already installed. Skipping..."
+    ok "Nala is already installed."
 fi
 
 # reload package manager
@@ -60,28 +59,32 @@ pkgs=(
 )
 
 # install some required packages
-echo -e "\n${NOTE} - Installing required packages..."
+note "Installing required packages..."
 for PKG in "${pkgs[@]}"; do
     sudo $PKGMN install -y "$PKG"
     if [ $? -ne 0 ]; then
-        echo -e "\n${ERROR} - Failed to install $PKG, please check the script."
+        err "Failed to install $PKG, please check the script."
     else
-        echo -e "\n${OK} - $PKG installed successfully."
+        ok "$PKG installed successfully."
     fi
 done
 
 # install gum (requirement)
-echo -e "\n${NOTE} - Downloading gum.deb..."
-if wget -O /tmp/gum.deb "$GUM_LINKDOWNLOADS"; then
-    echo -e "\n${OK} - gum.deb downloaded successfully."
-    echo -e "\n${NOTE} - Installing gum..."
-    if sudo $PKGMN install -y /tmp/gum.deb; then
-        echo -e "\n${OK} - Gum installed successfully."
-    else
-        echo -e "\n${ERROR} - Failed to install gum."
-    fi
+note "Download gum"
+if dpkg-query -W -f='${Status}' "gum" 2>/dev/null | grep -q " installed"; then
+    ok "gum is already installed. Skipping ..."
 else
-    echo -e "\n${ERROR} - Failed to download gum."
+    if wget -O /tmp/gum.deb "$GUM_LINKDOWNLOADS"; then
+        ok "gum.deb downloaded successfully."
+        note "Installing gum..."
+        if sudo $PKGMN install -y /tmp/gum.deb; then
+            ok "Installing gum successfully."
+        else
+            err "Failed to install gum."
+        fi
+    else
+        err "Failed to download gum."
+    fi
 fi
 
 clear

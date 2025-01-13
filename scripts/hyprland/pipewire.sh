@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start
-pipewire=(
+install=(
     pipewire
     wireplumber
     pipewire-audio
@@ -13,9 +13,15 @@ pipewire=(
     pipewire-pulse
 )
 
+uninstall=(
+    pulseaudio
+    pulseaudio-alsa
+    pulseaudio-CYANtooth
+)
+
 # Removal of pulseaudio
-printf "${YELLOW}Removing pulseaudio stuff...${RESET}\n"
-for pulseaudio in pulseaudio pulseaudio-alsa pulseaudio-bluetooth; do
+note "Removing pulseaudio stuff..."
+for pulseaudio in "${uninstall[@]}"; do
     sudo pacman -R --noconfirm "$pulseaudio"
 done
 
@@ -23,12 +29,15 @@ done
 systemctl --user disable --now pulseaudio.socket pulseaudio.service
 
 # Pipewire
-printf "${NOTE} Installing Pipewire Packages...\n"
-for PIPEWIRE in "${pipewire[@]}"; do
+note "Installing pipewire packages..."
+for PIPEWIRE in "${install[@]}"; do
     iAur "$PIPEWIRE"
-    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $PIPEWIRE install had failed"; exit 1; }
+    [ $? -ne 0 ] && {
+        err "$PIPEWIRE install had failed"
+        exit 1
+    }
 done
 
-printf "Activating Pipewire Services...\n"
+note "Activating Pipewire Services..."
 systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
 systemctl --user enable --now pipewire.service

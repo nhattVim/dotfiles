@@ -5,12 +5,12 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-printf "\n%s - Setting up battery charge limit. \n" "${NOTE}"
+note "Setting up battery charge limit."
 
 if hostnamectl | grep -q 'Chassis: vm' ||
     hostnamectl | grep -q 'Virtualization: wsl' ||
     hostnamectl | grep -q 'Chassis: desktop'; then
-    printf "\n%s - Setting up battery charge limit is not applicable on desktop, virtual machine and vm. Skipping... \n" "${NOTE}"
+    err "Setting up battery charge limit is not applicable on desktop, virtual machine and vm. Skipping..."
     exit 1
 fi
 
@@ -24,11 +24,11 @@ while true; do
         elif [[ -d "/sys/class/power_supply/BAT1" ]]; then
             battery="BAT1"
         else
-            printf "\n%s - Battery not found. \n" "${ERROR}"
+            err "Battery not found."
             exit 1
         fi
 
-        printf "\n%s - Configuring systemd unit for $battery ... \n" "${CAT}"
+        act "Configuring systemd unit for $battery..."
         {
             echo "[Unit]"
             echo "Description=Set battery charge limit for $battery"
@@ -44,9 +44,9 @@ while true; do
 
         sudo systemctl enable --now charge_limit_battery.service
 
-        printf "\n%s - Done \n" "${OK}"
+        ok "Done."
         break
     else
-        printf "\n%s - Invalid input. Please enter a valid number between 0 and 100. \n" "${ERROR}"
+        err "Invalid input. Please enter a valid number between 0 and 100."
     fi
 done

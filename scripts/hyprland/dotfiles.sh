@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # variables
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
@@ -31,16 +31,16 @@ gum style \
 cd "$HOME" || exit 1
 if [ -d dotfiles ]; then
     cd dotfiles || {
-        printf "%s - Failed to enter dotfiles config directory\n" "${ERROR}"
+        err "Failed to enter dotfiles directory"
         exit 1
     }
 else
-    printf "\n${NOTE} Clone dotfiles. " && git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 || {
-        printf "%s - Failed to clone dotfiles \n" "${ERROR}"
+    note "Clone dotfiles." && git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 || {
+        err "Failed to clone dotfiles"
         exit 1
     }
     cd dotfiles || {
-        printf "%s - Failed to enter dotfiles directory\n" "${ERROR}"
+        err "Failed to enter dotfiles directory"
         exit 1
     }
 fi
@@ -55,7 +55,7 @@ fi
 
 # uncommenting WLR_RENDERER_ALLOW_SOFTWARE,1 if running in a VM is detected
 if hostnamectl | grep -q 'Chassis: vm'; then
-    echo "This script is running in a virtual machine."
+    note "This script is running in a virtual machine."
     sed -i '/env = WLR_NO_HARDWARE_CURSORS,1/s/^#//' config/hypr/configs/env_variables.conf
     sed -i '/env = WLR_RENDERER_ALLOW_SOFTWARE,1/s/^#//' config/hypr/configs/env_variables.conf
     sed -i '/monitor = Virtual-1, 1920x1080@60,auto,1/s/^#//' config/hypr/configs/monitors.conf
@@ -85,14 +85,14 @@ detect_layout() {
 # Detect the current keyboard layout
 layout=$(detect_layout)
 
-printf "${NOTE} Detecting keyboard layout to prepare necessary changes in hyprland.conf before copying\n\n"
+note "Deteacting keyboard layout to prepare necessary changes in hyprland.conf before copying"
 
 # Prompt the user to confirm whether the detected layout is correct
-if gum confirm "${CAT} Detected current keyboard layout is: $layout. Is this correct?"; then
+if gum confirm "Detected current keyboard layout is: $layout. Is this correct?"; then
     # If the detected layout is correct, update the 'kb_layout=' line in the file
     awk -v layout="$layout" '/kb_layout/ {$0 = "  kb_layout=" layout} 1' config/hypr/configs/settings.conf >temp.conf
     mv temp.conf config/hypr/configs/settings.conf
-    echo "${NOTE} kb_layout $layout configured in settings.  "
+    note "kb_layout $layout configured in settings."
 else
     printf "\n%.0s" {1..2}
     echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT!!!! $(tput sgr0)"
@@ -101,28 +101,26 @@ else
     echo "$(tput bold)$(tput setaf 7)You can also set more than 2 layouts! $(tput sgr0)"
     echo "$(tput bold)$(tput setaf 7)ie: us,vn,kr,es $(tput sgr0)"
     printf "\n%.0s" {1..2}
-    read -p "${CAT} - Please enter the correct keyboard layout: " new_layout
+    read -p "Please enter the correct keyboard layout: " new_layout
     # Update the 'kb_layout=' line with the correct layout in the file
     awk -v new_layout="$new_layout" '/kb_layout/ {$0 = "  kb_layout=" new_layout} 1' config/hypr/configs/settings.conf >temp.conf
     mv temp.conf config/hypr/configs/settings.conf
-    echo "${NOTE} kb_layout $new_layout configured in settings."
+    note "kb_layout $new_layout configured in settings."
 fi
 
-printf "\n"
-
-# Action to do for better rofi appearance
-echo "${BLUE}Select monitor resolution for better Rofi appearance:"
+# CYAN to do for better rofi appearance
+echo "${CYAN}Select monitor resolution for better Rofi appearance:"
 echo -e "\t ${YELLOW} 1. Equal to or less than 1080p (≤ 1080p)"
 echo -e "\t ${YELLOW} 2. Equal to or higher than 1440p (≥ 1440p)"
 
-if gum confirm "$CAT Enter the number of your choice: " --affirmative "≤ 1080p" --negative "≥ 1440p"; then
+if gum confirm "${PINK} Enter the number of your choice: " --affirmative "≤ 1080p" --negative "≥ 1440p"; then
     resolution="≤ 1080p"
 else
     resolution="≥ 1440p"
 fi
 
 # Use the selected resolution in your existing script
-echo -e "\n\n${BLUE}You chose $resolution resolution for better Rofi appearance.${RESET}\n\n"
+echo -e "\n\n${CYAN}You chose $resolution resolution for better Rofi appearance.${RESET}\n\n"
 
 # Add your commands based on the resolution choice
 if [ "$resolution" == "≤ 1080p" ]; then
@@ -134,7 +132,7 @@ fi
 ### Copy Config Files ###
 set -e # Exit immediately if a command exits with a non-zero status.
 
-printf "${NOTE} - Copying dotfiles\n"
+note "Copying config files"
 folder=(
     ranger
     alacritty
@@ -160,10 +158,10 @@ folder=(
 for DIR in "${folder[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        printf "\n%s - Config for $DIR found, attempting to back up. \n" "${NOTE}"
+        note "Config for $DIR found, attempting to back up."
         BACKUP_DIR=$(get_backup_dirname)
         mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        printf "\n%s - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR. \n" "${NOTE}"
+        note "Backup $DIRPATH to $DIRPATH-backup-$BACKUP_DIR"
     fi
 done
 
@@ -171,39 +169,37 @@ printf "\n%.0s" {1..2}
 
 # Copying config files
 mkdir -p ~/.config
-cp -r config/* ~/.config/ && { echo "${OK} Copy completed"; } || {
-    echo "${ERROR} Failed to copy config files."
+cp -r config/* ~/.config/ && { echo "${GREEN} Copy completed"; } || {
+    err "Failed to copy config files"
 }
 
 # Copying wallpapers
 mkdir -p ~/Pictures/wallpapers
-cp -r wallpapers ~/Pictures/ && { echo "${OK} Copy completed"; } || {
-    echo "${ERROR} Failed to copy wallpapers."
+cp -r wallpapers ~/Pictures/ && { echo "${GREEN} Copy completed"; } || {
+    err "Failed to copy wallpapers"
 }
 
 # Copying
-cp assets/.ideavimrc ~ && { echo "${OK} Copy completed"; } || {
-    echo "${ERROR} Failed to copy .ideavimrc"
+cp assets/.ideavimrc ~ && { echo "${GREEN} Copy completed"; } || {
+    err "Failed to copy .ideavimrc"
 }
 
 printf "\n%.0s" {1..2}
 
 # Clone tpm
 if [ -d "$HOME/.tmux/plugins/tpm" ]; then
-    echo "${NOTE} TPM (Tmux Plugin Manager) is already installed."
+    note "TPM (Tmux Plugin Manager) is already installed."
 else
-    # Clone TPM repository
-    echo "${NOTE} Cloning TPM (Tmux Plugin Manager)..."
+    note "Cloning TPM (Tmux Plugin Manager)..."
     if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
-        echo "${OK} TPM (Tmux Plugin Manager) cloned successfully"
+        ok "TPM (Tmux Plugin Manager) cloned successfully"
     else
-        echo "${ERROR} Failed to clone TPM (Tmux Plugin Manager)."
+        err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
 fi
 
-printf "\n%.0s" {1..2}
-
 # Set some files as executable
+printf "\n%.0s" {1..2}
 chmod +x ~/.config/hypr/scripts/*
 chmod +x ~/.config/hypr/boot.sh
 printf "\n%.0s" {1..3}
@@ -222,39 +218,39 @@ fi
 printf "\n%.0s" {1..2}
 
 # additional wallpapers
-echo "${BLUE} By default only a few wallpapers are copied...${RESET}"
+echo "${CYAN} By default only a few wallpapers are copied...${RESET}"
 printf "\n%.0s" {1..2}
 
 cd $HOME
 if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
-    echo "${NOTE} Downloading additional wallpapers..."
+    note "Downloading additional wallpapers..."
     if git clone https://github.com/nhattVim/wallpapers --depth 1; then
-        echo "${NOTE} Wallpapers downloaded successfully."
+        note "Wallpapers downloaded successfully."
 
         if cp -R wallpapers/wallpapers/* ~/Pictures/wallpapers/; then
-            echo "${NOTE} Wallpapers copied successfully."
+            note "Wallpapers copied successfully."
             rm -rf wallpapers
             break
         else
-            echo "${ERROR} Copying wallpapers failed"
+            err "Copying wallpapers failed."
         fi
     else
-        echo "${ERROR} Downloading additional wallpapers failed"
+        err "Downloading additional wallpapers failed"
     fi
 else
-    echo "You chose not to download additional wallpapers."
+    note "You chose not to download additional wallpapers."
 fi
 
 # symlinks for waybar style
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
-    # initialize pywal to avoid config error on hyprland
+    # initialize pywal to avoid config RED on hyprland
     wal -i $wallpaper -s -t
 
 #initial symlink for Pywal Dark and Light for Rofi Themes
 ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi"
 
 printf "\n%.0s" {1..2}
-printf "\n${OK} Copy Completed! \n\n\n"
-printf "${BLUE} ATTENTION!!!! \n"
-printf "${BLUE} YOU NEED to logout and re-login or reboot to avoid issues\n\n"
+printf "\n${GREEN} Copy Completed! \n\n\n"
+printf "${CYAN} ATTENTION!!!! \n"
+printf "${CYAN} YOU NEED to logout and re-login or reboot to avoid issues\n\n"

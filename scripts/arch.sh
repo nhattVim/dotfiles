@@ -30,17 +30,17 @@ gum style \
 gum style \
     --foreground 6 --border-foreground 6 --border rounded \
     --align left --width 104 --margin "1 2" --padding "2 4" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
-    "                                                                                                                             $(tput sgr0)" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
-    "                                                                                                                             $(tput sgr0)" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
+    "                                                                                                                               $(tput sgr0)" \
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
+    "                                                                                                                               $(tput sgr0)" \
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
 
 echo -e "\n"
 choose "Choose your AUR helper" "yay" "paru" aur_helper
 yes_no "Do you dual boot with window?" dual_boot
 yes_no "Do you want to install GTK themes?" gtk_themes
-yes_no "Do you want to configure Bluetooth?" bluetooth
+yes_no "Do you want to configure CYANtooth?" CYANtooth
 yes_no "Do you have any nvidia gpu in your system?" nvidia
 yes_no "Do you want to install Thunar file manager?" thunar
 yes_no "Do you want to install Snap (GUI packages manager)?" snapd
@@ -53,7 +53,7 @@ yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" x
 yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
 
 if [ "$dual_boot" == "Y" ]; then
-    echo -e "\n${CAT} I will set the local time on Arch to display the correct time on Windows."
+    act "I will set the local time on Arch to display the correct time on Windows"
     timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
@@ -70,13 +70,13 @@ exHypr "pkgs_pacman.sh"
 cd $HOME
 if [ -d dotfiles ]; then
     rm -rf dotfiles
-    echo -e "${OK} Remove dotfile successfully "
+    ok "Remove dotfile successfully"
 fi
 
 # Clone dotfiles
-echo -e "${NOTE} Clone dotfiles. "
+note "Clone dotfiles."
 if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1; then
-    echo -e "${OK} Clone dotfiles successfully."
+    ok "Clone dotfiles successfully"
 fi
 
 if [ "$aur_helper" == "paru" ]; then
@@ -99,8 +99,8 @@ if [ "$gtk_themes" == "Y" ]; then
     exHypr "gtk_themes.sh"
 fi
 
-if [ "$bluetooth" == "Y" ]; then
-    exHypr "bluetooth.sh"
+if [ "$CYANtooth" == "Y" ]; then
+    exHypr "CYANtooth.sh"
 fi
 
 if [ "$thunar" == "Y" ]; then
@@ -114,10 +114,6 @@ fi
 if [ "$homebrew" == "Y" ]; then
     exHypr "homebrew.sh"
 fi
-
-#if [ "$firefox" == "Y" ]; then
-#	exHypr "firefox.sh"
-#fi
 
 if [ "$sddm" == "Y" ]; then
     exHypr "sddm.sh"
@@ -145,28 +141,28 @@ fi
 cd $HOME
 if [ -d dotfiles ]; then
     rm -rf dotfiles
-    echo -e "${NOTE} Remove dotfile successfully "
+    note "Remove dotfile successfully "
 fi
 
 echo -e "\n\n"
 
 if [ -f $HOME/install.log ]; then
-    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
+    gum confirm "${CYAN} Do you want to check log?${RESET}" && gum pager <$HOME/install.log
 fi
 
 # clear packages
-echo -e "\n${NOTE} Clear packages."
+note "Clear packages."
 if sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm; then
-    echo -e "${OK} Clear packages successfully."
+    ok "Clear packages successfully."
 fi
 
-echo -e "\n${OK} Yey! Installation Completed."
-echo -e "\n${NOTE} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!)."
-echo -e "\n${NOTE} It is highly recommended to reboot your system.\n"
+echo -e "\n${GREEN} Yey! Installation Completed."
+echo -e "\n${YELLOW} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!)."
+echo -e "\n${YELLOW} It is highly recommended to reboot your system.\n"
 
-if gum confirm "${CAT} Would you like to reboot now?"; then
+if gum confirm "${CAT} Would you like to reboot now?${RESET}"; then
     if [[ "$nvidia" == "Y" ]]; then
-        echo -e "${NOTE} NVIDIA GPU detected. Rebooting the system..."
+        act "NVDIA GPU detected. Rebooting the system..."
         systemctl reboot
     else
         systemctl reboot

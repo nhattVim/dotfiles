@@ -27,48 +27,49 @@ gum style \
 gum style \
     --foreground 6 --border-foreground 6 --border rounded \
     --align left --width 90 --margin "1 2" --padding "2 4" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
     "                                                                                                                             $(tput sgr0)" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
     "                                                                                                                             $(tput sgr0)" \
-    "$(tput setaf 3)NOTE:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
+    "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
 
 # Install package
 exGnome "pkgs.sh"
 
 # Config MYnvim
-echo -e "\n${NOTE} - Setting up MYnvim..."
+note "Setting up MYnvim..."
 if [ -d "$HOME/.config/nvim" ]; then
-    mv $HOME/.config/nvim $HOME/.config/nvim.bak && echo -e "${OK} - Backup of nvim folder successful"
+    mv $HOME/.config/nvim $HOME/.config/nvim.bak && ok "Backup of nvim folder successful"
 fi
 
 if [ -d "$HOME/.local/share/nvim" ]; then
-    mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak && echo -e "${OK} - Backup of nvim data folder successful"
+    mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak && ok "Backup of nvim data folder successful"
 fi
 
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     sudo npm install neovim -g
-    echo -e "${OK} - MYnvim setup completed successfully"
+    echo -e "${GREEN} - MYnvim setup completed successfully"
+    ok "MYnvim setup completed successfully"
 else
-    echo -e "${ERROR} - MYnvim setup failed"
+    err "MYnvim setup failed"
 fi
 
 # Clone dotfiles
-echo -e "\n${NOTE} - Cloning dotfiles..."
+note "Clone dotfiles"
 if [[ -d /tmp/dotfiles ]]; then
     rm -rf /tmp/dotfiles
 fi
 git clone -b gnome https://github.com/nhattVim/dotfiles.git /tmp/dotfiles --depth 1 || {
-    echo -e "${ERROR} - Failed to clone dotfiles"
+    err "Failed to clone dotfiles"
     exit 1
 }
 
 cd /tmp/dotfiles || {
-    echo -e "${ERROR} - Failed to enter dotfiles directory"
+    err "Failed to enter dotfiles directory"
     exit 1
 }
 
-echo -e "\n${NOTE} - Starting configuration..."
+note "Starting configuration..."
 
 folder=(
     neofetch
@@ -81,10 +82,10 @@ folder=(
 for DIR in "${folder[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        echo -e "${NOTE} - Found config for $DIR, attempting to back up..."
+        note "Found config for $DIR, attempting to back up..."
         BACKUP_DIR=$(get_backup_dirname)
         mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        echo -e "${NOTE} - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR"
+        note "Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR"
     fi
 done
 
@@ -92,37 +93,37 @@ done
 for ITEM in "${folder[@]}"; do
     if [[ -d "config/$ITEM" ]]; then
         cp -r "config/$ITEM" ~/.config
-        echo "${OK} - Copy completed"
+        ok "Copied $ITEM successfully"
     elif [[ -f "config/$ITEM" ]]; then
         cp "config/$ITEM" ~/.config
-        echo "${OK} - Copy completed"
+        ok "Copied $ITEM successfully"
     fi
 done
 
 # Copy other files
-cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${OK} - Copy completed"; } || {
-    echo "${ERROR} - Failed to copy .zshrc and .ideavimrc"
+cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${GREEN} - Copy completed"; } || {
+    err "Failed to copy .zshrc and .ideavimrc"
 }
 
 # Copy fonts
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${OK} - Fonts copied successfully"; } || {
-    echo "${ERROR} - Failed to copy fonts"
+cp -r assets/.fonts/* ~/.fonts/ && { echo "${GREEN} - Fonts copied successfully"; } || {
+    err "Failed to copy fonts"
 }
 
 # Reload fonts
-echo -e "\nRebuilding font cache..."
+note "Rebuilding font cache..."
 fc-cache -fv
-echo -e "\nFont cache rebuilt."
+note "Font cache rebuilt."
 
 # Check installation log
 if [ -f $HOME/install.log ]; then
-    gum confirm "${CAT} Do you want to check log?" && gum pager <$HOME/install.log
+    gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
 # Change shell to zsh
-echo -e "\n${NOTE} - Changing shell to zsh..."
+note "Changing shell to zsh..."
 chsh -s $(which zsh) && cd $HOME
 
-echo -e "\n${OK} - Setup completed successfully!"
+ok "Setup completed successfully!"
 zsh

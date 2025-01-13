@@ -7,6 +7,6 @@ if $RUNNING_GNOME; then
     gsettings set org.gnome.desktop.screensaver lock-enabled false
     gsettings set org.gnome.desktop.session idle-delay 0
 else
-    echo "$(tput setaf 3)[NOTE]$(tput sgr0) This script is only available on Gnome, Exit."
+    echo "$(tput setaf 3)[YELLOW]$(tput sgr0) This script is only available on Gnome, Exit."
     exit 1
 fi

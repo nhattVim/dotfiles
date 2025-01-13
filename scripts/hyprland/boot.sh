@@ -17,7 +17,7 @@ echo -e "                                                                       
 echo -e " ---------------------- Script developed by nhattVim -----------------------       "
 echo -e "  ----------------- Github: https://github.com/nhattVim ------------------         "
 
-printf "\n%s - Adding Extra Spice in pacman.conf ... \n" "${NOTE}"
+note "Adding Extra Spice in pacman.conf..."
 
 # variable
 pacman_conf="/etc/pacman.conf"
@@ -35,38 +35,38 @@ lines_to_edit=(
 for line in "${lines_to_edit[@]}"; do
     if grep -q "^#$line" "$pacman_conf"; then
         sudo sed -i "s/^#$line/$line/" "$pacman_conf"
-        printf "\n%s - Uncommented: $line \n" "${CAT}"
+        act "Uncommented: $line"
     else
-        printf "\n%s - $line is already uncommented. \n" "${CAT}"
+        act "$line is already uncommented."
     fi
 done
 
 # add "ILoveCandy" below ParallelDownloads if it doesn't exist
 if grep -q "^ParallelDownloads" "$pacman_conf" && ! grep -q "^ILoveCandy" "$pacman_conf"; then
     sudo sed -i "/^ParallelDownloads/a ILoveCandy" "$pacman_conf"
-    printf "\n%s - Added ILoveCandy below ParallelDownloads. \n" "${CAT}"
+    act "Added ILoveCandy below ParallelDownloads."
 else
-    printf "\n%s - ILoveCandy already exists \n" "${CAT}"
+    act "ILoveCandy already exists."
 fi
 
-printf "\n%s - Pacman.conf spicing up completed \n" "${CAT}"
+act "Pacman.conf spicing up completed"
 
 # Backup and update mirrorlist
 # if sudo cp "$mirrorlist" "${mirrorlist}.bak"; then
-# 	echo -e "$(tput setaf 6)[ACTION]$(tput sgr0) Backup mirrorlist to mirrorlist.bak. $(tput sgr0)"
+# 	echo -e "$(tput setaf 6)[CYAN]$(tput sgr0) Backup mirrorlist to mirrorlist.bak. $(tput sgr0)"
 #     if sudo reflector --verbose --latest 10 --protocol https --sort rate --save "$mirrorlist"; then
-# 	    echo -e "$(tput setaf 6)[ACTION]$(tput sgr0) Updated mirrorlist. $(tput sgr0)"
+# 	    echo -e "$(tput setaf 6)[CYAN]$(tput sgr0) Updated mirrorlist. $(tput sgr0)"
 #     else
-#         echo -e "$(tput setaf 1)[ERROR]$(tput sgr0) Failed to update mirrorlist. $(tput sgr0)"
+#         echo -e "$(tput setaf 1)[RED]$(tput sgr0) Failed to update mirrorlist. $(tput sgr0)"
 #     fi
 # else
-# 	echo -e "$(tput setaf 1)[ERROR]$(tput sgr0) Failed to backup mirrorlist. $(tput sgr0)"
+# 	echo -e "$(tput setaf 1)[RED]$(tput sgr0) Failed to backup mirrorlist. $(tput sgr0)"
 # fi
 
 # updating pacman.conf
 sudo pacman -Syyuu --noconfirm
 if [ $? -ne 0 ]; then
-    printf "\n%s - Failed to update the package database. \n" "${ERROR}"
+    err "Failed to update the package database"
 fi
 
 # Package
@@ -79,10 +79,10 @@ pkgs=(
 )
 
 # install requirement
-printf "\n%s - Installing required packages ... \n" "${NOTE}"
+note "Installing required packages..."
 for PKG1 in "${pkgs[@]}"; do
     sudo pacman -S --noconfirm "$PKG1"
     if [ $? -ne 0 ]; then
-        printf "\n%s - $PKG install had failed, please check the script. \n" "${ERROR}"
+        err "$PKG install had failed, please check the script."
     fi
 done

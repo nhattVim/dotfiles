@@ -1,6 +1,6 @@
 #!/bin/bash
 # Paru AUR Helper
-# NOTE: If yay is already installed, paru will not be installed
+# YELLOW: If yay is already installed, paru will not be installed
 
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
@@ -8,37 +8,37 @@ source <(curl -sSL https://is.gd/nhattVim_lib)
 # start script
 cd $HOME
 if [ -d paru-bin ]; then
-	rm -rf paru-bin
+    rm -rf paru-bin
 fi
 
 if [ -n "$ISAUR" ]; then
-	printf "\n%s - AUR helper already installed, moving on..\n" "${OK}"
+    ok "AUR helper already installed, moving on."
 else
-	printf "\n%s - AUR helper was NOT located\n" "${NOTE}"
-	printf "\n%s - Installing paru from AUR\n" "${NOTE}"
-	git clone https://aur.archlinux.org/paru-bin.git || {
-		printf "%s - Failed to clone paru from AUR\n" "${ERROR}"
-		exit 1
-	}
-	cd paru-bin || {
-		printf "%s - Failed to enter paru-bin directory\n" "${ERROR}"
-		exit 1
-	}
-	makepkg -si --noconfirm || {
-		printf "%s - Failed to install paru from AUR\n" "${ERROR}"
-		exit 1
-	}
+    note "AUR helper was NOT located"
+    note "Installing paru from AUR"
+    git clone https://aur.archlinux.org/paru-bin.git || {
+        err "Failed to clone paru from AUR"
+        exit 1
+    }
+    cd paru-bin || {
+        err "Failed to enter paru-bin directory"
+        exit 1
+    }
+    makepkg -si --noconfirm || {
+        err "Failed to install paru from AUR"
+        exit 1
+    }
     cd ~ && rm -rf paru-bin || {
-		printf "%s - Failed to remove paru-bin directory\n" "${ERROR}"
-		exit 1
+        err "Failed to remove paru-bin directory"
+        exit 1
     }
 fi
 
 # Update system before proceeding
-printf "\n%s - Performing a full system update to avoid issues.... \n" "${NOTE}"
+note "Perfoming a full system update to avoid issues...."
 ISAUR=$(command -v yay || command -v paru)
 
 $ISAUR -Syu --noconfirm || {
-	printf "%s - Failed to update system\n" "${ERROR}"
-	exit 1
+    err "Failed to update system"
+    exit 1
 }

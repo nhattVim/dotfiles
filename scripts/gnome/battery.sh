@@ -5,12 +5,12 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-printf "\n%s - Setting up battery charge limit. \n" "${NOTE}"
+note "Setting up battery charge limit"
 
 if hostnamectl | grep -q 'Chassis: vm' ||
     hostnamectl | grep -q 'Chassis: container' ||
     hostnamectl | grep -q 'Chassis: desktop'; then
-    printf "\n%s - Setting up battery charge limit is not applicable on desktop, container and vm. Skipping... \n" "${NOTE}"
+    err "Setting up battery charge limit is not applicable on desktop, container and vm. Skipping..."
     exit 1
 fi
 
@@ -20,18 +20,18 @@ while true; do
 
     if [[ "$number" =~ ^[0-9]+$ && "$number" -ge 0 && "$number" -le 100 ]]; then
         if [ -d "/sys/class/power_supply/BAT1" ]; then
-            printf "\n%s - Configuring crontab for BAT1... \n" "${CAT}"
+            act "Configuring crontab for BAT1..."
             echo "@reboot root echo $number > /sys/class/power_supply/BAT1/charge_control_end_threshold" | sudo tee -a /etc/crontab
         elif [ -d "/sys/class/power_supply/BAT0" ]; then
-            printf "\n%s - Configuring crontab for BAT0... \n" "${CAT}"
+            act "Configuring crontab for BAT0..."
             echo "@reboot root echo $number > /sys/class/power_supply/BAT0/charge_control_end_threshold" | sudo tee -a /etc/crontab
         else
-            printf "\n%s - Battery not found. \n" "${ERROR}"
+            err "Battery not found"
             exit 1
         fi
-        printf "\n%s - Done \n" "${OK}"
+        GREEN "Done."
         break
     else
-        printf "\n%s - Invalid input. Please enter a valid number between 0 and 100. \n" "${ERROR}"
+        err "Invalid input. Please enter a valid number between 0 and 100."
     fi
 done

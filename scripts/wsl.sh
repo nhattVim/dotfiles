@@ -15,9 +15,9 @@ if grep -qi 'microsoft' /proc/sys/kernel/osrelease; then
         exWsl "arch.sh"
         ;;
     *)
-        echo "${ERROR} This script is only available on Ubuntu or Arch distributions."
+        err "This script is only available on Ubuntu or Arch distributions."
         ;;
     esac
 else
-    echo "${NOTE} This script is only available under Windows Subsystem for Linux (WSL)."
+    note "This script is only available under Windows Subsystem for Linux (WSL)."
 fi

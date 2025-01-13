@@ -24,22 +24,21 @@ gum style \
 cd "$HOME" || exit 1
 if [ -d dotfiles ]; then
     cd dotfiles || {
-        echo -e "${ERROR} - Failed to enter dotfiles config directory"
+        err "Failed to enter dotfiles config directory"
         exit 1
     }
 else
-    echo -e "${NOTE} - Cloning dotfiles..."
+    note "Clone dotfiles..."
     git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 || {
-        echo -e "${ERROR} - Failed to clone dotfiles"
+        err "Failed to clone dotfiles"
         exit 1
     }
     cd dotfiles || {
-        echo -e "${ERROR} - Failed to enter dotfiles directory"
+        err "Failed to enter dotfiles directory"
         exit 1
     }
 fi
 
-# exit immediately if a command exits with a non-zero status.
 set -e
 
 # list folders to backup
@@ -57,10 +56,10 @@ folders=(
 for DIR in "${folders[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        echo -e "${NOTE} - Config for $DIR found, attempting to back up."
+        note "Config for $DIR found, attempting to back up."
         BACKUP_DIR=$(get_backup_dirname)
         mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        echo -e "${NOTE} - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR."
+        note "Backup $DIR to $DIRPATH-backup-$BACKUP_DIR."
     fi
 done
 
@@ -69,10 +68,10 @@ rm ~/.zshrc ~/.ideavimrc && rm -rf ~/.fonts ~/.icons ~/.themes
 
 # copy config folder
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { echo -e "${OK} - Copy completed"; } || { echo -e "${ERROR} - Failed to copy config files."; }
+cp -r config/* $HOME/.config/ && { ok "Copy config folder completed"; } || { err "Failed to copy config files."; }
 
 # copying assets folder
-cp -r assets/* $HOME/ && { echo -e "${OK} - Copy completed"; } || { echo -e "${ERROR} - Failed to copy assets."; }
+cp -r assets/* $HOME/ && { ok "Copy assets completed"; } || { err "Failed to copy assets."; }
 
 # Copy gtk-4.0 config for themes
 cd $HOME/.themes/Catppuccin-Mocha-Standard-Mauve-Dark
@@ -83,13 +82,12 @@ cp -rf gtk-4.0 $HOME/.config
 fc-cache -fv
 
 # config Neovim
-echo -e "\n${NOTE} - Setting up MYnvim..."
-[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak || { echo -e "${OK} - Backed up existing nvim folder"; }
-[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || { echo -e "${OK} - Backed up existing nvim data"; }
-
+note "Backing up existing nvim folder"
+[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak || { ok "Backup of nvim folder successful"; }
+[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || { ok "Backup of nvim data folder successful"; }
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     npm install neovim -g
-    echo -e "${OK} - MYnvim setup completed successfully."
+    ok "MYnvim setup completed successfully."
 else
-    echo -e "${ERROR} - Failed to set up MYnvim."
+    err "Failed to set up MYnvim."
 fi
