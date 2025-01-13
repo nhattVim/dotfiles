@@ -17,7 +17,7 @@ pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
     neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
-    gdb nano vim xclip
+    gdb nano vim xclip bpytop
 )
 
 # Re-update system
@@ -31,15 +31,13 @@ fi
 # Check system
 if grep -qi microsoft /proc/version; then
     ENV="WSL"
-    pkgs+=(
-        wslu
-    )
+    pkgs+=(wslu)
 else
     ENV="Ubuntu"
     pkgs+=(
-        kitty rofi ibus-unikey stow aria2 libsecret-tools cpufetch
-        bpytop figlet cmatrix trash-cli hollywood
-        grub-customizer ca-certificates gnupg
+        kitty rofi ibus-unikey stow aria2 libsecret-tools
+        figlet cmatrix trash-cli hollywood cpufetch
+        grub-customizer
     )
 fi
 
