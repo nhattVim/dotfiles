@@ -17,6 +17,7 @@ pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
     neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake xclip
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
+    gdb nano vim
 )
 
 # Re-update system
