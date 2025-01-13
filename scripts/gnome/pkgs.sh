@@ -15,7 +15,7 @@ LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazyg
 
 pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
-    neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
+    neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake xclip
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
 )
 
@@ -181,21 +181,25 @@ else
 fi
 
 # Install Neovim
-note "Remove old version of NeoVim" && sudo $PKGMN remove neovim -y
-note "Dowload latest neovim"
-if wget -O /tmp/nvim-linux64.tar.gz "$NEOVIM"; then
-    ok "Download lastest version of neovim successfully"
-    note "Installing neovim ..."
-    mkdir -p $HOME/.local/bin &&
-        mv /tmp/nvim-linux64.tar.gz $HOME/.local/bin &&
-        tar -xf $HOME/.local/bin/nvim-linux64.tar.gz -C $HOME/.local/bin &&
-        rm -fr $HOME/.local/bin/nvim-linux64.tar.gz &&
-        ln -s $HOME/.local/bin/nvim-linux64/bin/nvim $HOME/.local/bin/nvim &&
-        ok "Install neovim successfully" || {
-        err "Failed to install neovim"
-    }
+if command -v nvim &>/dev/null; then
+    note "Remove old version of NeoVim"
+    sudo $PKGMN remove neovim -y
 else
-    err "Failed to download neovim"
+    note "Dowload latest version of neovim"
+    if wget -O /tmp/nvim-linux64.tar.gz "$NEOVIM"; then
+        ok "Download successfully"
+        note "Installing neovim ..."
+        mkdir -p $HOME/.local/bin &&
+            mv /tmp/nvim-linux64.tar.gz $HOME/.local/bin &&
+            tar -xf $HOME/.local/bin/nvim-linux64.tar.gz -C $HOME/.local/bin &&
+            rm -fr $HOME/.local/bin/nvim-linux64.tar.gz &&
+            ln -s $HOME/.local/bin/nvim-linux64/bin/nvim $HOME/.local/bin/nvim &&
+            ok "Install neovim successfully" || {
+            err "Failed to install neovim"
+        }
+    else
+        err "Failed to download neovim"
+    fi
 fi
 
 # Clone tpm
