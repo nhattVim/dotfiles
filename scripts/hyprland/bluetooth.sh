@@ -5,19 +5,19 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-CYANtooth=(
-    CYANz
-    CYANz-utils
-    CYANman
+bluetooth=(
+    bluez
+    bluez-utils
+    blueman
 )
 
 # install CYANtooth
 note "Installing CYANtooth Packages..."
-for CYAN in "${CYANtooth[@]}"; do
-    iAur "$CYAN"
-    [ $? -ne 0 ] && {
-        echo -e "\e[1A\e[K${RED} - $CYAN install had failed"
-    }
+for BLUE in "${bluetooth[@]}"; do
+    iAur "$BLUE"
+    if [ $? -ne 0 ]; then
+        err "$BLUE install had failed"
+    fi
 done
 
 note "Activating CYANtooth Services..."
