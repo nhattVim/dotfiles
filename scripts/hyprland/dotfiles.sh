@@ -169,18 +169,18 @@ printf "\n%.0s" {1..2}
 
 # Copying config files
 mkdir -p ~/.config
-cp -r config/* ~/.config/ && { echo "${GREEN} Copy completed"; } || {
+cp -r config/* ~/.config/ && { ok "Copy completed"; } || {
     err "Failed to copy config files"
 }
 
 # Copying wallpapers
 mkdir -p ~/Pictures/wallpapers
-cp -r wallpapers ~/Pictures/ && { echo "${GREEN} Copy completed"; } || {
+cp -r wallpapers ~/Pictures/ && { ok "Copy completed"; } || {
     err "Failed to copy wallpapers"
 }
 
 # Copying
-cp assets/.ideavimrc ~ && { echo "${GREEN} Copy completed"; } || {
+cp assets/.ideavimrc ~ && { ok "Copy completed"; } || {
     err "Failed to copy .ideavimrc"
 }
 
@@ -244,7 +244,7 @@ fi
 # symlinks for waybar style
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
-    # initialize pywal to avoid config RED on hyprland
+    # initialize pywal to avoid config on hyprland
     wal -i $wallpaper -s -t
 
 #initial symlink for Pywal Dark and Light for Rofi Themes

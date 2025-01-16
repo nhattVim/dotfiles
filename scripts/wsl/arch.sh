@@ -96,12 +96,12 @@ done
 echo -e "\n%.0s" {1..2}
 note "Setup neovim"
 if [ -d $HOME/.config/nvim ]; then
-    mv $HOME/.config/nvim $HOME/.config/nvim_bak && { echo "${GREEN} Backup neovim folder completed ${RESET}"; } || {
+    mv $HOME/.config/nvim $HOME/.config/nvim_bak && { ok "Backup neovim folder completed ${RESET}"; } || {
         ok "Failed to backup neovim folder"
     }
 fi
 if [ -d $HOME/.local/share/nvim ]; then
-    mv $HOME/.local/share/nvim $HOME/.local/share/nvim_bak && { echo "${GREEN} Backup neovim data folder completed ${RESET}"; } || {
+    mv $HOME/.local/share/nvim $HOME/.local/share/nvim_bak && { ok "Backup neovim data folder completed ${RESET}"; } || {
         ok "Failed to backup neovim folder"
     }
 fi
@@ -148,9 +148,9 @@ done
 # Copying configuration file
 for ITEM in "${folder[@]}"; do
     if [[ -d "config/$ITEM" ]]; then
-        cp -r "config/$ITEM" ~/.config/ && echo "${GREEN} Copy completed" || echo "${RED} Failed to copy config files."
+        cp -r "config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
     elif [[ -f "config/$ITEM" ]]; then
-        cp "config/$ITEM" ~/.config/ && echo "${GREEN} Copy completed" || echo "${RED} Failed to copy config files."
+        cp "config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
     fi
 done
 

@@ -42,19 +42,19 @@ note "Copying gtk themes file"
 
 # copying icon
 mkdir -p ~/.icons
-cp -r assets/.icons/* ~/.icons/ && { echo "${GREEN} Copy icons completed!"; } || {
+cp -r assets/.icons/* ~/.icons/ && { ok "Copy icons completed!"; } || {
     err "Failed to copy icons files"
 }
 
 # copying font
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${GREEN} Copy fonts completed!"; } || {
+cp -r assets/.fonts/* ~/.fonts/ && { ok "Copy fonts completed!"; } || {
     err "Failed to copy fonts files"
 }
 
 # copying theme
 mkdir -p ~/.themes
-cp -r assets/.themes/* ~/.themes && { echo "${GREEN} Copy themes completed!"; } || {
+cp -r assets/.themes/* ~/.themes && { ok "Copy themes completed!"; } || {
     err "Failed to copy themes files"
 }
 

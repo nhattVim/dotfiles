@@ -1,6 +1,6 @@
 #!/bin/bash
 # Paru AUR Helper
-# YELLOW: If yay is already installed, paru will not be installed
+# If yay is already installed, paru will not be installed
 
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)

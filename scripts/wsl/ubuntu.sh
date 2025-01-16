@@ -48,7 +48,6 @@ fi
 
 if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
     sudo npm install neovim -g
-    echo -e "${GREEN} - MYnvim setup completed successfully"
     ok "MYnvim setup completed successfully"
 else
     err "MYnvim setup failed"
@@ -101,13 +100,13 @@ for ITEM in "${folder[@]}"; do
 done
 
 # Copy other files
-cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { echo "${GREEN} - Copy completed"; } || {
+cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc and .ideavimrc"
 }
 
 # Copy fonts
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${GREEN} - Fonts copied successfully"; } || {
+cp -r assets/.fonts/* ~/.fonts/ && { ok "Fonts copied successfully"; } || {
     err "Failed to copy fonts"
 }
 

@@ -10,7 +10,6 @@ if command -v brew &>/dev/null; then
 else
     note "Install Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
-        printf "%s - Failed to install Homebrew\n" "${RED}"
         err "Failed to install Homebrew"
         exit 1
     }

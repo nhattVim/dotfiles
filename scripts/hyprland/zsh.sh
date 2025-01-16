@@ -45,9 +45,9 @@ pacman=(
 printf "\n"
 if gum confirm "${CYAN} - Do you want to add color scripts (OPTIONAL)?${RESET}"; then
     echo "${CYAN} - Do you want to add color scripts (OPTIONAL)?" ${YELLOW} Yes ${RESET}
-    if gum confirm "${YELLOW} Choose your colors cripts" --affirmative "pGREENemon-colorscripts" --negative "shell-color-scripts ${RESET}"; then
-        aur+=('pGREENemon-colorscripts-git')
-        sed -i '/^# pGREENemon-colorscripts --no-title -s -r/s/^# *//' assets/.zshrc
+    if gum confirm "${YELLOW} Choose your colors cripts" --affirmative "pokemon-colorscripts" --negative "shell-color-scripts ${RESET}"; then
+        aur+=('pokemon-colorscripts-git')
+        sed -i '/^# pokemon-colorscripts --no-title -s -r/s/^# *//' assets/.zshrc
     else
         aur+=('shell-color-scripts-git')
         sed -i '/^# colorscript -e tiefighter2/ s/^# //' assets/.zshrc
@@ -105,7 +105,7 @@ for pkg2 in "${aur[@]}"; do
 done
 
 # copying the preconfigured zsh themes and profile
-cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { echo "${GREEN} Copy completed"; } || {
+cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc"
 }
 

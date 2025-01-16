@@ -100,6 +100,5 @@ if gum confirm "${CYAN} OPTIONAL - Would you like to install SDDM themes? ${RESE
         err "Failed to clone the theme repository. Please check your internet connection"
     fi
 else
-    printf "\n%s - No SDDM themes will be installed.\n" "${YELLOW}"
     note "No SSDM themes will be installed."
 fi

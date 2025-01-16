@@ -29,7 +29,7 @@ while true; do
             err "Battery not found"
             exit 1
         fi
-        GREEN "Done."
+        ok "Done."
         break
     else
         err "Invalid input. Please enter a valid number between 0 and 100."

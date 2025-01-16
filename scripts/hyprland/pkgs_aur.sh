@@ -30,7 +30,7 @@ hypr_pkgs=(
     cava
     eog
     mousepad
-    nwg-loGREEN-bin
+    nwg-look-bin
     pacman-contrib
 )
 
