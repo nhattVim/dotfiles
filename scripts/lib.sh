@@ -23,7 +23,7 @@ choose() { gum confirm "$1" --affirmative "$2" --negative "$3" && eval "$4=$2" |
 ISAUR=$(basename "$(command -v paru || command -v yay)")
 PKGMN=$(basename "$(command -v nala || command -v apt)")
 
-if [[ -z $PKGMN && -z $ISAUR ]]; then
+if [[ -z $PKGMN && -z pacman && -z $ISAUR ]]; then
     err "No supported package manager found. Exiting..."
     exit 1
 fi
