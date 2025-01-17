@@ -156,7 +156,7 @@ folder=(
 )
 
 for DIR in "${folder[@]}"; do
-    DIRPATH=~/.config/"$DIR"
+    DIRPATH=$HOME/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
         note "Config for $DIR found, attempting to back up."
         BACKUP_DIR=$(get_backup_dirname)
@@ -165,44 +165,26 @@ for DIR in "${folder[@]}"; do
     fi
 done
 
-printf "\n%.0s" {1..2}
-
 # Copying config files
-mkdir -p ~/.config
-cp -r config/* ~/.config/ && { ok "Copy completed"; } || {
+mkdir -p $HOME/.config
+cp -r config/* $HOME/.config/ && { ok "Copy completed"; } || {
     err "Failed to copy config files"
 }
 
 # Copying wallpapers
-mkdir -p ~/Pictures/wallpapers
-cp -r wallpapers ~/Pictures/ && { ok "Copy completed"; } || {
+mkdir -p $HOME/Pictures/wallpapers
+cp -r wallpapers $HOME/Pictures/ && { ok "Copy completed"; } || {
     err "Failed to copy wallpapers"
 }
 
-# Copying
-cp assets/.ideavimrc ~ && { ok "Copy completed"; } || {
-    err "Failed to copy .ideavimrc"
+# Copying assets files
+cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile && { ok "Copy completed"; } || {
+    err "Failed to copy assets files"
 }
 
-printf "\n%.0s" {1..2}
-
-# Clone tpm
-if [ -d "$HOME/.tmux/plugins/tpm" ]; then
-    note "TPM (Tmux Plugin Manager) is already installed."
-else
-    note "Cloning TPM (Tmux Plugin Manager)..."
-    if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
-        ok "TPM (Tmux Plugin Manager) cloned successfully"
-    else
-        err "Failed to clone TPM (Tmux Plugin Manager)."
-    fi
-fi
-
 # Set some files as executable
-printf "\n%.0s" {1..2}
-chmod +x ~/.config/hypr/scripts/*
-chmod +x ~/.config/hypr/boot.sh
-printf "\n%.0s" {1..3}
+chmod +x $HOME/.config/hypr/scripts/*
+chmod +x $HOME/.config/hypr/boot.sh
 
 # Detect machine type and set Waybar configurations accordingly, logging the output
 if hostnamectl | grep -q 'Chassis: desktop'; then
@@ -215,22 +197,16 @@ else
     rm -r "$HOME/.config/waybar/configs/default [TOP]" "$HOME/.config/waybar/configs/default [BOT]"
 fi
 
-printf "\n%.0s" {1..2}
-
 # additional wallpapers
-note "By default only a few wallpapers are copied..."
-printf "\n%.0s" {1..2}
-
-cd $HOME
+note "By default only a few wallpapers are copied..." && cd $HOME
 if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
     note "Downloading additional wallpapers..."
     if git clone https://github.com/nhattVim/wallpapers --depth 1; then
         note "Wallpapers downloaded successfully."
 
-        if cp -R wallpapers/wallpapers/* ~/Pictures/wallpapers/; then
+        if cp -R wallpapers/wallpapers/* $HOME/Pictures/wallpapers/; then
             note "Wallpapers copied successfully."
             rm -rf wallpapers
-            break
         else
             err "Copying wallpapers failed."
         fi
@@ -250,6 +226,17 @@ ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 #initial symlink for Pywal Dark and Light for Rofi Themes
 ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi"
 
+# Change shell to zsh
+note "Changing default shell to zsh..."
+
+while ! chsh -s /bin/zsh; do
+    err "Authentication failed. Please enter the correct password."
+    sleep 1
+done
+
+note "Shell changed successfully to zsh."
+
+# Successfully
 printf "\n%.0s" {1..2}
 printf "\n${GREEN} Copy Completed! \n\n\n"
 printf "${CYAN} ATTENTION!!!! \n"

@@ -26,7 +26,7 @@ if [ -d dotfiles ]; then
         exit 1
     }
 else
-    note "Clone dotfiles." && git clone -b hyprland https://github.com/nhattVim/dotfiles.git ~/dotfiles --depth 1 || {
+    note "Clone dotfiles." && git clone -b hyprland https://github.com/nhattVim/dotfiles.git $HOME/dotfiles --depth 1 || {
         err "Failed to clone dotfiles"
         exit 1
     }
@@ -37,27 +37,25 @@ else
 fi
 
 # Copy gtk_themes file
-printf "\n%.0s" {1..2}
 note "Copying gtk themes file"
 
 # copying icon
-mkdir -p ~/.icons
-cp -r assets/.icons/* ~/.icons/ && { ok "Copy icons completed!"; } || {
+mkdir -p $HOME/.icons
+cp -r assets/.icons/* $HOME/.icons/ && { ok "Copy icons completed!"; } || {
     err "Failed to copy icons files"
 }
 
 # copying font
-mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { ok "Copy fonts completed!"; } || {
+mkdir -p $HOME/.fonts
+cp -r assets/.fonts/* $HOME/.fonts/ && { ok "Copy fonts completed!"; } || {
     err "Failed to copy fonts files"
 }
 
 # copying theme
-mkdir -p ~/.themes
-cp -r assets/.themes/* ~/.themes && { ok "Copy themes completed!"; } || {
+mkdir -p $HOME/.themes
+cp -r assets/.themes/* $HOME/.themes && { ok "Copy themes completed!"; } || {
     err "Failed to copy themes files"
 }
 
 # reload fonts
-printf "\n%.0s" {1..2}
 fc-cache -fv

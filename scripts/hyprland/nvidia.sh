@@ -60,9 +60,8 @@ if [ -f "$NVEA" ]; then
     printf "\n"
 else
     printf "\n"
-    printf "${YELLOW} Adding options to $NVEA..."
+    printf "${YELLOW} Adding options to $NVEA... ${RESET}"
     sudo echo -e "options nvidia-drm modeset=1 fbdev=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
-    printf "\n"
 fi
 
 # additional for GRUB users

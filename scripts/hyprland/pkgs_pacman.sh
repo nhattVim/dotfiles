@@ -87,7 +87,7 @@ for PKG1 in "${pkgs[@]}" "${hypr_pkgs[@]}"; do
     fi
 done
 
-# Installation of oh-my-zsh
+# Oh-my-zsh
 if [ -d "$HOME/.oh-my-zsh" ]; then
     note "Oh My Zsh is already installed."
 else
@@ -97,5 +97,17 @@ else
         git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
     else
         err "Failed to download oh-my-zsh"
+    fi
+fi
+
+# TPM
+if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+    note "TPM (Tmux Plugin Manager) is already installed."
+else
+    note "Cloning TPM (Tmux Plugin Manager)..."
+    if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
+        ok "TPM (Tmux Plugin Manager) cloned successfully"
+    else
+        err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
 fi

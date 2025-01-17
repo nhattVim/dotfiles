@@ -47,7 +47,6 @@ yes_no "Do you want to install Snap (GUI packages manager)?" snapd
 #yes_no "Do you want to install & configure Firefox browser?" firefox
 yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
 yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
 yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
 yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
@@ -120,10 +119,6 @@ fi
 
 if [ "$xdph" == "Y" ]; then
     exHypr "xdph.sh"
-fi
-
-if [ "$zsh" == "Y" ]; then
-    exHypr "zsh.sh"
 fi
 
 if [ "$dual_boot" == "Y" ]; then
