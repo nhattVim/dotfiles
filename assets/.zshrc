@@ -1,22 +1,12 @@
-# Set up the prompt
+# Zsh Settings -----------------------------------------------------
 
-autoload -Uz promptinit
-promptinit
-# prompt adam1
-
-setopt histignorealldups sharehistory
-
-# Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
+autoload -Uz compinit
+compinit
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
-
-# Use modern completion system
-autoload -Uz compinit
-compinit
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -36,30 +26,39 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# ---------------- Color script -----------------
-# pokemon-colorscripts --no-title -s -r
-# colorscript -e tiefighter2
-# -----------------------------------------------
-# ------------------ Starship -------------------
-# eval "$(starship init zsh)"
-# -----------------------------------------------
-# --------------------------------- ZSH plugin ------------------------------------
-# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# ---------------------------------------------------------------------------------
+# --------------------------------------------------------------
 
-# export path
+
+# Import path -------------------------------------------------
+
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export ZSH="$HOME/.oh-my-zsh"
 export VISUAL="nvim"
 
-# NeoVim Switcher
-alias nvim-chad="NVIM_APPNAME=NvChad nvim"
-alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
-alias nvim-kick="NVIM_APPNAME=Kickstart nvim"
-alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+# --------------------------------------------------------------
 
-# mutil nvim
+
+# Oh My Zsh settings -------------------------------------------
+
+ZSH_THEME="af-magic"
+
+plugins=(
+    git
+    git-auto-fetch
+    aliases
+    history
+    gradle
+    zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# --------------------------------------------------------------
+
+
+# User configuration -------------------------------------------
+
 function nvims() {
     items=("Default" "Kickstart" "NvChad" "LazyVim" "AstroNvim")
     config=$(printf "%s\n" "${items[@]}" | fzf --no-sort --preview-window=wrap --preview='echo "nhattruongNeoVim"' --prompt=" Neovim Config  " --height=10% --layout=reverse --border --exit-0)
@@ -72,10 +71,11 @@ function nvims() {
     NVIM_APPNAME=$config nvim $@
 }
 
-# chatgpt
-function aa() {
-    tgpt $1
-}
+# NeoVim Switcher
+alias cvim="NVIM_APPNAME=NvChad nvim"
+alias lvim="NVIM_APPNAME=LazyVim nvim"
+alias kvim="NVIM_APPNAME=Kickstart nvim"
+alias avim="NVIM_APPNAME=AstroNvim nvim"
 
 # Pacman
 alias spcc='sudo pacman -Rns $(pacman -Qdtq) --noconfirm'
@@ -98,9 +98,9 @@ alias bruu='brew update && brew upgrade'
 alias brr='brew uninstall'
 alias bri='brew install'
 alias brs='brew search'
-alias bru='brew update' 
-alias brl='brew list' 
-alias brf='brew info' 
+alias bru='brew update'
+alias brl='brew list'
+alias brf='brew info'
 
 # Git
 alias gg="git add . && git commit -m 'update' && git push origin"
@@ -137,3 +137,12 @@ alias win='sudo efibootmgr --bootnext 0006 && reboot'
 alias ip="echo $(ifconfig | grep broadcast | awk '{print $2}')"
 alias dl='aria2c --optimize-concurrent-downloads -j 16 -s 16 -x 16 -k 4M'
 alias time="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVim' --ac 6"
+
+# --------------------------------------------------------------
+
+# Prompt init --------------------------------------------------
+
+colorscript -e tiefighter2 | lolcat
+source $ZSH/oh-my-zsh.sh
+
+# --------------------------------------------------------------
