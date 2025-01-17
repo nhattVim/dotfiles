@@ -22,5 +22,5 @@ if gum confirm "${YELLOW}Do you want to proceed?${RESET}"; then
     ok "User added to the 'input' group. Changes will take effect after you log out and log back in."
     ok "User added to 'input' group"
 else
-    note "No changes made. Exiting the script."
+    note "No changes made."
 fi

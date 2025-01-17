@@ -47,6 +47,7 @@ pkgs=(
     telegram-desktop
     foot
     cargo
+    fastfetch
 )
 
 hypr_pkgs=(
@@ -69,7 +70,6 @@ hypr_pkgs=(
     python-pywal
     qt5ct
     qt6ct
-    qt6-svg
     swappy
     swayidle
     wget
