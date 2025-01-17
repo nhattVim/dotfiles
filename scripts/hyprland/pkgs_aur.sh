@@ -21,7 +21,6 @@ hypr_pkgs=(
     kitty
     kvantum
     python-requests
-    qt6-svg
     rofi-lbonn-wayland-git
     swaylock-effects-git
     swaync
@@ -43,21 +42,6 @@ fonts=(
     ttf-jetbrains-mono
     ttf-jetbrains-mono-nerd
 )
-
-# List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
-uninstall=(
-    dunst
-    mako
-)
-
-# Checking if mako or dunst is installed
-note "Checking if mako or dunst are installed and removing for swaync to work properly"
-for PKG in "${uninstall[@]}"; do
-    uPac "$PKG"
-    if [ $? -ne 0 ]; then
-        err "$PKG uninstallation had failed"
-    fi
-done
 
 # Installation of main components
 note "Installing hyprland packages..."

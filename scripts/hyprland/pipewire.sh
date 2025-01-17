@@ -21,8 +21,11 @@ uninstall=(
 
 # Removal of pulseaudio
 note "Removing pulseaudio stuff..."
-for pulseaudio in "${uninstall[@]}"; do
-    sudo pacman -R --noconfirm "$pulseaudio"
+for PKG in "${uninstall[@]}"; do
+    uPac "$PKG"
+    if [ $? -ne 0 ]; then
+        err "$PKG uninstallation had failed"
+    fi
 done
 
 # Disabling pulseaudio to avoid conflicts

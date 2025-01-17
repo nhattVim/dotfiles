@@ -22,3 +22,12 @@ for THUNAR in "${thunar[@]}"; do
         err "$THUNAR install had failed"
     fi
 done
+
+# Ask the user if they want to use Thunar as the default file manager
+if gum confirm "${CYAN} Do you want to set Thunar as the default file manager? ${RESET}"; then
+    xdg-mime default thunar.desktop inode/directory
+    xdg-mime default thunar.desktop application/x-wayland-gnome-saved-search
+    ok "Thunar has been set as the default file manager"
+else
+    note "You choose not to set Thunar as the default file manager"
+fi

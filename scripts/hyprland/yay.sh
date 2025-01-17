@@ -5,30 +5,30 @@
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
-# Check Existing yay-bin
-cd $HOME
-if [ -d yay-bin ]; then
-    rm -rf yay-bin
+# Check Existing yay
+cd $HOME || exit 1
+if [ -d yay ]; then
+    rm -rf yay
 fi
 
 if [ -n "$ISAUR" ]; then
     ok "AUR helper already installed, moving on."
 else
     note "AUR helper was NOT located. Installing yay from AUR ..."
-    git clone https://aur.archlinux.org/yay-bin.git || {
+    git clone https://aur.archlinux.org/yay.git || {
         err "Failed to clone yay from AUR"
         exit 1
     }
-    cd yay-bin || {
-        err "Failed to enter yay-bin directory"
+    cd yay || {
+        err "Failed to enter yay directory"
         exit 1
     }
     makepkg -si --noconfirm || {
         err "Failed to install yay from AUR"
         exit 1
     }
-    cd ~ && rm -rf yay-bin || {
-        err "Failed to remove yay-bin directory"
+    cd $HOME && rm -rf yay || {
+        err "Failed to remove yay directory"
         exit 1
     }
 fi

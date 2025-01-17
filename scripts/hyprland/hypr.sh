@@ -6,15 +6,31 @@ source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 hypr=(
+    hyprcursor
+    hyprutils
+    aquamarine
+    hypridle
+    hyprlock
     hyprland
+    pyprland
+    hyprland-qtutils
+)
+
+uninstall=(
+    hyprland-git
+    hyprland-nvidia
+    hyprland-nvidia-git
+    hyprland-nvidia-hidpi-git
 )
 
 # Removing other Hyprland to avoid conflict
 note "Checking for other hyprland packages and remove if any..."
 if pacman -Qs hyprland >/dev/null; then
-    note "Hyprland detected. uninstalling to install Hyprland-git..."
-    for hyprnvi in hyprland-git hyprland-nvidia hyprland-nvidia-git hyprland-nvidia-hidpi-git; do
-        sudo pacman -R --noconfirm "$hyprnvi" 2>/dev/null || true
+    for PKG in "${uninstall[@]}"; do
+        uPac "$PKG"
+        if [ $? -ne 0 ]; then
+            err "$PKG uninstallation had failed"
+        fi
     done
 fi
 

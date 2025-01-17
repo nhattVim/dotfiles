@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # init
-exHypr "boot.sh"
+exHypr "base.sh"
 
 # start script
 gum style \
@@ -81,13 +81,15 @@ elif [ "$aur_helper" == "yay" ]; then
 fi
 
 exHypr "pkgs_aur.sh"
-sleep 0.5
+
 exHypr "pipewire.sh"
+
+exHypr "hypr.sh"
+
+exHypr "ags.sh"
 
 if [ "$nvidia" == "Y" ]; then
     exHypr "nvidia.sh"
-elif [ "$nvidia" == "N" ]; then
-    exHypr "hypr.sh"
 fi
 
 if [ "$gtk_themes" == "Y" ]; then

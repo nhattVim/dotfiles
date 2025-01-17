@@ -71,6 +71,7 @@ fi
 
 # Package
 pkgs=(
+    archlinux-keyring
     gum
     reflector
     curl
@@ -78,12 +79,26 @@ pkgs=(
     unzip
 )
 
+# install base-devel
+if pacman -Q base-devel &>/dev/null; then
+    note "base-devel is already installed."
+else
+    note "Install base-devel"
+    if sudo pacman -S --noconfirm --needed base-devel; then
+        ok "base-devel has been installed successfully."
+    else
+        err "base-devel not found or cannot be installed."
+        act "Please install base-devel manually before running this script... Exiting"
+        exit 1
+    fi
+fi
+
 # install requirement
 note "Installing required packages..."
 for PKG1 in "${pkgs[@]}"; do
-    sudo pacman -S --noconfirm "$PKG1"
+    iPac "$PKG1"
     if [ $? -ne 0 ]; then
-        err "$PKG install had failed, please check the script."
+        err "$PKG1 install had failed"
     fi
 done
 

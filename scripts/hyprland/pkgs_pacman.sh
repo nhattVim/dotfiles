@@ -51,8 +51,10 @@ pkgs=(
 
 hypr_pkgs=(
     brightnessctl
+    inxi
     grim
     waybar
+    hyprpolkitagent
     gnome-system-monitor
     jq
     slurp
@@ -67,6 +69,7 @@ hypr_pkgs=(
     python-pywal
     qt5ct
     qt6ct
+    qt6-svg
     swappy
     swayidle
     wget
@@ -77,6 +80,25 @@ hypr_pkgs=(
     nvtop
     chromium
 )
+
+# List of packages to uninstall as it conflicts some packages
+uninstall=(
+    aylurs-gtk-shell
+    dunst
+    mako
+    cachyos-hyprland-settings
+    rofi
+    wallust-git
+)
+
+# Checking if mako or dunst is installed
+note "Removing Mako, Dunst, and rofi as they conflict with swaync and rofi-wayland"
+for PKG in "${uninstall[@]}"; do
+    uPac "$PKG"
+    if [ $? -ne 0 ]; then
+        err "$PKG uninstallation had failed"
+    fi
+done
 
 # Installation of main components
 note "Installing packages..."

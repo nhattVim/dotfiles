@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
-exHypr "boot.sh"
+exHypr "base.sh"
 
 # init
 clear
