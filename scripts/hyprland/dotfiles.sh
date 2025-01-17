@@ -218,7 +218,7 @@ fi
 printf "\n%.0s" {1..2}
 
 # additional wallpapers
-echo "${CYAN} By default only a few wallpapers are copied...${RESET}"
+note "By default only a few wallpapers are copied..."
 printf "\n%.0s" {1..2}
 
 cd $HOME

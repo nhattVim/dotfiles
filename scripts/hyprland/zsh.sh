@@ -43,8 +43,8 @@ pacman=(
 
 # optional color scripts
 printf "\n"
-if gum confirm "${CYAN} - Do you want to add color scripts (OPTIONAL)?${RESET}"; then
-    echo "${CYAN} - Do you want to add color scripts (OPTIONAL)?" ${YELLOW} Yes ${RESET}
+if gum confirm "${CYAN} Do you want to add color scripts (OPTIONAL)?${RESET}"; then
+    echo "${CYAN}Do you want to add color scripts (OPTIONAL)?" ${YELLOW} Yes ${RESET}
     if gum confirm "${YELLOW} Choose your colors cripts" --affirmative "pokemon-colorscripts" --negative "shell-color-scripts ${RESET}"; then
         aur+=('pokemon-colorscripts-git')
         sed -i '/^# pokemon-colorscripts --no-title -s -r/s/^# *//' assets/.zshrc
@@ -59,7 +59,7 @@ fi
 
 # optional zsh plugin
 printf "\n"
-if gum confirm "${CYAN} - Do you want to add zsh plugin (OPTIONAL)?${RESET}"; then
+if gum confirm "${CYAN} Do you want to add zsh plugin (OPTIONAL)?${RESET}"; then
     echo "${CYAN} - Do you want to add zsh plugin (OPTIONAL)? ${YELLOW} Yes ${RESET}"
     echo -e "\n${PINK} SPACE = select/unselect | j/k = down/up | ENTER = confirm. No selection = CANCEL${YELLOW}"
     plugin=$(gum choose --no-limit --cursor-prefix "( ) " --selected-prefix "(x) " --unselected-prefix "( ) " "zsh-autosuggestions" "zsh-syntax-highlighting")

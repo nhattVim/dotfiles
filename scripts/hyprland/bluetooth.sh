@@ -12,7 +12,7 @@ bluetooth=(
 )
 
 # install CYANtooth
-note "Installing CYANtooth Packages..."
+note "Installing bluetooth Packages..."
 for BLUE in "${bluetooth[@]}"; do
     iAur "$BLUE"
     if [ $? -ne 0 ]; then
@@ -20,5 +20,5 @@ for BLUE in "${bluetooth[@]}"; do
     fi
 done
 
-note "Activating CYANtooth Services..."
-sudo systemctl enable --now CYANtooth.service
+note "Activating bluetooth Services..."
+sudo systemctl enable --now bluetooth.service

@@ -54,13 +54,13 @@ fi
 note "Setting up the login screen."
 sddm_conf_dir=/etc/sddm.conf.d
 [ ! -d "$sddm_conf_dir" ] && {
-    printf "$CYAN - $sddm_conf_dir not found, creating... $RESET\n"
+    note "$sddm_conf_dir not found, creating..."
     sudo mkdir "$sddm_conf_dir"
 }
 
 wayland_sessions_dir=/usr/share/wayland-sessions
 [ ! -d "$wayland_sessions_dir" ] && {
-    printf "$CYAN - $wayland_sessions_dir not found, creating... $RESET\n"
+    note "$wayland_sessions_dir not found, creating..."
     sudo mkdir "$wayland_sessions_dir"
 }
 

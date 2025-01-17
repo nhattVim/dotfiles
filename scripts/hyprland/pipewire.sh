@@ -16,7 +16,7 @@ install=(
 uninstall=(
     pulseaudio
     pulseaudio-alsa
-    pulseaudio-CYANtooth
+    pulseaudio-bluetooth
 )
 
 # Removal of pulseaudio

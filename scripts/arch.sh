@@ -36,11 +36,11 @@ gum style \
     "                                                                                                                               $(tput sgr0)" \
     "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
 
-echo -e "\n"
+echo "\n"
 choose "Choose your AUR helper" "yay" "paru" aur_helper
 yes_no "Do you dual boot with window?" dual_boot
 yes_no "Do you want to install GTK themes?" gtk_themes
-yes_no "Do you want to configure CYANtooth?" CYANtooth
+yes_no "Do you want to configure bluetooth?" bluetooth
 yes_no "Do you have any nvidia gpu in your system?" nvidia
 yes_no "Do you want to install Thunar file manager?" thunar
 yes_no "Do you want to install Snap (GUI packages manager)?" snapd
@@ -57,7 +57,6 @@ if [ "$dual_boot" == "Y" ]; then
     timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
-echo -e "\n%.0s" {1..2}
 if [ "$battery" == "Y" ]; then
     exHypr "battery.sh"
 fi
@@ -99,8 +98,8 @@ if [ "$gtk_themes" == "Y" ]; then
     exHypr "gtk_themes.sh"
 fi
 
-if [ "$CYANtooth" == "Y" ]; then
-    exHypr "CYANtooth.sh"
+if [ "$bluetooth" == "Y" ]; then
+    exHypr "bluetooth.sh"
 fi
 
 if [ "$thunar" == "Y" ]; then
@@ -144,7 +143,7 @@ if [ -d dotfiles ]; then
     note "Remove dotfile successfully "
 fi
 
-echo -e "\n\n"
+echo
 
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?${RESET}" && gum pager <$HOME/install.log
