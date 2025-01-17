@@ -36,7 +36,7 @@ gum style \
     "                                                                                                                               $(tput sgr0)" \
     "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
 
-echo "\n"
+echo
 choose "Choose your AUR helper" "yay" "paru" aur_helper
 yes_no "Do you dual boot with window?" dual_boot
 yes_no "Do you want to install GTK themes?" gtk_themes

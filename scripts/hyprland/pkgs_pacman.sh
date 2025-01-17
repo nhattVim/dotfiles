@@ -86,3 +86,16 @@ for PKG1 in "${pkgs[@]}" "${hypr_pkgs[@]}"; do
         err "$PKG1 install had failed"
     fi
 done
+
+# Installation of oh-my-zsh
+if [ -d "$HOME/.oh-my-zsh" ]; then
+    note "Oh My Zsh is already installed."
+else
+    note "Download oh-my-zsh ..."
+    if sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended; then
+        ok "Download oh-my-zsh successfully"
+        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    else
+        err "Failed to download oh-my-zsh"
+    fi
+fi
