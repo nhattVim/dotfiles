@@ -4,11 +4,8 @@
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
-# start script
-exHypr "boot.sh"
-
 # init
-clear
+exHypr "boot.sh"
 
 # start script
 gum style \
@@ -28,13 +25,13 @@ gum style \
     "                                                                              "
 
 gum style \
-    --foreground 6 --border-foreground 6 --border rounded \
+    --border-foreground 6 --border rounded \
     --align left --width 104 --margin "1 2" --padding "2 4" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
-    "                                                                                                                               $(tput sgr0)" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
-    "                                                                                                                               $(tput sgr0)" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!$(tput sgr0)"
+    "${YELLOW}WARN:${PINK} Ensure that you have a stable internet connection ${YELLOW}(Highly Recommended)          ${RESET}" \
+    "                                                                                                               ${RESET}" \
+    "${YELLOW}WARN:${PINK} You will be required to answer some questions during the installation                    ${RESET}" \
+    "                                                                                                               ${RESET}" \
+    "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start ${RESET}"
 
 echo
 choose "Choose your AUR helper" "yay" "paru" aur_helper

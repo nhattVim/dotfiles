@@ -2,7 +2,7 @@
 # config ubuntu
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib) && clear
+source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
 exGnome "boot.sh"
@@ -25,13 +25,13 @@ gum style \
     "                                                                              "
 
 gum style \
-    --foreground 6 --border-foreground 6 --border rounded \
+    --border-foreground 6 --border rounded \
     --align left --width 90 --margin "1 2" --padding "2 4" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) Ensure that you have a stable internet connection $(tput setaf 3)(Highly Recommended!!!!)$(tput sgr0)" \
-    "                                                                                                                               $(tput sgr0)" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) You will be required to answer some questions during the installation!!                  $(tput sgr0)" \
-    "                                                                                                                               $(tput sgr0)" \
-    "$(tput setaf 3)YELLOW:$(tput setaf 6) If you are installing on a VM, ensure to enable 3D acceleration!                         $(tput sgr0)"
+    "${YELLOW}WARN:${PINK} Ensure that you have a stable internet connection ${YELLOW}(Highly Recommended)  ${RESET}" \
+    "                                                                                                       ${RESET}" \
+    "${YELLOW}WARN:${PINK} You will be required to answer some questions during the installation            ${RESET}" \
+    "                                                                                                       ${RESET}" \
+    "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
 
 yes_no "Do you dual boot with window?" dual_boot
 yes_no "Do you want to download pre-configured Gnome dotfiles?" dots

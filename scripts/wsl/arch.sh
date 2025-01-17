@@ -26,7 +26,17 @@ gum style \
     "                                                                              " \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
-echo -e "\n"
+
+gum style \
+    --border-foreground 6 --border rounded \
+    --align left --width 104 --margin "1 2" --padding "2 4" \
+    "${YELLOW}WARN:${PINK} Ensure that you have a stable internet connection ${YELLOW}(Highly Recommended)          ${RESET}" \
+    "                                                                                                               ${RESET}" \
+    "${YELLOW}WARN:${PINK} You will be required to answer some questions during the installation                    ${RESET}" \
+    "                                                                                                               ${RESET}" \
+    "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start ${RESET}"
+
+echo
 choose "Choose your AUR helper" "yay" "paru" aur_helper
 yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 

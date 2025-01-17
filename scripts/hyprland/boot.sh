@@ -86,3 +86,5 @@ for PKG1 in "${pkgs[@]}"; do
         err "$PKG install had failed, please check the script."
     fi
 done
+
+clear
