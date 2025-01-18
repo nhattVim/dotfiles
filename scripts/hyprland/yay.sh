@@ -1,40 +1,48 @@
 #!/bin/bash
-# Yay AUR Helper
-# If paru is already installed, yay will not be installed
+# Yay AUR Helper Auto Retry Installer
 
-# source library
+# Source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
-
-# Check Existing yay
-cd $HOME || exit 1
-if [ -d yay ]; then
-    rm -rf yay
-fi
 
 if [ -n "$ISAUR" ]; then
     ok "AUR helper already installed, moving on."
 else
-    note "AUR helper was NOT located. Installing yay from AUR ..."
-    git clone https://aur.archlinux.org/yay.git || {
-        err "Failed to clone yay from AUR"
-        exit 1
-    }
-    cd yay || {
-        err "Failed to enter yay directory"
-        exit 1
-    }
-    makepkg -si --noconfirm || {
-        err "Failed to install yay from AUR"
-        exit 1
-    }
-    cd $HOME && rm -rf yay || {
-        err "Failed to remove yay directory"
-        exit 1
-    }
+    note "AUR helper was NOT located."
+    note "Installing yay from AUR ..."
+
+    MAX_RETRIES=3
+    attempt=1
+
+    while [ $attempt -le $MAX_RETRIES ]; do
+        note "Attempt $attempt to install yay..."
+
+        cd "$HOME" && rm -rf yay
+
+        git clone https://aur.archlinux.org/yay.git && cd yay || {
+            err "Failed to clone yay from AUR (Attempt $attempt)"
+            ((attempt++))
+            continue
+        }
+
+        if makepkg -si --noconfirm; then
+            ok "Successfully installed yay!"
+            cd "$HOME" && rm -rf yay
+            break
+        else
+            err "Failed to install yay from AUR (Attempt $attempt)"
+            cd "$HOME"
+            ((attempt++))
+        fi
+
+        if [ $attempt -gt $MAX_RETRIES ]; then
+            err "Exceeded maximum retries. Exiting..."
+            exit 1
+        fi
+    done
 fi
 
 # Update system before proceeding
-note "Performing a full system update to avoid issues...."
+note "Performing a full system update to avoid issues..."
 ISAUR=$(command -v yay || command -v paru)
 
 $ISAUR -Syu --noconfirm || {

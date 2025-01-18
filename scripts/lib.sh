@@ -27,7 +27,7 @@ iPac() {
     if pacman -Q "$1" &>/dev/null; then
         ok "$1 is already installed. Skipping ..."
     else
-        ok "Installing $1 ..."
+        act "Installing $1 ..."
         sudo pacman -Syu --noconfirm "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
             echo "-> $1 failed to install" >>"$HOME/install.log"
@@ -39,7 +39,7 @@ iAur() {
     if $ISAUR -Q "$1" &>>/dev/null; then
         ok "$1 is already installed. Skipping ..."
     else
-        ok "Installing $1 ..."
+        act "Installing $1 ..."
         $ISAUR -Syu --noconfirm "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
             echo "-> $1 failed to install" >>"$HOME/install.log"
@@ -51,7 +51,7 @@ iDeb() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         ok "$1 is already installed. Skipping ..."
     else
-        ok "Installing $1 ..."
+        act "Installing $1 ..."
         sudo $PKGMN install -y "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
             echo "-> $1 failed to install" >>"$HOME/install.log"
