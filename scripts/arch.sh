@@ -33,20 +33,43 @@ gum style \
     "                                                                                                               ${RESET}" \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start ${RESET}"
 
-echo
-choose "Choose your AUR helper" "yay" "paru" aur_helper
-yes_no "Do you dual boot with window?" dual_boot
-yes_no "Do you want to install GTK themes?" gtk_themes
-yes_no "Do you want to configure bluetooth?" bluetooth
-yes_no "Do you have any nvidia gpu in your system?" nvidia
-yes_no "Do you want to install Thunar file manager?" thunar
-yes_no "Do you want to install Snap (GUI packages manager)?" snapd
-#yes_no "Do you want to install & configure Firefox browser?" firefox
-yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
-yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
-yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
-yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
+while true; do
+    choose "Choose your AUR helper" "yay" "paru" aur_helper
+    yes_no "Do you dual boot with window?" dual_boot
+    yes_no "Do you want to install GTK themes?" gtk_themes
+    yes_no "Do you want to configure bluetooth?" bluetooth
+    yes_no "Do you have any nvidia gpu in your system?" nvidia
+    yes_no "Do you want to install Thunar file manager?" thunar
+    yes_no "Do you want to install Snap (GUI packages manager)?" snapd
+    yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
+    yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+    yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
+    yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
+    yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
+
+    gum style \
+        --border-foreground 6 --border rounded \
+        --align left --width 50 --margin "1 2" --padding "2 4" \
+        "${CYAN}Your selected options:" \
+        "${GREEN}/-/-/-/-/-/-/-/-/-/-/-/-/-/-" \
+        "${PINK}AUR Helper:${YELLOW} $aur_helper" \
+        "${PINK}Dual Boot:${YELLOW} $dual_boot" \
+        "${PINK}GTK Themes:${YELLOW} $gtk_themes" \
+        "${PINK}Bluetooth:${YELLOW} $bluetooth" \
+        "${PINK}Nvidia GPU:${YELLOW} $nvidia" \
+        "${PINK}Thunar File Manager:${YELLOW} $thunar" \
+        "${PINK}Snapd (GUI Packages Manager):${YELLOW} $snapd" \
+        "${PINK}Homebrew (CLI Packages Manager):${YELLOW} $homebrew" \
+        "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery" \
+        "${PINK}SDDM Log-in Manager:${YELLOW} $sddm" \
+        "${PINK}XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph" \
+        "${PINK}Download Hyprland dotfiles:${YELLOW} $dots" \
+        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-"
+
+    if gum confirm "Are these options correct?"; then
+        break
+    fi
+done
 
 if [ "$dual_boot" == "Y" ]; then
     act "I will set the local time on Arch to display the correct time on Windows"

@@ -33,9 +33,23 @@ gum style \
     "                                                                                                       ${RESET}" \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
 
-yes_no "Do you dual boot with window?" dual_boot
-yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
-yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+while true; do
+    yes_no "Do you dual boot with window?" dual_boot
+    yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
+    yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+
+    gum style \
+        --border-foreground 6 --border rounded \
+        --align left --width 50 --margin "1 2" --padding "2 4" \
+        "${CYAN}Your selected options:" \
+        "${PINK}Dual Boot:${YELLOW} $dual_boot" \
+        "${PINK}Download Gnome dotfiles:${YELLOW} $dots" \
+        "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery"
+
+    if gum confirm "Are these options correct?"; then
+        break
+    fi
+done
 
 if [ "$dual_boot" == "Y" ]; then
     act "I will set the local time on Ubuntu to display the correct time on Windows"
