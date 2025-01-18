@@ -48,6 +48,7 @@ pkgs=(
     foot
     cargo
     fastfetch
+    lolcat
 )
 
 hypr_pkgs=(

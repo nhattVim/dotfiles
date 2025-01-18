@@ -31,6 +31,7 @@ hypr_pkgs=(
     mousepad
     nwg-look-bin
     pacman-contrib
+    shell-color-scripts-git
 )
 
 fonts=(

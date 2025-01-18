@@ -167,18 +167,18 @@ done
 
 # Copying config files
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { ok "Copy completed"; } || {
+cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
     err "Failed to copy config files"
 }
 
 # Copying wallpapers
 mkdir -p $HOME/Pictures/wallpapers
-cp -r wallpapers $HOME/Pictures/ && { ok "Copy completed"; } || {
+cp -r wallpapers $HOME/Pictures/ && { ok "Copy wallpapers completed"; } || {
     err "Failed to copy wallpapers"
 }
 
 # Copying assets files
-cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile && { ok "Copy completed"; } || {
+cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy assets files completed"; } || {
     err "Failed to copy assets files"
 }
 
