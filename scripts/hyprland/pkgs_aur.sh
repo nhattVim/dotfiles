@@ -7,6 +7,7 @@ source <(curl -sSL https://is.gd/nhattVim_lib)
 # start script
 pkgs=(
     microsoft-edge-stable
+    zen-browser-bin
     arttime-git
     pipes.sh
     tgpt-bin
