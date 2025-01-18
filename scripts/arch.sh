@@ -51,20 +51,20 @@ while true; do
         --border-foreground 6 --border rounded \
         --align left --width 50 --margin "1 2" --padding "2 4" \
         "${CYAN}Your selected options:" \
-        "${GREEN}/-/-/-/-/-/-/-/-/-/-/-/-/-/-" \
-        "${PINK}AUR Helper:${YELLOW} $aur_helper" \
-        "${PINK}Dual Boot:${YELLOW} $dual_boot" \
-        "${PINK}GTK Themes:${YELLOW} $gtk_themes" \
-        "${PINK}Bluetooth:${YELLOW} $bluetooth" \
-        "${PINK}Nvidia GPU:${YELLOW} $nvidia" \
-        "${PINK}Thunar File Manager:${YELLOW} $thunar" \
-        "${PINK}Snapd (GUI Packages Manager):${YELLOW} $snapd" \
-        "${PINK}Homebrew (CLI Packages Manager):${YELLOW} $homebrew" \
-        "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery" \
-        "${PINK}SDDM Log-in Manager:${YELLOW} $sddm" \
-        "${PINK}XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph" \
-        "${PINK}Download Hyprland dotfiles:${YELLOW} $dots" \
-        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-"
+        "${GREEN}/-/-/-/-/-/-/-/-/-/-/-/-/-/-${RESET}" \
+        "AUR Helper:${YELLOW} $aur_helper ${RESET}" \
+        "Dual Boot:${YELLOW} $dual_boot ${RESET}" \
+        "GTK Themes:${YELLOW} $gtk_themes ${RESET}" \
+        "Bluetooth:${YELLOW} $bluetooth ${RESET}" \
+        "Nvidia GPU:${YELLOW} $nvidia ${RESET}" \
+        "Thunar File Manager:${YELLOW} $thunar ${RESET}" \
+        "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
+        "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
+        "Battery Charging Limit (Laptop Only):${YELLOW} $battery ${RESET}" \
+        "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
+        "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
+        "Download Hyprland dotfiles:${YELLOW} $dots ${RESET}" \
+        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
 
     if gum confirm "Are these options correct?"; then
         break

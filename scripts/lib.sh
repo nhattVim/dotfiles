@@ -9,7 +9,7 @@ RED="$(tput setaf 1)"
 GREEN="$(tput setaf 2)"
 YELLOW=$(tput setaf 3)
 CYAN="$(tput setaf 6)"
-PINK=$(tput setaf 213)
+PINK=$(tput setaf 212)
 RESET=$(tput sgr0)
 
 ok() { echo -e "\n${GREEN}[OK]${RESET} - $1\n"; }
