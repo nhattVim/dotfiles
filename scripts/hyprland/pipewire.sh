@@ -20,7 +20,7 @@ uninstall=(
 )
 
 # Removal of pulseaudio
-note "Removing pulseaudio stuff..."
+note "Removing pulseaudio stuff... if exist"
 for PKG in "${uninstall[@]}"; do
     uPac "$PKG"
     if [ $? -ne 0 ]; then
@@ -29,6 +29,7 @@ for PKG in "${uninstall[@]}"; do
 done
 
 # Disabling pulseaudio to avoid conflicts
+note "Disabling pulseaudio if exits"
 systemctl --user disable --now pulseaudio.socket pulseaudio.service
 
 # Pipewire
