@@ -7,6 +7,12 @@ source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
 waybar_style="$HOME/.config/waybar/style/simple [pywal].css"
 
+CONFIG_FOLDER="config/hypr/configs"
+ENV_FILE="$CONFIG_FOLDER/env_variables.conf"
+MONITOR_FILE="$CONFIG_FOLDER/monitors.conf"
+SETTINGS_FILE="$CONFIG_FOLDER/settings.conf"
+STARTUP_FILE="$CONFIG_FOLDER/execs.conf"
+
 # init
 clear
 
@@ -48,30 +54,26 @@ fi
 # uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     note "Nvidia GPU detected. Setting up proper env's and configs"
-    ENV_FILE="config/hypr/configs/env_variables.conf"
     sed -i '/env = LIBVA_DRIVER_NAME,nvidia/s/^#//' "$ENV_FILE"
     sed -i '/env = __GLX_VENDOR_LIBRARY_NAME,nvidia/s/^#//' "$ENV_FILE"
     sed -i '/env = NVD_BACKEND,direct/s/^#//' "$ENV_FILE"
     # enabling no hardware cursors if nvidia detected
-    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)2/\1true/' config/hypr/configs/settings.conf
+    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)2/\1true/' "$SETTINGS_FILE"
 fi
 
 # uncommenting WLR_RENDERER_ALLOW_SOFTWARE,1 if running in a VM is detected
 if hostnamectl | grep -q 'Chassis: vm'; then
     note "System is running in a virtual machine"
-    CONFIG_FOLDER="config/hypr/configs"
-    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)2/\1true/' "$CONFIG_FOLDER/settings.conf"
-    sed -i '/env = WLR_RENDERER_ALLOW_SOFTWARE,1/s/^#//' "$CONFIG_FOLDER/env_variables.conf"
-    sed -i '/monitor = Virtual-1, 1920x1080@60,auto,1/s/^#//' "$CONFIG_FOLDER/monitors.conf"
+    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)2/\1true/' "$SETTINGS_FILE"
+    sed -i '/env = WLR_RENDERER_ALLOW_SOFTWARE,1/s/^#//' "$ENV_FILE"
+    sed -i '/monitor = Virtual-1, 1920x1080@60,auto,1/s/^#//' "$MONITOR_FILE"
 fi
 
 # activating hyprcursor on env by checking if the directory ~/.icons/Bibata-Modern-Ice/hyprcursors exists
 if [ -d "$HOME/.icons/Bibata-Modern-Ice/hyprcursors" ]; then
     # Define the config file path
-    HYPRCURSOR_ENV_FILE="config/hypr/configs/env_variables.conf"
-
-    sed -i 's/^#env = HYPRCURSOR_THEME,Bibata-Modern-Ice/env = HYPRCURSOR_THEME,Bibata-Modern-Ice/' "$HYPRCURSOR_ENV_FILE"
-    sed -i 's/^#env = HYPRCURSOR_SIZE,24/env = HYPRCURSOR_SIZE,24/' "$HYPRCURSOR_ENV_FILE"
+    sed -i 's/^#env = HYPRCURSOR_THEME,Bibata-Modern-Ice/env = HYPRCURSOR_THEME,Bibata-Modern-Ice/' "$ENV_FILE"
+    sed -i 's/^#env = HYPRCURSOR_SIZE,24/env = HYPRCURSOR_SIZE,24/' "$ENV_FILE"
 fi
 
 # Function to detect keyboard layout using localectl or setxkbmap
@@ -121,8 +123,8 @@ note "Deteacting keyboard layout to prepare necessary changes in hyprland.conf b
 # Prompt the user to confirm whether the detected layout is correct
 if gum confirm "${CYAN}Detected current keyboard layout is: ${YELLOW}'$layout'${RESET}${CYAN}.Is this correct?"; then
     # If the detected layout is correct, update the 'kb_layout=' line in the file
-    awk -v layout="$layout" '/kb_layout/ {$0 = "  kb_layout=" layout} 1' config/hypr/configs/settings.conf >temp.conf
-    mv temp.conf config/hypr/configs/settings.conf
+    awk -v layout="$layout" '/kb_layout/ {$0 = "  kb_layout=" layout} 1' "$SETTINGS_FILE" >temp.conf
+    mv temp.conf "$SETTINGS_FILE"
     note "kb_layout $layout configured in settings."
 else
     gum style \
@@ -142,19 +144,19 @@ else
     new_layout=$(gum input --prompt="-> " --placeholder "Keyboard layout")
 
     # Update the 'kb_layout=' line with the correct layout in the file
-    awk -v new_layout="$new_layout" '/kb_layout/ {$0 = "  kb_layout=" new_layout} 1' config/hypr/configs/settings.conf >temp.conf
-    mv temp.conf config/hypr/configs/settings.conf
+    awk -v new_layout="$new_layout" '/kb_layout/ {$0 = "  kb_layout=" new_layout} 1' "$SETTINGS_FILE" >temp.conf
+    mv temp.conf "$SETTINGS_FILE"
     note "kb_layout $new_layout configured in settings."
 fi
 
 # Check if asusctl is installed  on Startup
 if command -v asusctl >/dev/null 2>&1; then
-    sed -i '/exec-once = rog-control-center &/s/^#//' config/hypr/configs/execs.conf
+    sed -i '/exec-once = rog-control-center &/s/^#//' "$STARTUP_FILE"
 fi
 
 # Check if blueman-applet is installed and add blueman-applet on Startup
 if command -v blueman-applet >/dev/null 2>&1; then
-    sed -i '/exec-once = blueman-applet &/s/^#//' config/hypr/UserConfigs/execs.conf
+    sed -i '/exec-once = blueman-applet &/s/^#//' "$STARTUP_FILE"
 fi
 
 # Action to do for better rofi and kitty appearance
