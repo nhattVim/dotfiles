@@ -180,14 +180,12 @@ if [ "$resolution" == "< 1440p" ]; then
     sed -i 's/font_size 16.0/font_size 13.0/' config/kitty/kitty.conf
 
     # hyprlock matters
-    mv config/hypr/hyprlock.conf config/hypr/hyprlock-2k.conf
-    mv config/hypr/hyprlock-1080p.conf config/hypr/hyprlock.conf
+    # mv config/hypr/hyprlock.conf config/hypr/hyprlock-2k.conf
+    # mv config/hypr/hyprlock-1080p.conf config/hypr/hyprlock.conf
 
 elif [ "$resolution" == "≥ 1440p" ]; then
     cp -r config/rofi/resolution/1440p/* config/rofi/
 fi
-
-# note "By default, Rainbow Borders animation is enabled. However, this uses a bit more CPU and Memory resources."
 
 set -e
 
@@ -269,11 +267,11 @@ done
 # symlinks for waybar style
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
-    # initialize pywal to avoid config on hyprland
-    # wal -i $wallpaper -s -t
-
     # initialize wallust to avoid config error on hyprland
-    wallust run -s $wallpaper
+    # wallust run -s $wallpaper
+    #
+    # initialize pywal to avoid config on hyprland
+    wal -i $wallpaper -s -t
 
 #initial symlink for Pywal Dark and Light for Rofi Themes
 ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi"
