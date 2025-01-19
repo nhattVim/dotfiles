@@ -12,7 +12,8 @@ ags=(
     gjs
     gtk3
     gtk-layer-shell
-    upower networkmanager
+    upower
+    networkmanager
     gobject-introspection
     libdbusmenu-gtk3
     libsoup3

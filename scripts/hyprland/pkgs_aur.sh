@@ -33,6 +33,8 @@ hypr_pkgs=(
     nwg-look-bin
     pacman-contrib
     shell-color-scripts-git
+    wallust
+    waybar
 )
 
 fonts=(

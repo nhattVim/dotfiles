@@ -109,7 +109,7 @@ exHypr "pipewire.sh"
 
 exHypr "hypr.sh"
 
-exHypr "ags.sh"
+# exHypr "ags.sh"
 
 if [ "$nvidia" == "Y" ]; then
     exHypr "nvidia.sh"
