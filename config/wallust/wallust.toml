@@ -34,29 +34,29 @@ palette = "dark16"
 threshold = 11
 
 [templates]
-cava.template = 'colors-cava'
+cava.template = 'cava'
 cava.target = '~/.config/cava/config'
 
-hypr.template = 'colors-hyprland.conf'
-hypr.target = '~/.config/wallust/target/wallust-hypr.conf'
+hypr.template = 'hypr.conf'
+hypr.target = '~/.config/wallust/targets/hypr.conf'
 
-rofi.template = 'colors-rofi.rasi'
-rofi.target = '~/.config/rofi/wallust/colors-rofi.rasi'
+rofi.template = 'rofi.rasi'
+rofi.target = '~/.config/wallust/targets/rofi.rasi'
 
-waybar.template = 'colors-waybar.css'
-waybar.target = '~/.config/waybar/wallust/colors-waybar.css'
+waybar.template = 'waybar.css'
+waybar.target = '~/.config/wallust/targets/waybar.css'
 
-kitty.template = 'colors-kitty.conf'
-kitty.target = '~/.config/kitty/kitty-colors.conf'
+kitty.template = 'kitty.conf'
+kitty.target = '~/.config/wallust/targets/kitty.conf'
 
-#swaync.template = 'colors-swaync.css'
-#swaync.target = '~/.config/swaync/wallust/colors-wallust.css'
+swaync.template = 'swaync.css'
+swaync.target = '~/.config/wallust/targets/swaync.css'
 
-#macchina.template = 'colors-macchina.toml'
-#macchina.target = '~/.config/macchina/themes/wallust.toml'
+# macchina.template = 'colors-macchina.toml'
+# macchina.target = '~/.config/macchina/themes/wallust.toml'
 
-#wezterm.template = 'colors-wezterm.toml'
-#wezterm.target = '~/.config/wezterm/colors/wallust.toml'
+# wezterm.template = 'colors-wezterm.toml'
+# wezterm.target = '~/.config/wezterm/colors/wallust.toml'
 
-#zathura.template = 'colors-zathura'
-#zathura.target = '~/.config/zathura/zathurarc'
+# zathura.template = 'colors-zathura'
+# zathura.target = '~/.config/zathura/zathurarc'

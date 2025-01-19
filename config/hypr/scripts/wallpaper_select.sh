@@ -1,87 +1,104 @@
 #!/bin/bash
 # This script for selecting wallpapers (SUPER W)
 
-SCRIPTSDIR="$HOME/.config/hypr/scripts"
-
 # WALLPAPERS PATH
 wallDIR="$HOME/Pictures/wallpapers"
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
 # Transition config
 FPS=30
-TYPE="wipe"
-DURATION=1
+# TYPE="wipe"
+TYPE="any"
+DURATION=2
 BEZIER=".43,1.19,1,.4"
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION"
 
 # Check if swaybg is running
 if pidof swaybg >/dev/null; then
-	pkill swaybg
+    pkill swaybg
 fi
 
-# Retrieve image files
-PICS=($(ls "${wallDIR}" | grep -E ".jpg$|.jpeg$|.png$|.gif$"))
+# Retrieve image files using null delimiter to handle spaces in filenames
+mapfile -d '' PICS < <(find "${wallDIR}" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
+
 RANDOM_PIC="${PICS[$((RANDOM % ${#PICS[@]}))]}"
-RANDOM_PIC_NAME="${#PICS[@]}. random"
+RANDOM_PIC_NAME=". random"
 
 # Rofi command
-rofi_command="rofi -show -dmenu -config ~/.config/rofi/config-wallpaper.rasi"
+rofi_command="rofi -i -show -dmenu -config ~/.config/rofi/config-wallpaper.rasi"
 
 menu() {
-	for i in "${!PICS[@]}"; do
-		# Displaying .gif to indicate animated images
-		if [[ -z $(echo "${PICS[$i]}" | grep .gif$) ]]; then
-			printf "$(echo "${PICS[$i]}" | cut -d. -f1)\x00icon\x1f${wallDIR}/${PICS[$i]}\n"
-		else
-			printf "${PICS[$i]}\n"
-		fi
-	done
+    # Sort the PICS array
+    IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
 
-	printf "$RANDOM_PIC_NAME\n"
+    # Place ". random" at the beginning with the random picture as an icon
+    printf "%s\x00icon\x1f%s\n" "$RANDOM_PIC_NAME" "$RANDOM_PIC"
+
+    for pic_path in "${sorted_options[@]}"; do
+        pic_name=$(basename "$pic_path")
+
+        # Displaying .gif to indicate animated images
+        if [[ ! "$pic_name" =~ \.gif$ ]]; then
+            printf "%s\x00icon\x1f%s\n" "$(echo "$pic_name" | cut -d. -f1)" "$pic_path"
+        else
+            printf "%s\n" "$pic_name"
+        fi
+    done
 }
 
-swww query || swww init
+# initiate swww if not running
+swww query || swww-daemon --format xrgb
 
 main() {
-	choice=$(menu | ${rofi_command})
+    choice=$(menu | ${rofi_command})
 
-	# No choice case
-	if [[ -z $choice ]]; then
-		exit 0
-	fi
+    # Trim any potential whitespace or hidden characters
+    choice=$(echo "$choice" | xargs)
+    RANDOM_PIC_NAME=$(echo "$RANDOM_PIC_NAME" | xargs)
 
-	# Random choice case
-	if [ "$choice" = "$RANDOM_PIC_NAME" ]; then
-		swww img "${wallDIR}/${RANDOM_PIC}" $SWWW_PARAMS
-		exit 0
-	fi
+    # No choice case
+    if [[ -z $choice ]]; then
+        echo "No choice selected. Exiting."
+        exit 0
+    fi
 
-	# Find the index of the selected file
-	pic_index=-1
-	for i in "${!PICS[@]}"; do
-		filename=$(basename "${PICS[$i]}")
-		if [[ "$filename" == "$choice"* ]]; then
-			pic_index=$i
-			break
-		fi
-	done
+    # Random choice case
+    if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
+        swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
+        sleep 2
+        "$SCRIPTSDIR/wallust_swww.sh"
+        sleep 0.5
+        "$SCRIPTSDIR/refresh.sh"
+        exit 0
+    fi
 
-	if [[ $pic_index -ne -1 ]]; then
-		swww img "${wallDIR}/${PICS[$pic_index]}" $SWWW_PARAMS
-	else
-		echo "Image not found."
-		exit 1
-	fi
+    # Find the index of the selected file
+    pic_index=-1
+    for i in "${!PICS[@]}"; do
+        filename=$(basename "${PICS[$i]}")
+        if [[ "$filename" == "$choice"* ]]; then
+            pic_index=$i
+            break
+        fi
+    done
+
+    if [[ $pic_index -ne -1 ]]; then
+        swww img -o "$focused_monitor" "${PICS[$pic_index]}" $SWWW_PARAMS
+    else
+        echo "Image not found."
+        exit 1
+    fi
 }
 
 # Check if rofi is already running
 if pidof rofi >/dev/null; then
-	pkill rofi
-	exit 0
+    pkill rofi
 fi
 
 main
 
-sleep 0.5
-${SCRIPTSDIR}/pywal_swww.sh
-sleep 0.5
-${SCRIPTSDIR}/refresh.sh
+wait $!
+"$SCRIPTSDIR/wallust_swww.sh" &&
+    wait $!
+sleep 2
+"$SCRIPTSDIR/refresh.sh"

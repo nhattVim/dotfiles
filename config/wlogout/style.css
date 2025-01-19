@@ -2,7 +2,7 @@
 
 /* Importing pywal colors */
 
-@import '../../.cache/wal/colors-waybar.css';
+@import '../../.config/wallust/targets/waybar.css';
 
 window {
     font-family: Fira Code Medium;

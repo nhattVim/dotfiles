@@ -19,7 +19,7 @@ configuration {
 }
 
 /* ---- Load pywal colors (custom wal template) ---- */
-@import "~/.config/rofi/wallust/colors-rofi.rasi"
+@import "~/.config/wallust/targets/rofi.rasi"
 
 /* ---- Window ---- */
 window {
