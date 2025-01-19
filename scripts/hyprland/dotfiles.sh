@@ -267,14 +267,13 @@ done
 # symlinks for waybar style
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
-    # initialize wallust to avoid config error on hyprland
-    # wallust run -s $wallpaper
-    #
     # initialize pywal to avoid config on hyprland
-    wal -i $wallpaper -s -t
+    # wal -i $wallpaper -s -t
+    # initialize wallust to avoid config error on hyprland
+    wallust run -s $wallpaper
 
-#initial symlink for Pywal Dark and Light for Rofi Themes
-ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi"
+# initial symlink for Pywal Dark and Light for Rofi Themes
+# ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi"
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
