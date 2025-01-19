@@ -26,7 +26,7 @@ if [ ! -f ~/.config/hypr/.boot_done ]; then
 	fi
 
 	# initial symlink for Pywal Dark and Light for Rofi Themes
-	ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/pywal-color/pywal-theme.rasi" >/dev/null 2>&1 &
+	ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/wallust/colors-rofi.rasi" >/dev/null 2>&1 &
 
 	# initiate GTK dark mode and apply icon and cursor theme
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark >/dev/null 2>&1 &
