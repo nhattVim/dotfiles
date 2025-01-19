@@ -38,7 +38,7 @@ cava.template = 'colors-cava'
 cava.target = '~/.config/cava/config'
 
 hypr.template = 'colors-hyprland.conf'
-hypr.target = '~/.config/hypr/wallust/wallust-hyprland.conf'
+hypr.target = '~/.config/wallust/target/wallust-hypr.conf'
 
 rofi.template = 'colors-rofi.rasi'
 rofi.target = '~/.config/rofi/wallust/colors-rofi.rasi'
