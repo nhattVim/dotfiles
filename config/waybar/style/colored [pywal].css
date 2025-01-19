@@ -1,6 +1,6 @@
 /* pywal Colored*/
 
-@import '../../.cache/wal/colors-waybar.css';
+@import '../../.config/wallust/targets/waybar.css';
 
 * {
     font-family: "JetBrainsMono Nerd Font";

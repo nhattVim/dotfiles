@@ -16,7 +16,7 @@
 @define-color button-color @color11;
 @define-color button-hover @color12;
 
-@import '../../.cache/wal/colors-waybar.css';
+@import '../../.config/wallust/targets/waybar.css';
 @import "../waybar/style/catppuccin-themes/latte.css";
 
 * {
