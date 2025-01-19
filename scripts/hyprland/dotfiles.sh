@@ -5,7 +5,7 @@ source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # variables
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
-waybar_style="$HOME/.config/waybar/style/simple [pywal].css"
+waybar_style="$HOME/.config/waybar/style/simple [wallust].css"
 
 HYPR_FOLDER="config/hypr/configs"
 ENV_FILE="$HYPR_FOLDER/env_variables.conf"
