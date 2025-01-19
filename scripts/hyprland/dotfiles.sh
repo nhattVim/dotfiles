@@ -7,11 +7,11 @@ source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
 waybar_style="$HOME/.config/waybar/style/simple [pywal].css"
 
-CONFIG_FOLDER="config/hypr/configs"
-ENV_FILE="$CONFIG_FOLDER/env_variables.conf"
-MONITOR_FILE="$CONFIG_FOLDER/monitors.conf"
-SETTINGS_FILE="$CONFIG_FOLDER/settings.conf"
-STARTUP_FILE="$CONFIG_FOLDER/execs.conf"
+HYPR_FOLDER="config/hypr/configs"
+ENV_FILE="$HYPR_FOLDER/env_variables.conf"
+MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
+SETTINGS_FILE="$HYPR_FOLDER/settings.conf"
+STARTUP_FILE="$HYPR_FOLDER/execs.conf"
 
 # init
 clear
@@ -179,14 +179,12 @@ note "You chose $resolution resolution."
 # Add your commands based on the resolution choice
 if [ "$resolution" == "< 1440p" ]; then
     cp -r config/rofi/resolution/1080p/* config/rofi/
-    sed -i 's/font_size 16.0/font_size 13.0/' config/kitty/kitty.conf
-
     # hyprlock matters
     # mv config/hypr/hyprlock.conf config/hypr/hyprlock-2k.conf
     # mv config/hypr/hyprlock-1080p.conf config/hypr/hyprlock.conf
-
 elif [ "$resolution" == "≥ 1440p" ]; then
     cp -r config/rofi/resolution/1440p/* config/rofi/
+    sed -i 's/font_size 13.0/font_size 16.0/' config/kitty/kitty.conf
 fi
 
 set -e
