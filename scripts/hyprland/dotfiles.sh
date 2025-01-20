@@ -67,8 +67,6 @@ for DIR in "${folder[@]}"; do
     fi
 done
 
-cleanup_backups
-
 # Copying config files
 mkdir -p $HOME/.config
 cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
@@ -266,10 +264,11 @@ done
 # symlinks for waybar style
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
-    # initialize pywal to avoid config on hyprland
-    # wal -i $wallpaper -s -t
     # initialize wallust to avoid config error on hyprland
-    wallust run -s $wallpaper
+    wallust run -s $wallpaper &&
+
+    # performing clean up backup folders
+    cleanup_backups
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
