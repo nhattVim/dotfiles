@@ -7,14 +7,11 @@ source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
 waybar_style="$HOME/.config/waybar/style/simple [wallust].css"
 
-HYPR_FOLDER="config/hypr/configs"
+HYPR_FOLDER="$HOME/.config/hypr/configs"
 ENV_FILE="$HYPR_FOLDER/env_variables.conf"
 MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
 SETTINGS_FILE="$HYPR_FOLDER/settings.conf"
 STARTUP_FILE="$HYPR_FOLDER/execs.conf"
-
-# init
-clear
 
 # start script
 gum style \
@@ -50,6 +47,48 @@ else
         exit 1
     }
 fi
+
+note "Copying config files"
+
+folder=(
+    ranger alacritty btop cava hypr
+    kitty Kvantum qt5ct qt6ct rofi swappy
+    swaync swaylock waybar wlogout
+    fastfetch Thunar wallust
+)
+
+for DIR in "${folder[@]}"; do
+    DIRPATH=$HOME/.config/"$DIR"
+    if [ -d "$DIRPATH" ]; then
+        note "Config for $DIR found, attempting to back up."
+        BACKUP_DIR="$DIRPATH-backup-$(date +%m%d_%H%M)"
+        mv "$DIRPATH" "$BACKUP_DIR"
+        note "Backup $DIRPATH to $BACKUP_DIR"
+    fi
+done
+
+cleanup_backups
+
+# Copying config files
+mkdir -p $HOME/.config
+cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
+    err "Failed to copy config files"
+}
+
+# Copying wallpapers
+mkdir -p $HOME/Pictures/wallpapers
+cp -r wallpapers $HOME/Pictures/ && { ok "Copy wallpapers completed"; } || {
+    err "Failed to copy wallpapers"
+}
+
+# Copying assets files
+cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy assets files completed"; } || {
+    err "Failed to copy assets files"
+}
+
+# Set some files as executable
+chmod +x $HOME/.config/hypr/scripts/*
+chmod +x $HOME/.config/hypr/boot.sh
 
 # uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
@@ -149,15 +188,17 @@ else
     note "kb_layout $new_layout configured in settings."
 fi
 
-# Check if asusctl is installed  on Startup
-if command -v asusctl >/dev/null 2>&1; then
-    sed -i '/exec-once = rog-control-center &/s/^#//' "$STARTUP_FILE"
-fi
+declare -A startup_apps=(
+    ["asusctl"]="rog-control-center"
+    ["blueman-applet"]="blueman-applet"
+)
 
-# Check if blueman-applet is installed and add blueman-applet on Startup
-if command -v blueman-applet >/dev/null 2>&1; then
-    sed -i '/exec-once = blueman-applet &/s/^#//' "$STARTUP_FILE"
-fi
+# Check if each app is installed and add it to Startup
+for app in "${!startup_apps[@]}"; do
+    if command -v "$app" >/dev/null 2>&1; then
+        sed -i "/exec-once = ${startup_apps[$app]} &/s/^#//" "$STARTUP_FILE"
+    fi
+done
 
 # Action to do for better rofi and kitty appearance
 gum style \
@@ -178,56 +219,14 @@ note "You chose $resolution resolution."
 
 # Add your commands based on the resolution choice
 if [ "$resolution" == "< 1440p" ]; then
-    cp -r config/rofi/resolution/1080p/* config/rofi/
+    cp -r $HOME/.config/rofi/resolution/1080p/* $HOME/.config/rofi/
     # hyprlock matters
     # mv config/hypr/hyprlock.conf config/hypr/hyprlock-2k.conf
     # mv config/hypr/hyprlock-1080p.conf config/hypr/hyprlock.conf
 elif [ "$resolution" == "≥ 1440p" ]; then
-    cp -r config/rofi/resolution/1440p/* config/rofi/
-    sed -i 's/font_size 13.0/font_size 16.0/' config/kitty/kitty.conf
+    cp -r $HOME/.config/rofi/resolution/1440p/* $HOME/.config/rofi/
+    sed -i 's/font_size 13.0/font_size 16.0/' $HOME/.config/kitty/kitty.conf
 fi
-
-set -e
-
-note "Copying config files"
-
-folder=(
-    ranger alacritty btop cava hypr
-    kitty Kvantum qt5ct qt6ct rofi swappy
-    swaync swaylock wal waybar wlogout
-    neofetch Thunar xfce4
-)
-
-for DIR in "${folder[@]}"; do
-    DIRPATH=$HOME/.config/"$DIR"
-    if [ -d "$DIRPATH" ]; then
-        note "Config for $DIR found, attempting to back up."
-        BACKUP_DIR=$(get_backup_dirname)
-        mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        note "Backup $DIRPATH to $DIRPATH-backup-$BACKUP_DIR"
-    fi
-done
-
-# Copying config files
-mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
-    err "Failed to copy config files"
-}
-
-# Copying wallpapers
-mkdir -p $HOME/Pictures/wallpapers
-cp -r wallpapers $HOME/Pictures/ && { ok "Copy wallpapers completed"; } || {
-    err "Failed to copy wallpapers"
-}
-
-# Copying assets files
-cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy assets files completed"; } || {
-    err "Failed to copy assets files"
-}
-
-# Set some files as executable
-chmod +x $HOME/.config/hypr/scripts/*
-chmod +x $HOME/.config/hypr/boot.sh
 
 # Detect machine type and set Waybar configurations accordingly, logging the output
 if hostnamectl | grep -q 'Chassis: desktop'; then
