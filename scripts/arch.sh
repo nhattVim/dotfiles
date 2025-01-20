@@ -84,18 +84,19 @@ exHypr "swapfile.sh"
 sleep 0.5
 exHypr "pkgs_pacman.sh"
 
-# Check if dotfiles exist
+# Remove old dotfiles if exist
 cd $HOME
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    ok "Remove dotfile successfully"
-fi
+[ -d hyprland_nhattVim ] &&
+    rm -rf hyprland_nhattVim &&
+    ok "Remove old dotfiles successfully"
 
 # Clone dotfiles
-note "Clone dotfiles."
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1; then
-    ok "Clone dotfiles successfully"
-fi
+note "Clone dotfiles." &&
+    git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
+    ok "Clone dotfiles successfully" || {
+    err "Failed to clone dotfiles"
+    exit 1
+}
 
 if [ "$aur_helper" == "paru" ]; then
     exHypr "paru.sh"
@@ -155,10 +156,9 @@ fi
 
 # remove dotfiles
 cd $HOME
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    note "Remove dotfile successfully "
-fi
+[ -d hyprland_nhattVim ] &&
+    rm -rf hyprland_nhattVim &&
+    ok "Remove old dotfiles successfully"
 
 echo
 

@@ -2,20 +2,28 @@
 
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
-# gum style \
-#     --border-foreground 6 --border rounded \
-#     --align left --width 104 --margin "1 2" --padding "2 4" \
-#     "${YELLOW}WARN:${CYAN} Ensure that you have a stable internet connection ${YELLOW}(Highly Recommended!!!!)      ${RESET}" \
-#     "                                                                                                               ${RESET}" \
-#     "${YELLOW}WARN:${CYAN} You will be required to answer some questions during the installation!!                  ${RESET}" \
-#     "                                                                                                               ${RESET}" \
-#     "${YELLOW}WARN:${CYAN} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start!${RESET}"
+cd "$HOME"
+if ! cd hyprland_nhattVim 2>/dev/null; then
+    note "Clone dotfiles." &&
+        git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
+        cd hyprland_nhattVim &&
+        ok "Clone dotfiles successfully" || err "Failed to clone dotfiles" && exit 1
+    pwd
+fi
 
-gum style \
-    --border-foreground 6 --border rounded \
-    --align left --width 104 --margin "1 2" --padding "2 4" \
-    "${YELLOW}WARN:${CYAN} Ensure that you have a stable internet connection ${YELLOW}(Highly Recommended)      ${RESET}" \
-    "                                                                                                               ${RESET}" \
-    "${YELLOW}WARN:${CYAN} You will be required to answer some questions during the installation                  ${RESET}" \
-    "                                                                                                               ${RESET}" \
-    "${YELLOW}WARN:${CYAN} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start${RESET}"
+cd "$HOME" || exit 1
+if [ -d dotfiles ]; then
+    cd dotfiles || {
+        err "Failed to enter dotfiles directory"
+        exit 1
+    }
+else
+    note "Clone dotfiles." && git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 || {
+        err "Failed to clone dotfiles"
+        exit 1
+    }
+    cd dotfiles || {
+        err "Failed to enter dotfiles directory"
+        exit 1
+    }
+fi

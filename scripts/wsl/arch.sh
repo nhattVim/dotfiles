@@ -121,18 +121,20 @@ else
     err "Failed to setup neovim"
 fi
 
-# Check if dotfiles exist
-cd $HOME || exit 1
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    ok "Remove dotfile successfully"
-fi
+# Remove old dotfiles if exist
+cd $HOME
+[ -d hyprland_nhattVim ] &&
+    rm -rf hyprland_nhattVim &&
+    ok "Remove old dotfiles successfully"
 
 # Clone dotfiles
-note "Clone dotfiles"
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 && cd dotfiles; then
-    ok "Clone dotfiles succesfully."
-fi
+note "Clone dotfiles." &&
+    git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
+    cd hyprland_nhattVim &&
+    ok "Clone dotfiles successfully" || {
+    err "Failed to clone dotfiles"
+    exit 1
+}
 
 echo -e "\n%.0s" {1..2}
 note "Start config"
