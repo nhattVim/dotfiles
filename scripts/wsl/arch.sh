@@ -150,10 +150,10 @@ folder=(
 for DIR in "${folder[@]}"; do
     DIRPATH=~/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
-        echo -e "${YELLOW} - Config for $DIR found, attempting to back up."
-        BACKUP_DIR=$(get_backup_dirname)
-        mv "$DIRPATH" "$DIRPATH-backup-$BACKUP_DIR"
-        echo -e "${YELLOW} - Backed up $DIR to $DIRPATH-backup-$BACKUP_DIR."
+        note "Config for $DIR found, attempting to back up."
+        BACKUP_DIR="$DIRPATH-backup-$(date +%m%d_%H%M)"
+        mv "$DIRPATH" "$BACKUP_DIR"
+        note "Backup $DIRPATH to $BACKUP_DIR"
     fi
 done
 

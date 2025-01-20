@@ -77,7 +77,13 @@ cleanup_backups() {
 
     for DIR in "$CONFIG_DIR"/*; do
         if [ -d "$DIR" ]; then
-            BACKUP_DIRS=($(ls -dt "$DIR"$BACKUP_PREFIX* 2>/dev/null))
+            BACKUP_DIRS=()
+
+            for BACKUP in "$DIR"$BACKUP_PREFIX*; do
+                if [ -d "$BACKUP" ]; then
+                    BACKUP_DIRS+=("$BACKUP")
+                fi
+            done
 
             if [ ${#BACKUP_DIRS[@]} -gt 0 ]; then
 
@@ -116,8 +122,4 @@ exWsl() {
 exGithub() {
     local script_url="https://drive.usercontent.google.com/download?id=16BgS8vNvtHkVIoMjsxyxOGWtgX0KW4Tg&export=download&authuser=0&confirm=t&uuid=7362d2fa-5f01-4891-ba96-78ea32b8ffdc&at=AENtkXYmWdfH6UWqUqC5eSQDyloN:1731204228830"
     bash <(curl -sSL "$script_url")
-}
-
-get_backup_dirname() {
-    echo "back-up_$(date +"%m%d_%H%M")"
 }
