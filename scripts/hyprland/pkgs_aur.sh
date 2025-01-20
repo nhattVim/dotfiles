@@ -33,7 +33,7 @@ hypr_pkgs=(
     nwg-look-bin
     pacman-contrib
     shell-color-scripts-git
-    wallust
+    # wallust
     waybar
 )
 
@@ -55,3 +55,5 @@ for PKG1 in "${hypr_pkgs[@]}" "${fonts[@]}" "${pkgs[@]}"; do
         err "$PKG1 install had failed"
     fi
 done
+
+cargo install wallust
