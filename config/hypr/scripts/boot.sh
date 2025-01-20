@@ -70,6 +70,9 @@ if command -v vmware &>/dev/null; then
     }
 fi
 
-sed -i '/exec-once = \$HOME\/.config\/hypr\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
+sed -i '/exec-once = \$HOME\/.config\/hypr\/scripts\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
+sleep 2
+
+notify-send -e -u low -i "$notif" "Boot script finished"
 
 exit
