@@ -39,7 +39,7 @@ window {
     enabled:                true;
     border-radius:          12px;
     border-radius:          12px;
-	background-image:   	url("~/.config/rofi/.current_wallpaper", height);
+	background-image:   	url("~/.cache/swww/.current_wallpaper", height);
 }
 
 /* ---- Mainbox ---- */
