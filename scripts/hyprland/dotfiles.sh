@@ -86,7 +86,6 @@ cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOM
 
 # Set some files as executable
 chmod +x $HOME/.config/hypr/scripts/*
-chmod +x $HOME/.config/hypr/boot.sh
 
 # uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then

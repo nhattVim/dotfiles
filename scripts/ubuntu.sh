@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
-exGnome "boot.sh"
+exGnome "base.sh"
 
 # start script
 gum style \
