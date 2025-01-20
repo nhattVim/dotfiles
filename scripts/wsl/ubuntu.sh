@@ -1,6 +1,8 @@
 #!/bin/bash
 # config wsl
 
+exec > >(tee -a "$HOME/script.log") 2>&1
+
 # Source library
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
