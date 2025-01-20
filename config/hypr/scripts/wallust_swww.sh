@@ -15,7 +15,7 @@ echo $cache_file
 if [ -f "$cache_file" ]; then
     wallpaper_path=$(grep -v 'Lanczos3' "$cache_file" | head -n 1)
     echo $wallpaper_path
-    if ln -sf "$wallpaper_path" "$HOME/.config/rofi/.current_wallpaper"; then
+    if ln -sf "$wallpaper_path" "$HOME/.cache/swww/.current_wallpaper"; then
         ln_success=true
     fi
 fi
