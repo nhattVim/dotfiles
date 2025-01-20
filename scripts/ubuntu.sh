@@ -1,8 +1,6 @@
 #!/bin/bash
 # config ubuntu
 
-exec > >(tee -a "$HOME/script.log") 2>&1
-
 # source library
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
