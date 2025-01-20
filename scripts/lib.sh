@@ -79,9 +79,9 @@ cleanup_backups() {
         if [ -d "$DIR" ]; then
             BACKUP_DIRS=($(ls -dt "$DIR"$BACKUP_PREFIX* 2>/dev/null))
 
-            if [ ${#BACKUP_DIRS[@]} -gt 1 ]; then
+            if [ ${#BACKUP_DIRS[@]} -gt 0 ]; then
 
-                if gum confirm "Found multiple backups for: ${DIR##*/}. Keep only the latest backup?" --affirmative "Yes" --negative "Delete all"; then
+                if gum confirm "Found backups for: ${DIR##*/}. Keep only the latest backup?" --affirmative "Yes" --negative "Delete all"; then
                     latest_backup="${BACKUP_DIRS[0]}"
                     for BACKUP in "${BACKUP_DIRS[@]}"; do
                         [ "$BACKUP" != "$latest_backup" ] && rm -rf "$BACKUP"
