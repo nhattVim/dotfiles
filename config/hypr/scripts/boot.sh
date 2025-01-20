@@ -8,7 +8,7 @@
 # variables
 scriptsDir=$HOME/.config/hypr/scripts
 waybar_style="$HOME/.config/waybar/style/simple [pywal].css"
-wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
+wallpaper="$HOME/Pictures/wallpapers/art-3.png"
 notif="$HOME/.config/swaync/images/bell.png"
 kvantum_theme="Tokyo-Night"
 
