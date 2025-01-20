@@ -29,12 +29,13 @@ for _prs2 in "${_ps2[@]}"; do
     fi
 done
 
+# Wallust refresh
+${SCRIPTSDIR}/wallust_swww.sh &
+
 # relaunch swaync
-sleep 0.5
 swaync >/dev/null 2>&1 &
 
 # Relaunch waybar
-sleep 1
 waybar &
 
 # Relaunching rainbow borders if the script exists
