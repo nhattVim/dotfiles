@@ -5,7 +5,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib)
 
 # Variables
-theme="Acheron"
+theme="Rappa"
 grub="/etc/default/grub"
 grub_dir="/boot/grub/themes"
 grub_theme="$grub_dir/$theme/theme.txt"

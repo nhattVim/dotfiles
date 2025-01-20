@@ -4,7 +4,7 @@
 source <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # variables
-wallpaper=$HOME/Pictures/wallpapers/anime-kanji.jpg
+wallpaper="$HOME/Pictures/wallpapers/art-3.png"
 waybar_style="$HOME/.config/waybar/style/simple [wallust].css"
 
 HYPR_FOLDER="$HOME/.config/hypr/configs"
