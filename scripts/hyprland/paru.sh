@@ -14,7 +14,7 @@ else
     attempt=1
 
     while [ $attempt -le $MAX_RETRIES ]; do
-        note "Attempt $attempt to install paru..."
+        note "Try to install yay from AUR (Attempt $attempt)..."
 
         cd "$HOME" && rm -rf paru-bin
 
