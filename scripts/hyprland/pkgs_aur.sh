@@ -56,6 +56,6 @@ for PKG1 in "${hypr_pkgs[@]}" "${fonts[@]}" "${pkgs[@]}"; do
     fi
 done
 
-note "Installing wallust..."
+act "Installing wallust..."
 cargo install wallust && ok "wallust was installed" || err "wallust install had failed"
-source $HOME/.cargo/env
+export PATH="$HOME/.cargo/bin:$PATH"
