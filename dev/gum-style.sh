@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 gum style \
     --border-foreground 212 --border rounded \

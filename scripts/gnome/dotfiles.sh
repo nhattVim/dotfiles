@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # start script
 gum style \

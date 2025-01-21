@@ -2,7 +2,7 @@
 # config arch
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # init
 exHypr "base.sh"

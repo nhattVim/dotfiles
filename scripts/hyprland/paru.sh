@@ -2,19 +2,18 @@
 # Paru AUR Helper Auto Retry Installer
 
 # Source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 if [ -n "$ISAUR" ]; then
     ok "AUR helper already installed, moving on."
 else
     note "AUR helper was NOT located."
-    note "Installing paru from AUR..."
 
     MAX_RETRIES=3
     attempt=1
 
     while [ $attempt -le $MAX_RETRIES ]; do
-        note "Try to install yay from AUR (Attempt $attempt)..."
+        note "Installing paru from (Attempt $attempt) AUR..."
 
         cd "$HOME" && rm -rf paru-bin
 

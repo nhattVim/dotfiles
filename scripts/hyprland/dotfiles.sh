@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://is.gd/nhattVim_lib) && clear
 
 # variables
 wallpaper="$HOME/Pictures/wallpapers/art-3.png"
@@ -255,7 +255,7 @@ done
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
     # initialize wallust to avoid config error on hyprland
-    wallust run -s $wallpaper &&
+    export PATH="$HOME/.cargo/bin:$PATH" && wallust run -s $wallpaper &&
 
     # performing clean up backup folders
     cleanup_backups

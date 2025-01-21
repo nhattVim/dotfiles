@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 cd "$HOME"
 if ! cd hyprland_nhattVim 2>/dev/null; then

@@ -2,7 +2,7 @@
 # set swapfile
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 printf "\n%.0s" {1..2}

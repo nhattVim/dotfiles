@@ -2,7 +2,7 @@
 # zsh
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # star scripts
 clear

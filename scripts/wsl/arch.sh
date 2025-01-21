@@ -2,7 +2,7 @@
 # config wsl
 
 # source library
-source <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # require
 exHypr "base.sh"
