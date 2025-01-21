@@ -58,4 +58,4 @@ done
 
 act "Installing wallust..."
 cargo install wallust && ok "wallust was installed" || err "wallust install had failed"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH" && echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
