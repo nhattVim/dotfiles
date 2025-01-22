@@ -9,7 +9,8 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-theme "M200"
 # gsettings set org.gnome.desktop.interface gtk-theme ""
 gsettings set org.gnome.desktop.interface icon-theme "Candy-icons"
-gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
+gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Macchiato-Standard-Lavender-dark"
+# gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
 
 note "Downloading additional wallpapers..."
 while true; do
