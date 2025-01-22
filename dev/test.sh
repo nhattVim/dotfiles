@@ -4,11 +4,14 @@
 
 cd "$HOME"
 if ! cd hyprland_nhattVim 2>/dev/null; then
-    note "Clone dotfiles." &&
-        git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
-        cd hyprland_nhattVim &&
-        ok "Clone dotfiles successfully" || err "Failed to clone dotfiles" && exit 1
-    pwd
+    note "Cloning dotfiles..."
+    if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim; then
+        cd hyprland_nhattVim
+        ok "Cloned dotfiles successfully"
+    else
+        err "Failed to clone dotfiles"
+        exit 1
+    fi
 fi
 
 cd "$HOME" || exit 1

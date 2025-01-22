@@ -21,25 +21,19 @@ gum style \
     "                                                                              "
 
 # check dotfiles
-cd "$HOME" || exit 1
-if [ -d dotfiles ]; then
-    cd dotfiles || {
-        err "Failed to enter dotfiles config directory"
-        exit 1
-    }
-else
-    note "Clone dotfiles..."
-    git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 || {
+cd $HOME
+if ! cd gnome_nhattVim 2>/dev/null; then
+    note "Cloning dotfiles..."
+    if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 gnome_nhattVim; then
+        cd gnome_nhattVim
+        ok "Cloned dotfiles successfully"
+    else
         err "Failed to clone dotfiles"
         exit 1
-    }
-    cd dotfiles || {
-        err "Failed to enter dotfiles directory"
-        exit 1
-    }
+    fi
 fi
 
-set -e
+note "Copying config files"
 
 # list folders to backup
 folders=(
@@ -53,8 +47,8 @@ folders=(
 )
 
 # backup folders
-for DIR in "${folders[@]}"; do
-    DIRPATH=~/.config/"$DIR"
+for DIR in "${folder[@]}"; do
+    DIRPATH=$HOME/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
         note "Config for $DIR found, attempting to back up."
         BACKUP_DIR="$DIRPATH-backup-$(date +%m%d_%H%M)"
@@ -63,31 +57,31 @@ for DIR in "${folders[@]}"; do
     fi
 done
 
-# delete old files
-rm ~/.zshrc ~/.ideavimrc && rm -rf ~/.fonts ~/.icons ~/.themes
-
 # copy config folder
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { ok "Copy config folder completed"; } || { err "Failed to copy config files."; }
+cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
+    err "Failed to copy config files"
+}
 
 # copying assets folder
-cp -r assets/* $HOME/ && { ok "Copy assets completed"; } || { err "Failed to copy assets."; }
+cp -r assets/.* $HOME/ && { ok "Copy assets completed"; } || {
+    err "Failed to copy assets"
+}
 
 # Copy gtk-4.0 config for themes
-cd $HOME/.themes/Catppuccin-Mocha-Standard-Mauve-Dark
+cd "$HOME/.themes/(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
 mkdir -p $HOME/.config/gtk-4.0
 cp -rf gtk-4.0 $HOME/.config
 
-# Reload fonts
-fc-cache -fv
+# Reload fonts && cleanup backups folders
+fc-cache -fv && cleanup_backups
 
-# config Neovim
-note "Backing up existing nvim folder"
-[ -d "$HOME/.config/nvim" ] && mv $HOME/.config/nvim $HOME/.config/nvim.bak || { ok "Backup of nvim folder successful"; }
-[ -d "$HOME/.local/share/nvim" ] && mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak || { ok "Backup of nvim data folder successful"; }
-if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
-    npm install neovim -g
-    ok "MYnvim setup completed successfully."
-else
-    err "Failed to set up MYnvim."
-fi
+# Change shell to zsh
+note "Changing default shell to zsh..."
+
+while ! chsh -s /bin/zsh; do
+    err "Authentication failed. Please enter the correct password."
+    sleep 1
+done
+
+note "Shell changed successfully to zsh."
