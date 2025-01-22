@@ -38,7 +38,6 @@ gum style \
 
 echo
 choose "Choose your AUR helper" "yay" "paru" aur_helper
-yes_no "Install zsh, color scripts (Optional) & zsh plugin (Optional)?" zsh
 
 if [ "$aur_helper" == "paru" ]; then
     exHypr "paru.sh"
@@ -103,23 +102,17 @@ for PKG2 in "${aur_packages[@]}"; do
 done
 
 # Set up neovim
-echo -e "\n%.0s" {1..2}
 note "Setup neovim"
-if [ -d $HOME/.config/nvim ]; then
-    mv $HOME/.config/nvim $HOME/.config/nvim_bak && { ok "Backup neovim folder completed ${RESET}"; } || {
-        ok "Failed to backup neovim folder"
-    }
-fi
-if [ -d $HOME/.local/share/nvim ]; then
-    mv $HOME/.local/share/nvim $HOME/.local/share/nvim_bak && { ok "Backup neovim data folder completed ${RESET}"; } || {
-        ok "Failed to backup neovim folder"
-    }
-fi
-if git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1; then
-    ok "Setup neovim successfully"
-else
-    err "Failed to setup neovim"
-fi
+[ -d $HOME/.config/nvim ] &&
+    rm -rf $HOME/.config/nvim &&
+    ok "Backup neovim folder completed" || ok "Failed to backup neovim folder"
+
+[ -d $HOME/.local/share/nvim ] &&
+    rm -rf $HOME/.local/share/nvim &&
+    ok "Backup neovim data folder completed" || ok "Failed to backup neovim folder"
+
+git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1 &&
+    ok "Setup neovim successfully" || err "Failed to setup neovim"
 
 # Remove old dotfiles if exist
 cd $HOME
@@ -136,7 +129,6 @@ note "Clone dotfiles." &&
     exit 1
 }
 
-echo -e "\n%.0s" {1..2}
 note "Start config"
 
 folder=(
@@ -167,13 +159,13 @@ for ITEM in "${folder[@]}"; do
 done
 
 # Copying other
-cp assets/.zshrc ~ && { echo "${GREEN} Copy completed ${RESET}"; } || {
+cp assets/.zshrc $HOME && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc"
 }
 
 # Copying font
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { echo "${GREEN} Copy fonts completed ${RESET}"; } || {
+cp -r assets/.fonts/* $HOME/.fonts/ && { ok "Copy fonts completed"; } || {
     err "Failed to copy fonts files."
 }
 
@@ -189,11 +181,6 @@ else
     fi
 fi
 
-# zsh
-if [ "$zsh" == "Y" ]; then
-    exHypr "zsh.sh"
-fi
-
 # remove dotfiles
 cd $HOME
 if [ -d dotfiles ]; then
@@ -201,20 +188,32 @@ if [ -d dotfiles ]; then
     note "Remove dotfile successfully"
 fi
 
-echo -e "\n%.0s" {1..2}
-
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
 fi
 
-# clear packages
-note "Clear packages"
-if sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm; then
-    ok "Clearing packages succesfully"
-fi
+# Change shell to zsh
+note "Changing default shell to zsh..."
 
-echo -e "\n%.0s" {1..2}
-echo -e "\n${GREEN} Yey! Setup Completed.\n"
-echo -e "\n%.0s" {1..2}
+while ! chsh -s /bin/zsh; do
+    err "Authentication failed. Please enter the correct password."
+    sleep 1
+done
+
+note "Shell changed successfully to zsh."
+
+cleanup_backups
+
+# clear packages
+note "Clear packages" &&
+    sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm &&
+    ok "Clearing packages succesfully" || err "Failed to clear packages"
+
+# Successfully
+gum style \
+    --border-foreground 212 --border rounded \
+    --align left --width 80 --margin "1 2" --padding "2 4" \
+    "${CYAN}GREAT Copy Completed." "" \
+    "${CYAN}YOU NEED to logout and re-login or reboot to avoid issues"
 
 zsh

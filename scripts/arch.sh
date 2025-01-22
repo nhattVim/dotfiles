@@ -167,10 +167,9 @@ if [ -f $HOME/install.log ]; then
 fi
 
 # clear packages
-note "Clear packages."
-if sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm; then
-    ok "Clear packages successfully."
-fi
+note "Clear packages." &&
+    sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm &&
+    ok "Clearing packages succesfully" || err "Failed to clear packages"
 
 echo -e "\n${GREEN} Yey! Installation Completed."
 echo -e "\n${YELLOW} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!)."
