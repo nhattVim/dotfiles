@@ -111,7 +111,7 @@ cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy completed"; } 
 
 note "Changing default shell to zsh..."
 
-while ! chsh -s /bin/zsh; do
+while ! chsh -s $(which zsh); do
     err "Authentication failed. Please enter the correct password."
     sleep 1
 done

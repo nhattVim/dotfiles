@@ -24,6 +24,7 @@ install_exts=(
     compiz-windows-effect@hermes83.github.com
     CoverflowAltTab@palatis.blogspot.com
     logomenu@aryan_k
+    rounded-window-corners@fxgn
     search-light@icedman.github.com
     space-bar@luchrioh
     top-bar-organizer@julian.gse.jsts.xyz

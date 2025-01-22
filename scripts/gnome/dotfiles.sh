@@ -79,7 +79,7 @@ fc-cache -fv && cleanup_backups
 # Change shell to zsh
 note "Changing default shell to zsh..."
 
-while ! chsh -s /bin/zsh; do
+while ! chsh -s $(which zsh); do
     err "Authentication failed. Please enter the correct password."
     sleep 1
 done
