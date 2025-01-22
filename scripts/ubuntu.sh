@@ -4,8 +4,22 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
-# require
-exGnome "base.sh"
+# check ubuntu version
+if [ ! -f /etc/os-release ]; then
+    err "Unable to determine OS. /etc/os-release file not found."
+    note "Installation stopped"
+    exit 1
+else
+    . /etc/os-release
+    if [ "$ID" != "ubuntu" ] || [ $(echo "$VERSION_ID >= 24.04" | bc) != 1 ]; then
+        err "You are currently running: $ID $VERSION_ID"
+        note "OS required: Ubuntu 24.04 or higher"
+        note "Installation stopped"
+        exit 1
+    fi
+fi
+
+RUNNING_GNOME=$([[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]] && echo true || echo false)
 
 # start script
 gum style \
@@ -33,69 +47,87 @@ gum style \
     "                                                                                                       ${RESET}" \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
 
-while true; do
-    yes_no "Do you dual boot with window?" dual_boot
-    yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
-    yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+if $RUNNING_GNOME; then
 
-    gum style \
-        --border-foreground 6 --border rounded \
-        --align left --width 50 --margin "1 2" --padding "2 4" \
-        "${CYAN}Your selected options:" \
-        "${PINK}Dual Boot:${YELLOW} $dual_boot" \
-        "${PINK}Download Gnome dotfiles:${YELLOW} $dots" \
-        "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery"
+    # Ensure computer doesn't go to sleep or lock while installing
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.session idle-delay 0
 
-    if gum confirm "Are these options correct?"; then
-        break
+    # require
+    exGnome "base.sh"
+
+    while true; do
+        yes_no "Do you dual boot with window?" dual_boot
+        yes_no "Do you want to install some gnome extensions?" exts
+        yes_no "Do you want to download pre-configured Gnome dotfiles?" dots
+        yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+
+        gum style \
+            --border-foreground 6 --border rounded \
+            --align left --width 50 --margin "1 2" --padding "2 4" \
+            "${CYAN}Your selected options:" \
+            "${PINK}Dual Boot:${YELLOW} $dual_boot" \
+            "${PINK}Download Gnome dotfiles:${YELLOW} $dots" \
+            "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery"
+
+        if gum confirm "Are these options correct?"; then
+            break
+        fi
+    done
+
+    if [ "$dual_boot" == "Y" ]; then
+        act "I will set the local time on Ubuntu to display the correct time on Windows"
+        timedatectl set-local-rtc 1 --adjust-system-clock
     fi
-done
 
-if [ "$dual_boot" == "Y" ]; then
-    act "I will set the local time on Ubuntu to display the correct time on Windows"
-    timedatectl set-local-rtc 1 --adjust-system-clock
-fi
+    if [ "$battery" == "Y" ]; then
+        exHypr "battery.sh"
+    fi
 
-# install package
-exGnome "pkgs.sh"
+    # install package
+    exGnome "pkgs.sh"
 
-# Check if dotfiles exist
-cd $HOME || exit 1
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    ok "Remove dotfile successfully"
-fi
+    # Check if dotfiles exist
+    cd $HOME
+    [ -d gnome_nhattVim ] &&
+        rm -rf gnome_nhattVim &&
+        ok "Remove old dotfiles successfully"
 
-# Clone dotfiles
-note "Clone dotfiles."
-if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1; then
-    ok "Clone dotfiles successfully"
+    # Clone dotfiles
+    note "Clone dotfiles." &&
+        git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
+        ok "Clone dotfiles successfully" || {
+        err "Failed to clone dotfiles"
+        exit 1
+    }
+
+    if [ "$dots" == "Y" ]; then
+        exGnome "dotfiles.sh"
+    fi
+
+    if [ "$exts" == "Y" ]; then
+        exGnome "extensions.sh"
+    fi
+
+    # remove dotfiles
+    cd $HOME
+    [ -d gnome_nhattVim ] &&
+        rm -rf gnome_nhattVim &&
+        ok "Remove old dotfiles successfully"
+
+    # Revert to normal idle and lock settings
+    gsettings set org.gnome.desktop.screensaver lock-enabled true
+    gsettings set org.gnome.desktop.session idle-delay 300
+
+    # check log
+    [ -f $HOME/install.log ] &&
+        gum confirm "${CYAN} Do you want to check log?" &&
+        gum pager <$HOME/install.log
+
+    # successfully
+    ok "Yey! Installation Completed. Rebooting..."
+    gum confirm "${CYAN} Would you like to reboot now?" && sudo reboot
 else
-    err "Failed to clone dotfiles"
-    exit 1
-fi
-
-if [ "$battery" == "Y" ]; then
-    exHypr "battery.sh"
-fi
-
-if [ "$dots" == "Y" ]; then
-    exGnome "dotfiles.sh"
-fi
-
-# remove dotfiles
-cd $HOME || exit 1
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    note "Remove dotfile successfully"
-fi
-
-# check log
-if [ -f $HOME/install.log ]; then
-    gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
-fi
-
-ok "Yey! Installation Completed. Rebooting..."
-if gum confirm "${CYAN} Would you like to reboot now?"; then
-    sudo reboot
+    # require
+    exGnome "base.sh"
 fi
