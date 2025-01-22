@@ -76,6 +76,12 @@ cp -rf gtk-4.0 $HOME/.config
 # Reload fonts && cleanup backups folders
 fc-cache -fv && cleanup_backups
 
+# remove dotfiles
+cd $HOME
+[ -d gnome_nhattVim ] &&
+    rm -rf gnome_nhattVim &&
+    ok "Remove old dotfiles successfully"
+
 # Change shell to zsh
 note "Changing default shell to zsh..."
 

@@ -5,7 +5,7 @@
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # init
-exHypr "base.sh"
+exHypr "boot.sh"
 
 # start script
 gum style \
@@ -162,9 +162,9 @@ cd $HOME
 
 echo
 
-if [ -f $HOME/install.log ]; then
-    gum confirm "${CYAN} Do you want to check log?${RESET}" && gum pager <$HOME/install.log
-fi
+[ -f $HOME/install.log ] &&
+    gum confirm "${CYAN} Do you want to check log?" &&
+    gum pager <$HOME/install.log
 
 # clear packages
 note "Clear packages." &&
