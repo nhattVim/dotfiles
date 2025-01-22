@@ -68,11 +68,6 @@ cp -r assets/.* $HOME/ && { ok "Copy assets completed"; } || {
     err "Failed to copy assets"
 }
 
-# Copy gtk-4.0 config for themes
-cd "$HOME/.themes/(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
-mkdir -p $HOME/.config/gtk-4.0
-cp -rf gtk-4.0 $HOME/.config
-
 # Reload fonts && cleanup backups folders
 fc-cache -fv && cleanup_backups
 
