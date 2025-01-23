@@ -29,6 +29,10 @@ else
     fi
 fi
 
+# Ensure computer doesn't go to sleep or lock while installing
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.session idle-delay 0
+
 # require
 exGnome "boot.sh"
 
@@ -57,10 +61,6 @@ gum style \
     "${YELLOW}WARN:${PINK} You will be required to answer some questions during the installation            ${RESET}" \
     "                                                                                                       ${RESET}" \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
-
-# Ensure computer doesn't go to sleep or lock while installing
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.desktop.session idle-delay 0
 
 while true; do
     yes_no "Do you dual boot with window?" dual_boot
