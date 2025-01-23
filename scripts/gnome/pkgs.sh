@@ -13,12 +13,25 @@ NEOVIM="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.t
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 
+ppa=(
+    ppa:zhangsongcui3371/fastfetch
+)
+
 pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
     neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
-    gdb nano vim xclip bpytop
+    gdb nano vim bpytop fastfetch
 )
+
+# Add ppa
+note "Adding ppa..."
+for PPA in "${ppa[@]}"; do
+    sudo add-apt-repository -y "$PPA"
+    if [ $? -ne 0 ]; then
+        err "Failed to add $PPA"
+    fi
+done
 
 # Re-update system
 note "Updating system..."
@@ -121,7 +134,10 @@ else
     if git clone "$COLORSCRIPT" /tmp/colorscript; then
         ok "Clone shell-color-scripts successfully"
         note "Installing shell-color-scripts ..."
-        if cd /tmp/colorscript && sudo make install && sudo cp completions/_colorscript /usr/share/zsh/site-functions && cd - &>/dev/null; then
+        if cd /tmp/colorscript &&
+            sudo make install &&
+            sudo cp completions/_colorscript /usr/share/zsh/site-functions &&
+            cd - &>/dev/null; then
             ok "Shell-color-scripts was installed"
         else
             err "Failed to install shell-color-scripts"
