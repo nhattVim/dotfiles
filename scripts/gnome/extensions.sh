@@ -90,3 +90,7 @@ gsettings set org.gnome.shell.extensions.search-light background-color '(0.0, 0.
 note "Configuring extension: user-theme"
 gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Macchiato-Standard-Lavender-dark"
 # gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
+
+note "Configuring extension: clipboard-history"
+gsettings set org.gnome.shell.extensions.clipboard-history toggle-menu "['<Super>V']"
+gsettings set org.gnome.shell.extensions.clipboard-history clear-history "['<Super><Shift>V']"
