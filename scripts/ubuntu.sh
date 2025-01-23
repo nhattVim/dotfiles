@@ -29,6 +29,9 @@ else
     fi
 fi
 
+# require
+exGnome "boot.sh"
+
 # start script
 gum style \
     --foreground 213 --border-foreground 213 --border rounded \
@@ -58,9 +61,6 @@ gum style \
 # Ensure computer doesn't go to sleep or lock while installing
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.session idle-delay 0
-
-# require
-exGnome "boot.sh"
 
 while true; do
     yes_no "Do you dual boot with window?" dual_boot
