@@ -71,6 +71,25 @@ cp -r assets/.* $HOME/ && { ok "Copy assets completed"; } || {
 # Reload fonts && cleanup backups folders
 fc-cache -fv && cleanup_backups
 
+# Download additional wallpapers
+note "Downloading additional wallpapers..."
+while true; do
+    if git clone https://github.com/nhattVim/wallpapers --depth 1; then
+        note "Wallpapers downloaded successfully."
+
+        mkdir -p $HOME/Pictures/wallpapers
+        if cp -R wallpapers/wallpapers/* $HOME/Pictures/wallpapers/; then
+            note "Wallpapers copied successfully."
+            rm -rf wallpapers
+            break
+        else
+            err "Copying wallpapers failed."
+        fi
+    else
+        err "Downloading additional wallpapers failed"
+    fi
+done
+
 # remove dotfiles
 cd $HOME
 [ -d gnome_nhattVim ] &&

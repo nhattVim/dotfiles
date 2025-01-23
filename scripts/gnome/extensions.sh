@@ -30,6 +30,8 @@ install_exts=(
     top-bar-organizer@julian.gse.jsts.xyz
     user-theme@gnome-shell-extensions.gcampax.github.com
     Vitals@CoreCoding.com
+    appindicatorsupport@rgcjonas.gmail.com
+    forge@jmmaranan.com
 )
 
 note "Installing extension tools"
@@ -68,3 +70,23 @@ done
 
 note "Compiling gsettings schemas"
 sudo glib-compile-schemas "$SCHEMA_DIR"
+
+# Configure Blur My Shell
+note "Configuring extension: blur-my-shell"
+gsettings set org.gnome.shell.extensions.blur-my-shell.lockscreen blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.appfolder blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.coverflow-alt-tab blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.screenshot blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.window-list blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.panel blur false
+gsettings set org.gnome.shell.extensions.blur-my-shell.overview blur true
+
+note "Configuring extension: search-light"
+gsettings set org.gnome.shell.extensions.search-light shortcut-search "['<Alt>Space']"
+gsettings set org.gnome.shell.extensions.search-light border-radius 2.0
+gsettings set org.gnome.shell.extensions.search-light border-thickness 1
+gsettings set org.gnome.shell.extensions.search-light background-color '(0.0, 0.0, 0.0, 0.5)'
+
+note "Configuring extension: user-theme"
+gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Macchiato-Standard-Lavender-dark"
+# gsettings set org.gnome.shell.extensions.user-theme name "(Modded) Catppuccin-Mocha-Standard-Mauve-Dark"
