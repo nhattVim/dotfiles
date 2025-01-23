@@ -26,7 +26,6 @@ plugins=(
     aliases
     history
     gradle
-    starship
     zsh-autosuggestions
 )
 
