@@ -108,7 +108,7 @@ gsettings set org.gnome.shell.extensions.space-bar.shortcuts open-menu "@as []"
 # gsettings set org.gnome.shell.extensions.top-bar-organizer center-box-order "['color-picker@tuberry', 'appindicator-kstatusnotifieritem-livepatch', 'appindicator-kstatusnotifieritem-software-update-available', 'vitalsMenu', 'screenRecording', 'screenSharing', 'dwellClick', 'a11y', 'keyboard', 'quickSettings']"
 
 note "Configuring extension: logomenu"
-gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-image 0
+gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-image 5
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-size 25
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-click-type 1
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-terminal "kitty"

@@ -3,7 +3,7 @@
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
-note "Setting up hotkeys."
+note "Changing hotkeys."
 
 # Diasble application hotkeys to avoid conflicts
 gsettings set org.gnome.shell.keybindings switch-to-application-1 "@as []"

@@ -12,3 +12,6 @@ gsettings set org.gnome.desktop.interface gtk-theme "(Modded) Catppuccin-Macchia
 
 gsettings set org.gnome.desktop.background picture-uri "$HOME/Pictures/wallpapers/lady-light.png"
 gsettings set org.gnome.desktop.background picture-uri-dark "$HOME/Pictures/wallpapers/anime-night.jpg"
+
+gsettings set org.gnome.mutter dynamic-workspaces false
+gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
