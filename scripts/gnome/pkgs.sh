@@ -95,18 +95,6 @@ else
     fi
 fi
 
-# Install Starship
-if command -v starship &>/dev/null; then
-    ok "Starship was installed, moving on"
-else
-    note "Install starship ..."
-    if cargo install starship --locked; then
-        ok "Starship was installed"
-    else
-        err "Starship install had failed"
-    fi
-fi
-
 # Install Arttime
 if command -v arttime &>/dev/null; then
     ok "Arttime already installed, moving on"
