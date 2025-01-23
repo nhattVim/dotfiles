@@ -24,7 +24,6 @@ gsettings set org.gnome.shell.keybindings open-new-window-application-6 "['']"
 gsettings set org.gnome.shell.keybindings open-new-window-application-7 "['']"
 gsettings set org.gnome.shell.keybindings open-new-window-application-8 "['']"
 gsettings set org.gnome.shell.keybindings open-new-window-application-9 "['']"
-gsettings set org.gnome.shell.keybindings toggle-message-tray "['']"
 
 # General
 gsettings set org.gnome.desktop.wm.keybindings close "['<Super>q']"
@@ -33,11 +32,12 @@ gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[''
 gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>D']"
 gsettings set org.gnome.desktop.default-applications.terminal exec 'kitty'
 gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
+gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>M']"
+gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super><Shift>M', 'F11']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "['<Super>T']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>F']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>B']"
-gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>M']"
-gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super><Shift>M', 'F11']"
+gsettings set org.gnome.shell.keybindings toggle-message-tray "['<Super>N']"
 
 # Navigation
 gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Alt>Tab']"
