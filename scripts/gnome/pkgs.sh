@@ -14,7 +14,6 @@ LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazyg
 
 ppa=(
     ppa:zhangsongcui3371/fastfetch
-    ppa:danielrichter2007/grub-customizer
 )
 
 pkgs=(
@@ -54,7 +53,6 @@ else
         kitty rofi ibus-unikey stow aria2 libsecret-tools
         figlet cmatrix trash-cli hollywood cpufetch
         imagemagick mupdf mupdf-tools
-        # grub-customizer
     )
 fi
 
