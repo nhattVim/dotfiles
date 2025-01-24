@@ -32,8 +32,6 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "@as []"
 gsettings set org.gnome.desktop.wm.keybindings close "['<Super>q']"
 gsettings set org.gnome.desktop.wm.keybindings activate-window-menu "@as []"
 gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "@as []"
-gsettings set org.gnome.desktop.default-applications.terminal exec 'kitty'
-gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>M']"
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super><Shift>M', 'F11']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "['<Super>T']"

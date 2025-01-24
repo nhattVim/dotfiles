@@ -15,4 +15,9 @@ gsettings set org.gnome.desktop.background picture-uri-dark "$HOME/Pictures/wall
 
 gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
+gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
+gsettings set org.gnome.desktop.wm.preferences button-layout "menu:minimize,maximize,close"
 gsettings set org.gnome.shell favorite-apps "@as []"
+
+gsettings set org.gnome.desktop.default-applications.terminal exec 'kitty'
+gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
