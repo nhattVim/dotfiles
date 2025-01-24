@@ -56,7 +56,7 @@ done
 
 gum confirm "To install Gnome extensions, you need to accept some confirmations. Are you ready?"
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 for EXT2 in "${install_exts[@]}"; do
     gext install "$EXT2" &&
