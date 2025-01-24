@@ -52,7 +52,7 @@ else
     pkgs+=(
         kitty rofi ibus-unikey stow aria2 libsecret-tools
         figlet cmatrix trash-cli hollywood cpufetch
-        imagemagick mupdf mupdf-tools
+        imagemagick mupdf mupdf-tools gnome-tweaks
     )
 fi
 
