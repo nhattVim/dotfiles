@@ -71,7 +71,6 @@ while true; do
         --align left --width 50 --margin "1 2" --padding "2 4" \
         "${CYAN}Your selected options:" \
         "${PINK}Dual Boot:${YELLOW} $dual_boot" \
-        "${PINK}Download Gnome dotfiles:${YELLOW} $dots" \
         "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery"
 
     if gum confirm "Are these options correct?"; then
