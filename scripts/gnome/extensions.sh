@@ -113,7 +113,7 @@ gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-size 25
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-click-type 1
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-terminal "kitty"
 
-# note "Configuring extension: Vitals"
+note "Configuring extension: Vitals"
 gsettings set org.gnome.shell.extensions.vitals hot-sensors "['_memory_usage_', '__network-rx_max__']"
 
 # note "Configuring extension: forge"
