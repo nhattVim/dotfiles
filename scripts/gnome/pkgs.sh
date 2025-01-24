@@ -7,7 +7,6 @@
 # Variable
 PIPES="https://github.com/pipeseroni/pipes.sh"
 COLORSCRIPT="https://gitlab.com/dwt1/shell-color-scripts.git"
-NODEJS="https://deb.nodesource.com/setup_23.x"
 ARTTIME="https://github.com/poetaman/arttime/releases/download/v2.3.4/arttime_2.3.4-1_all.deb"
 NEOVIM="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -22,6 +21,9 @@ pkgs=(
     neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
     gdb nano vim bpytop fastfetch
+    bison pkg-config autoconf clang libssl-dev libreadline-dev zlib1g-dev
+    libyaml-dev libncurses5-dev libffi-dev libgdbm-dev libjemalloc2 libvips
+    libmagickwand-dev libmysqlclient-dev libpq-dev
 )
 
 # Add ppa
@@ -50,7 +52,7 @@ else
     pkgs+=(
         kitty rofi ibus-unikey stow aria2 libsecret-tools
         figlet cmatrix trash-cli hollywood cpufetch
-        grub-customizer
+        grub-customizer imagemagick mupdf mupdf-tools
     )
 fi
 
@@ -64,48 +66,40 @@ for PKG in "${pkgs[@]}"; do
 done
 
 # Install Nodejs
-if command -v nodejs &>/dev/null; then
-    note "Removing old version of NodeJS"
-    sudo $PKGMN remove -y nodejs
-else
-    note "Download Node.js setup script ..."
-    if curl -fsSL "$NODEJS" -o nodesource_setup.sh; then
-        ok "Download the Node.js setup script successfully"
-        note "Install Node.js"
-        if sudo -E bash nodesource_setup.sh; then
-            sudo $PKGMN install -y nodejs && rm nodesource_setup.sh
-            ok "Install Node.js successfully"
-        else
-            err "Install Node.js had failed"
-        fi
+if ! command -v nodejs &>/dev/null; then
+    note "Install last version of Node.js ..."
+    if curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo $PKGMN install -y nodejs; then
+        ok "Node.js has been successfully installed."
     else
-        err "Download the Node.js setup script had failed"
+        err "Failed to install Node.js."
     fi
+else
+    ok "Node.js is already installed. Skipping ..."
 fi
 
 # Install Rust
-if command -v rustc &>/dev/null; then
-    ok "Rust already installed, moving on"
-else
+if ! command -v rustc &>/dev/null; then
     note "Install Rust ..."
     if curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh; then
         ok "Rust was installed"
-        source $HOME/.cargo/env
+        . $HOME/.cargo/env
     else
         err "Rust install had failed"
     fi
+else
+    ok "Rust already installed, moving on"
 fi
 
 # Install Lsd
-if command -v lsd &>/dev/null; then
-    ok "Lsd already installed, moving on"
-else
+if ! command -v lsd &>/dev/null; then
     note "Install lsd ..."
     if cargo install lsd --locked; then
         ok "Lsd was installed"
     else
         err "Lsd install had failed"
     fi
+else
+    ok "Lsd already installed, moving on"
 fi
 
 # Install Arttime
@@ -187,22 +181,22 @@ fi
 if command -v nvim &>/dev/null; then
     note "Remove old version of NeoVim"
     sudo $PKGMN remove neovim -y
+fi
+
+note "Dowload latest version of neovim"
+if wget -O /tmp/nvim-linux64.tar.gz "$NEOVIM"; then
+    ok "Download successfully"
+    note "Installing neovim ..."
+    mkdir -p $HOME/.local/bin &&
+        mv /tmp/nvim-linux64.tar.gz $HOME/.local/bin &&
+        tar -xf $HOME/.local/bin/nvim-linux64.tar.gz -C $HOME/.local/bin &&
+        rm -fr $HOME/.local/bin/nvim-linux64.tar.gz &&
+        ln -s $HOME/.local/bin/nvim-linux64/bin/nvim $HOME/.local/bin/nvim &&
+        ok "Install neovim successfully" || {
+        err "Failed to install neovim"
+    }
 else
-    note "Dowload latest version of neovim"
-    if wget -O /tmp/nvim-linux64.tar.gz "$NEOVIM"; then
-        ok "Download successfully"
-        note "Installing neovim ..."
-        mkdir -p $HOME/.local/bin &&
-            mv /tmp/nvim-linux64.tar.gz $HOME/.local/bin &&
-            tar -xf $HOME/.local/bin/nvim-linux64.tar.gz -C $HOME/.local/bin &&
-            rm -fr $HOME/.local/bin/nvim-linux64.tar.gz &&
-            ln -s $HOME/.local/bin/nvim-linux64/bin/nvim $HOME/.local/bin/nvim &&
-            ok "Install neovim successfully" || {
-            err "Failed to install neovim"
-        }
-    else
-        err "Failed to download neovim"
-    fi
+    err "Failed to download neovim"
 fi
 
 # Clone tpm
