@@ -21,3 +21,15 @@ gsettings set org.gnome.shell favorite-apps "@as []"
 
 gsettings set org.gnome.desktop.default-applications.terminal exec 'kitty'
 gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
+
+# gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Control><Shift>b', 'XF86Keyboard']"
+# gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Shift><Control>', '<Shift>XF86Keyboard']"
+#
+# gsettings get org.gnome.desktop.wm.keybindings switch-input-source
+# gsettings reset org.gnome.desktop.wm.keybindings switch-input-source
+#
+# gsettings get org.gnome.desktop.wm.keybindings switch-input-source-backward
+# gsettings reset org.gnome.desktop.wm.keybindings switch-input-source-backward
+#
+# gsettings set org.freedesktop.ibus.general.hotkey triggers "['<Control><Shift>']"
+# # gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Shift><Alt>']"
