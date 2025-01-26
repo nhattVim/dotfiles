@@ -102,14 +102,16 @@ for PKG2 in "${aur_packages[@]}"; do
 done
 
 # Set up neovim
-note "Setup neovim"
-[ -d $HOME/.config/nvim ] &&
+note "Setting up MYnvim..."
+if [ -d $HOME/.config/nvim ]; then
     rm -rf $HOME/.config/nvim &&
-    ok "Backup neovim folder completed" || ok "Failed to backup neovim folder"
+        ok "Del old neovim folder completed" || err "Failed to del neovim folder"
+fi
 
-[ -d $HOME/.local/share/nvim ] &&
+if [ -d $HOME/.local/share/nvim ]; then
     rm -rf $HOME/.local/share/nvim &&
-    ok "Backup neovim data folder completed" || ok "Failed to backup neovim folder"
+        ok "Del old neovim data folder completed" || err "Failed to del neovim data folder"
+fi
 
 git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1 &&
     ok "Setup neovim successfully" || err "Failed to setup neovim"

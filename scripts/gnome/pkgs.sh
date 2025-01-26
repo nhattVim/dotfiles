@@ -225,9 +225,11 @@ else
 fi
 
 # Install zen browser
-note "Install zen browser ..."
-if bash <(curl -s https://updates.zen-browser.app/install.sh); then
-    ok "Install Zen successfully"
-else
-    err "Failed to install Zen"
+if [ "$ENV" == "Ubuntu" ]; then
+    note "Install zen browser ..."
+    if bash <(curl -s https://updates.zen-browser.app/install.sh); then
+        ok "Install Zen successfully"
+    else
+        err "Failed to install Zen"
+    fi
 fi

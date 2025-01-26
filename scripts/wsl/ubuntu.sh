@@ -38,43 +38,38 @@ exGnome "pkgs.sh"
 
 # Config MYnvim
 note "Setting up MYnvim..."
-if [ -d "$HOME/.config/nvim" ]; then
-    mv $HOME/.config/nvim $HOME/.config/nvim.bak && ok "Backup of nvim folder successful"
+if [ -d $HOME/.config/nvim ]; then
+    rm -rf $HOME/.config/nvim &&
+        ok "Del old neovim folder completed" || err "Failed to del neovim folder"
 fi
 
-if [ -d "$HOME/.local/share/nvim" ]; then
-    mv $HOME/.local/share/nvim $HOME/.local/share/nvim.bak && ok "Backup of nvim data folder successful"
+if [ -d $HOME/.local/share/nvim ]; then
+    rm -rf $HOME/.local/share/nvim &&
+        ok "Del old neovim data folder completed" || err "Failed to del neovim data folder"
 fi
 
-if git clone https://github.com/nhattVim/MYnvim.git $HOME/.config/nvim --depth 1; then
-    sudo npm install neovim -g
-    ok "MYnvim setup completed successfully"
-else
-    err "MYnvim setup failed"
-fi
+git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1 &&
+    ok "Setup MYnvim successfully" || err "Failed to setup MYnvim"
 
 # Clone dotfiles
-note "Clone dotfiles"
-if [[ -d /tmp/dotfiles ]]; then
-    rm -rf /tmp/dotfiles
+cd $HOME
+if ! cd gnome_nhattVim 2>/dev/null; then
+    note "Cloning dotfiles..."
+    if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 gnome_nhattVim; then
+        cd gnome_nhattVim
+        ok "Cloned dotfiles successfully"
+    else
+        err "Failed to clone dotfiles"
+        exit 1
+    fi
 fi
-git clone -b gnome https://github.com/nhattVim/dotfiles.git /tmp/dotfiles --depth 1 || {
-    err "Failed to clone dotfiles"
-    exit 1
-}
-
-cd /tmp/dotfiles || {
-    err "Failed to enter dotfiles directory"
-    exit 1
-}
 
 note "Starting configuration..."
 
 folder=(
-    neofetch
+    fastfetch
     ranger
     tmux
-    starship.toml
 )
 
 # Back up configuration files
@@ -100,20 +95,9 @@ for ITEM in "${folder[@]}"; do
 done
 
 # Copy other files
-cp assets/.zshrc ~ && cp assets/.ideavimrc ~ && { ok "Copy completed"; } || {
+cp assets/.zshrc ~ && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc and .ideavimrc"
 }
-
-# Copy fonts
-mkdir -p ~/.fonts
-cp -r assets/.fonts/* ~/.fonts/ && { ok "Fonts copied successfully"; } || {
-    err "Failed to copy fonts"
-}
-
-# Reload fonts
-note "Rebuilding font cache..."
-fc-cache -fv
-note "Font cache rebuilt."
 
 # Check installation log
 if [ -f $HOME/install.log ]; then
