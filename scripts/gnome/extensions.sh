@@ -117,10 +117,10 @@ gsettings set org.gnome.shell.extensions.space-bar.shortcuts enable-activate-wor
 gsettings set org.gnome.shell.extensions.space-bar.shortcuts enable-move-to-workspace-shortcuts true
 gsettings set org.gnome.shell.extensions.space-bar.shortcuts open-menu "@as []"
 
-# note "Configuring extension: top-bar-organizer"
-# gsettings set org.gnome.shell.extensions.top-bar-organizer left-box-order "['LogoMenu', 'dateMenu', 'Space Bar', 'Clipboard History Indicator', 'activities']"
-# gsettings set org.gnome.shell.extensions.top-bar-organizer center-box-order "['dateMenu']"
-# gsettings set org.gnome.shell.extensions.top-bar-organizer center-box-order "['color-picker@tuberry', 'appindicator-kstatusnotifieritem-livepatch', 'appindicator-kstatusnotifieritem-software-update-available', 'vitalsMenu', 'screenRecording', 'screenSharing', 'dwellClick', 'a11y', 'keyboard', 'quickSettings']"
+note "Configuring extension: top-bar-organizer"
+gsettings set org.gnome.shell.extensions.top-bar-organizer left-box-order "['LogoMenu', 'Space Bar', 'Clipboard History Indicator', 'activities']"
+gsettings set org.gnome.shell.extensions.top-bar-organizer center-box-order "['dateMenu']"
+gsettings set org.gnome.shell.extensions.top-bar-organizer right-box-order "['keyboard', 'color-picker@tuberry', 'appindicator-kstatusnotifieritem-livepatch', 'appindicator-kstatusnotifieritem-software-update-available', 'vitalsMenu', 'screenRecording', 'screenSharing', 'dwellClick', 'a11y', 'quickSettings']"
 
 note "Configuring extension: logomenu"
 gsettings set org.gnome.shell.extensions.logo-menu menu-button-icon-image 5
@@ -164,4 +164,5 @@ gsettings set org.gnome.shell.extensions.burn-my-windows active-profile "$HOME/.
 # gsettings set org.gnome.shell.extensions.forge.keybindings window-focus-right "['<Super>L']"
 # gsettings set org.gnome.shell.extensions.forge.keybindings window-toggle-float "['<Super><Shift>F']"
 
-# ~/Workspaces/dotfiles (master*) » gsettings list-recursively org.gnome.shell.extensions.burn-my-windows-profile                                       albedo@nhattVim
+# gsettings list-recursively org.gnome.shell.extensions.burn-my-windows-profile
+# gsettings list-recursively org.gnome.shell.extensions.burn-my-windows
