@@ -53,16 +53,29 @@ for EXTS in "${disable_exts[@]}"; do
         ok "$EXTS disabled successfully" ||
         err "$EXTS disable failed"
 done
+for EXTS in "${disable_exts[@]}"; do
+    if gnome-extensions list | grep -q "$EXTS"; then
+        gnome-extensions disable "$EXTS" &&
+            ok "$EXTS disabled successfully" ||
+            err "$EXTS disable failed"
+    else
+        note "$EXTS is not installed, skipping."
+    fi
+done
 
 gum confirm "To install Gnome extensions, you need to accept some confirmations. Are you ready?"
 
 export PATH="$HOME/.local/bin:$PATH"
 
-for EXT2 in "${install_exts[@]}"; do
-    gext install "$EXT2" &&
-        ok "$EXT2 installed successfully"
+for EXTS2 in "${install_exts[@]}"; do
+    if ! gnome-extensions list | grep -q "$EXTS2"; then
+        gext install "$EXTS2" &&
+            ok "$EXTS2 installed successfully"
+    else
+        note "$EXTS2 is already installed, skipping."
+    fi
 
-    SCHEMA_SRC="$HOME/.local/share/gnome-shell/extensions/$EXT2/schemas"
+    SCHEMA_SRC="$HOME/.local/share/gnome-shell/extensions/$EXTS2/schemas"
     if [ -d "$SCHEMA_SRC" ] && compgen -G "$SCHEMA_SRC"/*.gschema.xml >/dev/null; then
         sudo cp "$SCHEMA_SRC"/*.gschema.xml "$SCHEMA_DIR"
     fi
