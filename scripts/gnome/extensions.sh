@@ -31,6 +31,7 @@ install_exts=(
     user-theme@gnome-shell-extensions.gcampax.github.com
     Vitals@CoreCoding.com
     appindicatorsupport@rgcjonas.gmail.com
+    burn-my-windows@schneegans.github.com
     # forge@jmmaranan.com
 )
 
@@ -129,6 +130,9 @@ gsettings set org.gnome.shell.extensions.logo-menu menu-button-terminal "kitty"
 note "Configuring extension: Vitals"
 gsettings set org.gnome.shell.extensions.vitals hot-sensors "['_memory_usage_', '__network-rx_max__']"
 
+note "Configuring extension: burn-my-windows"
+gsettings set org.gnome.shell.extensions.burn-my-windows active-profile "$HOME/.config/burn-my-windows/profiles/nhattVim.conf"
+
 # note "Configuring extension: forge"
 # gsettings set org.gnome.shell.extensions.forge focus-border-toggle true
 # gsettings set org.gnome.shell.extensions.forge window-gap-size 4
@@ -158,3 +162,5 @@ gsettings set org.gnome.shell.extensions.vitals hot-sensors "['_memory_usage_', 
 # gsettings set org.gnome.shell.extensions.forge.keybindings window-focus-up "['<Super>K']"
 # gsettings set org.gnome.shell.extensions.forge.keybindings window-focus-right "['<Super>L']"
 # gsettings set org.gnome.shell.extensions.forge.keybindings window-toggle-float "['<Super><Shift>F']"
+
+# ~/Workspaces/dotfiles (master*) » gsettings list-recursively org.gnome.shell.extensions.burn-my-windows-profile                                       albedo@nhattVim
