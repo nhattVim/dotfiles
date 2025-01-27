@@ -70,9 +70,10 @@ export PATH="$HOME/.local/bin:$PATH"
 
 for EXTS2 in "${install_exts[@]}"; do
     if ! gnome-extensions list | grep -q "$EXTS2"; then
-        gext install "$EXTS2" &&
+        gext install "$EXTS2" && gnome-extensions enable "$EXTS2" &&
             ok "$EXTS2 installed successfully"
     else
+        gnome-extensions enable "$EXTS2"
         note "$EXTS2 is already installed, skipping."
     fi
 
