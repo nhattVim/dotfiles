@@ -264,6 +264,12 @@ ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
     # performing clean up backup folders
     cleanup_backups
 
+# remove dotfiles
+cd $HOME
+[ -d hyprland_nhattVim ] &&
+    rm -rf hyprland_nhattVim &&
+    ok "Remove old dotfiles successfully"
+
 # Change shell to zsh
 note "Changing default shell to zsh..."
 

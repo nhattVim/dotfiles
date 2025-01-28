@@ -154,14 +154,6 @@ if [ "$dots" == "Y" ]; then
     exHypr "dotfiles.sh"
 fi
 
-# remove dotfiles
-cd $HOME
-[ -d hyprland_nhattVim ] &&
-    rm -rf hyprland_nhattVim &&
-    ok "Remove old dotfiles successfully"
-
-echo
-
 [ -f $HOME/install.log ] &&
     gum confirm "${CYAN} Do you want to check log?" &&
     gum pager <$HOME/install.log
