@@ -5,7 +5,7 @@
 
 # variables
 wallpaper="$HOME/Pictures/wallpapers/art-3.png"
-waybar_style="$HOME/.config/waybar/style/simple [wallust].css"
+waybar_style="$HOME/.config/waybar/style/[Wallust] Simple.css"
 waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
 waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 
