@@ -14,6 +14,7 @@ hypr=(
     hyprland
     pyprland
     hyprland-qtutils
+    libspng
 )
 
 uninstall=(

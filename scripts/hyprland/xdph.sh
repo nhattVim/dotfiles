@@ -19,10 +19,8 @@ for xdgs in "${xdg[@]}"; do
 done
 
 note "Checking for other xdg-desktop-portal implementations..."
-note "XDG-desktop-portal-KDE & GNOME (if installed) should be manually disabled or removed! I can't remove it... sorry..."
 
 if gum confirm "${CYAN} Would you like to try to remove other XDG-Desktop-Portal-Implementations?${RESET}"; then
-    sleep 1
     # Clean out other portals
     note "Clearing any other xdg-desktop-portal implementations..."
     # Check if packages are installed and uninstall if present

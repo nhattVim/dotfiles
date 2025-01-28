@@ -67,8 +67,6 @@ hypr_pkgs=(
     pavucontrol
     pipewire-alsa
     playerctl
-    polkit-gnome
-    python-pywal
     qt5ct
     qt6ct
     swappy

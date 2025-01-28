@@ -23,7 +23,6 @@ hypr_pkgs=(
     kvantum
     python-requests
     rofi-lbonn-wayland-git
-    swaylock-effects-git
     swaync
     swww
     wlogout
@@ -58,4 +57,3 @@ done
 
 act "Installing wallust..."
 cargo install wallust && ok "wallust was installed" || err "wallust install had failed"
-# echo 'export PATH="$HOME/.cargo/bin:$PATH"' >>$HOME/.bashrc
