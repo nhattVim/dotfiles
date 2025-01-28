@@ -6,6 +6,8 @@
 # variables
 wallpaper="$HOME/Pictures/wallpapers/art-3.png"
 waybar_style="$HOME/.config/waybar/style/simple [wallust].css"
+waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
+waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 
 HYPR_FOLDER="$HOME/.config/hypr/configs"
 ENV_FILE="$HYPR_FOLDER/env_variables.conf"
@@ -223,12 +225,22 @@ fi
 # Detect machine type and set Waybar configurations accordingly, logging the output
 if hostnamectl | grep -q 'Chassis: desktop'; then
     # Configurations for a desktop
-    ln -sf "$HOME/.config/waybar/configs/default [TOP]" "$HOME/.config/waybar/config"
-    rm -r "$HOME/.config/waybar/configs/default laptop [TOP]" "$HOME/.config/waybar/configs/default laptop [BOT]"
+    ln -sf "$waybar_config" "$HOME/.config/waybar/config"
+    # Remove waybar configs for laptop
+    rm -rf "$HOME/.config/waybar/configs/[TOP] Default Laptop" \
+        "$HOME/.config/waybar/configs/[BOT] Default Laptop" \
+        "$HOME/.config/waybar/configs/[TOP] Default Laptop_v2" \
+        "$HOME/.config/waybar/configs/[TOP] Default Laptop_v3" \
+        "$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 else
     # Configurations for a laptop or any system other than desktop
-    ln -sf "$HOME/.config/waybar/configs/default laptop [TOP]" "$HOME/.config/waybar/config"
-    rm -r "$HOME/.config/waybar/configs/default [TOP]" "$HOME/.config/waybar/configs/default [BOT]"
+    ln -sf "$waybar_config_laptop" "$HOME/.config/waybar/config"
+    # Remove waybar configs for desktop
+    rm -rf "$HOME/.config/waybar/configs/[TOP] Default" \
+        "$HOME/.config/waybar/configs/[BOT] Default" \
+        "$HOME/.config/waybar/configs/[TOP] Default_v2" \
+        "$HOME/.config/waybar/configs/[TOP] Default_v3" \
+        "$HOME/.config/waybar/configs/[TOP] Default_v4"
 fi
 
 # additional wallpapers
