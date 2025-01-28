@@ -49,6 +49,8 @@ bash <(curl -sSL https://is.gd/nhattVim_arch)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
+### Keybindings
+
 <div align="center">
 
 | Keys                                                                                   | Action                                            |
