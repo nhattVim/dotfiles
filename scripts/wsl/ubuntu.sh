@@ -99,6 +99,12 @@ cp assets/.zshrc ~ && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc and .ideavimrc"
 }
 
+# remove dotfiles
+cd $HOME
+[ -d gnome_nhattVim ] &&
+    rm -rf gnome_nhattVim &&
+    ok "Remove old dotfiles successfully"
+
 # Check installation log
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
