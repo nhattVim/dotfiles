@@ -51,7 +51,7 @@ bash <(curl -sSL https://is.gd/nhattVim_arch)
 
 ### Keybindings
 
-<div align="center">
+<div align="left">
 
 | Keys                                                                                   | Action                                            |
 | :------------------------------------------------------------------------------------- | :------------------------------------------------ |
