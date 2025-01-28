@@ -67,7 +67,7 @@ done
 
 # Install Nodejs
 if ! command -v nodejs &>/dev/null; then
-    note "Install last version of Node.js ..."
+    note "Install lastest version of Node.js ..."
     if curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo $PKGMN install -y nodejs; then
         ok "Node.js has been successfully installed."
     else
