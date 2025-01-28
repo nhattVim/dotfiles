@@ -451,7 +451,7 @@
     "exec": "echo ; echo 󰸉 wallpaper select",
     "on-click": "~/.config/hypr/scripts/wallpaper_select.sh",
     "on-click-right": "~/.config/hypr/scripts/wallpaper_random.sh",
-    "on-click-middle": "~/.config/hypr/scripts/waybar_style.sh",
+    "on-click-middle": "~/.config/hypr/scripts/waybar_styles.sh",
     "interval" : 86400, // once every day
     "tooltip": true,
 },
@@ -475,7 +475,7 @@
     "format": "{}",
     "exec": "echo ; echo 󰔎 Dark-Light switcher",
     "on-click": "~/.config/hypr/scripts/wallpaper_random.sh",
-    "on-click-right": "~/.config/hypr/scripts/waybar_style.sh",
+    "on-click-right": "~/.config/hypr/scripts/waybar_styles.sh",
     "on-click-middle": "~/.config/hypr/scripts/wallpaper_select.sh",
     "interval" : 86400, // once every day
     "tooltip": true
