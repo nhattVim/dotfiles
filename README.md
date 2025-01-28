@@ -49,64 +49,58 @@ bash <(curl -sSL https://is.gd/nhattVim_arch)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
-<!-- <div align="center"> -->
-<!---->
-<!-- | Keys                                                                                                     | Action                                                            | -->
-<!-- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- | -->
-<!-- | <kbd>Super</kbd> + <kbd>Q</kbd>                                                                          | Close focused window                                              | -->
-<!-- | <kbd>Super</kbd> + <kbd>Del</kbd>                                                                        | Kill Hyprland session                                             | -->
-<!-- | <kbd>Super</kbd> + <kbd>W</kbd>                                                                          | Toggle the window between focus and float                         | -->
-<!-- | <kbd>Super</kbd> + <kbd>G</kbd>                                                                          | Toggle the window between focus and group                         | -->
-<!-- | <kbd>Super</kbd> + <kbd>slash</kbd>                                                                      | Launch keybinds hint                                              | -->
-<!-- | <kbd>Alt</kbd> + <kbd>Enter</kbd>                                                                        | Toggle the window between focus and fullscreen                    | -->
-<!-- | <kbd>Super</kbd> + <kbd>L</kbd>                                                                          | Launch lock screen                                                | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>                                                       | Toggle pin on focused window                                      | -->
-<!-- | <kbd>Super</kbd> + <kbd>Backspace</kbd>                                                                  | Launch logout menu                                                | -->
-<!-- | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd>                                                          | Toggle waybar                                                     | -->
-<!-- | <kbd>Super</kbd> + <kbd>T</kbd>                                                                          | Launch terminal emulator (kitty)                                  | -->
-<!-- | <kbd>Super</kbd> + <kbd>E</kbd>                                                                          | Launch file manager (dolphin)                                     | -->
-<!-- | <kbd>Super</kbd> + <kbd>C</kbd>                                                                          | Launch text editor (vscode)                                       | -->
-<!-- | <kbd>Super</kbd> + <kbd>F</kbd>                                                                          | Launch web browser (firefox)                                      | -->
-<!-- | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>                                                      | Launch system monitor (htop/btop or fallback to top)              | -->
-<!-- | <kbd>Super</kbd> + <kbd>A</kbd>                                                                          | Launch application launcher (rofi)                                | -->
-<!-- | <kbd>Super</kbd> + <kbd>Tab</kbd>                                                                        | Launch window switcher (rofi)                                     | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>                                                       | Launch file explorer (rofi)                                       | -->
-<!-- | <kbd>F10</kbd>                                                                                           | Toggle audio mute                                                 | -->
-<!-- | <kbd>F11</kbd>                                                                                           | Decrease volume                                                   | -->
-<!-- | <kbd>F12</kbd>                                                                                           | Increase volume                                                   | -->
-<!-- | <kbd>Super</kbd> + <kbd>P</kbd>                                                                          | Partial screenshot capture                                        | -->
-<!-- | <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>P</kbd>                                                        | Partial screenshot capture (frozen screen)                        | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>P</kbd>                                                         | Monitor screenshot capture                                        | -->
-<!-- | <kbd>PrtScn</kbd>                                                                                        | All monitors screenshot capture                                   | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>G</kbd>                                                         | Disable hypr effects for gamemode                                 | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>→</kbd><kbd>←</kbd>                                             | Cycle wallpaper                                                   | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd>                                             | Cycle waybar mode                                                 | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>                                                       | Launch wallbash mode select menu (rofi)                           | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>                                                       | Launch theme select menu (rofi)                                   | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd>                                                       | Launch style select menu (rofi)                                   | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>                                                       | Launch theme style select menu (rofi)                             | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>                                                       | Launch wallpaper select menu (rofi)                               | -->
-<!-- | <kbd>Super</kbd> + <kbd>V</kbd>                                                                          | Launch clipboard (rofi)                                           | -->
-<!-- | <kbd>Super</kbd> + <kbd>K</kbd>                                                                          | Switch keyboard layout                                            | -->
-<!-- | <kbd>Super</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd>                                      | Move window focus                                                 | -->
-<!-- | <kbd>Alt</kbd> + <kbd>Tab</kbd>                                                                          | Change window focus                                               | -->
-<!-- | <kbd>Super</kbd> + <kbd>[0-9]</kbd>                                                                      | Switch workspaces                                                 | -->
-<!-- | <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>←</kbd><kbd>→</kbd>                                            | Switch workspaces to a relative workspace                         | -->
-<!-- | <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>↓</kbd>                                                        | Move to the first empty workspace                                 | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd>                   | Resize windows                                                    | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>[0-9]</kbd>                                                   | Move focused window to a relative workspace                       | -->
-<!-- | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> | Move focused window (tiled/floating) around the current workspace | -->
-<!-- | <kbd>Super</kbd> + <kbd>MouseScroll</kbd>                                                                | Scroll through existing workspaces                                | -->
-<!-- | <kbd>Super</kbd> + <kbd>LeftClick</kbd><br><kbd>Super</kbd> + <kbd>Z</kbd>                               | Move focused window                                               | -->
-<!-- | <kbd>Super</kbd> + <kbd>RightClick</kbd><br><kbd>Super</kbd> + <kbd>X</kbd>                              | Resize focused window                                             | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>S</kbd>                                                         | Move/Switch to special workspace (scratchpad)                     | -->
-<!-- | <kbd>Super</kbd> + <kbd>S</kbd>                                                                          | Toggle to special workspace                                       | -->
-<!-- | <kbd>Super</kbd> + <kbd>J</kbd>                                                                          | Toggle focused window split                                       | -->
-<!-- | <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>[0-9]</kbd>                                                     | Move focused window to a workspace silently                       | -->
-<!-- | <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>H</kbd>                                                        | Move between grouped windows backward                             | -->
-<!-- | <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>L</kbd>                                                        | Move between grouped windows forward                              | -->
-<!---->
-<!-- </div> -->
+<div align="center">
+
+| Keys                                                                                   | Action                                            |
+| :------------------------------------------------------------------------------------- | :------------------------------------------------ |
+| <kbd>Super</kbd> + <kbd>W</kbd>                                                        | Select wallpaper                                  |
+| <kbd>Super</kbd> + <kbd>D</kbd>                                                        | Rofi launcher                                     |
+| <kbd>Super</kbd> + <kbd>Q</kbd>                                                        | Close focused window                              |
+| <kbd>Super</kbd> + <kbd>T</kbd>                                                        | Launch terminal emulator (kitty)                  |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>                                     | Toggle drop terminal emulator (pyprland)          |
+| <kbd>Super</kbd> + <kbd>F</kbd>                                                        | Launch file manager (thunar)                      |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>                                     | Toggle floating window                            |
+| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd>                                       | Toggle all float                                  |
+| <kbd>Super</kbd> + <kbd>Z</kbd>                                                        | Toggle zoom mode (pyprland)                       |
+| <kbd>Super</kbd> + <kbd>Y</kbd>                                                        | Small help file                                   |
+| <kbd>Super</kbd> + <kbd>E</kbd>                                                        | Quick edit Hyprland settings                      |
+| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>E</kbd>                                       | Emoji menu                                        |
+| <kbd>Super</kbd> + <kbd>S</kbd>                                                        | Online music                                      |
+| <kbd>Super</kbd> + <kbd>V</kbd>                                                        | Clipboard                                         |
+| <kbd>Super</kbd> + <kbd>M</kbd>                                                        | Maximize window                                   |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>                                     | Fullscreen                                        |
+| <kbd>Super</kbd> + <kbd>R</kbd>                                                        | Refresh                                           |
+| <kbd>Super</kbd> + <kbd>ESC</kbd>                                                      | Launch logout menu (wlogout)                      |
+| <kbd>Super</kbd> + <kbd>B</kbd>                                                        | Toggle topbar (waybar)                            |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>                                     | Toggle blur                                       |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>                                     | Toggle game mode (Animations ON/OFF)              |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd>                                     | Toggle notification (swaync)                      |
+| <kbd>Super</kbd> + <kbd>Space</kbd>                                                    | Switch Master / Dwindle Layout                    |
+| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Delete</kbd>                                   | Logout                                            |
+| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>                                        | Lock screen                                       |
+| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd>                                        | Random wallpaper                                  |
+| <kbd>Alt</kbd> + <kbd>Space</kbd>                                                      | Switch keyboard layout                            |
+| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>W</kbd>                                      | Waybar layout menu                                |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>                                     | Waybar style menu                                 |
+| <kbd>Super</kbd> + <kbd>G</kbd>                                                        | Toggle group                                      |
+| <kbd>Alt</kbd> + <kbd>Tab</kbd>                                                        | Change focus to another window                    |
+| <kbd>Super</kbd> + <kbd>Print</kbd>                                                    | Take screenshot                                   |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Print</kbd>                                 | Take area of screenshot                           |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>                                     | Take area of screenshot (swappy)                  |
+| <kbd>Super</kbd> + <kbd>Tab</kbd>                                                      | Next workspaces                                   |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd>                                   | Previous workspaces                               |
+| <kbd>Super</kbd> + <kbd>[0-9]</kbd>                                                    | Switch workspaces                                 |
+| <kbd>Super</kbd> + <kbd>Ctrl</kbd> +<kbd>[0-9]</kbd>                                   | Move active window and follow to workspaces [0-9] |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> +<kbd>[0-9]</kbd>                                  | Move active window in silent to workspaces [0-9]  |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd>                                     | Move to special workspaces                        |
+| <kbd>Super</kbd> + <kbd>U</kbd>                                                        | Toggle special workspaces                         |
+| <kbd>Super</kbd> + <kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd>                    | Change focus window                               |
+| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd>  | Resize window                                     |
+| <kbd>Super</kbd> + <kbd>RightClick</kbd>                                               | Resize window (in floating mode)                  |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd> | Move window                                       |
+| <kbd>Super</kbd> + <kbd>LeftClick</kbd>                                                | Move windows                                      |
+
+</div>
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
 >
