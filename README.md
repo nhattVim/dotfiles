@@ -34,18 +34,9 @@ sudo apt install curl -y
 bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 ```
 
-<div align="center">
-    <table>
-        <tr>
-            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true"/></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true"/></td>
-        </tr>
-    </table>
-</div>
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true)
+
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true)
 
 ## Arch _(hyprland)_
 
@@ -56,22 +47,10 @@ bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 bash <(curl -sSL https://is.gd/nhattVim_arch)
 ```
 
-<div align="center">
-    <table>
-        <tr>
-            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true"/></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true"/></td>
-        </tr>
-    </table>
-</div>
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
+
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
 >
 > # (￣ y▽ ￣)╭ Ohohoho.....
-
-<!-- https://is.gd/nhattVim_nvim -->
-<!-- https://is.gd/nhattVim_hyprland -->
