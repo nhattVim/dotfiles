@@ -35,7 +35,6 @@ bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true)
-
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true)
 
 ## Arch _(hyprland)_
@@ -48,7 +47,6 @@ bash <(curl -sSL https://is.gd/nhattVim_arch)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
-
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
