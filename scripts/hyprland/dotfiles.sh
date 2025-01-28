@@ -48,7 +48,7 @@ fi
 note "Copying config files"
 
 folder=(
-    ranger alacritty btop cava hypr
+    ranger btop cava hypr
     kitty Kvantum qt5ct qt6ct rofi swappy
     swaync swaylock waybar wlogout
     fastfetch Thunar wallust
