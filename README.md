@@ -34,13 +34,16 @@ sudo apt install curl -y
 bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 ```
 
-![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true)
-
-![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true)
+<div align="center">
+    <table>
+        <tr>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true"/></td>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true"/></td>
+        </tr>
+    </table>
+</div>
 
 ## Arch _(hyprland)_
-
-![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true)
 
 > The majority of this script comes from [JaKooLit](https://github.com/JaKooLit), that's the beauty of open-source :wink:
 
@@ -49,7 +52,14 @@ bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 bash <(curl -sSL https://is.gd/nhattVim_arch)
 ```
 
-![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
+<div align="center">
+    <table>
+        <tr>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true"/></td>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true"/></td>
+        </tr>
+    </table>
+</div>
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
 >
