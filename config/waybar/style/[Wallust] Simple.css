@@ -61,7 +61,7 @@ tooltip {
 /*-----modules indv----*/
 
 #workspaces button {
-    color: @color2;
+    color: @color12;
     box-shadow: none;
 	text-shadow: none;
     padding: 0px;
@@ -74,7 +74,7 @@ tooltip {
 
 #workspaces button.active {
     color: @foreground;
-    background-color: @color2;
+    background-color: @color12;
     padding-left: 8px;
     padding-right: 8px;
     animation: gradient_f 20s ease-in infinite;
