@@ -38,6 +38,10 @@ bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
     <table>
         <tr>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true"/></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true"/></td>
         </tr>
     </table>
@@ -56,6 +60,10 @@ bash <(curl -sSL https://is.gd/nhattVim_arch)
     <table>
         <tr>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true"/></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true"/></td>
         </tr>
     </table>
