@@ -46,6 +46,7 @@ while true; do
     yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
     yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
     yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
+    yes_no "Are you Vietnamese and want to setup Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
         --border-foreground 6 --border rounded \
@@ -104,6 +105,10 @@ elif [ "$aur_helper" == "yay" ]; then
     exHypr "yay.sh"
 fi
 
+if [ "$dots" == "Y" ]; then
+    exHypr "dotfiles.sh"
+fi
+
 exHypr "pkgs_aur.sh"
 
 exHypr "pipewire.sh"
@@ -148,11 +153,13 @@ if [ "$dual_boot" == "Y" ]; then
     exHypr "grub_themes.sh"
 fi
 
+if [ "$unikey" == "Y" ]; then
+    exHypr "unikey.sh"
+fi
+
 exHypr "input_group.sh"
 
-if [ "$dots" == "Y" ]; then
-    exHypr "dotfiles.sh"
-fi
+exHypr "init.sh"
 
 [ -f $HOME/install.log ] &&
     gum confirm "${CYAN} Do you want to check log?" &&
