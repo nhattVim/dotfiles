@@ -35,19 +35,6 @@ done
 printf " Activating sddm service........\n"
 sudo systemctl enable sddm
 
-# Remove old dotfiles if exist
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
-
-# Clone dotfiles
-note "Cloning dotfiles..."
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
-    ok "Cloned dotfiles successfully"
-else
-    err "Failed to clone dotfiles" && exit 1
-fi
-
 # Set up SDDM
 note "Setting up the login screen."
 sddm_conf_dir=/etc/sddm.conf.d
@@ -56,18 +43,10 @@ sddm_conf_dir=/etc/sddm.conf.d
     sudo mkdir "$sddm_conf_dir"
 }
 
-wayland_sessions_dir=/usr/share/wayland-sessions
-[ ! -d "$wayland_sessions_dir" ] && {
-    note "$wayland_sessions_dir not found, creating..."
-    sudo mkdir "$wayland_sessions_dir"
-}
-
-sudo cp "$DOTFILES_DIR/assets/hyprland.desktop" "$wayland_sessions_dir/"
-
 # SDDM-themes
-cd $HOME
 if gum confirm "${CYAN} OPTIONAL - Would you like to install SDDM themes? ${RESET}"; then
 
+    cd $HOME
     note "Installing Simple SDDM Theme"
 
     # Check if /usr/share/sddm/themes/simple-sddm exists and remove if it does
