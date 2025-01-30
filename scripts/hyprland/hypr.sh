@@ -4,6 +4,9 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
+# Dotfiles directory
+DOTFILES_DIR="$HOME/hyprland_nhattVim"
+
 # start script
 hypr=(
     hyprcursor

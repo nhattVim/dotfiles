@@ -130,3 +130,7 @@ else
         err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
 fi
+
+# Wallust
+act "Installing wallust..."
+cargo install wallust && ok "wallust was installed" || err "wallust install had failed"

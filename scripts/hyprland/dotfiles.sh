@@ -57,7 +57,7 @@ done
 
 # Copying config files
 mkdir -p $HOME/.config
-cp -r "$DOTFILES_DIR/config/"* "$HOME/.config/" && { ok "Copy config files completed"; } || {
+cp -r "$DOTFILES_DIR/config/." "$HOME/.config/" && { ok "Copy config files completed"; } || {
     err "Failed to copy config files"
 }
 
