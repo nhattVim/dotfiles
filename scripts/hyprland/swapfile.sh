@@ -34,7 +34,7 @@ fi
 
 while true; do
     printf "\n%.0s" {1..2}
-    read -rep "Enter the size of swapfile(GB), recommend ${recommended_size}(GB): ${RESET}" number
+    read -rep "${PINK} Enter the size of swapfile(GB), recommend ${recommended_size}(GB): ${RESET}" number
     if [[ "$number" =~ ^[1-9][0-9]*$ && "$number" -le 100 ]]; then
         printf "\n%.0s" {1..2}
         act "Creating swapfile of ${number}GB..."

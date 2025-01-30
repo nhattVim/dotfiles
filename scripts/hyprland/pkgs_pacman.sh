@@ -23,7 +23,6 @@ pkgs=(
     python-virtualenv
     ripgrep
     fzf
-    neofetch
     lsd
     lazygit
     net-tools
@@ -65,7 +64,6 @@ hypr_pkgs=(
     network-manager-applet
     pamixer
     pavucontrol
-    pipewire-alsa
     playerctl
     qt5ct
     qt6ct
@@ -132,3 +130,7 @@ else
         err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
 fi
+
+# Wallust
+act "Installing wallust..."
+cargo install wallust && ok "wallust was installed" || err "wallust install had failed"

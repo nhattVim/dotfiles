@@ -46,6 +46,7 @@ while true; do
     yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
     yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
     yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
+    yes_no "Are you Vietnamese and want to setup Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
         --border-foreground 6 --border rounded \
@@ -81,22 +82,6 @@ if [ "$battery" == "Y" ]; then
 fi
 
 exHypr "swapfile.sh"
-sleep 0.5
-exHypr "pkgs_pacman.sh"
-
-# Remove old dotfiles if exist
-cd $HOME
-[ -d hyprland_nhattVim ] &&
-    rm -rf hyprland_nhattVim &&
-    ok "Remove old dotfiles successfully"
-
-# Clone dotfiles
-note "Clone dotfiles." &&
-    git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
-    ok "Clone dotfiles successfully" || {
-    err "Failed to clone dotfiles"
-    exit 1
-}
 
 if [ "$aur_helper" == "paru" ]; then
     exHypr "paru.sh"
@@ -104,7 +89,13 @@ elif [ "$aur_helper" == "yay" ]; then
     exHypr "yay.sh"
 fi
 
+exHypr "pkgs_pacman.sh"
+
 exHypr "pkgs_aur.sh"
+
+if [ "$dots" == "Y" ]; then
+    exHypr "dotfiles.sh"
+fi
 
 exHypr "pipewire.sh"
 
@@ -148,24 +139,19 @@ if [ "$dual_boot" == "Y" ]; then
     exHypr "grub_themes.sh"
 fi
 
-exHypr "input_group.sh"
-
-if [ "$dots" == "Y" ]; then
-    exHypr "dotfiles.sh"
+if [ "$unikey" == "Y" ]; then
+    exHypr "unikey.sh"
 fi
 
-[ -f $HOME/install.log ] &&
-    gum confirm "${CYAN} Do you want to check log?" &&
-    gum pager <$HOME/install.log
+exHypr "input_group.sh"
 
-# clear packages
-note "Clear packages." &&
-    sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm &&
-    ok "Clearing packages succesfully" || err "Failed to clear packages"
+exHypr "init.sh"
 
-echo -e "\n${GREEN} Yey! Installation Completed."
-echo -e "\n${YELLOW} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!)."
-echo -e "\n${YELLOW} It is highly recommended to reboot your system.\n"
+gum style \
+    --border-foreground 212 --border rounded \
+    --align left --width 80 --margin "1 2" --padding "2 4" \
+    "${CYAN}GREAT Copy Completed." "" \
+    "${CYAN}YOU NEED to logout and re-login or reboot to avoid issues"
 
 if gum confirm "${CAT} Would you like to reboot now?${RESET}"; then
     if [[ "$nvidia" == "Y" ]]; then

@@ -4,6 +4,9 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
+# Dotfiles directory
+DOTFILES_DIR="$HOME/hyprland_nhattVim"
+
 # start script
 hypr=(
     hyprcursor
@@ -38,8 +41,29 @@ fi
 # Hyprland
 note "Installing Hyprland......"
 for HYPR in "${hypr[@]}"; do
-    iAur "$HYPR" 2>&1
+    iAur "$HYPR"
     [ $? -ne 0 ] && {
         err "$HYPR install had failed"
     }
 done
+
+# Remove old dotfiles if exist
+if [ -d "$DOTFILES_DIR" ]; then
+    rm -rf "$DOTFILES_DIR"
+fi
+
+# Clone dotfiles
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
+fi
+
+wayland_sessions_dir=/usr/share/wayland-sessions
+[ ! -d "$wayland_sessions_dir" ] && {
+    note "$wayland_sessions_dir not found, creating..."
+    sudo mkdir "$wayland_sessions_dir"
+}
+
+sudo cp "$DOTFILES_DIR/assets/hyprland.desktop" "$wayland_sessions_dir/"

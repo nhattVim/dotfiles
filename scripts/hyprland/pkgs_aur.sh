@@ -54,6 +54,3 @@ for PKG1 in "${hypr_pkgs[@]}" "${fonts[@]}" "${pkgs[@]}"; do
         err "$PKG1 install had failed"
     fi
 done
-
-act "Installing wallust..."
-cargo install wallust && ok "wallust was installed" || err "wallust install had failed"
