@@ -4,6 +4,9 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
+# Dotfiles directory
+DOTFILES_DIR="$HOME/hyprland_nhattVim"
+
 # start
 sddm=(
     qt6-5compat
@@ -32,17 +35,17 @@ done
 printf " Activating sddm service........\n"
 sudo systemctl enable sddm
 
-# Check dotfiles
-cd "$HOME"
-if ! cd hyprland_nhattVim 2>/dev/null; then
-    note "Cloning dotfiles..."
-    if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim; then
-        cd hyprland_nhattVim
-        ok "Cloned dotfiles successfully"
-    else
-        err "Failed to clone dotfiles"
-        exit 1
-    fi
+# Remove old dotfiles if exist
+if [ -d "$DOTFILES_DIR" ]; then
+    rm -rf "$DOTFILES_DIR"
+fi
+
+# Clone dotfiles
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
 fi
 
 # Set up SDDM
@@ -59,7 +62,7 @@ wayland_sessions_dir=/usr/share/wayland-sessions
     sudo mkdir "$wayland_sessions_dir"
 }
 
-sudo cp assets/hyprland.desktop "$wayland_sessions_dir/"
+sudo cp "$DOTFILES_DIR/assets/hyprland.desktop" "$wayland_sessions_dir/"
 
 # SDDM-themes
 cd $HOME

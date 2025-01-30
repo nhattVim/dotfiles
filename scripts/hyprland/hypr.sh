@@ -38,7 +38,7 @@ fi
 # Hyprland
 note "Installing Hyprland......"
 for HYPR in "${hypr[@]}"; do
-    iAur "$HYPR" 2>&1
+    iAur "$HYPR"
     [ $? -ne 0 ] && {
         err "$HYPR install had failed"
     }

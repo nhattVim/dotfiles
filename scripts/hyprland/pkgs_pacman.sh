@@ -23,7 +23,6 @@ pkgs=(
     python-virtualenv
     ripgrep
     fzf
-    neofetch
     lsd
     lazygit
     net-tools
@@ -65,7 +64,6 @@ hypr_pkgs=(
     network-manager-applet
     pamixer
     pavucontrol
-    pipewire-alsa
     playerctl
     qt5ct
     qt6ct

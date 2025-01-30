@@ -185,11 +185,16 @@ ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
     # initialize wallust to avoid config error on hyprland
     export PATH="$HOME/.cargo/bin:$PATH" && wallust run -s $wallpaper
 
-# remove dotfiles
-cd $HOME
-[ -d hyprland_nhattVim ] &&
-    rm -rf hyprland_nhattVim &&
-    ok "Remove old dotfiles successfully"
+# check log
+if [ -f $HOME/install.log ]; then
+    gum confirm "${CYAN} Do you want to check log?" &&
+        gum pager <$HOME/install.log
+fi
+
+# clear packages
+note "Clear packages." &&
+    sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm &&
+    ok "Clearing packages succesfully" || err "Failed to clear packages"
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
@@ -200,10 +205,3 @@ while ! chsh -s $(which zsh); do
 done
 
 note "Shell changed successfully to zsh."
-
-# Successfully
-gum style \
-    --border-foreground 212 --border rounded \
-    --align left --width 80 --margin "1 2" --padding "2 4" \
-    "${CYAN}GREAT Copy Completed." "" \
-    "${CYAN}YOU NEED to logout and re-login or reboot to avoid issues"

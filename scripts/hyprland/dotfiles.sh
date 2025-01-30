@@ -3,6 +3,9 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
+# Dotfiles directory
+DOTFILES_DIR="$HOME/hyprland_nhattVim"
+
 # start script
 gum style \
     --foreground 213 --border-foreground 213 --border rounded \
@@ -20,17 +23,17 @@ gum style \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
-# check dotfiles
-cd "$HOME"
-if ! cd hyprland_nhattVim 2>/dev/null; then
-    note "Cloning dotfiles..."
-    if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim; then
-        cd hyprland_nhattVim
-        ok "Cloned dotfiles successfully"
-    else
-        err "Failed to clone dotfiles"
-        exit 1
-    fi
+# Remove old dotfiles if exist
+if [ -d "$DOTFILES_DIR" ]; then
+    rm -rf "$DOTFILES_DIR"
+fi
+
+# Clone dotfiles
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
 fi
 
 note "Copying config files"
@@ -54,18 +57,20 @@ done
 
 # Copying config files
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
+cp -r "$DOTFILES_DIR/config/"* "$HOME/.config/" && { ok "Copy config files completed"; } || {
     err "Failed to copy config files"
 }
 
 # Copying wallpapers
-mkdir -p $HOME/Pictures/wallpapers
-cp -r wallpapers $HOME/Pictures/ && { ok "Copy wallpapers completed"; } || {
+mkdir -p "$HOME/Pictures/wallpapers"
+cp -r "$DOTFILES_DIR/wallpapers" "$HOME/Pictures/" && { ok "Copy wallpapers completed"; } || {
     err "Failed to copy wallpapers"
 }
 
 # Copying assets files
-cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOME && { ok "Copy assets files completed"; } || {
+cp "$DOTFILES_DIR/assets/.ideavimrc" "$HOME" &&
+    cp "$DOTFILES_DIR/assets/.zshrc" "$HOME" &&
+    cp "$DOTFILES_DIR/assets/.zprofile" "$HOME" && { ok "Copy assets files completed"; } || {
     err "Failed to copy assets files"
 }
 
@@ -73,17 +78,17 @@ cp assets/.ideavimrc $HOME && cp assets/.zshrc $HOME && cp assets/.zprofile $HOM
 cleanup_backups
 
 # Set some files as executable
-chmod +x $HOME/.config/hypr/scripts/*
+chmod +x "$HOME/.config/hypr/scripts/"*
 
 # additional wallpapers
-note "By default only a few wallpapers are copied..." && cd $HOME
+note "By default only a few wallpapers are copied..." && cd "$HOME"
 while true; do
     if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
         note "Downloading additional wallpapers..."
         if git clone https://github.com/nhattVim/wallpapers --depth 1; then
             note "Wallpapers downloaded successfully."
 
-            if cp -R wallpapers/wallpapers/* $HOME/Pictures/wallpapers/; then
+            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/wallpapers/"; then
                 note "Wallpapers copied successfully."
                 rm -rf wallpapers
                 break
@@ -98,3 +103,8 @@ while true; do
         break
     fi
 done
+
+# remove dotfiles
+if [ -d "$DOTFILES_DIR" ]; then
+    rm -rf "$DOTFILES_DIR"
+fi
