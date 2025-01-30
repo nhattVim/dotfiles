@@ -27,7 +27,8 @@ note "Setup Homebrew"
 }
 
 # Activate Homebrew environment and update, upgrade, and install packages
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew update && brew upgrade && brew install gcc || {
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" &&
+    brew update && brew upgrade && brew install gcc || {
     err "Failed to setup Homebrew"
     exit 1
 }
