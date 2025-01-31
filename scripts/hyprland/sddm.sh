@@ -11,6 +11,8 @@ DOTFILES_DIR="$HOME/hyprland_nhattVim"
 sddm=(
     qt6-5compat
     qt6-declarative
+    qt6-virtualkeyboard
+    qt6-multimedia-ffmpeg
     qt6-svg
     sddm
 )
@@ -28,7 +30,7 @@ done
 for login_manager in lightdm gdm lxdm lxdm-gtk3; do
     if pacman -Qs "$login_manager" >/dev/null; then
         note "Disabling $login_manager..."
-        sudo systemctl disable "$login_manager.service"
+        sudo systemctl disable --now "$login_manager.service"
     fi
 done
 
@@ -43,36 +45,59 @@ sddm_conf_dir=/etc/sddm.conf.d
     sudo mkdir "$sddm_conf_dir"
 }
 
+select_theme() {
+    theme_dir="/usr/share/sddm/themes/sddm-astronaut-theme"
+    metadata_file="$theme_dir/metadata.desktop"
+
+    [ ! -f "$metadata_file" ] && {
+        err "Metadata file not found!"
+        return 1
+    }
+
+    themes=()
+    while IFS= read -r file; do
+        themes+=("$(basename "$file" .conf)")
+    done < <(find "$theme_dir/Themes" -maxdepth 1 -type f -name "*.conf")
+
+    [ ${#themes[@]} -eq 0 ] && {
+        err "No themes found!"
+        return 1
+    }
+
+    note "${YELLOW}Select your SDDM theme variant. You can see themes preview on ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme"
+    selected_theme=$(gum choose "${themes[@]}")
+    sudo sed -i "s|^ConfigFile=.*|ConfigFile=Themes/$selected_theme.conf|" "$metadata_file"
+    ok "Theme variant '$selected_theme' selected!"
+}
+
 # SDDM-themes
 if gum confirm "${CYAN} OPTIONAL - Would you like to install SDDM themes? ${RESET}"; then
 
     cd $HOME
-    note "Installing Simple SDDM Theme"
+    note "Installing SDDM Theme"
 
-    # Check if /usr/share/sddm/themes/simple-sddm exists and remove if it does
-    if [ -d "/usr/share/sddm/themes/simple-sddm-2" ]; then
-        sudo rm -rf "/usr/share/sddm/themes/simple-sddm-2"
-        ok "Removed existing 'simple-sddm-2' directory."
+    if [ -d "/usr/share/sddm/themes/sddm-astronaut-theme" ]; then
+        sudo rm -rf "/usr/share/sddm/themes/sddm-astronaut-theme"
+        ok "Removed existing 'sddm-astronaut-theme' directory."
     fi
 
-    # Check if simple-sddm directory exists in the current directory and remove if it does
-    if [ -d "simple-sddm-2" ]; then
-        rm -rf "simple-sddm-2"
-        ok "Remove existing 'simple-sddm-2' directory from the current location."
+    if [ -d "$HOME/sddm-astronaut-theme" ]; then
+        rm -rf "$HOME/sddm-astronaut-theme"
+        ok "Removed existing 'sddm-astronaut-theme' directory."
     fi
 
-    if git clone https://github.com/JaKooLit/simple-sddm-2.git --depth 1; then
-        while [ ! -d "simple-sddm-2" ]; do
-            sleep 1
-        done
+    if git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git sddm-astronaut-theme; then
 
         if [ ! -d "/usr/share/sddm/themes" ]; then
             sudo mkdir -p /usr/share/sddm/themes
             ok "Directory '/usr/share/sddm/themes' created."
         fi
 
-        sudo mv simple-sddm-2 /usr/share/sddm/themes/
-        echo -e "[Theme]\nCurrent=simple-sddm-2" | sudo tee "$sddm_conf_dir/theme.conf.user"
+        sudo mv sddm-astronaut-theme /usr/share/sddm/themes/sddm-astronaut-theme
+        sudo cp -r /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
+        echo -e "[Theme]\nCurrent=sddm-astronaut-theme" | sudo tee "$sddm_conf_dir/theme.conf.user"
+
+        select_theme
     else
         err "Failed to clone the theme repository. Please check your internet connection"
     fi
