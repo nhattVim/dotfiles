@@ -1,14 +1,11 @@
 #!/bin/bash
 # SDDM
 
-# source library
+# Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
-# Dotfiles directory
-DOTFILES_DIR="$HOME/hyprland_nhattVim"
-
-# start
-sddm=(
+# Packages to install
+sddm_packages=(
     qt6-5compat
     qt6-declarative
     qt6-virtualkeyboard
@@ -17,90 +14,99 @@ sddm=(
     sddm
 )
 
-# Install SDDM and SDDM theme
-note "Installing SDDM and dependencies ..."
-for package in "${sddm[@]}"; do
-    iAur "$package"
-    if [ $? -ne 0 ]; then
-        err "$package install has failed"
-    fi
+# Install SDDM and dependencies
+note "Installing SDDM and dependencies..."
+for package in "${sddm_packages[@]}"; do
+    iAur "$package" || {
+        err "$package installation failed!"
+        exit 1
+    }
 done
 
-# Check if other login managers installed and disabling its service before enabling sddm
+# Disable other login managers
+note "Checking for conflicting login managers..."
 for login_manager in lightdm gdm lxdm lxdm-gtk3; do
     if pacman -Qs "$login_manager" >/dev/null; then
         note "Disabling $login_manager..."
-        sudo systemctl disable --now "$login_manager.service"
+        sudo systemctl disable --now "$login_manager.service" 2>/dev/null
     fi
 done
 
-printf " Activating sddm service........\n"
+# Enable SDDM service
+note "Activating SDDM service..."
 sudo systemctl enable sddm
 
-# Set up SDDM
-note "Setting up the login screen."
-sddm_conf_dir=/etc/sddm.conf.d
+# Setup SDDM config directory
+sddm_conf_dir="/etc/sddm.conf.d"
 [ ! -d "$sddm_conf_dir" ] && {
-    note "$sddm_conf_dir not found, creating..."
-    sudo mkdir "$sddm_conf_dir"
+    note "Creating $sddm_conf_dir..."
+    sudo mkdir -p "$sddm_conf_dir"
 }
 
-select_theme() {
-    theme_dir="/usr/share/sddm/themes/sddm-astronaut-theme"
-    metadata_file="$theme_dir/metadata.desktop"
+# Theme selection function
+select_theme_variant() {
+    local theme_dir="/usr/share/sddm/themes/sddm-astronaut-theme"
+    local metadata_file="$theme_dir/metadata.desktop"
 
     [ ! -f "$metadata_file" ] && {
-        err "Metadata file not found!"
+        err "Metadata file not found in theme directory!"
         return 1
     }
 
-    themes=()
+    # Get available theme variants
+    local variants=()
     while IFS= read -r file; do
-        themes+=("$(basename "$file" .conf)")
-    done < <(find "$theme_dir/Themes" -maxdepth 1 -type f -name "*.conf")
+        variants+=("$(basename "$file" .conf)")
+    done < <(find "$theme_dir/Themes" -maxdepth 1 -type f -name "*.conf" 2>/dev/null)
 
-    [ ${#themes[@]} -eq 0 ] && {
-        err "No themes found!"
+    [ ${#variants[@]} -eq 0 ] && {
+        err "No theme variants found!"
         return 1
     }
 
-    note "${YELLOW}Select your SDDM theme variant. You can see themes preview on ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme"
-    selected_theme=$(gum choose "${themes[@]}")
-    sudo sed -i "s|^ConfigFile=.*|ConfigFile=Themes/$selected_theme.conf|" "$metadata_file"
-    ok "Theme variant '$selected_theme' selected!"
+    # User selection
+    note "${YELLOW}Select theme variant (Preview: ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme):${RESET}"
+    local selected=$(gum choose "${variants[@]}")
+
+    # Apply selection
+    sudo sed -i "s|^ConfigFile=.*|ConfigFile=Themes/$selected.conf|" "$metadata_file"
+    ok "Selected variant: ${CYAN}$selected${RESET}"
 }
 
-# SDDM-themes
-if gum confirm "${CYAN} OPTIONAL - Would you like to install SDDM themes? ${RESET}"; then
+# Theme installation
+if gum confirm "${CYAN}Install SDDM theme?${RESET}"; then
+    note "Installing SDDM Astronaut Theme..."
 
-    cd $HOME
-    note "Installing SDDM Theme"
-
-    if [ -d "/usr/share/sddm/themes/sddm-astronaut-theme" ]; then
+    # Cleanup existing installations
+    [ -d "/usr/share/sddm/themes/sddm-astronaut-theme" ] && {
+        note "Removing old theme installation..."
         sudo rm -rf "/usr/share/sddm/themes/sddm-astronaut-theme"
-        ok "Removed existing 'sddm-astronaut-theme' directory."
-    fi
+    }
 
-    if [ -d "$HOME/sddm-astronaut-theme" ]; then
-        rm -rf "$HOME/sddm-astronaut-theme"
-        ok "Removed existing 'sddm-astronaut-theme' directory."
-    fi
+    # Clone theme safely
+    temp_dir=$(mktemp -d)
+    note "Cloning theme repository..."
+    if git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git "$temp_dir"; then
+        sudo mv "$temp_dir" "/usr/share/sddm/themes/sddm-astronaut-theme"
 
-    if git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git sddm-astronaut-theme; then
+        # Install fonts
+        note "Installing fonts..."
+        sudo cp -rf "/usr/share/sddm/themes/sddm-astronaut-theme/Fonts/"* "/usr/share/fonts/"
+        sudo fc-cache -fv >/dev/null
 
-        if [ ! -d "/usr/share/sddm/themes" ]; then
-            sudo mkdir -p /usr/share/sddm/themes
-            ok "Directory '/usr/share/sddm/themes' created."
-        fi
+        # Set default theme
+        note "Configuring SDDM..."
+        echo -e "[Theme]\nCurrent=sddm-astronaut-theme" | sudo tee "$sddm_conf_dir/theme.conf.user" >/dev/null
 
-        sudo mv sddm-astronaut-theme /usr/share/sddm/themes/sddm-astronaut-theme
-        sudo cp -r /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
-        echo -e "[Theme]\nCurrent=sddm-astronaut-theme" | sudo tee "$sddm_conf_dir/theme.conf.user"
+        # Select theme variant
+        select_theme_variant
 
-        select_theme
+        # Restart SDDM to apply changes
+        note "Installation successful"
     else
-        err "Failed to clone the theme repository. Please check your internet connection"
+        err "Failed to clone theme repository!"
+        exit 1
     fi
 else
-    note "No SSDM themes will be installed."
+    note "Skipping theme installation."
 fi
