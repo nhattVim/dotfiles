@@ -50,7 +50,7 @@ select_theme_variant() {
 
     [ ! -f "$metadata_file" ] && {
         err "Metadata file not found in theme directory!"
-        return 1
+        exit 1
     }
 
     # Get available theme variants
@@ -77,17 +77,22 @@ select_theme_variant() {
 if gum confirm "${CYAN}Install SDDM theme?${RESET}"; then
     note "Installing SDDM Astronaut Theme..."
 
-    # Cleanup existing installations
-    [ -d "/usr/share/sddm/themes/sddm-astronaut-theme" ] && {
-        note "Removing old theme installation..."
-        sudo rm -rf "/usr/share/sddm/themes/sddm-astronaut-theme"
-    }
+    if [ ! -d "/usr/share/sddm/themes" ]; then
+        sudo mkdir -p /usr/share/sddm/themes
+    fi
 
     # Clone theme safely
     temp_dir=$(mktemp -d)
     note "Cloning theme repository..."
     if git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git "$temp_dir"; then
-        sudo mv "$temp_dir" "/usr/share/sddm/themes/sddm-astronaut-theme"
+
+        [ -d "/usr/share/sddm/themes/sddm-astronaut-theme" ] && {
+            note "Removing old theme installation..."
+            sudo rm -rf /usr/share/sddm/themes/sddm-astronaut-theme
+        }
+
+        sudo mkdir -p /usr/share/sddm/themes/sddm-astronaut-theme
+        sudo cp -rf "$temp_dir"/* "/usr/share/sddm/themes/sddm-astronaut-theme"
 
         # Install fonts
         note "Installing fonts..."
@@ -97,6 +102,7 @@ if gum confirm "${CYAN}Install SDDM theme?${RESET}"; then
         # Set default theme
         note "Configuring SDDM..."
         echo -e "[Theme]\nCurrent=sddm-astronaut-theme" | sudo tee "$sddm_conf_dir/theme.conf.user" >/dev/null
+        echo -e "[General]\nInputMethod=qtvirtualkeyboard" | sudo tee "$sddm_conf_dir/virtualkbd.conf" >/dev/null
 
         # Select theme variant
         select_theme_variant
