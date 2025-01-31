@@ -65,6 +65,7 @@ while true; do
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
         "Download Hyprland dotfiles:${YELLOW} $dots ${RESET}" \
+        "Unikey:${YELLOW} $unikey ${RESET}" \
         "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
 
     if gum confirm "Are these options correct?"; then

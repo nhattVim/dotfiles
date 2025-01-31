@@ -9,7 +9,6 @@ pkgs=(
     zen-browser-bin
     arttime-git
     pipes.sh
-    tgpt-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
     # xampp
