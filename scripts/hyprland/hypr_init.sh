@@ -32,7 +32,7 @@ gum style \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
-if command -v lspci >/dev/null; then
+if command -v lspci >/dev/null 2>&1; then
     if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
         note "Nvidia GPU detected. Setting up proper env's and configs"
         sed -i 's/^[[:space:]]*#[[:space:]]*\(env = LIBVA_DRIVER_NAME,nvidia\)/\1/' "$ENV_FILE"
