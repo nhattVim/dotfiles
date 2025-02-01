@@ -84,15 +84,13 @@ fi
 
 exHypr "swapfile.sh"
 
-if [ "$aur_helper" == "paru" ]; then
-    exHypr "paru.sh"
-elif [ "$aur_helper" == "yay" ]; then
-    exHypr "yay.sh"
-fi
+exHypr "$aur_helper.sh"
 
 exHypr "pkgs_pacman.sh"
 
 exHypr "pkgs_aur.sh"
+
+exHypr "pkgs.sh"
 
 if [ "$dots" == "Y" ]; then
     exHypr "dotfiles.sh"

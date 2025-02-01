@@ -107,30 +107,30 @@ for PKG1 in "${pkgs[@]}" "${hypr_pkgs[@]}"; do
 done
 
 # Oh-my-zsh
-if [ -d "$HOME/.oh-my-zsh" ]; then
-    note "Oh My Zsh is already installed."
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    note "Installing Oh My Zsh..."
+    sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
+        git clone https://github.com/zsh-users/zsh-autosuggestions \
+            ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        ok "Oh My Zsh configured"
+    } || err "Oh My Zsh install failed"
 else
-    note "Download oh-my-zsh ..."
-    if sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended; then
-        ok "Download oh-my-zsh successfully"
-        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    else
-        err "Failed to download oh-my-zsh"
-    fi
+    note "Oh My Zsh already installed"
 fi
 
 # TPM
-if [ -d "$HOME/.tmux/plugins/tpm" ]; then
-    note "TPM (Tmux Plugin Manager) is already installed."
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    note "Installing TPM..."
+    git clone https://github.com/tmux-plugins/tpm \
+        $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
 else
-    note "Cloning TPM (Tmux Plugin Manager)..."
-    if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
-        ok "TPM (Tmux Plugin Manager) cloned successfully"
-    else
-        err "Failed to clone TPM (Tmux Plugin Manager)."
-    fi
+    note "TPM already installed"
 fi
 
 # Wallust
-act "Installing wallust..."
-cargo install wallust && ok "wallust was installed" || err "wallust install had failed"
+if ! command -v wallust &>/dev/null; then
+    act "Installing wallust..."
+    cargo install wallust && ok "Wallust installed"
+else
+    note "Wallust already installed"
+fi
