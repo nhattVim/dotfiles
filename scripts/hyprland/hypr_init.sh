@@ -32,29 +32,29 @@ gum style \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
-# uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected
-if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-    note "Nvidia GPU detected. Setting up proper env's and configs"
-    sed -i '/env = LIBVA_DRIVER_NAME,nvidia/s/^#//' "$ENV_FILE"
-    sed -i '/env = __GLX_VENDOR_LIBRARY_NAME,nvidia/s/^#//' "$ENV_FILE"
-    sed -i '/env = NVD_BACKEND,direct/s/^#//' "$ENV_FILE"
-    # enabling no hardware cursors if nvidia detected
-    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
+if command -v lspci >/dev/null; then
+    if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
+        note "Nvidia GPU detected. Setting up proper env's and configs"
+        sed -i 's/^[[:space:]]*#[[:space:]]*\(env = LIBVA_DRIVER_NAME,nvidia\)/\1/' "$ENV_FILE"
+        sed -i 's/^[[:space:]]*#[[:space:]]*\(env = __GLX_VENDOR_LIBRARY_NAME,nvidia\)/\1/' "$ENV_FILE"
+        sed -i 's/^[[:space:]]*#[[:space:]]*\(env = NVD_BACKEND,direct\)/\1/' "$ENV_FILE"
+        # enabling no hardware cursors if nvidia detected
+        sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
+    fi
 fi
 
 # uncommenting WLR_RENDERER_ALLOW_SOFTWARE,1 if running in a VM is detected
 if hostnamectl | grep -q 'Chassis: vm'; then
     note "System is running in a virtual machine"
     sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
-    sed -i '/env = WLR_RENDERER_ALLOW_SOFTWARE,1/s/^#//' "$ENV_FILE"
-    sed -i '/monitor = Virtual-1, 1920x1080@60,auto,1/s/^#//' "$MONITOR_FILE"
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = WLR_RENDERER_ALLOW_SOFTWARE,1\)/\1/' "$ENV_FILE"
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(monitor = Virtual-1, 1920x1080@60,auto,1\)/\1/' "$MONITOR_FILE"
 fi
 
 # activating hyprcursor on env by checking if the directory ~/.icons/Bibata-Modern-Ice/hyprcursors exists
 if [ -d "$HOME/.icons/Bibata-Modern-Ice/hyprcursors" ]; then
-    # Define the config file path
-    sed -i 's/^#env = HYPRCURSOR_THEME,Bibata-Modern-Ice/env = HYPRCURSOR_THEME,Bibata-Modern-Ice/' "$ENV_FILE"
-    sed -i 's/^#env = HYPRCURSOR_SIZE,24/env = HYPRCURSOR_SIZE,24/' "$ENV_FILE"
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = HYPRCURSOR_THEME,Bibata-Modern-Ice\)/\1/' "$ENV_FILE"
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = HYPRCURSOR_SIZE,24\)/\1/' "$ENV_FILE"
 fi
 
 # Function to detect keyboard layout using localectl or setxkbmap

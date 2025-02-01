@@ -61,12 +61,8 @@ export XMODIFIERS=@im=fcitx5
 EOF
 
 # Startup Fcitx5 with hyperland
-if grep -qE "^#.*exec-once = fcitx5 -d &" "$STARTUP_FILE"; then
-    # Uncomment the exec-once line if it exists
-    sed -i "/^#.*exec-once = fcitx5 -d &/s/^#//" "$STARTUP_FILE"
-elif ! grep -qE "^exec-once = fcitx5 -d &" "$STARTUP_FILE"; then
-    # Add the exec-once line if it doesn't exist
-    echo "exec-once = fcitx5 -d &" >>"$STARTUP_FILE"
+if command -v "fcitx5" >/dev/null 2>&1; then
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(exec-once = fcitx5 -d &\)/\1/' "$STARTUP_FILE"
 fi
 
 note "Starting Fcitx5..."

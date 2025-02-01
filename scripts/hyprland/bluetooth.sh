@@ -27,9 +27,5 @@ note "Activating bluetooth Services..."
 sudo systemctl enable --now bluetooth.service
 
 if command -v "blueman-applet" >/dev/null 2>&1; then
-    if grep -qE "^#.*exec-once = blueman-applet &" "$STARTUP_FILE"; then
-        sed -i "/^#.*exec-once = blueman-applet &/s/^#//" "$STARTUP_FILE"
-    elif ! grep -qE "^exec-once = blueman-applet &" "$STARTUP_FILE"; then
-        echo "exec-once = blueman-applet &" >>"$STARTUP_FILE"
-    fi
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(exec-once = blueman-applet &\)/\1/' "$STARTUP_FILE"
 fi
