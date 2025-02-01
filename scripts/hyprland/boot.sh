@@ -1,10 +1,10 @@
 #!/bin/bash
-# pacman adding up extra-spices
+# Enhancing pacman with extra features
 
-# source library
-. <(curl -sSL https://is.gd/nhattVim_lib) && clear
+# Source the library
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
-# start script
+# Start script
 echo -e "\e[34m   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____"
 echo -e " |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |      "
 echo -e " |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|      "
@@ -13,17 +13,65 @@ echo -e " |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||
 echo -e " |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |      "
 echo -e " |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|      "
 echo -e "                                                                                   "
-echo -e "                                                                                   "
 echo -e " ---------------------- Script developed by nhattVim -----------------------       "
 echo -e "  ----------------- Github: https://github.com/nhattVim ------------------         "
 
-note "Adding Extra Spice in pacman.conf..."
+note "Enhancing pacman.conf with extra features..."
 
-# variable
-pacman_conf="/etc/pacman.conf"
+# ==============================================================================
+# Configure Mirrorlist
+# ==============================================================================
+note "Updating mirrorlist..."
+
+# Variables
 mirrorlist="/etc/pacman.d/mirrorlist"
+mirrorlist_backup="/etc/pacman.d/mirrorlist.bak"
 
-# remove comments '#' from specific lines
+# Check and install reflector if not available
+if ! command -v reflector &>/dev/null; then
+    iPac reflector
+    if [ $? -ne 0 ]; then
+        err "reflector install had failed"
+    fi
+fi
+
+# Backup existing mirrorlist
+act "Backing up mirrorlist..."
+if sudo cp -v "$mirrorlist" "$mirrorlist_backup"; then
+    ok "Mirrorlist backup successful: $mirrorlist_backup"
+else
+    err "Failed to back up mirrorlist!"
+    exit 1
+fi
+
+# Update mirrorlist with best mirrors
+act "Updating mirrorlist..."
+if sudo reflector \
+    --verbose \
+    --latest 20 \
+    --protocol https \
+    --sort rate \
+    --save "$mirrorlist"; then
+
+    ok "Mirrorlist updated successfully!"
+    note "Top 5 best mirrors:"
+    grep -E '^Server' "$mirrorlist" | head -n5 | sed 's/^/    /'
+else
+    err "Failed to update mirrorlist!"
+    note "Restoring mirrorlist from backup..."
+    sudo mv -v "$mirrorlist_backup" "$mirrorlist"
+    exit 1
+fi
+
+# ==============================================================================
+# Configure Pacman
+# ==============================================================================
+note "Optimizing pacman settings..."
+
+# Configuration file
+pacman_conf="/etc/pacman.conf"
+
+# Options to uncomment
 lines_to_edit=(
     "Color"
     "CheckSpace"
@@ -31,75 +79,58 @@ lines_to_edit=(
     "ParallelDownloads"
 )
 
-# uncomment specified lines if they are commented out
+# Uncomment configuration lines
 for line in "${lines_to_edit[@]}"; do
     if grep -q "^#$line" "$pacman_conf"; then
         sudo sed -i "s/^#$line/$line/" "$pacman_conf"
         act "Uncommented: $line"
     else
-        act "$line is already uncommented."
+        note "$line is already enabled"
     fi
 done
 
-# add "ILoveCandy" below ParallelDownloads if it doesn't exist
-if grep -q "^ParallelDownloads" "$pacman_conf" && ! grep -q "^ILoveCandy" "$pacman_conf"; then
-    sudo sed -i "/^ParallelDownloads/a ILoveCandy" "$pacman_conf"
-    act "Added ILoveCandy below ParallelDownloads."
+# Enable ILoveCandy feature
+if ! grep -q "^ILoveCandy" "$pacman_conf"; then
+    sudo sed -i "/ParallelDownloads/a ILoveCandy" "$pacman_conf"
+    ok "ILoveCandy feature enabled"
 else
-    act "ILoveCandy already exists."
+    note "ILoveCandy is already enabled"
 fi
 
-act "Pacman.conf spicing up completed"
+# ==============================================================================
+# System Update
+# ==============================================================================
+note "Starting system update..."
+act "Synchronizing package database..."
+sudo pacman -Syy || {
+    err "Failed to synchronize package database"
+    exit 1
+}
 
-# Backup and update mirrorlist
-# if sudo cp "$mirrorlist" "${mirrorlist}.bak"; then
-# 	echo -e "$(tput setaf 6)[CYAN]$(tput sgr0) Backup mirrorlist to mirrorlist.bak. $(tput sgr0)"
-#     if sudo reflector --verbose --latest 10 --protocol https --sort rate --save "$mirrorlist"; then
-# 	    echo -e "$(tput setaf 6)[CYAN]$(tput sgr0) Updated mirrorlist. $(tput sgr0)"
-#     else
-#         echo -e "$(tput setaf 1)[RED]$(tput sgr0) Failed to update mirrorlist. $(tput sgr0)"
-#     fi
-# else
-# 	echo -e "$(tput setaf 1)[RED]$(tput sgr0) Failed to backup mirrorlist. $(tput sgr0)"
-# fi
-
-# updating pacman.conf
-sudo pacman -Syyuu --noconfirm
-if [ $? -ne 0 ]; then
-    err "Failed to update the package database"
-fi
-
-# Package
-pkgs=(
+# ==============================================================================
+# Install Required Packages
+# ==============================================================================
+required_pkgs=(
     archlinux-keyring
     gum
     reflector
     curl
     git
     unzip
+    base-devel
 )
 
-# install base-devel
-if pacman -Q base-devel &>/dev/null; then
-    note "base-devel is already installed."
-else
-    note "Install base-devel"
-    if sudo pacman -S --noconfirm --needed base-devel; then
-        ok "base-devel has been installed successfully."
+note "Installing essential packages..."
+for pkg in "${required_pkgs[@]}"; do
+    if ! pacman -Qq "$pkg" &>/dev/null; then
+        act "Installing $pkg..."
+        sudo pacman -S --noconfirm --needed "$pkg" || {
+            err "Failed to install $pkg"
+            exit 1
+        }
     else
-        err "base-devel not found or cannot be installed."
-        act "Please install base-devel manually before running this script... Exiting"
-        exit 1
-    fi
-fi
-
-# install requirement
-note "Installing required packages..."
-for PKG1 in "${pkgs[@]}"; do
-    iPac "$PKG1"
-    if [ $? -ne 0 ]; then
-        err "$PKG1 install had failed"
+        note "$pkg is already installed"
     fi
 done
 
-clear
+ok "All configurations completed successfully!"
