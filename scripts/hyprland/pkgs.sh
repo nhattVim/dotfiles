@@ -21,13 +21,13 @@ pacman_pkgs=(
     # Terminal & CLI Tools
     # --------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf lsd
-    lazygit bat btop aria2 foot
+    lazygit bat btop aria2 foot fastfetch lolcat
 
     # --------------------------------------
     # System utilities
     # --------------------------------------
     net-tools gnome-disk-utility file-roller
-    network-manager-applet
+    network-manager-applet gvfs gvfs-mtp
     gnome-system-monitor pacman-contrib
 
     # --------------------------------------
@@ -39,7 +39,7 @@ pacman_pkgs=(
     # GUI Applications
     # --------------------------------------
     libreoffice-fresh discord neovide ranger cmatrix
-    telegram-desktop chromium
+    telegram-desktop chromium qalculate-gtk
 
     # --------------------------------------
     # Hyprland Ecosystem
@@ -48,7 +48,7 @@ pacman_pkgs=(
     swappy cliphist pamixer pavucontrol playerctl qt5ct qt6ct
     swayidle wget wl-clipboard xdg-user-dirs xdg-utils yad nvtop
     hyprcursor hyprutils aquamarine hypridle hyprlock hyprland
-    hyprland-qtutils libspng
+    hyprland-qtutils libspng imagemagick kitty kvantum
 
     # --------------------------------------
     # Fonts
