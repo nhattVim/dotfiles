@@ -23,6 +23,10 @@ err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
 act() { echo -e "\n${CYAN}[ACTION]${RESET} - $1\n"; }
 note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
 
+# Interactive functions
+yes_no() { gum confirm "$1" && eval "$2='Y'" || eval "$2='N'"; }
+choose() { gum confirm "$1" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
+
 # Package manager detection
 ISAUR=$(basename "$(command -v paru || command -v yay)")
 PKGMN=$(basename "$(command -v nala || command -v apt)")
