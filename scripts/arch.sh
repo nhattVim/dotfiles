@@ -86,10 +86,6 @@ exHypr "swapfile.sh"
 
 exHypr "$aur_helper.sh"
 
-exHypr "pkgs_pacman.sh"
-
-exHypr "pkgs_aur.sh"
-
 exHypr "pkgs.sh"
 
 if [ "$dots" == "Y" ]; then
@@ -144,7 +140,7 @@ fi
 
 exHypr "input_group.sh"
 
-exHypr "init.sh"
+exHypr "hypr_init.sh"
 
 gum style \
     --border-foreground 212 --border rounded \

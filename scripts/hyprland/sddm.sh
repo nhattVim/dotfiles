@@ -4,6 +4,14 @@
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
+# Dotfiles directory
+DOTFILES_DIR="$HOME/hyprland_nhattVim"
+
+# Remove old dotfiles if exist
+if [ -d "$DOTFILES_DIR" ]; then
+    rm -rf "$DOTFILES_DIR"
+fi
+
 # Packages to install
 sddm_packages=(
     qt6-5compat
@@ -31,6 +39,22 @@ for login_manager in lightdm gdm lxdm lxdm-gtk3; do
         sudo systemctl disable --now "$login_manager.service" 2>/dev/null
     fi
 done
+
+# Clone dotfiles
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
+fi
+
+wayland_sessions_dir=/usr/share/wayland-sessions
+[ ! -d "$wayland_sessions_dir" ] && {
+    note "$wayland_sessions_dir not found, creating..."
+    sudo mkdir "$wayland_sessions_dir"
+}
+
+sudo cp "$DOTFILES_DIR/assets/hyprland.desktop" "$wayland_sessions_dir/"
 
 # Enable SDDM service
 note "Activating SDDM service..."
