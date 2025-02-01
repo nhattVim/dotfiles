@@ -45,7 +45,6 @@ while true; do
     yes_no "Do you want to set battery charging limit (only for laptop)?" battery
     yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
     yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
-    yes_no "Do you want to download pre-configured Hyprland dotfiles?" dots
     yes_no "Are you Vietnamese and want to setup Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
@@ -64,7 +63,6 @@ while true; do
         "Battery Charging Limit (Laptop Only):${YELLOW} $battery ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
-        "Download Hyprland dotfiles:${YELLOW} $dots ${RESET}" \
         "Unikey:${YELLOW} $unikey ${RESET}" \
         "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
 
@@ -88,13 +86,9 @@ exHypr "$aur_helper.sh"
 
 exHypr "pkgs.sh"
 
-if [ "$dots" == "Y" ]; then
-    exHypr "dotfiles.sh"
-fi
+exHypr "dotfiles.sh"
 
 exHypr "pipewire.sh"
-
-exHypr "hypr.sh"
 
 # exHypr "ags.sh"
 
