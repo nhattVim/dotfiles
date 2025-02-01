@@ -164,3 +164,7 @@ else
 fi
 
 ok "All packages installed successfully!"
+
+# Clear packages
+note "Clear packages."
+sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm

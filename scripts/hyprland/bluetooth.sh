@@ -25,7 +25,3 @@ done
 
 note "Activating bluetooth Services..."
 sudo systemctl enable --now bluetooth.service
-
-if command -v "blueman-applet" >/dev/null 2>&1; then
-    sed -i 's/^[[:space:]]*#[[:space:]]*\(exec-once = blueman-applet &\)/\1/' "$STARTUP_FILE"
-fi

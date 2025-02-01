@@ -60,10 +60,5 @@ export QT_IM_MODULE=fcitx5
 export XMODIFIERS=@im=fcitx5
 EOF
 
-# Startup Fcitx5 with hyperland
-if command -v "fcitx5" >/dev/null 2>&1; then
-    sed -i 's/^[[:space:]]*#[[:space:]]*\(exec-once = fcitx5 -d &\)/\1/' "$STARTUP_FILE"
-fi
-
 note "Starting Fcitx5..."
 fcitx5 -d >/dev/null 2>&1

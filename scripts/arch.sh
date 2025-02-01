@@ -88,8 +88,6 @@ exHypr "pkgs.sh"
 
 exHypr "ags.sh"
 
-exHypr "dotfiles.sh"
-
 exHypr "pipewire.sh"
 
 if [ "$nvidia" == "Y" ]; then
@@ -134,7 +132,13 @@ fi
 
 exHypr "input_group.sh"
 
-exHypr "hypr_init.sh"
+exHypr "dotfiles.sh"
+
+# Check log
+if [ -f $HOME/install.log ]; then
+    gum confirm "${CYAN} Do you want to check log?" &&
+        gum pager <$HOME/install.log
+fi
 
 gum style \
     --border-foreground 212 --border rounded \
