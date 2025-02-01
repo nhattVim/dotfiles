@@ -26,12 +26,9 @@ pacman_pkgs=(
     # --------------------------------------
     # System utilities
     # --------------------------------------
-    net-tools
-    gnome-disk-utility
-    file-roller
+    net-tools gnome-disk-utility file-roller
     network-manager-applet
-    gnome-system-monitor
-    pacman-contrib
+    gnome-system-monitor pacman-contrib
 
     # --------------------------------------
     # Multimedia
