@@ -86,11 +86,11 @@ exHypr "$aur_helper.sh"
 
 exHypr "pkgs.sh"
 
+exHypr "ags.sh"
+
 exHypr "dotfiles.sh"
 
 exHypr "pipewire.sh"
-
-# exHypr "ags.sh"
 
 if [ "$nvidia" == "Y" ]; then
     exHypr "nvidia.sh"
