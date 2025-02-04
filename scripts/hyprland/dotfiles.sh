@@ -134,6 +134,18 @@ for app in "${!startup_apps[@]}"; do
     fi
 done
 
+# Setup Fcitx5
+if command -v fcitx5; then
+    note "Setup Fcitx5"
+    cat <<EOF | tee -a $HOME/.bashrc $HOME/.zshrc
+    
+# Setup Fcitx5
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS=@im=fcitx5
+EOF
+fi
+
 # uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     note "Nvidia GPU detected. Setting up proper env's and configs"

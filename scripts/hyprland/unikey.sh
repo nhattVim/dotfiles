@@ -50,15 +50,11 @@ Layout=
 0=Default
 EOF
 
-# Setup Fcitx5
-note "Setup Fcitx5"
-cat <<EOF | tee -a $HOME/.bashrc $HOME/.zshrc
-    
-# Setup Fcitx5
-export GTK_IM_MODULE=fcitx5
-export QT_IM_MODULE=fcitx5
-export XMODIFIERS=@im=fcitx5
-EOF
+# Update Hotkey/TriggerKeys in Fcitx5 config to change the shortcut
+note "Updating Fcitx5 Hotkey/TriggerKeys to Control + Left Shift"
+sed -i '/^\[Hotkey\/TriggerKeys\]/,/^\[/{s/^0=[^$]*/0=Control+Shift+Shift_L/}' "$HOME/.config/fcitx5/config"
 
-note "Starting Fcitx5..."
+# Restart Fcitx5
+note "Restarting Fcitx5..."
+killall fcitx5
 fcitx5 -d >/dev/null 2>&1
