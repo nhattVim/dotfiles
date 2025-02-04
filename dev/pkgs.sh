@@ -1,121 +1,142 @@
 #!/bin/bash
-# install package
+# Unified Installation Script for Hyprland Environment
 
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # ==============================================================================
-# Package Definitions
+# Pacman Package
 # ==============================================================================
 
-# --------------------------------------
-# 1. Core System & Development
-# --------------------------------------
-core_system=(
-    linux-lts linux-lts-headers base-devel git make cmatrix libxcrypt-compat
-    jdk-openjdk python-pip python-virtualenv nodejs npm cargo rust python-requests
+pacman_pkgs=(
+
+    # --------------------------------------
+    # Core System & Development
+    # --------------------------------------
+    linux-lts linux-lts-headers base-devel git libxcrypt-compat
+    python-pip python-virtualenv python-requests nodejs npm cargo
+    rust jdk-openjdk
+
+    # --------------------------------------
+    # Terminal & CLI Tools
+    # --------------------------------------
+    alacritty tmux zsh nano vim neovim make ripgrep fzf lsd
+    lazygit bat btop aria2 foot fastfetch lolcat
+
+    # --------------------------------------
+    # System utilities
+    # --------------------------------------
+    net-tools gnome-disk-utility file-roller
+    network-manager-applet gvfs gvfs-mtp
+    gnome-system-monitor pacman-contrib
+
+    # --------------------------------------
+    # Multimedia
+    # --------------------------------------
+    mpv mpv-mpris yt-dlp ffmpeg
+
+    # --------------------------------------
+    # GUI Applications
+    # --------------------------------------
+    libreoffice-fresh discord neovide ranger cmatrix
+    telegram-desktop chromium qalculate-gtk
+
+    # --------------------------------------
+    # Hyprland Ecosystem
+    # --------------------------------------
+    brightnessctl inxi grim waybar hyprpolkitagent jq slurp
+    swappy cliphist pamixer pavucontrol playerctl qt5ct qt6ct
+    swayidle wget wl-clipboard xdg-user-dirs xdg-utils yad nvtop
+    hyprcursor hyprutils aquamarine hypridle hyprlock hyprland
+    hyprland-qtutils libspng imagemagick kitty kvantum
+
+    # --------------------------------------
+    # Fonts
+    # --------------------------------------
+    adobe-source-code-pro-fonts
+    otf-font-awesome
+    noto-fonts-emoji
+    noto-fonts-cjk
+    ttf-droid
+    ttf-fira-code
+    ttf-jetbrains-mono
+    ttf-jetbrains-mono-nerd
+    ttf-nerd-fonts-symbols
 )
 
-# --------------------------------------
-# 2. Terminal & CLI Tools
-# --------------------------------------
-terminal_tools=(
-    alacritty kitty foot tmux zsh nano vim neovim neovide ripgrep fzf lsd bat
-    lazygit ranger btop fastfetch lolcat brightnessctl inxi
-)
+# ==============================================================================
+# AUR Package
+# ==============================================================================
 
-# --------------------------------------
-# 3. GUI Applications
-# --------------------------------------
-gui_apps=(
-    libreoffice-fresh discord telegram-desktop chromium
-)
-
-# --------------------------------------
-# 4. Desktop Environment (Non-Hyprland)
-# --------------------------------------
-desktop_env=(
-    gnome-system-monitor gnome-disk-utility file-roller eog mousepad polkit-gnome
-)
-
-# --------------------------------------
-# 5. Multimedia & Download
-# --------------------------------------
-multimedia=(
-    mpv mpv-mpris yt-dlp ffmpeg aria2
-)
-
-# --------------------------------------
-# 6. Hyprland Ecosystem
-# --------------------------------------
-hyprland_stack=(
-    hyprland waybar rofi-lbonn-wayland-git grim slurp swappy cliphist pamixer
-    pavucontrol playerctl qt5ct qt6ct swayidle wl-clipboard xdg-user-dirs xdg-utils yad
-)
-
-# --------------------------------------
-# 7. Network & Utilities
-# --------------------------------------
-network_tools=(
-    net-tools network-manager-applet wget curl pacman-contrib
-)
-
-# --------------------------------------
-# 8. AUR Packages
-# --------------------------------------
 aur_pkgs=(
-    zen-browser-bin arttime-git pipes.sh tgpt-bin shell-color-scripts-git
-    gvfs gvfs-mtp imagemagick kvantum swaync swww wlogout cava
+
+    # --------------------------------------
+    # Hyprland Ecosystem
+    # --------------------------------------
+    rofi-lbonn-wayland-git swaync swww wlogout
+    pyprland cava nwg-look-bin
+
+    # --------------------------------------
+    # Extras Packages
+    # --------------------------------------
+    zen-browser-bin arttime-git pipes.sh eog
+    mousepad shell-color-scripts-git
+    # microsoft-edge-stable-bin
+    # vmware-workstation
+    # xampp
 )
 
-# --------------------------------------
-# 9. Fonts
-# --------------------------------------
-fonts=(
-    adobe-source-code-pro-fonts noto-fonts noto-fonts-emoji otf-font-awesome
-    ttf-droid ttf-fira-code ttf-jetbrains-mono ttf-jetbrains-mono-nerd
-)
+# ==============================================================================
+# Packages to Remove (Conflicts)
+# ==============================================================================
 
-# --------------------------------------
-# 10. Packages to Remove (Conflicts)
-# --------------------------------------
 uninstall_pkgs=(
-    aylurs-gtk-shell dunst mako cachyos-hyprland-settings rofi wallust-git
+    dunst
+    mako
+    rofi
+    wallust-git
+    cachyos-hyprland-settings
+    aylurs-gtk-shell
+    hyprland-git
+    hyprland-nvidia
+    hyprland-nvidia-git
+    hyprland-nvidia-hidpi-git
 )
 
-# ==============================================================================
-# Installation Logic
-# ==============================================================================
-
-# Clean conflicts first
+# Cleanup conflicting packages
 note "Removing conflicting packages..."
-for UNINSTALL in "${uninstall_pkgs[@]}"; do
-    uPac "$UNINSTALL"
+for pkg in "${uninstall_pkgs[@]}"; do
+    uPac "$pkg"
     if [ $? -ne 0 ]; then
-        err "$UNINSTALL uninstallation had failed"
+        err "$pkg uninstallation had failed"
     fi
 done
 
-# Group all packages
-all_pkgs=("${core_system[@]}" "${terminal_tools[@]}" "${gui_apps[@]}"
-    "${desktop_env[@]}" "${multimedia[@]}" "${hyprland_stack[@]}"
-    "${network_tools[@]}")
-
-# Install official packages
-note "Installing official repository packages..."
-for PKG in "${all_pkgs[@]}"; do
-    iPac "$PKG"
-    if [ $? -ne 0 ]; then
-        err "$PKG install had failed"
+# Install pacman packages
+note "Installing pacman packages..."
+while [ ${#pacman_pkgs[@]} -gt 0 ]; do
+    pkg=${pacman_pkgs[0]}
+    iPac "$pkg"
+    if [ $? -eq 0 ]; then
+        pacman_pkgs=("${pacman_pkgs[@]:1}")
+    else
+        err "$pkg install had failed"
+        pacman_pkgs+=("${pacman_pkgs[0]}")
+        pacman_pkgs=("${pacman_pkgs[@]:1}")
     fi
 done
 
 # Install AUR packages
 note "Installing AUR packages..."
-for AUR_PKG in "${aur_pkgs[@]}" "${fonts[@]}"; do
-    iAur "$AUR_PKG"
-    if [ $? -ne 0 ]; then
-        err "$AUR_PKG install had failed"
+while [ ${#aur_pkgs[@]} -gt 0 ]; do
+    pkg=${aur_pkgs[0]}
+    iAur "$pkg"
+    if [ $? -eq 0 ]; then
+        aur_pkgs=("${aur_pkgs[@]:1}")
+    else
+        err "$pkg install had failed"
+        aur_pkgs+=("${aur_pkgs[0]}")
+        aur_pkgs=("${aur_pkgs[@]:1}")
     fi
 done
 
@@ -123,19 +144,19 @@ done
 # Post-Install Setup
 # ==============================================================================
 
-# Oh-my-zsh
+# Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     note "Installing Oh My Zsh..."
     sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
         git clone https://github.com/zsh-users/zsh-autosuggestions \
             ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
         ok "Oh My Zsh configured"
-    } || err "Oh My Zsh install failed"
+    } || err "Oh My Zsh installation failed"
 else
     note "Oh My Zsh already installed"
 fi
 
-# TPM
+# TPM (Tmux Plugin Manager)
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     note "Installing TPM..."
     git clone https://github.com/tmux-plugins/tpm \
@@ -146,8 +167,14 @@ fi
 
 # Wallust
 if ! command -v wallust &>/dev/null; then
-    act "Installing wallust..."
+    note "Installing Wallust..."
     cargo install wallust && ok "Wallust installed"
 else
     note "Wallust already installed"
 fi
+
+ok "All packages installed successfully!"
+
+# Clear packages
+note "Clear packages."
+sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Yc --noconfirm
