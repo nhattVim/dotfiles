@@ -39,7 +39,7 @@ pacman_pkgs=(
     # GUI Applications
     # --------------------------------------
     libreoffice-fresh discord neovide ranger cmatrix
-    telegram-desktop chromium qalculate-gtk
+    telegram-desktop chromium qalculate-gtk firefox
 
     # --------------------------------------
     # Hyprland Ecosystem
