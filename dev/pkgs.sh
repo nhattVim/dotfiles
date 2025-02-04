@@ -116,8 +116,7 @@ done
 note "Installing pacman packages..."
 while [ ${#pacman_pkgs[@]} -gt 0 ]; do
     pkg=${pacman_pkgs[0]}
-    iPac "$pkg"
-    if [ $? -eq 0 ]; then
+    if iPac "$pkg"; then
         pacman_pkgs=("${pacman_pkgs[@]:1}")
     else
         err "$pkg install had failed"
@@ -130,8 +129,7 @@ done
 note "Installing AUR packages..."
 while [ ${#aur_pkgs[@]} -gt 0 ]; do
     pkg=${aur_pkgs[0]}
-    iAur "$pkg"
-    if [ $? -eq 0 ]; then
+    if iAur "$pkg"; then
         aur_pkgs=("${aur_pkgs[@]:1}")
     else
         err "$pkg install had failed"
