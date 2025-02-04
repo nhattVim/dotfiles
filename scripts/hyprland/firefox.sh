@@ -30,7 +30,7 @@ if [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; then
 fi
 
 # Get the profile path after ensuring it exists
-PROFILE_PATH="$HOME/.mozilla/firefox/$(awk -F= '/^\[Profile0\]/{f=1} f && /^Path=/{print $2; exit}' "$HOME/.mozilla/firefox/profiles.ini")"
+PROFILE_PATH="$HOME/.mozilla/firefox/$(awk -F= '/^Default=/{print $2; exit}' "$HOME/.mozilla/firefox/profiles.ini")"
 
 # Validate PROFILE_PATH
 if [ ! -d "$PROFILE_PATH" ]; then

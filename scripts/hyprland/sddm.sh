@@ -5,7 +5,7 @@
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # Dotfiles directory
-DOTFILES_DIR="$HOME/hyprland_nhattVim"
+DOTFILES_DIR=$(mktemp -d)
 
 # Remove old dotfiles if exist
 if [ -d "$DOTFILES_DIR" ]; then

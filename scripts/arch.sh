@@ -44,6 +44,7 @@ while true; do
     yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
     yes_no "Do you want to set battery charging limit (only for laptop)?" battery
     yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
+    yes_no "Install & configure firefox with firefoxcss?" firefox
     yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
     yes_no "Are you Vietnamese and want to setup Vietnamese keyboard (Unikey)?" unikey
 
@@ -62,6 +63,7 @@ while true; do
         "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
         "Battery Charging Limit (Laptop Only):${YELLOW} $battery ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
+        "Firefoxcss:${YELLOW} $firefox ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
         "Unikey:${YELLOW} $unikey ${RESET}" \
         "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
@@ -116,6 +118,10 @@ fi
 
 if [ "$sddm" == "Y" ]; then
     exHypr "sddm.sh"
+fi
+
+if [ "$firefox" == "Y" ]; then
+    exHypr "firefox.sh"
 fi
 
 if [ "$xdph" == "Y" ]; then
