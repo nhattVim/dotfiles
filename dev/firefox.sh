@@ -15,7 +15,13 @@ fi
 if [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; then
     note "Generating Firefox profile"
     firefox --headless &
-    sleep 2 && pkill firefox
+    
+    # Chờ đợi cho đến khi file profiles.ini được tạo
+    while [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; do
+        sleep 1
+    done
+
+    pkill firefox
 fi
 
 # Get the profile path after ensuring it exists
