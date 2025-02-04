@@ -42,6 +42,12 @@ fi
 temp_dir=$(mktemp -d)
 note "Cloning firefox customcss"
 if git clone https://github.com/nhattVim/firefox.git "$temp_dir"; then
+
+    if [ -d "$PROFILE_PATH/chrome" ]; then
+        rm -rf "$PROFILE_PATH/chrome"
+        ok "Removed existing chrome folder"
+    fi
+
     cp -rf "$temp_dir"/* "$PROFILE_PATH"
     note "Custom CSS applied successfully!"
 else
