@@ -41,7 +41,6 @@ if sudo cp -v "$mirrorlist" "$mirrorlist_backup"; then
     ok "Mirrorlist backup successful: $mirrorlist_backup"
 else
     err "Failed to back up mirrorlist!"
-    exit 1
 fi
 
 # Update mirrorlist with best mirrors
