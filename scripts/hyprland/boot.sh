@@ -60,7 +60,6 @@ else
     err "Failed to update mirrorlist!"
     note "Restoring mirrorlist from backup..."
     sudo mv -v "$mirrorlist_backup" "$mirrorlist"
-    exit 1
 fi
 
 # ==============================================================================
