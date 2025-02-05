@@ -11,16 +11,19 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Path to profiles.ini
+PROFILE_INI="$HOME/.mozilla/firefox/profiles.ini"
+
 # Generate Firefox profile if not exists
-if [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; then
-    note "Generating Firefox profile"
+if [ ! -f "$PROFILE_INI" ]; then
+    note "Generating Firefox profile..."
     firefox --headless &
 
     # Get Firefox PID
     FIREFOX_PID=$!
 
     # Wait for profiles.ini to be created
-    while [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; do
+    while [ ! -f "$PROFILE_INI" ]; do
         sleep 1
     done
 
@@ -30,7 +33,7 @@ if [ ! -f "$HOME/.mozilla/firefox/profiles.ini" ]; then
 fi
 
 # Get the profile path after ensuring it exists
-PROFILE_PATH="$HOME/.mozilla/firefox/$(awk -F= '/^Default=/{print $2; exit}' "$HOME/.mozilla/firefox/profiles.ini")"
+PROFILE_PATH="$HOME/.mozilla/firefox/$(awk -F= '/^Default=/{print $2; exit}' "$PROFILE_INI")"
 
 # Validate PROFILE_PATH
 if [ ! -d "$PROFILE_PATH" ]; then
