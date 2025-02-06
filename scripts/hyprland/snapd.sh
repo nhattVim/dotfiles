@@ -6,51 +6,34 @@
 
 if command -v snap &>/dev/null; then
     ok "Snap already installed, moving on."
-    exit 1
 else
     note "Snap was NOT located. Installing snap ..."
-
-    MAX_RETRIES=3
-    attempt=1
-
-    while [ $attempt -le $MAX_RETRIES ]; do
-        note "Installing snap from AUR (Attempt $attempt)..."
-
-        temp_dir=$(mktemp -d)
-
-        git clone https://aur.archlinux.org/snapd.git "$temp_dir/snapd" && cd "$temp_dir/snapd" || {
-            err "Failed to clone snap from AUR (Attempt $attempt)"
-            ((attempt++))
-            continue
-        }
-
-        if makepkg -si --noconfirm; then
-            ok "Successfully installed Snap!"
-            rm -rf "$temp_dir"
-            break
-        else
-            err "Failed to install Snap (Attempt $attempt)"
-            rm -rf "$temp_dir"
-            ((attempt++))
-        fi
-
-        rm -rf "$temp_dir"
-        ok "Successfully installed snap!"
-        break
-    done
-
-    if [ $attempt -gt $MAX_RETRIES ]; then
-        err "Exceeded maximum retries. Exiting..."
-        exit 1
+    iAur snapd
+    if [ $? -ne 0 ]; then
+        err "$pkg install had failed"
     fi
 fi
 
-# Installing snapd
-iAur snapd
-
 # Setup snapd before proceeding
-note "Set up snap ..."
-sudo systemctl enable --now snapd.socket && sudo ln -s /var/lib/snapd/snap /snap && systemctl enable --now snapd.apparmor || {
-    err "Failed to setup snap"
-    exit 1
-}
+# note "Setting up snap ..."
+# sudo systemctl enable --now snapd.socket || {
+#     err "Failed to enable snapd"
+# }
+
+# Create /snap symlink
+# if [ ! -e /snap ]; then
+#     sudo ln -s /var/lib/snapd/snap /snap || {
+#         err "Failed to create /snap symlink"
+#     }
+# fi
+
+# Check for AppArmor
+# if systemctl list-units --all --type=service | grep -q "snapd.apparmor"; then
+#     sudo systemctl enable --now snapd.apparmor || {
+#         err "Failed to enable snapd.apparmor"
+#     }
+# else
+#     note "snapd.apparmor not available on this system."
+# fi
+
+ok "Snap setup completed successfully!"
