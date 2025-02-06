@@ -15,9 +15,9 @@ else
     while [ $attempt -le $MAX_RETRIES ]; do
         note "Installing yay from AUR (Attempt $attempt)..."
 
-        cd "$HOME" && rm -rf yay
+        temp_dir=$(mktemp -d)
 
-        git clone https://aur.archlinux.org/yay.git && cd yay || {
+        git clone https://aur.archlinux.org/yay-bin.git "$temp_dir/yay" && cd "$temp_dir/yay" || {
             err "Failed to clone yay from AUR (Attempt $attempt)"
             ((attempt++))
             continue
@@ -25,19 +25,23 @@ else
 
         if makepkg -si --noconfirm; then
             ok "Successfully installed yay!"
-            cd "$HOME" && rm -rf yay
+            rm -rf "$temp_dir"
             break
         else
             err "Failed to install yay from AUR (Attempt $attempt)"
-            cd "$HOME"
+            rm -rf "$temp_dir"
             ((attempt++))
         fi
 
-        if [ $attempt -gt $MAX_RETRIES ]; then
-            err "Exceeded maximum retries. Exiting..."
-            exit 1
-        fi
+        rm -rf "$temp_dir"
+        ok "Successfully installed snap!"
+        break
     done
+
+    if [ $attempt -gt $MAX_RETRIES ]; then
+        err "Exceeded maximum retries. Exiting..."
+        exit 1
+    fi
 fi
 
 # Update system before proceeding

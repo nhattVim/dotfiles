@@ -102,7 +102,6 @@ note "Starting system update..."
 act "Synchronizing package database..."
 sudo pacman -Syy || {
     err "Failed to synchronize package database"
-    exit 1
 }
 
 # ==============================================================================
@@ -120,14 +119,9 @@ required_pkgs=(
 
 note "Installing essential packages..."
 for pkg in "${required_pkgs[@]}"; do
-    if ! pacman -Qq "$pkg" &>/dev/null; then
-        act "Installing $pkg..."
-        sudo pacman -S --noconfirm --needed "$pkg" || {
-            err "Failed to install $pkg"
-            exit 1
-        }
-    else
-        note "$pkg is already installed"
+    iPac "$pkg"
+    if [ $? -ne 0 ]; then
+        err "$pkg install had failed"
     fi
 done
 

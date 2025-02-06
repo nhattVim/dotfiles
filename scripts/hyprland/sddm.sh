@@ -7,11 +7,6 @@
 # Dotfiles directory
 DOTFILES_DIR=$(mktemp -d)
 
-# Remove old dotfiles if exist
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
-
 # Packages to install
 sddm_packages=(
     qt6-5compat

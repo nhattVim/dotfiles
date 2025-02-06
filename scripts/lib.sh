@@ -28,7 +28,7 @@ iPac() {
         ok "$1 is already installed. Skipping ..."
     else
         act "Installing $1 ..."
-        sudo pacman -Syu --noconfirm "$1" && ok "$1 was installed" || {
+        sudo pacman -Syu --noconfirm --needed "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
             echo "-> $1 failed to install" >>"$HOME/install.log"
         }

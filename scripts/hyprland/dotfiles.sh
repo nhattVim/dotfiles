@@ -9,7 +9,7 @@ waybar_style="$HOME/.config/waybar/style/[Wallust] Simple.css"
 waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
 waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 
-DOTFILES_DIR="$HOME/hyprland_nhattVim"
+DOTFILES_DIR=$(mktemp -d)
 HYPR_FOLDER="$HOME/.config/hypr/configs"
 ENV_FILE="$HYPR_FOLDER/env_variables.conf"
 MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
@@ -32,11 +32,6 @@ gum style \
     "                                                                              " \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
-
-# Remove old dotfiles if exist
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
 
 # Clone dotfiles
 note "Cloning dotfiles..."
@@ -114,11 +109,6 @@ while true; do
     fi
 done
 
-# Remove dotfiles
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
-
 # Add apps to startup
 declare -A startup_apps=(
     ["asusctl"]="rog-control-center"
@@ -135,15 +125,15 @@ for app in "${!startup_apps[@]}"; do
 done
 
 # Setup Fcitx5
-if command -v fcitx5; then
-    note "Setup Fcitx5"
-    cat <<EOF | tee -a $HOME/.bashrc $HOME/.zshrc
-    
-# Setup Fcitx5
-export GTK_IM_MODULE=fcitx5
-export QT_IM_MODULE=fcitx5
-export XMODIFIERS=@im=fcitx5
-EOF
+if command -v fcitx5 >/dev/null 2>&1; then
+    act "Setting up Fcitx5..."
+    {
+        echo ""
+        echo "# Setup Fcitx5"
+        echo "export GTK_IM_MODULE=fcitx5"
+        echo "export QT_IM_MODULE=fcitx5"
+        echo "export XMODIFIERS=@im=fcitx5"
+    } | tee -a "$HOME/.bashrc" "$HOME/.zshrc"
 fi
 
 # uncommenting WLR_NO_HARDWARE_CURSORS if nvidia is detected

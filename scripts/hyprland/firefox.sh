@@ -23,13 +23,24 @@ if [ ! -f "$PROFILE_INI" ]; then
     FIREFOX_PID=$!
 
     # Wait for profiles.ini to be created
-    while [ ! -f "$PROFILE_INI" ]; do
+    timeout=10
+    while [ ! -f "$PROFILE_INI" ] && [ $timeout -gt 0 ]; do
         sleep 1
+        ((timeout--))
     done
 
-    # Kill Firefox by PID
-    kill $FIREFOX_PID
-    wait $FIREFOX_PID 2>/dev/null
+    # Kill Firefox if still running
+    if ps -p $FIREFOX_PID >/dev/null; then
+        kill $FIREFOX_PID
+        wait $FIREFOX_PID 2>/dev/null
+    fi
+
+    if [ ! -f "$PROFILE_INI" ]; then
+        err "Failed to generate Firefox profile!"
+        exit 1
+    fi
+
+    ok "Firefox profile generated!"
 fi
 
 # Get the profile path after ensuring it exists
@@ -55,7 +66,6 @@ if git clone https://github.com/nhattVim/firefox.git "$temp_dir"; then
     note "Custom CSS applied successfully!"
 else
     err "Failed to clone firefox customcss"
-    exit 1
 fi
 
 # Cleanup

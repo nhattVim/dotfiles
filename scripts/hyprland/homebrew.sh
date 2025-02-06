@@ -5,7 +5,7 @@
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-if command -v brew &>/dev/null; then
+if command -v brew &>/dev/null 2>&1; then
     ok "Homebrew already installed, moving on."
 else
     note "Install Homebrew"

@@ -5,7 +5,7 @@
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # Dotfiles directory
-DOTFILES_DIR="$HOME/hyprland_nhattVim"
+temp_dir=$(mktemp -d)
 
 # start script
 engine=(
@@ -21,14 +21,9 @@ for PKG1 in "${engine[@]}"; do
     fi
 done
 
-# Remove old dotfiles if exist
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
-
 # Clone dotfiles
 note "Cloning dotfiles..."
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$temp_dir"; then
     ok "Cloned dotfiles successfully"
 else
     err "Failed to clone dotfiles" && exit 1
@@ -39,26 +34,23 @@ note "Copying gtk themes file"
 
 # copying icon
 mkdir -p $HOME/.icons
-cp -r "$DOTFILES_DIR/assets/.icons/." "$HOME/.icons/" && { ok "Copy icons completed!"; } || {
+cp -r "$temp_dir/assets/.icons/." "$HOME/.icons/" && { ok "Copy icons completed!"; } || {
     err "Failed to copy icons files"
 }
 
 # copying font
 mkdir -p $HOME/.fonts
-cp -r "$DOTFILES_DIR/assets/.fonts/." "$HOME/.fonts/" && { ok "Copy fonts completed!"; } || {
+cp -r "$temp_dir/assets/.fonts/." "$HOME/.fonts/" && { ok "Copy fonts completed!"; } || {
     err "Failed to copy fonts files"
 }
 
 # copying theme
 mkdir -p $HOME/.themes
-cp -r "$DOTFILES_DIR/assets/.themes/." "$HOME/.themes" && { ok "Copy themes completed!"; } || {
+cp -r "$temp_dir/assets/.themes/." "$HOME/.themes" && { ok "Copy themes completed!"; } || {
     err "Failed to copy themes files"
 }
 
 # reload fonts
 fc-cache -fv
 
-# remove dotfiles
-if [ -d "$DOTFILES_DIR" ]; then
-    rm -rf "$DOTFILES_DIR"
-fi
+rm -rf "$temp_dir"

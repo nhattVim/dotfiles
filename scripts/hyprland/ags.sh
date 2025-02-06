@@ -56,5 +56,4 @@ if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.gi
     cd .. && rm -rf ags
 else
     err "Failed to download ags. Please check your connection"
-    exit 1
 fi

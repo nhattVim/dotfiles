@@ -43,8 +43,6 @@ fi
 
 sudo mkinitcpio -P
 
-printf "\n%.0s" {1..3}
-
 # Additional Nvidia steps
 NVEA="/etc/modprobe.d/nvidia.conf"
 if [ -f "$NVEA" ]; then
@@ -54,7 +52,7 @@ else
     sudo echo -e "options nvidia-drm modeset=1 fbdev=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
 fi
 
-# additional for GRUB users
+# Additional for GRUB users
 # Check if /etc/default/grub exists
 if [ -f /etc/default/grub ]; then
     # Check if nvidia_drm.modeset=1 is already present

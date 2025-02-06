@@ -1,43 +1,54 @@
 #!/bin/bash
-# Snapd
+# Snapd Installer with Retry Mechanism
 
-# source library
+# Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
-
-# start script
-cd $HOME
-if [ -d snapd ]; then
-    rm -rf snapd
-fi
 
 if command -v snap &>/dev/null; then
     ok "Snap already installed, moving on."
     exit 1
 else
     note "Snap was NOT located. Installing snap ..."
-    git clone https://aur.archlinux.org/snapd.git || {
-        err "Failed to clone snap"
+
+    MAX_RETRIES=3
+    attempt=1
+
+    while [ $attempt -le $MAX_RETRIES ]; do
+        note "Installing snap from AUR (Attempt $attempt)..."
+
+        temp_dir=$(mktemp -d)
+
+        git clone https://aur.archlinux.org/snapd.git "$temp_dir/snapd" && cd "$temp_dir/snapd" || {
+            err "Failed to clone snap from AUR (Attempt $attempt)"
+            ((attempt++))
+            continue
+        }
+
+        if makepkg -si --noconfirm; then
+            ok "Successfully installed Snap!"
+            rm -rf "$temp_dir"
+            break
+        else
+            err "Failed to install Snap (Attempt $attempt)"
+            rm -rf "$temp_dir"
+            ((attempt++))
+        fi
+
+        rm -rf "$temp_dir"
+        ok "Successfully installed snap!"
+        break
+    done
+
+    if [ $attempt -gt $MAX_RETRIES ]; then
+        err "Exceeded maximum retries. Exiting..."
         exit 1
-    }
-    cd snapd || {
-        err "Failed to enter snapd directory"
-        exit 1
-    }
-    makepkg -si --noconfirm || {
-        err "Failed to install snap"
-        exit 1
-    }
-    cd ~ && rm -rf snapd || {
-        err "Failed to remove snapd directory"
-        exit 1
-    }
+    fi
 fi
 
-# install snapd
-note "Installing snapd"
+# Installing snapd
 iAur snapd
 
-# setup snapd before proceeding
+# Setup snapd before proceeding
 note "Set up snap ..."
 sudo systemctl enable --now snapd.socket && sudo ln -s /var/lib/snapd/snap /snap && systemctl enable --now snapd.apparmor || {
     err "Failed to setup snap"

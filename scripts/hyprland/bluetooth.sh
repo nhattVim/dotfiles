@@ -4,9 +4,6 @@
 # source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
-HYPR_FOLDER="$HOME/.config/hypr/configs"
-STARTUP_FILE="$HYPR_FOLDER/execs.conf"
-
 # start script
 bluetooth=(
     bluez

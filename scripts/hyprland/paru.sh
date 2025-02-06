@@ -15,9 +15,9 @@ else
     while [ $attempt -le $MAX_RETRIES ]; do
         note "Installing paru from (Attempt $attempt) AUR..."
 
-        cd "$HOME" && rm -rf paru-bin
+        temp_dir=$(mktemp -d)
 
-        git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin || {
+        git clone https://aur.archlinux.org/paru-bin.git "$temp_dir/paru" && cd "$temp_dir/paru" || {
             err "Failed to clone paru from AUR (Attempt $attempt)"
             ((attempt++))
             continue
@@ -25,11 +25,11 @@ else
 
         if makepkg -si --noconfirm; then
             ok "Successfully installed paru!"
-            cd "$HOME" && rm -rf paru-bin
+            rm -rf "$temp_dir"
             break
         else
             err "Failed to install paru from AUR (Attempt $attempt)"
-            cd "$HOME"
+            rm -rf "$temp_dir"
             ((attempt++))
         fi
 

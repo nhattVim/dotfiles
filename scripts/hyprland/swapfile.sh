@@ -5,12 +5,10 @@
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
-printf "\n%.0s" {1..2}
 if ! gum confirm "Do you want to set up swapfile?"; then
     exit 1
 fi
 
-printf "\n%.0s" {1..2}
 note "Setting up swapfile."
 
 total_ram=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
@@ -20,7 +18,6 @@ if [[ -f "/swapfile" ]]; then
     if gum confirm "Swap file already exists. Do you want to delete old swapfile?"; then
         sudo swapoff /swapfile
         sudo rm -f /swapfile
-        printf "\n%.0s" {1..2}
         ok "Old swapfile deleted."
 
         if grep -q "/swapfile" /etc/fstab; then
@@ -33,10 +30,9 @@ if [[ -f "/swapfile" ]]; then
 fi
 
 while true; do
-    printf "\n%.0s" {1..2}
     read -rep "${PINK} Enter the size of swapfile(GB), recommend ${recommended_size}(GB): ${RESET}" number
     if [[ "$number" =~ ^[1-9][0-9]*$ && "$number" -le 100 ]]; then
-        printf "\n%.0s" {1..2}
+
         act "Creating swapfile of ${number}GB..."
         if sudo dd if=/dev/zero of=/swapfile bs=1G count="$number" status=progress >/dev/null && sudo chmod 600 /swapfile >/dev/null; then
             ok "Created and permissioned swapfile successfully."

@@ -9,9 +9,9 @@ theme="Rappa"
 grub="/etc/default/grub"
 grub_dir="/boot/grub/themes"
 grub_theme="$grub_dir/$theme/theme.txt"
+temp_dir=$(mktemp -d)
 
 # start script
-printf "\n%.0s" {1..2}
 note "Setting up grub theme."
 
 # Check file
@@ -20,31 +20,19 @@ if [[ ! -f "$grub" ]]; then
     exit 1
 fi
 
-# Check file
+# Check folder
 if [[ ! -d "$grub_dir" ]]; then
     sudo mkdir -p "$grub_dir"
 fi
 
 # Ask user
 if gum confirm "Do you want to install grub custom theme?"; then
-    cd $HOME
-    if [ -d grub_themes ]; then
-        rm -rf grub_themes || {
-            err "Failed to remove old grub themes folder"
-            exit 1
-        }
-        note "Clone grub themes." && git clone https://github.com/voidlhf/StarRailGrubThemes.git grub_themes --depth 1 || {
-            err "Failed to clone grub themes directory"
-            exit 1
-        }
-    else
-        note "Clone grub themes." && git clone https://github.com/voidlhf/StarRailGrubThemes.git grub_themes --depth 1 || {
-            err "Failed to clone grub themes directory"
-            exit 1
-        }
-    fi
 
-    printf "\n%.0s" {1..2}
+    note "Clone grub themes."
+    git clone https://github.com/voidlhf/StarRailGrubThemes.git --depth 1 "$temp_dir" || {
+        err "Failed to clone grub themes directory"
+        exit 1
+    }
 
     # Update GRUB_TIMEOUT
     sudo sed -i "s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=\"-1\"/" "$grub"
@@ -78,15 +66,10 @@ if gum confirm "Do you want to install grub custom theme?"; then
         ok "Added to GRUB_DISABLE_OS_PROBER in $grub"
     fi
 
-    printf "\n%.0s" {1..2}
-
     # Extract and copy theme
-    tar xzvf grub_themes/themes/"$theme".tar.gz >/dev/null
-    rm -fr grub_themes/themes/"$theme".tar.gz
-    sudo mkdir -p $grub_dir
-    sudo cp -r $theme $grub_dir
-    rm -rf $theme
-    rm -rf grub_themes
+    tar xzvf $temp_dir/themes/"$theme".tar.gz -C $temp_dir >/dev/null
+    sudo cp -r $temp_dir/$theme $grub_dir
+    rm -rf $temp_dir
 
     # Regenerate grub config
     sudo grub-mkconfig -o /boot/grub/grub.cfg

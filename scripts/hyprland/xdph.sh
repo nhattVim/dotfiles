@@ -18,20 +18,13 @@ for xdgs in "${xdg[@]}"; do
     fi
 done
 
-note "Checking for other xdg-desktop-portal implementations..."
-
-if gum confirm "${CYAN} Would you like to try to remove other XDG-Desktop-Portal-Implementations?${RESET}"; then
-    # Clean out other portals
-    note "Clearing any other xdg-desktop-portal implementations..."
-    # Check if packages are installed and uninstall if present
-    if pacman -Qs xdg-desktop-portal-wlr >/dev/null; then
-        echo "Removing xdg-desktop-portal-wlr..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-wlr
-    fi
-    if pacman -Qs xdg-desktop-portal-lxqt >/dev/null; then
-        echo "Removing xdg-desktop-portal-lxqt..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-lxqt
-    fi
-else
-    echo "No other XDG-implementations will be removed."
+# Clean out other portals
+note "Clearing any other xdg-desktop-portal implementations..."
+if pacman -Qs xdg-desktop-portal-wlr >/dev/null; then
+    act "Removing xdg-desktop-portal-wlr..."
+    sudo pacman -R --noconfirm xdg-desktop-portal-wlr
+fi
+if pacman -Qs xdg-desktop-portal-lxqt >/dev/null; then
+    act "Removing xdg-desktop-portal-lxqt..."
+    sudo pacman -R --noconfirm xdg-desktop-portal-lxqt
 fi
