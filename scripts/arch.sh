@@ -2,10 +2,10 @@
 # config arch
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # init
-exHypr "boot.sh"
+exHypr "boot.sh" && clear
 
 # start script
 gum style \
