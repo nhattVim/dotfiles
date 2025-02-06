@@ -54,7 +54,7 @@ fi
 if command -v snap &>/dev/null; then
     if ! snap list | grep -q 'snap-store'; then
         notify-send -e -u low -i "$notif" "  Installing snap-store"
-        snap install snap-store && snap install snapd-desktop-integration || {
+        sudo snap install snap-store && sudo snap install snapd-desktop-integration || {
             notify-send -u low -i "$notif" "Failed to install snap-store"
             exit 1
         }
