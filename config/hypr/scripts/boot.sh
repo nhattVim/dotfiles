@@ -54,7 +54,7 @@ fi
 if command -v snap &>/dev/null; then
     if ! snap list | grep -q 'snap-store'; then
         notify-send -e -u low -i "$notif" "  Installing snap-store"
-        sudo snap install snap-store && sudo snap install snapd-desktop-integration || {
+        snap install snap-store && snap install snapd-desktop-integration || {
             notify-send -u low -i "$notif" "Failed to install snap-store"
             exit 1
         }
@@ -62,20 +62,7 @@ if command -v snap &>/dev/null; then
     fi
 fi
 
-# initial vmware
-if command -v vmware &>/dev/null; then
-    sudo modprobe -a vmw_vmci vmmon && { notify-send -u low -i "$notif" "Enable vmware module successfully"; } || {
-        notify-send -u low -i "$notif" "Failed to enable vmware module"
-    }
-    sudo systemctl enable --now vmware-networks.service && { notify-send -u low -i "$notif" "Enable vmware network service successfully!"; } || {
-        notify-send -u low -i "$notif" "Failed to enable vmware network service"
-    }
-    sudo systemctl enable --now vmware-usbarbitrator.service && { notify-send -u low -i "$notif" "Enable vmware usb service successfully!"; } || {
-        notify-send -u low -i "$notif" "Failed to enable vmware usb service"
-    }
-fi
-
-sed -i '/exec-once = \$HOME\/.config\/hypr\/scripts\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
+sed -i '/exec-once = \$scriptsDir\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
 sleep 2
 
 notify-send -e -u low -i "$notif" "Boot script finished"
