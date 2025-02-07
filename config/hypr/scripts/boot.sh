@@ -50,18 +50,7 @@ if [ -f "$waybar_style" ]; then
     "$scriptsDir/refresh.sh" >/dev/null 2>&1 &
 fi
 
-# install snap store
-if command -v snap &>/dev/null; then
-    if ! snap list | grep -q 'snap-store'; then
-        notify-send -e -u low -i "$notif" "  Installing snap-store"
-        snap install snap-store && snap install snapd-desktop-integration || {
-            notify-send -u low -i "$notif" "Failed to install snap-store"
-            exit 1
-        }
-        notify-send -u low -i "$notif" "Install successfully"
-    fi
-fi
-
+# remove boot marker
 sed -i '/exec-once = \$scriptsDir\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
 sleep 2
 
