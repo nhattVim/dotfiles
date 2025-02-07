@@ -1,5 +1,5 @@
 #!/bin/bash
-# Paru AUR Helper Auto Retry Installer
+# Paru AUR Helper
 
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Yay AUR Helper Auto Retry Installer
+# Yay AUR Helper
 
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)

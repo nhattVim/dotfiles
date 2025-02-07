@@ -137,7 +137,7 @@ done
 
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    note "Installing Oh My Zsh..."
+    act "Installing Oh My Zsh..."
     sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
         git clone https://github.com/zsh-users/zsh-autosuggestions \
             ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -149,7 +149,7 @@ fi
 
 # TPM (Tmux Plugin Manager)
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-    note "Installing TPM..."
+    act "Installing TPM..."
     git clone https://github.com/tmux-plugins/tpm \
         $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
 else
@@ -158,7 +158,7 @@ fi
 
 # Wallust
 if ! command -v wallust &>/dev/null; then
-    note "Installing Wallust..."
+    act "Installing Wallust..."
     cargo install wallust && ok "Wallust installed"
 else
     note "Wallust already installed"

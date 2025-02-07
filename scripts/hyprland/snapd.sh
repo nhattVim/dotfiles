@@ -21,3 +21,10 @@ if sudo systemctl enable --now snapd; then
 else
     err "Failed to enable snapd"
 fi
+
+act "Installing snap-store..."
+if snap install snap-store && snap install snapd-desktop-integration; then
+    ok "Install snap-store successfully"
+else
+    err "Failed to install snap-store"
+fi
