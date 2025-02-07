@@ -10,49 +10,49 @@
 
 pacman_pkgs=(
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Core System & Development
-    # --------------------------------------
+    # ----------------------------------------------------
     linux-lts linux-lts-headers base-devel git libxcrypt-compat
-    python-pip python-virtualenv python-requests nodejs npm cargo
-    rust jdk-openjdk
+    python-pip python-virtualenv python-requests cargo rust
+    jdk-openjdk
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Terminal & CLI Tools
-    # --------------------------------------
+    # ----------------------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf lsd
-    lazygit bat btop aria2 foot fastfetch lolcat
+    lazygit bat btop aria2 foot fastfetch lolcat yazi
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # System utilities
-    # --------------------------------------
-    net-tools gnome-disk-utility file-roller
-    network-manager-applet gvfs gvfs-mtp
-    gnome-system-monitor pacman-contrib
+    # ----------------------------------------------------
+    net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
+    network-manager-applet gnome-system-monitor
+    pacman-contrib
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Multimedia
-    # --------------------------------------
+    # ----------------------------------------------------
     mpv mpv-mpris yt-dlp ffmpeg
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # GUI Applications
-    # --------------------------------------
+    # ----------------------------------------------------
     libreoffice-fresh discord neovide ranger cmatrix
     telegram-desktop chromium qalculate-gtk
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Hyprland Ecosystem
-    # --------------------------------------
+    # ----------------------------------------------------
     brightnessctl inxi grim waybar hyprpolkitagent jq slurp
     swappy cliphist pamixer pavucontrol playerctl qt5ct qt6ct
-    swayidle wget wl-clipboard xdg-user-dirs xdg-utils yad nvtop
+    swayidle wget wl-clipboard xdg-user-dirs xdg-utils yad
     hyprcursor hyprutils aquamarine hypridle hyprlock hyprland
-    hyprland-qtutils libspng imagemagick kitty kvantum
+    hyprland-qtutils libspng imagemagick kitty kvantum nvtop
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Fonts
-    # --------------------------------------
+    # ----------------------------------------------------
     adobe-source-code-pro-fonts
     otf-font-awesome
     noto-fonts-emoji
@@ -70,17 +70,18 @@ pacman_pkgs=(
 
 aur_pkgs=(
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Hyprland Ecosystem
-    # --------------------------------------
+    # ----------------------------------------------------
     rofi-lbonn-wayland-git swaync swww wlogout
     pyprland cava nwg-look-bin
 
-    # --------------------------------------
+    # ----------------------------------------------------
     # Extras Packages
-    # --------------------------------------
-    zen-browser-bin arttime-git pipes.sh eog
+    # ----------------------------------------------------
+    arttime-git pipes.sh eog
     mousepad shell-color-scripts-git
+    # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
     # xampp
