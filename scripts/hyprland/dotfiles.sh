@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib) && clear
+# . <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/lib.sh)
 
 # variables
 wallpaper="$HOME/Pictures/wallpapers/art-3.png"

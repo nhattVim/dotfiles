@@ -1,7 +1,8 @@
 #!/bin/bash
 # required
 
-. <(curl -sSL https://is.gd/nhattVim_lib) && clear
+# . <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/lib.sh)
 
 # start script
 echo -e "\e[34m   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____"

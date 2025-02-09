@@ -2,7 +2,8 @@
 # config ubuntu
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+# . <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/lib.sh)
 
 RUNNING_GNOME=$([[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]] && echo true || echo false)
 
