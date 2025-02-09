@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source library
-. <(curl -sSL https://bit.ly/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start
 nvidia_pkg=(

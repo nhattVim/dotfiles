@@ -2,7 +2,7 @@
 # Homebrew
 
 # source library
-. <(curl -sSL https://bit.ly/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 # start script
 if command -v brew &>/dev/null 2>&1; then

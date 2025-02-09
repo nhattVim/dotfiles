@@ -2,7 +2,7 @@
 # Snapd Installer with Retry Mechanism
 
 # Source library
-. <(curl -sSL https://bit.ly/nhattVim_lib)
+. <(curl -sSL https://is.gd/nhattVim_lib)
 
 if command -v snap &>/dev/null; then
     ok "Snap already installed, moving on."
