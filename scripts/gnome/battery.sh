@@ -2,7 +2,7 @@
 # set battery charge limit
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://bit.ly/nhattVim_lib)
 
 # start script
 note "Setting up battery charge limit"

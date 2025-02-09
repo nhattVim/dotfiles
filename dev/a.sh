@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://bit.ly/nhattVim_lib)
 
 if [[ $EUID -eq 0 ]]; then
     echo "This script should not be executed as root! Exiting ..."

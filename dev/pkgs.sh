@@ -2,7 +2,7 @@
 # Unified Installation Script for Hyprland Environment
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://bit.ly/nhattVim_lib)
 
 # ==============================================================================
 # Pacman Package

@@ -2,7 +2,7 @@
 # Aylur's GTK Shell v 1.8.2#
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://bit.ly/nhattVim_lib)
 
 ags=(
     typescript
