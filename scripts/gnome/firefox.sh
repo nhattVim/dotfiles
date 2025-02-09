@@ -6,7 +6,7 @@
 
 note "Customizing Firefox..."
 
-iPac "firefox"
+iDeb "firefox"
 if [ $? -ne 0 ]; then
     err "Firefox install had failed"
     exit 1

@@ -65,13 +65,15 @@ gum style \
 while true; do
     yes_no "Do you dual boot with window?" dual_boot
     yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+    yes_no "Install & configure firefox with firefoxcss?" firefox
 
     gum style \
         --border-foreground 6 --border rounded \
         --align left --width 50 --margin "1 2" --padding "2 4" \
         "${CYAN}Your selected options:" \
-        "${PINK}Dual Boot:${YELLOW} $dual_boot" \
-        "${PINK}Battery Charging Limit (Laptop Only):${YELLOW} $battery"
+        "Dual Boot:${YELLOW} $dual_boot" \
+        "Battery Charging Limit (Laptop Only):${YELLOW} $battery" \
+        "Firefoxcss:${YELLOW} $firefox ${RESET}"
 
     if gum confirm "Are these options correct?"; then
         break
@@ -92,6 +94,10 @@ exGnome "pkgs.sh"
 
 # copy dotfiles
 exGnome "dotfiles.sh"
+
+if [ "$firefox" == "Y" ]; then
+    exGnome "firefox.sh"
+fi
 
 # settings gnome
 exGnome "settings.sh"
