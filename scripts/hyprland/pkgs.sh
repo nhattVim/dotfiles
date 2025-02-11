@@ -13,15 +13,16 @@ pacman_pkgs=(
     # ----------------------------------------------------
     # Core System & Development
     # ----------------------------------------------------
-    linux-lts linux-lts-headers base-devel git libxcrypt-compat
+    linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo rust
     jdk-openjdk
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
     # ----------------------------------------------------
-    alacritty tmux zsh nano vim neovim make ripgrep fzf lsd
-    lazygit bat btop aria2 foot fastfetch lolcat yazi
+    alacritty tmux zsh nano vim neovim make ripgrep fzf jq
+    lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
+    lsd
 
     # ----------------------------------------------------
     # System utilities
@@ -39,16 +40,17 @@ pacman_pkgs=(
     # GUI Applications
     # ----------------------------------------------------
     libreoffice-fresh discord neovide ranger cmatrix
-    telegram-desktop chromium qalculate-gtk
+    telegram-desktop chromium qalculate-gtk eog mousepad
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    brightnessctl inxi grim waybar hyprpolkitagent jq slurp
-    swappy cliphist pamixer pavucontrol playerctl qt5ct qt6ct
-    swayidle wget wl-clipboard xdg-user-dirs xdg-utils yad
-    hyprcursor hyprutils aquamarine hypridle hyprlock hyprland
-    hyprland-qtutils libspng imagemagick kitty kvantum nvtop
+    brightnessctl grim hyprpolkitagent slurp cliphist
+    pamixer pavucontrol playerctl qt5ct qt6ct wl-clipboard
+    xdg-user-dirs xdg-utils yad hyprcursor hyprutils nvtop
+    aquamarine hypridle hyprlock hyprland hyprland-qtutils
+    libspng imagemagick kitty kvantum rofi-wayland swaync
+    swww waybar swappy swayidle
 
     # ----------------------------------------------------
     # Fonts
@@ -73,14 +75,13 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    rofi-lbonn-wayland-git swaync swww wlogout
-    pyprland cava nwg-look-bin
+    wlogout pyprland cava nwg-look-bin
 
     # ----------------------------------------------------
     # Extras Packages
     # ----------------------------------------------------
-    arttime-git pipes.sh eog
-    mousepad shell-color-scripts-git
+    arttime-git pipes.sh
+    shell-color-scripts-git
     # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation

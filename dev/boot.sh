@@ -77,6 +77,7 @@ pkgs=(
     curl
     git
     unzip
+    wget
 )
 
 # install base-devel
