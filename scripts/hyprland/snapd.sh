@@ -23,7 +23,7 @@ else
 fi
 
 act "Installing snap-store..."
-if snap install snap-store && snap install snapd-desktop-integration; then
+if sudo snap install snap-store && sudo snap install snapd-desktop-integration; then
     ok "Install snap-store successfully"
 else
     err "Failed to install snap-store"
