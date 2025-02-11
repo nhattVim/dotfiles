@@ -36,6 +36,7 @@ gum style \
 while true; do
     choose "Choose your AUR helper" "yay" "paru" aur_helper
     yes_no "Do you dual boot with window?" dual_boot
+    yes_no "Do you want to install Grub theme?" grub_themes
     yes_no "Do you want to install GTK themes?" gtk_themes
     yes_no "Do you want to configure bluetooth?" bluetooth
     yes_no "Do you have any nvidia gpu in your system?" nvidia
@@ -55,6 +56,7 @@ while true; do
         "${GREEN}/-/-/-/-/-/-/-/-/-/-/-/-/-/-${RESET}" \
         "AUR Helper:${YELLOW} $aur_helper ${RESET}" \
         "Dual Boot:${YELLOW} $dual_boot ${RESET}" \
+        "Grub Themes:${YELLOW} $grub_themes ${RESET}" \
         "GTK Themes:${YELLOW} $gtk_themes ${RESET}" \
         "Bluetooth:${YELLOW} $bluetooth ${RESET}" \
         "Nvidia GPU:${YELLOW} $nvidia ${RESET}" \
@@ -128,7 +130,7 @@ if [ "$xdph" == "Y" ]; then
     exHypr "xdph.sh"
 fi
 
-if [ "$dual_boot" == "Y" ]; then
+if [ "$grub_themes" == "Y" ]; then
     exHypr "grub_themes.sh"
 fi
 

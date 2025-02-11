@@ -71,6 +71,11 @@ if gum confirm "Do you want to install grub custom theme?"; then
     sudo cp -r $temp_dir/$theme $grub_dir
     rm -rf $temp_dir
 
+    # Detect OS
+    if command -v os-prober >/dev/null; then
+        sudo os-prober
+    fi
+
     # Regenerate grub config
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 else
