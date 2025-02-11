@@ -84,7 +84,7 @@ select_theme_variant() {
     }
 
     # User selection
-    note "${YELLOW}Select theme variant (Preview: ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme):${RESET}"
+    note "Select theme variant (Preview on: ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme):${RESET}"
     local selected=$(gum choose "${variants[@]}")
 
     # Apply selection
