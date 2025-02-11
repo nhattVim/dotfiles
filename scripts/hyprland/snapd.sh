@@ -23,7 +23,7 @@ else
 fi
 
 act "Installing snap-store..."
-if sudo snap install snap-store &&
+if export PATH="$PATH:/var/lib/snapd/snap/bin" && sudo snap install snap-store &&
     sudo snap install snapd-desktop-integration; then
     ok "Install snap-store successfully"
 else
