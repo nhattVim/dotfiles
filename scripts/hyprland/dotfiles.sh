@@ -92,30 +92,6 @@ cleanup_backups
 # Set some files as executable
 chmod +x "$HOME/.config/hypr/scripts/"*
 
-# additional wallpapers
-note "By default only a few wallpapers are copied..." && cd "$HOME"
-while true; do
-    if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
-        note "Downloading additional wallpapers..."
-        if git clone https://github.com/nhattVim/wallpapers --depth 1; then
-            note "Wallpapers downloaded successfully."
-
-            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/wallpapers/"; then
-                note "Wallpapers copied successfully."
-                rm -rf wallpapers
-                break
-            else
-                err "Copying wallpapers failed."
-            fi
-        else
-            err "Downloading additional wallpapers failed"
-        fi
-    else
-        note "You chose not to download additional wallpapers."
-        break
-    fi
-done
-
 # Add apps to startup
 declare -A startup_apps=(
     ["asusctl"]="rog-control-center"
@@ -295,6 +271,30 @@ ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
     # initialize wallust to avoid config error on hyprland
     # export PATH="$HOME/.cargo/bin:$PATH" &&
     wallust run -s $wallpaper
+
+# additional wallpapers
+note "By default only a few wallpapers are copied..." && cd "$HOME"
+while true; do
+    if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
+        note "Downloading additional wallpapers..."
+        if git clone https://github.com/nhattVim/wallpapers --depth 1; then
+            note "Wallpapers downloaded successfully."
+
+            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/wallpapers/"; then
+                note "Wallpapers copied successfully."
+                rm -rf wallpapers
+                break
+            else
+                err "Copying wallpapers failed."
+            fi
+        else
+            err "Downloading additional wallpapers failed"
+        fi
+    else
+        note "You chose not to download additional wallpapers."
+        break
+    fi
+done
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
