@@ -75,7 +75,7 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava nwg-look-bin
+    wlogout pyprland cava nwg-look-bin wallust
 
     # ----------------------------------------------------
     # Extras Packages
@@ -158,14 +158,14 @@ else
 fi
 
 # Wallust
-if ! command -v wallust &>/dev/null; then
-    act "Installing Wallust..."
-    cargo install wallust && ok "Wallust installed"
-else
-    note "Wallust already installed"
-fi
-
-ok "All packages installed successfully!"
+# if ! command -v wallust &>/dev/null; then
+#     act "Installing Wallust..."
+#     cargo install wallust && ok "Wallust installed"
+# else
+#     note "Wallust already installed"
+# fi
+#
+# ok "All packages installed successfully!"
 
 # Clear packages
 note "Clear packages."

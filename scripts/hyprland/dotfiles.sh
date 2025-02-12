@@ -286,7 +286,8 @@ fi
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
     # initialize wallust to avoid config error on hyprland
-    export PATH="$HOME/.cargo/bin:$PATH" && wallust run -s $wallpaper
+    # export PATH="$HOME/.cargo/bin:$PATH" &&
+    wallust run -s $wallpaper
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
