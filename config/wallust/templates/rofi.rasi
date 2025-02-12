@@ -1,5 +1,3 @@
- /* wallust template - colors-rofi */
-
 * {
 active-background: {{color9}};
 active-foreground: {{foreground}};

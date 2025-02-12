@@ -1,9 +1,8 @@
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
 # wallust configuration - for wallust version 3.0
 
 # How the image is parse, in order to get the colors:
 # full - resized - wal - thumb -  fastresize - kmeans
-backend = "wal"
+backend = "kmeans"
 
 # What color space to use to produce and select the most prominent colors:
 # lab - labmixed - lch - lchmixed
