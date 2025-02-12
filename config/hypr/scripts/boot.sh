@@ -15,7 +15,8 @@ cursor_theme="Bibata-Modern-Ice"
 # variables
 scriptsDir=$HOME/.config/hypr/scripts
 waybar_style="$HOME/.config/waybar/style/[Wallust] Simple.css"
-wallpaper="$HOME/Pictures/wallpapers/art-3.png"
+wallDir="$HOME/Pictures/wallpapers"
+wallpaper="$wallDir/art-3.png"
 notif="$HOME/.config/swaync/images/bell.png"
 swww="swww img"
 effect="--transition-bezier .43,1.19,1,.4 --transition-fps 30 --transition-type grow --transition-pos 0.925,0.977 --transition-duration 2"
@@ -49,6 +50,13 @@ if [ -f "$waybar_style" ]; then
     # refreshing waybar, swaync, rofi etc.
     "$scriptsDir/refresh.sh" >/dev/null 2>&1 &
 fi
+
+# generate scheme palette
+for wall in "$wallDir"/*; do
+    if [[ -f "$wall" ]]; then
+        wallust run -s "$wall"
+    fi
+done
 
 # remove boot marker
 sed -i '/exec-once = \$scriptsDir\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
