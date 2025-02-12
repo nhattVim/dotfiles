@@ -117,6 +117,7 @@ required_pkgs=(
     git
     unzip
     base-devel
+    wget
 )
 
 note "Installing essential packages..."

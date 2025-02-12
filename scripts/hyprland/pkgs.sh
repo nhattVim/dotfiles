@@ -22,7 +22,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf jq
     lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
-    lsd
+    lsd curl wget
 
     # ----------------------------------------------------
     # System utilities
