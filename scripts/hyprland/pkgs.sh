@@ -29,7 +29,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
-    pacman-contrib
+    pacman-contrib nwg-look
 
     # ----------------------------------------------------
     # Multimedia
@@ -75,7 +75,7 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava nwg-look-bin
+    wlogout pyprland cava
     # wallust
 
     # ----------------------------------------------------
