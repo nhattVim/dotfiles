@@ -47,7 +47,7 @@ folder=(
     ranger btop cava hypr ags
     kitty Kvantum qt5ct qt6ct rofi swappy
     swaync swaylock waybar wlogout
-    fastfetch Thunar wallust
+    fastfetch Thunar wallust nvim
 )
 
 for DIR in "${folder[@]}"; do
@@ -78,6 +78,13 @@ cp "$DOTFILES_DIR/assets/.ideavimrc" "$HOME" &&
     cp "$DOTFILES_DIR/assets/.zprofile" "$HOME" && { ok "Copy assets files completed"; } || {
     err "Failed to copy assets files"
 }
+
+# Clone MYnvim
+if git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1; then
+    ok "Setup MYnvim successfully"
+else
+    err "Failed to setup MYnvim"
+fi
 
 # performing clean up backup folders
 cleanup_backups
