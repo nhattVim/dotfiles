@@ -17,7 +17,7 @@ else
 
         temp_dir=$(mktemp -d)
 
-        git clone https://aur.archlinux.org/paru-bin.git "$temp_dir/paru" && cd "$temp_dir/paru" || {
+        git clone https://aur.archlinux.org/paru-bin.git "$temp_dir" && cd "$temp_dir" || {
             err "Failed to clone paru from AUR (Attempt $attempt)"
             ((attempt++))
             continue

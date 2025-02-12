@@ -14,7 +14,7 @@ bluetooth=(
 # install bluetooth
 note "Installing bluetooth Packages..."
 for BLUE in "${bluetooth[@]}"; do
-    iAur "$BLUE"
+    iPac "$BLUE"
     if [ $? -ne 0 ]; then
         err "$BLUE install had failed"
     fi

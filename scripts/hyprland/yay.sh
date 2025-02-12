@@ -17,7 +17,7 @@ else
 
         temp_dir=$(mktemp -d)
 
-        git clone https://aur.archlinux.org/yay-bin.git "$temp_dir/yay" && cd "$temp_dir/yay" || {
+        git clone https://aur.archlinux.org/yay-bin.git "$temp_dir" && cd "$temp_dir" || {
             err "Failed to clone yay from AUR (Attempt $attempt)"
             ((attempt++))
             continue

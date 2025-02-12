@@ -22,6 +22,15 @@ ags=(
 # specific tags to download
 ags_tag="v1.9.0"
 
+# Check if AGS is installed
+if command -v ags &>/dev/null; then
+    AGS_VERSION=$(ags -v | awk '{print $NF}')
+    if [[ "$AGS_VERSION" == "1.9.0" ]]; then
+        note "Aylur's GTK Shell v1.9.0 is already installed. Skipping installation."
+        exit 0
+    fi
+fi
+
 # Installation of main components
 note "Installing AGS Dependencies"
 
@@ -36,15 +45,12 @@ done
 # ags
 note "Install and Compiling Aylurs GTK shell $ags_tag.."
 
-# Check if folder exists and remove it
-if [ -d "ags" ]; then
-    note "Removing existing ags folder..."
-    rm -rf ags
-fi
+# create a temporary directory
+temp_dir=$(mktemp -d)
 
 # Clone nwg-look repository with the specified tag
-if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.git; then
-    cd ags || exit 1
+if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.git "$temp_dir"; then
+    cd $temp_dir || exit 1
     # Build and install ags
     npm install
     meson setup build
@@ -53,7 +59,7 @@ if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.gi
     else
         err "Installing failed for ags"
     fi
-    cd .. && rm -rf ags
+    rm -rf $temp_dir
 else
     err "Failed to download ags. Please check your connection"
 fi
