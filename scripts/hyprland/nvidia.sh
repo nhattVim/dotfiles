@@ -13,16 +13,6 @@ nvidia_pkg=(
 )
 
 # Install additional Nvidia packages
-note "Installing additional Nvidia packages..."
-for krnl in $(cat /usr/lib/modules/*/pkgbase); do
-    for NVIDIA in "${krnl}-headers" "${nvidia_pkg[@]}"; do
-        iAur "$NVIDIA"
-        if [ $? -ne 0 ]; then
-            err "$PKG1 install had failed"
-        fi
-    done
-done
-
 note "Installing Nvidia Packages and Linux headers..."
 for krnl in $(cat /usr/lib/modules/*/pkgbase); do
     for NVIDIA in "${krnl}-headers" "${nvidia_pkg[@]}"; do
@@ -53,26 +43,53 @@ else
 fi
 
 # Additional for GRUB users
-# Check if /etc/default/grub exists
 if [ -f /etc/default/grub ]; then
     # Check if nvidia_drm.modeset=1 is already present
     if ! sudo grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
         sudo sed -i -e 's/\(GRUB_CMDLINE_LINUX_DEFAULT=".*\)"/\1 nvidia-drm.modeset=1"/' /etc/default/grub
-        echo "nvidia-drm.modeset=1 added to /etc/default/grub"
+        ok "nvidia-drm.modeset=1 added to /etc/default/grub"
     fi
 
     # Check if nvidia_drm.fbdev=1 is present
     if ! sudo grep -q "nvidia_drm.fbdev=1" /etc/default/grub; then
         sudo sed -i -e 's/\(GRUB_CMDLINE_LINUX_DEFAULT=".*\)"/\1 nvidia_drm.fbdev=1"/' /etc/default/grub
-        echo "nvidia_drm.fbdev=1 added to /etc/default/grub"
+        ok "nvidia_drm.fbdev=1 added to /etc/default/grub"
     fi
 
     # Regenerate GRUB configuration
     if sudo grep -q "nvidia-drm.modeset=1" /etc/default/grub || sudo grep -q "nvidia_drm.fbdev=1" /etc/default/grub; then
         sudo grub-mkconfig -o /boot/grub/grub.cfg
+        ok "Grub configuration regenerated"
     fi
+
+    ok "Additional steps for GRUB completed"
 else
     note "/etc/default/grub does not exist."
+fi
+
+# Additional for systemd-boot users
+if [ -f /boot/loader/loader.conf ]; then
+    note "systemd-boot bootloader detected"
+
+    backup_count=$(find /boot/loader/entries/ -type f -name "*.conf.bak" | wc -l)
+    conf_count=$(find /boot/loader/entries/ -type f -name "*.conf" | wc -l)
+
+    if [ "$backup_count" -ne "$conf_count" ]; then
+        find /boot/loader/entries/ -type f -name "*.conf" | while read imgconf; do
+
+            # Backup conf
+            act "Backup created for systemd-boot loader: $imgconf"
+            sudo cp "$imgconf" "$imgconf.bak"
+
+            # Clean up options and update with NVIDIA settings
+            sdopt=$(grep -w "^options" "$imgconf" | sed 's/\b nvidia-drm.modeset=[^ ]*\b//g' | sed 's/\b nvidia_drm.fbdev=[^ ]*\b//g')
+            sudo sed -i "/^options/c${sdopt} nvidia-drm.modeset=1 nvidia_drm.fbdev=1" "$imgconf"
+        done
+
+        ok "Additional steps for systemd-boot completed"
+    else
+        ok "systemd-boot is already configured"
+    fi
 fi
 
 # Blacklist nouveau
