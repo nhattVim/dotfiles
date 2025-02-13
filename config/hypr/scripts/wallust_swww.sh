@@ -22,5 +22,6 @@ fi
 
 if [ "$ln_success" = true ]; then
     echo 'about to execute wallust'
-    wallust run "$wallpaper_path" -s &
+    export PATH="$HOME/.cargo/bin:$PATH" &&
+        wallust run "$wallpaper_path" -s &
 fi
