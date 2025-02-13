@@ -52,11 +52,12 @@ if [ -f "$waybar_style" ]; then
 fi
 
 # generate scheme palette
-for wall in "$wallDir"/*; do
-    if [[ -f "$wall" ]]; then
-        wallust run -s "$wall"
-    fi
-done
+# for wall in "$wallDir"/*; do
+#     if [[ -f "$wall" ]]; then
+#         export PATH="$HOME/.cargo/bin:$PATH" &&
+#             wallust run -s "$wall"
+#     fi
+# done
 
 # remove boot marker
 sed -i '/exec-once = \$scriptsDir\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
