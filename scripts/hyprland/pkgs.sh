@@ -29,7 +29,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
-    pacman-contrib nwg-look
+    pacman-contrib nwg-look gammastep
 
     # ----------------------------------------------------
     # Multimedia

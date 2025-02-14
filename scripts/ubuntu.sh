@@ -115,10 +115,11 @@ exGnome "hotkeys.sh"
 gsettings set org.gnome.desktop.screensaver lock-enabled true
 gsettings set org.gnome.desktop.session idle-delay 300
 
-# check log
-[ -f $HOME/install.log ] &&
-    gum confirm "${CYAN} Do you want to check log?" &&
-    gum pager <$HOME/install.log
+# Check log
+if [ -f $HOME/install.log ]; then
+    gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
+    gum confirm "${CYAN} Do you want to reinstall failed packages?" && reinstall_failed_pkgs
+fi
 
 # successfully
 ok "Yey! Installation Completed. Rebooting..."

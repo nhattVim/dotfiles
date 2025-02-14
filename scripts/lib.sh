@@ -30,7 +30,7 @@ iPac() {
         act "Installing $1 ..."
         sudo pacman -Syu --noconfirm --needed "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
-            echo "-> $1 failed to install" >>"$HOME/install.log"
+            echo "[pacman] $1" >>"$HOME/install.log"
         }
     fi
 }
@@ -42,7 +42,7 @@ iAur() {
         act "Installing $1 ..."
         $ISAUR -Syu --noconfirm "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
-            echo "-> $1 failed to install" >>"$HOME/install.log"
+            echo "[yay] $1" >>"$HOME/install.log"
         }
     fi
 }
@@ -109,6 +109,25 @@ cleanup_backups() {
                 fi
             fi
         fi
+    done
+}
+
+reinstall_failed_pkgs() {
+    act "Retrying failed installations from install.log ..."
+
+    # Reinstall pacman pkgs
+    grep "^\[pacman\]" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
+        iPac "$pkg"
+    done
+
+    # Reinstall AUR pkgs
+    grep "^\[yay\]" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
+        iAur "$pkg"
+    done
+
+    # Reinstall deb pkgs
+    grep "^\->" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
+        iDeb "$pkg"
     done
 }
 
