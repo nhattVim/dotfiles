@@ -34,7 +34,6 @@ iPac() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
                 echo "[pacman] $1" >>"$LOG_FILE"
             fi
-            exit 1
         }
     fi
 }
@@ -49,7 +48,6 @@ iAur() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
                 echo "[yay] $1" >>"$LOG_FILE"
             fi
-            exit 1
         }
     fi
 }
@@ -64,7 +62,6 @@ iDeb() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^-> $1$" "$LOG_FILE"; then
                 echo "-> $1" >>"$LOG_FILE"
             fi
-            exit 1
         }
     fi
 }
@@ -125,20 +122,22 @@ cleanup_backups() {
 reinstall_failed_pkgs() {
     act "Retrying failed installations from install.log ..."
 
-    # Reinstall pacman pkgs
-    grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-        iPac "$pkg" && sed -i "\|^\[pacman\] $pkg$|d" "$LOG_FILE"
-    done
+    if [[ -f "$LOG_FILE" ]]; then
+        # Reinstall pacman pkgs
+        grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+            iPac "$pkg" && sed -i "\|^\[pacman\] $pkg$|d" "$LOG_FILE"
+        done
 
-    # Reinstall AUR pkgs
-    grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-        iAur "$pkg" && sed -i "\|^\[yay\] $pkg$|d" "$LOG_FILE"
-    done
+        # Reinstall AUR pkgs
+        grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+            iAur "$pkg" && sed -i "\|^\[yay\] $pkg$|d" "$LOG_FILE"
+        done
 
-    # Reinstall deb pkgs
-    grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-        iDeb "$pkg" && sed -i "\|^-> $pkg$|d" "$LOG_FILE"
-    done
+        # Reinstall deb pkgs
+        grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+            iDeb "$pkg" && sed -i "\|^-> $pkg$|d" "$LOG_FILE"
+        done
+    fi
 }
 
 exHypr() {
