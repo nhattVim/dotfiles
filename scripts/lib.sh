@@ -20,6 +20,7 @@ note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
 yes_no() { gum confirm "$1" && eval "$2='Y'" || eval "$2='N'"; }
 choose() { gum confirm "$1" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
 
+LOG_FILE="$HOME/install.log"
 ISAUR=$(basename "$(command -v paru || command -v yay)")
 PKGMN=$(basename "$(command -v nala || command -v apt)")
 
@@ -30,7 +31,9 @@ iPac() {
         act "Installing $1 ..."
         sudo pacman -Syu --noconfirm --needed "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
-            echo "[pacman] $1" >>"$HOME/install.log"
+            if ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
+                echo "[pacman] $1" >>"$LOG_FILE"
+            fi
         }
     fi
 }
@@ -42,7 +45,9 @@ iAur() {
         act "Installing $1 ..."
         $ISAUR -Syu --noconfirm "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
-            echo "[yay] $1" >>"$HOME/install.log"
+            if ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
+                echo "[yay] $1" >>"$LOG_FILE"
+            fi
         }
     fi
 }
@@ -54,7 +59,9 @@ iDeb() {
         act "Installing $1 ..."
         sudo $PKGMN install -y "$1" && ok "$1 was installed" || {
             err "$1 failed to install. You may need to install manually!"
-            echo "-> $1 failed to install" >>"$HOME/install.log"
+            if ! grep -q "^-> $1$" "$LOG_FILE"; then
+                echo "-> $1" >>"$LOG_FILE"
+            fi
         }
     fi
 }
@@ -116,18 +123,18 @@ reinstall_failed_pkgs() {
     act "Retrying failed installations from install.log ..."
 
     # Reinstall pacman pkgs
-    grep "^\[pacman\]" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
-        iPac "$pkg"
+    grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+        iPac "$pkg" && sed -i "\|^\[pacman\] $pkg$|d" "$LOG_FILE"
     done
 
     # Reinstall AUR pkgs
-    grep "^\[yay\]" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
-        iAur "$pkg"
+    grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+        iAur "$pkg" && sed -i "\|^\[yay\] $pkg$|d" "$LOG_FILE"
     done
 
     # Reinstall deb pkgs
-    grep "^->" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
-        iDeb "$pkg"
+    grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
+        iDeb "$pkg" && sed -i "\|^-> $pkg$|d" "$LOG_FILE"
     done
 }
 
