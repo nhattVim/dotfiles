@@ -126,7 +126,7 @@ reinstall_failed_pkgs() {
     done
 
     # Reinstall deb pkgs
-    grep "^\->" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
+    grep "^->" "$HOME/install.log" | awk '{print $2}' | while read -r pkg; do
         iDeb "$pkg"
     done
 }
