@@ -82,11 +82,11 @@
 
 "custom/light_dark": {
 	"format": "󰔎 ",
-    "on-click": "$HOME/.config/hypr/scripts/wallpaper_random.sh",
+    "on-click": "$HOME/.config/hypr/scripts/night_mode.sh -t",
     "on-click-right": "$HOME/.config/hypr/scripts/waybar_styles.sh",
     "on-click-middle": "$HOME/.config/hypr/scripts/wallpaper_select.sh",
 	"tooltip": true,
-	"tooltip-format": "Left Click: Switch Dark-Light Themes\nMiddle Click: Wallpaper Menu\nRight Click: Waybar Styles Menu",
+	"tooltip-format": "Left Click: Toggle Night Mode\nMiddle Click: Wallpaper Menu\nRight Click: Waybar Styles Menu",
 },
 
 "custom/lock": {
