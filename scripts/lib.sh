@@ -123,19 +123,35 @@ reinstall_failed_pkgs() {
     act "Retrying failed installations from install.log ..."
 
     if [[ -f "$LOG_FILE" ]]; then
+
         # Reinstall pacman pkgs
         grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iPac "$pkg" && sed -i "\|^\[pacman\] $pkg$|d" "$LOG_FILE"
+            iPac "$pkg"
+            if [[ $? -eq 0 ]]; then
+                sed -i "\|^\[pacman\] $pkg$|d" "$LOG_FILE"
+            else
+                err "Retry failed for $pkg. Keeping in log."
+            fi
         done
 
         # Reinstall AUR pkgs
         grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iAur "$pkg" && sed -i "\|^\[yay\] $pkg$|d" "$LOG_FILE"
+            iAur "$pkg"
+            if [[ $? -eq 0 ]]; then
+                sed -i "\|^\[yay\] $pkg$|d" "$LOG_FILE"
+            else
+                err "Retry failed for $pkg. Keeping in log."
+            fi
         done
 
         # Reinstall deb pkgs
         grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iDeb "$pkg" && sed -i "\|^-> $pkg$|d" "$LOG_FILE"
+            iDeb "$pkg"
+            if [[ $? -eq 0 ]]; then
+                sed -i "\|^-> $pkg$|d" "$LOG_FILE"
+            else
+                err "Retry failed for $pkg. Keeping in log."
+            fi
         done
     fi
 }
