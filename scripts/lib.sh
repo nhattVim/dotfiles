@@ -34,6 +34,7 @@ iPac() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
                 echo "[pacman] $1" >>"$LOG_FILE"
             fi
+            exit 1
         }
     fi
 }
@@ -48,6 +49,7 @@ iAur() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
                 echo "[yay] $1" >>"$LOG_FILE"
             fi
+            exit 1
         }
     fi
 }
@@ -62,6 +64,7 @@ iDeb() {
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^-> $1$" "$LOG_FILE"; then
                 echo "-> $1" >>"$LOG_FILE"
             fi
+            exit 1
         }
     fi
 }
