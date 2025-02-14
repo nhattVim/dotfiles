@@ -12,7 +12,7 @@ pacman_pkgs=(
     linux-firmware
     linux-lts
     linux-lts-headers
-    khanh-mup
+    khanh-xinh
 )
 
 note "Installing pacman packages..."

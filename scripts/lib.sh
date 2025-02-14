@@ -30,7 +30,7 @@ iPac() {
     else
         act "Installing $1 ..."
         sudo pacman -Syu --noconfirm --needed "$1" && ok "$1 was installed" || {
-            err "$1 failed to install. You may need to install manually!"
+            err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
                 echo "[pacman] $1" >>"$LOG_FILE"
             fi
@@ -44,7 +44,7 @@ iAur() {
     else
         act "Installing $1 ..."
         $ISAUR -Syu --noconfirm "$1" && ok "$1 was installed" || {
-            err "$1 failed to install. You may need to install manually!"
+            err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
                 echo "[yay] $1" >>"$LOG_FILE"
             fi
@@ -58,7 +58,7 @@ iDeb() {
     else
         act "Installing $1 ..."
         sudo $PKGMN install -y "$1" && ok "$1 was installed" || {
-            err "$1 failed to install. You may need to install manually!"
+            err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^-> $1$" "$LOG_FILE"; then
                 echo "-> $1" >>"$LOG_FILE"
             fi
