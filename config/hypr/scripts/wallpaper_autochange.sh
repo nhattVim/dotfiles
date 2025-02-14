@@ -3,10 +3,9 @@
 
 # This script will randomly go through the files of a directory, setting it
 # up as the wallpaper at regular intervals
-#
 # NOTE: this script uses bash (not POSIX shell) for the RANDOM variable
 
-wallust_refresh="$HOME/.config/hypr/scripts/refresh2.sh"
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
 focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name}')
 
 if [[ $# -lt 1 ]] || [[ ! -d $1 ]]; then
@@ -29,7 +28,11 @@ while true; do
         sort -n | cut -d':' -f2- |
         while read -r img; do
             swww img -o $focused_monitor "$img"
-            $wallust_refresh
+            wait $!
+            "$SCRIPTSDIR/wallust_swww.sh" &&
+                wait $!
+            sleep 2
+            "$SCRIPTSDIR/refresh.sh"
             sleep $INTERVAL
         done
 done
