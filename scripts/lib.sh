@@ -27,42 +27,66 @@ PKGMN=$(basename "$(command -v nala || command -v apt)")
 iPac() {
     if pacman -Q "$1" &>/dev/null; then
         ok "$1 is already installed. Skipping ..."
+        return 0
     else
         act "Installing $1 ..."
-        sudo pacman -Syu --noconfirm --needed "$1" && ok "$1 was installed" || {
+        sudo pacman -Syu --noconfirm --needed "$1"
+        local status=$?
+
+        if [[ $status -eq 0 ]]; then
+            ok "$1 was installed"
+            return 0
+        else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
                 echo "[pacman] $1" >>"$LOG_FILE"
             fi
-        }
+            return $status
+        fi
     fi
 }
 
 iAur() {
-    if $ISAUR -Q "$1" &>>/dev/null; then
+    if $ISAUR -Q "$1" &>/dev/null; then
         ok "$1 is already installed. Skipping ..."
+        return 0
     else
         act "Installing $1 ..."
-        $ISAUR -Syu --noconfirm "$1" && ok "$1 was installed" || {
+        $ISAUR -Syu --noconfirm "$1"
+        local status=$?
+
+        if [[ $status -eq 0 ]]; then
+            ok "$1 was installed"
+            return 0
+        else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
                 echo "[yay] $1" >>"$LOG_FILE"
             fi
-        }
+            return $status
+        fi
     fi
 }
 
 iDeb() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         ok "$1 is already installed. Skipping ..."
+        return 0
     else
         act "Installing $1 ..."
-        sudo $PKGMN install -y "$1" && ok "$1 was installed" || {
+        sudo $PKGMN install -y "$1"
+        local status=$?
+
+        if [[ $status -eq 0 ]]; then
+            ok "$1 was installed"
+            return 0
+        else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^-> $1$" "$LOG_FILE"; then
                 echo "-> $1" >>"$LOG_FILE"
             fi
-        }
+            return $status
+        fi
     fi
 }
 
@@ -71,7 +95,7 @@ uPac() {
         ok "Uninstalling $1 ..."
         sudo pacman -Rns --noconfirm "$1" && ok "$1 was uninstalled" || {
             err "$1 failed to uninstall"
-            echo "-> $1 failed to uninstall" >>"$HOME/install.log"
+            echo "-> $1 failed to uninstall" >>"$LOG_FILE"
         }
     fi
 }
