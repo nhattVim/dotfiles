@@ -89,16 +89,10 @@ note "Installing packages"
 
 for PKG1 in "${pacman_packages[@]}"; do
     iPac "$PKG1"
-    if [ $? -ne 0 ]; then
-        err "$PKG1 install had failed"
-    fi
 done
 
 for PKG2 in "${aur_packages[@]}"; do
     iAur "$PKG2"
-    if [ $? -ne 0 ]; then
-        err "$PKG2 install had failed"
-    fi
 done
 
 # Set up neovim

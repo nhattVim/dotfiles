@@ -23,9 +23,6 @@ uninstall=(
 note "Removing pulseaudio stuff... if exist"
 for PKG in "${uninstall[@]}"; do
     uPac "$PKG"
-    if [ $? -ne 0 ]; then
-        err "$PKG uninstallation had failed"
-    fi
 done
 
 # Disabling pulseaudio to avoid conflicts
@@ -41,10 +38,9 @@ fi
 note "Installing pipewire packages..."
 for PIPEWIRE in "${install[@]}"; do
     iAur "$PIPEWIRE"
-    [ $? -ne 0 ] && {
-        err "$PIPEWIRE install had failed"
+    if [ $? -ne 0 ]; then
         exit 1
-    }
+    fi
 done
 
 # Enable and start Pipewire services

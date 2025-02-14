@@ -16,9 +16,6 @@ engine=(
 # installing engine needed for gtk themes
 for PKG1 in "${engine[@]}"; do
     iAur "$PKG1"
-    if [ $? -ne 0 ]; then
-        err "$PKG1 install had failed."
-    fi
 done
 
 # Clone dotfiles

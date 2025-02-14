@@ -18,9 +18,6 @@ pacman_pkgs=(
 note "Installing pacman packages..."
 for pkg in "${pacman_pkgs[@]}"; do
     iPac "$pkg"
-    if [ $? -ne 0 ]; then
-        err "$pkg install had failed"
-    fi
 done
 
 # Check log

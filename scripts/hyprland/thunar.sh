@@ -18,9 +18,6 @@ thunar=(
 note "Installing Thunar Packages..."
 for THUNAR in "${thunar[@]}"; do
     iPac "$THUNAR"
-    if [ $? -ne 0 ]; then
-        err "$THUNAR install had failed"
-    fi
 done
 
 # Ask the user if they want to use Thunar as the default file manager

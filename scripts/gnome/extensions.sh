@@ -38,9 +38,6 @@ install_exts=(
 note "Installing extension tools"
 for PKG in "${pkgs[@]}"; do
     iDeb "$PKG"
-    if [ $? -ne 0 ]; then
-        err "$PKG installation failed"
-    fi
 done
 
 note "Installing gnome-extensions-cli"

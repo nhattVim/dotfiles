@@ -32,9 +32,6 @@ mirrorlist_backup="/etc/pacman.d/mirrorlist.bak"
 # Check and install reflector if not available
 if ! command -v reflector &>/dev/null; then
     iPac reflector
-    if [ $? -ne 0 ]; then
-        err "reflector install had failed"
-    fi
 fi
 
 # Backup existing mirrorlist
@@ -123,9 +120,6 @@ required_pkgs=(
 note "Installing essential packages..."
 for pkg in "${required_pkgs[@]}"; do
     iPac "$pkg"
-    if [ $? -ne 0 ]; then
-        err "$pkg install had failed"
-    fi
 done
 
 ok "All configurations completed successfully!"

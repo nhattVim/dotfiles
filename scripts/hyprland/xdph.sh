@@ -13,9 +13,6 @@ xdg=(
 # XDG-DESKTOP-PORTAL-HYPRLAND
 for xdgs in "${xdg[@]}"; do
     iAur "$xdgs"
-    if [ $? -ne 0 ]; then
-        err "$xdgs install had failed"
-    fi
 done
 
 # Clean out other portals

@@ -58,12 +58,7 @@ pkgs=(
 # install some required packages
 note "Installing required packages..."
 for PKG in "${pkgs[@]}"; do
-    sudo $PKGMN install -y "$PKG"
-    if [ $? -ne 0 ]; then
-        err "Failed to install $PKG, please check the script."
-    else
-        ok "$PKG installed successfully."
-    fi
+    iDeb "$PKG"
 done
 
 # install gum (requirement)

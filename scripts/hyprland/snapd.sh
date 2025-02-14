@@ -10,7 +10,7 @@ else
     note "Snap was NOT located. Installing snap ..."
     iAur snapd
     if [ $? -ne 0 ]; then
-        err "$pkg install had failed"
+        exit 1
     fi
 fi
 

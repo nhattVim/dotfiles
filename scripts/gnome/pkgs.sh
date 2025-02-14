@@ -60,9 +60,6 @@ fi
 note "Installing packages..."
 for PKG in "${pkgs[@]}"; do
     iDeb "$PKG"
-    if [ $? -ne 0 ]; then
-        err "Failed to install $PKG"
-    fi
 done
 
 # Install Nodejs

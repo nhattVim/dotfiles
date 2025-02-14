@@ -110,27 +110,18 @@ uninstall_pkgs=(
 note "Removing conflicting packages..."
 for pkg in "${uninstall_pkgs[@]}"; do
     uPac "$pkg"
-    if [ $? -ne 0 ]; then
-        err "$pkg uninstallation had failed"
-    fi
 done
 
 # Install pacman packages
 note "Installing pacman packages..."
 for pkg in "${pacman_pkgs[@]}"; do
     iPac "$pkg"
-    if [ $? -ne 0 ]; then
-        err "$pkg install had failed"
-    fi
 done
 
 # Install AUR packages
 note "Installing AUR packages..."
 for pkg in "${aur_pkgs[@]}"; do
     iAur "$pkg"
-    if [ $? -ne 0 ]; then
-        err "$pkg install had failed"
-    fi
 done
 
 # ==============================================================================

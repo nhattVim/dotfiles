@@ -17,9 +17,6 @@ note "Installing Nvidia Packages and Linux headers..."
 for krnl in $(cat /usr/lib/modules/*/pkgbase); do
     for NVIDIA in "${krnl}-headers" "${nvidia_pkg[@]}"; do
         iAur "$NVIDIA"
-        if [ $? -ne 0 ]; then
-            err "$PKG1 install had failed"
-        fi
     done
 done
 

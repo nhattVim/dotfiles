@@ -37,9 +37,6 @@ note "Installing AGS Dependencies"
 # Installing ags Dependencies
 for PKG1 in "${ags[@]}"; do
     iPac "$PKG1"
-    if [ $? -ne 0 ]; then
-        err "$PKG1 install had failed"
-    fi
 done
 
 # ags

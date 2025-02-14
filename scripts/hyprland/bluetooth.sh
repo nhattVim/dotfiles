@@ -16,7 +16,7 @@ note "Installing bluetooth Packages..."
 for BLUE in "${bluetooth[@]}"; do
     iPac "$BLUE"
     if [ $? -ne 0 ]; then
-        err "$BLUE install had failed"
+        exit 1
     fi
 done
 

@@ -8,7 +8,6 @@ note "Customizing Firefox..."
 
 iPac "firefox"
 if [ $? -ne 0 ]; then
-    err "Firefox install had failed"
     exit 1
 fi
 
