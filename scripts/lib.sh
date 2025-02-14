@@ -7,10 +7,10 @@ fi
 
 RED="$(tput setaf 1)"
 GREEN="$(tput setaf 2)"
-YELLOW=$(tput setaf 3)
+YELLOW="$(tput setaf 3)"
 CYAN="$(tput setaf 6)"
-PINK=$(tput setaf 5)
-RESET=$(tput sgr0)
+PINK="$(tput setaf 5)"
+RESET="$(tput sgr0)"
 
 ok() { echo -e "\n${GREEN}[OK]${RESET} - $1\n"; }
 err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
@@ -93,10 +93,7 @@ iDeb() {
 uPac() {
     if pacman -Qi "$1" &>>/dev/null; then
         ok "Uninstalling $1 ..."
-        sudo pacman -Rns --noconfirm "$1" && ok "$1 was uninstalled" || {
-            err "$1 failed to uninstall"
-            echo "-> $1 failed to uninstall" >>"$LOG_FILE"
-        }
+        sudo pacman -Rns --noconfirm "$1"
     fi
 }
 
