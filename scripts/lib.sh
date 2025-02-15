@@ -31,7 +31,7 @@ iPac() {
     else
         act "Installing $1 ..."
         sudo pacman -Syu --noconfirm --needed "$1"
-        local status=$?
+        status=$?
 
         if [[ $status -eq 0 ]]; then
             ok "$1 was installed"
@@ -53,7 +53,7 @@ iAur() {
     else
         act "Installing $1 ..."
         $ISAUR -Syu --noconfirm "$1"
-        local status=$?
+        status=$?
 
         if [[ $status -eq 0 ]]; then
             ok "$1 was installed"
@@ -75,7 +75,7 @@ iDeb() {
     else
         act "Installing $1 ..."
         sudo $PKGMN install -y "$1"
-        local status=$?
+        status=$?
 
         if [[ $status -eq 0 ]]; then
             ok "$1 was installed"
