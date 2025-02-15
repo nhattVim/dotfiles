@@ -13,7 +13,7 @@ get_location() {
 
 # Function to enable Night Mode
 enable_night_mode() {
-    gammastep -O 3500 &
+    gammastep -O 3500 -m wayland &
     echo "on" >"$STATE_FILE"
     notify-send -e -u low -i "$notif" "Night Mode: ON"
 }
