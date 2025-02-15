@@ -29,6 +29,7 @@
 	"tray",
 	],
 "modules-center": [
+    "custom/night_mode",
 	"clock",
 	"idle_inhibitor",
 	],

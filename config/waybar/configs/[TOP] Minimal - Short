@@ -13,6 +13,7 @@
 "margin-top": 3,
 
 "modules-left": [
+    "custom/night_mode",
 	"clock",  
 	"custom/weather", 
 	],

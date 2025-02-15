@@ -20,7 +20,7 @@
 
 "modules-left": [
 	"custom/menu",
-	"custom/light_dark",
+	"custom/night_mode",
 	"custom/separator#dot-line",
 	"power-profiles-daemon",
 	"group/mobo_drawer",

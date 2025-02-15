@@ -123,7 +123,7 @@ window#waybar.empty #window {
 #custom-file_manager,
 #custom-keybinds,
 #custom-keyboard,
-#custom-light_dark,
+#custom-night_mode,
 #custom-lock,
 #custom-hint,
 #custom-hypridle,
@@ -235,7 +235,7 @@ window#waybar.empty #window {
   color: @red;
 }
 
-#custom-light_dark {
+#custom-night_mode {
   color: @blue;
 }
 

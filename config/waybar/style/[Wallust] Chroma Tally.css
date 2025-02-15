@@ -102,7 +102,7 @@ tooltip {
 #custom-file_manager,
 #custom-keybinds,
 #custom-keyboard,
-#custom-light_dark,
+#custom-night_mode,
 #custom-lock,
 #custom-hint,
 #custom-hypridle,
@@ -202,7 +202,7 @@ tooltip {
     color: #9ca0b0;
 }
 
-#custom-light_dark,
+#custom-night_mode,
 #temperature {
     color: #7287fd;
 }

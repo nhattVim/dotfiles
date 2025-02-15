@@ -75,7 +75,7 @@
 	"mpris",
 	"custom/swaync",
     "tray",
-    "custom/light_dark",
+    "custom/night_mode",
     ],
     
 }]

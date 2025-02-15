@@ -20,7 +20,7 @@
 
 "modules-left": [
 	"custom/menu",
-	"custom/light_dark",
+	"custom/night_mode",
 	"custom/separator#dot-line",
 	"group/motherboard",
 	"custom/separator#line",

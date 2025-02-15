@@ -20,7 +20,8 @@
 	"hyprland/workspaces",
 	"custom/separator#blank_2",
 	"mpris",
-	"tray"
+	"tray",
+    "custom/night_mode"
 ],
 
 "modules-center": [

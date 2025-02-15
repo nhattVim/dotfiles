@@ -30,6 +30,7 @@
 	"mpris",
 	"custom/swaync",
 	"tray", 
+    "custom/night_mode",
 	"wlr/taskbar"],
 
 "modules-center": ["hyprland/window"], 

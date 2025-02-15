@@ -24,6 +24,7 @@
 	"group/mobo_drawer",
 	"custom/separator#line",
 	"custom/weather",
+	"custom/night_mode" 
 	],
 
 "modules-center": [

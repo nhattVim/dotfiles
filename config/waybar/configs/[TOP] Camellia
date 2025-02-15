@@ -29,6 +29,7 @@
 	"custom/separator#line",
 	"mpris",
 	"custom/swaync",
+    "custom/night_mode",
 	"tray", 
 	"wlr/taskbar"],
 

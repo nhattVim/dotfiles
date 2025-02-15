@@ -28,6 +28,7 @@
 //	"mpris",
 	"custom/swaync",
 	"tray",
+    "custom/night_mode"
 	],
 "modules-center": [
 	"clock#forest",

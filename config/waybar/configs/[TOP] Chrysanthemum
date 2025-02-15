@@ -26,7 +26,8 @@
 	"clock#5", 
 	"mpris", 
 	"tray", 
-	"custom/swaync"
+	"custom/swaync",
+    "custom/night_mode"
 	],
   
 "modules-center": ["hyprland/workspaces"], 

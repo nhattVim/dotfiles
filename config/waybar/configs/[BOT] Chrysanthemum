@@ -26,6 +26,7 @@
 	"clock#5", 
 	"mpris", 
 	"tray", 
+    "custom/night_mode",
 	"custom/swaync"
 	],
   
