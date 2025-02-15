@@ -82,7 +82,7 @@
 
 "custom/night_mode": {
 	"format": " ",
-    "on-click": "$HOME/.config/hypr/scripts/night_mode.sh -t",
+    "on-click": "$HOME/.config/hypr/scripts/night_mode.sh --toggle",
 	"tooltip": true,
 	"tooltip-format": "Toggle Night Mode",
 },

@@ -1,38 +1,70 @@
-#!/bin/sh
+#!/bin/bash
 
-# File to mark toggle state
-TOGGLE=$HOME/.cache/.gammastep_toggle
+# Path to save the state
+STATE_FILE="$HOME/.cache/.nightmode_state"
+notif="$HOME/.config/swaync/images/bell.png"
 
-# Location (Quy Nhon, Binh Dinh, Vietnam)
-LAT=13.782
-LON=109.219
+# Function to get latitude and longitude
+get_location() {
+    location=$(curl -s https://ipinfo.io/loc)
+    latitude=$(echo "$location" | cut -d',' -f1)
+    longitude=$(echo "$location" | cut -d',' -f2)
+}
 
-# Night light color temperature
-TEMP_NIGHT=3500
+# Function to enable Night Mode
+enable_night_mode() {
+    gammastep -O 3500 &
+    echo "on" >"$STATE_FILE"
+    notify-send -e -u low -i "$notif" "Night Mode: ON"
+}
 
-# Get flags
-while getopts t flag; do
-    case "${flag}" in
-    t) toggle=1 ;; # If -t is set, enable toggle mode
-    esac
-done
+# Function to disable Night Mode
+disable_night_mode() {
+    pkill gammastep
+    echo "off" >"$STATE_FILE"
+    notify-send -e -u low -i "$notif" "Night Mode: OFF"
+}
 
-# If -t is set, toggle on/off
-if [ "$toggle" = "1" ]; then
-    # If toggle file does not exist, turn on night light
-    if [ ! -e $TOGGLE ]; then
-        touch $TOGGLE
-        gammastep -l $LAT:$LON -O $TEMP_NIGHT -m wayland &
+# Function for automatic mode with geolocation
+auto_mode() {
+    pkill gammastep
+    get_location
+    gammastep -l "$latitude:$longitude" -m wayland &
+    echo "auto" >"$STATE_FILE"
+}
+
+# Function to toggle Night Mode
+toggle_mode() {
+    if [[ "$STATE" == "on" ]]; then
+        disable_night_mode
     else
-        # If toggle file exists, turn off night light
-        rm $TOGGLE
-        pkill gammastep
+        enable_night_mode
     fi
-    exit 0
+}
+
+# Read current state
+if [[ -f "$STATE_FILE" ]]; then
+    STATE=$(cat "$STATE_FILE")
+else
+    STATE="auto"
 fi
 
-# If -t is not set, check state and run in background
-if [ ! -e $TOGGLE ]; then
-    touch $TOGGLE
-    gammastep -l $LAT:$LON -O $TEMP_NIGHT -m wayland &
-fi
+# Handle input arguments
+case "$1" in
+--on)
+    enable_night_mode
+    ;;
+--off)
+    disable_night_mode
+    ;;
+--auto)
+    auto_mode
+    ;;
+--toggle)
+    toggle_mode
+    ;;
+*)
+    echo "Usage: $0 {--on|--off|--auto|--toggle}"
+    echo "Current state: $STATE"
+    ;;
+esac
