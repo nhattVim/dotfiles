@@ -55,12 +55,15 @@ pacman_pkgs=(
     # ----------------------------------------------------
     # Fonts
     # ----------------------------------------------------
-    adobe-source-code-pro-fonts
     otf-font-awesome
-    noto-fonts-emoji
+    adobe-source-code-pro-fonts
+    noto-fonts
     noto-fonts-cjk
+    noto-fonts-emoji
     ttf-droid
+    ttf-dejavu
     ttf-fira-code
+    ttf-liberation
     ttf-jetbrains-mono
     ttf-jetbrains-mono-nerd
     ttf-nerd-fonts-symbols
@@ -81,8 +84,10 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Extras Packages
     # ----------------------------------------------------
-    arttime-git pipes.sh
+    arttime-git
+    pipes.sh
     shell-color-scripts-git
+    visual-studio-code-bin
     # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
