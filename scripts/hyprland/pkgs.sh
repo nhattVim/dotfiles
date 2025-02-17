@@ -40,7 +40,7 @@ pacman_pkgs=(
     # GUI Applications
     # ----------------------------------------------------
     discord neovide ranger cmatrix chromium qalculate-gtk
-    telegram-desktop eog mousepad caprine
+    telegram-desktop eog mousepad
     # libreoffice-fresh
 
     # ----------------------------------------------------
@@ -91,6 +91,7 @@ aur_pkgs=(
     pipes.sh
     shell-color-scripts-git
     onlyoffice-bin
+    caprine
     visual-studio-code-bin
     # zen-browser-bin
     # microsoft-edge-stable-bin
