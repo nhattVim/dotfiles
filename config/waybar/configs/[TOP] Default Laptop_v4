@@ -46,7 +46,6 @@
 	"group/connections",
 	"custom/separator#line",
 	"tray",
-	"mpris", 
 	"group/audio",
 	"custom/separator#dot-line",
 	"group/status",
