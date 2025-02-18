@@ -91,6 +91,7 @@ declare -A startup_apps=(
     ["blueman-applet"]="blueman-applet"
     ["ags"]="ags"
     ["fcitx5"]="fcitx5 -d"
+    ["asusctl"]="rog-control-center"
 )
 
 # Check if each app is installed and add it to Startup

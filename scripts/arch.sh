@@ -35,19 +35,19 @@ gum style \
 
 while true; do
     choose "Choose your AUR helper" "yay" "paru" aur_helper
-    yes_no "Do you dual boot with window?" dual_boot
-    yes_no "Do you want to install Grub theme?" grub_themes
+    yes_no "Do you dual boot with Windows?" dual_boot
+    yes_no "Do you want to install the Grub theme?" grub_themes
     yes_no "Do you want to install GTK themes?" gtk_themes
-    yes_no "Do you want to configure bluetooth?" bluetooth
-    yes_no "Do you have any nvidia gpu in your system?" nvidia
-    yes_no "Do you want to install Thunar file manager?" thunar
-    yes_no "Do you want to install Snap (GUI packages manager)?" snapd
-    yes_no "Do you want to install Homebrew (CLI package manager)?" homebrew
-    yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-    yes_no "Install & configure SDDM log-in Manager plus (OPTIONAL) SDDM Theme?" sddm
-    yes_no "Install & configure firefox with firefoxcss?" firefox
-    yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
-    yes_no "Are you Vietnamese and want to setup Vietnamese keyboard (Unikey)?" unikey
+    yes_no "Do you want to configure Bluetooth?" bluetooth
+    yes_no "Do you have any NVIDIA GPU in your system?" nvidia
+    yes_no "Do you want to install Thunar (File Manager)?" thunar
+    yes_no "Do you want to install Snap (GUI Package Manager)?" snapd
+    yes_no "Do you want to install Homebrew (CLI Package Manager)?" homebrew
+    yes_no "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
+    yes_no "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
+    yes_no "Do you want to install XDG-DESKTOP-PORTAL-HYPRLAND? (Required for proper screen sharing, e.g., in OBS)" xdph
+    yes_no "Are you installing on an Asus ROG laptop?" rog
+    yes_no "Are you Vietnamese and want to set up the Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
         --border-foreground 6 --border rounded \
@@ -63,7 +63,7 @@ while true; do
         "Thunar File Manager:${YELLOW} $thunar ${RESET}" \
         "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
         "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
-        "Battery Charging Limit (Laptop Only):${YELLOW} $battery ${RESET}" \
+        "Asus ROG Laptops:${YELLOW} $rog ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
         "Firefoxcss:${YELLOW} $firefox ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
@@ -78,10 +78,6 @@ done
 if [ "$dual_boot" == "Y" ]; then
     act "I will set the local time on Arch to display the correct time on Windows"
     timedatectl set-local-rtc 1 --adjust-system-clock
-fi
-
-if [ "$battery" == "Y" ]; then
-    exHypr "battery.sh"
 fi
 
 exHypr "swapfile.sh"
@@ -108,6 +104,10 @@ fi
 
 if [ "$thunar" == "Y" ]; then
     exHypr "thunar.sh"
+fi
+
+if [ "$rog" == "Y" ]; then
+    exHypr "rog.sh"
 fi
 
 if [ "$snapd" == "Y" ]; then
