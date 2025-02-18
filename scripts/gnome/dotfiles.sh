@@ -20,17 +20,15 @@ gum style \
     "  ----------------- Github: https://github.com/nhattVim --------------------  " \
     "                                                                              "
 
+# dotfiles directory
+DOTFILES_DIR=$(mktemp -d)
+
 # check dotfiles
-cd $HOME
-if ! cd gnome_nhattVim 2>/dev/null; then
-    note "Cloning dotfiles..."
-    if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 gnome_nhattVim; then
-        cd gnome_nhattVim
-        ok "Cloned dotfiles successfully"
-    else
-        err "Failed to clone dotfiles"
-        exit 1
-    fi
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
 fi
 
 note "Copying config files"
@@ -59,12 +57,12 @@ done
 
 # copy config folder
 mkdir -p $HOME/.config
-cp -r config/* $HOME/.config/ && { ok "Copy config files completed"; } || {
+cp -r "$DOTFILES_DIR/config/." "$HOME/.config/" && { ok "Copy config files completed"; } || {
     err "Failed to copy config files"
 }
 
 # copying assets folder
-cp -r assets/.* $HOME/ && { ok "Copy assets completed"; } || {
+cp -r "$DOTFILES_DIR/assets/." "$HOME/" && { ok "Copy assets completed"; } || {
     err "Failed to copy assets"
 }
 
@@ -89,12 +87,6 @@ while true; do
         err "Downloading additional wallpapers failed"
     fi
 done
-
-# remove dotfiles
-cd $HOME
-[ -d gnome_nhattVim ] &&
-    rm -rf gnome_nhattVim &&
-    ok "Remove old dotfiles successfully"
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
