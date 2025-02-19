@@ -51,14 +51,6 @@ if [ -f "$waybar_style" ]; then
     "$scriptsDir/refresh.sh" >/dev/null 2>&1 &
 fi
 
-# generate scheme palette
-# for wall in "$wallDir"/*; do
-#     if [[ -f "$wall" ]]; then
-#         export PATH="$HOME/.cargo/bin:$PATH" &&
-#             wallust run -s "$wall"
-#     fi
-# done
-
 # remove boot marker
 sed -i '/exec-once = \$scriptsDir\/boot.sh/s/^/# /' $HOME/.config/hypr/configs/execs.conf
 sleep 2
