@@ -4,28 +4,58 @@
 # Source library
 . <(curl -sSL https://is.gd/nhattVim_lib)
 
-pacman_pkgs=(
-    power-profiles-daemon
-)
-
-aur_pkgs=(
+pkgs=(
     asusctl
+    power-profiles-daemon
     supergfxctl
+    switcheroo-control
     rog-control-center
+    linux-g14
+    linux-g14-headers
 )
 
-note "Installing ASUS ROG packages ...\n"
+# Add ASUS GPG key
+declare -a key_cmds=(
+    "--recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35"
+    "--finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35"
+    "--lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35"
+    "--finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35"
+)
 
-for pkg in "${pacman_pkgs[@]}"; do
+# Add ASUS GPG key
+note "Adding ASUS GPG key..."
+for cmd in "${key_cmds[@]}"; do
+    if sudo pacman-key $cmd; then
+        ok "Executed: pacman-key $cmd"
+        sleep 1
+    else
+        err "Failed: pacman-key $cmd"
+        exit 1
+    fi
+done
+
+# Add G14 repository
+if ! grep -q "\[g14\]" /etc/pacman.conf; then
+    note "Adding G14 repository..."
+    echo -e "\n[g14]\nServer = https://arch.asus-linux.org" | sudo tee -a /etc/pacman.conf
+else
+    note "G14 repository already exists."
+fi
+
+# Update package database
+sudo pacman -Sy
+
+# Install ASUS ROG packages
+note "Installing ASUS ROG packages ...\n"
+for pkg in "${pkgs[@]}"; do
     iPac "$pkg"
 done
 
-for pkg in "${aur_pkgs[@]}"; do
-    iAur "$pkg"
-done
-
+# Enable ROG services
 note "Activating ROG services..."
-sudo systemctl enable supergfxd
+sudo systemctl enable --now supergfxd
+sudo systemctl enable --now switcheroo-control
 
+# Enable power-profiles-daemon
 note "Enabling power-profiles-daemon..."
-sudo systemctl enable power-profiles-daemon
+sudo systemctl enable --now power-profiles-daemon.service
