@@ -15,7 +15,7 @@ STATE=$(cat "$STATE_FILE")
 # Function to enable Night Mode
 enable_night_mode() {
     pkill gammastep
-    gammastep -O 3500 -m wayland &
+    gammastep -O 4000 -m wayland &
     echo "on" >"$STATE_FILE"
     notify-send -e -u low " 🌙 Night Mode: ON"
 }
