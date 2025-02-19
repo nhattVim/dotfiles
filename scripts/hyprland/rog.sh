@@ -10,8 +10,8 @@ pkgs=(
     supergfxctl
     switcheroo-control
     rog-control-center
-    linux-g14
-    linux-g14-headers
+    # linux-g14
+    # linux-g14-headers
 )
 
 # Add ASUS GPG key
