@@ -135,7 +135,7 @@ alias pk='pokemon-colorscripts'
 alias xamppui='sudo /opt/lampp/manager-linux-x64.run'
 alias win='sudo efibootmgr --bootnext 0006 && reboot'
 alias ip="echo $(ifconfig | grep broadcast | awk '{print $2}')"
-alias dl='aria2c --optimize-concurrent-downloads -j 16 -s 16 -x 16 -k 4M'
+alias dl='aria2c --enable-http-pipelining=true --max-concurrent-downloads=32 -s 32 -x 16 -k 8M --file-allocation=none --auto-file-renaming=false --summary-interval=0 --console-log-level=warn'
 alias time="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVim' --ac 6"
 
 # --------------------------------------------------------------
