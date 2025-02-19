@@ -22,10 +22,10 @@ else
     err "Failed to enable snapd"
 fi
 
-act "Installing snap-store..."
-if export PATH="$PATH:/var/lib/snapd/snap/bin" && sudo snap install snap-store &&
-    sudo snap install snapd-desktop-integration; then
-    ok "Install snap-store successfully"
-else
-    err "Failed to install snap-store"
-fi
+# act "Installing snap-store..."
+# if export PATH="$PATH:/var/lib/snapd/snap/bin" && sudo snap install snap-store &&
+#     sudo snap install snapd-desktop-integration; then
+#     ok "Install snap-store successfully"
+# else
+#     err "Failed to install snap-store"
+# fi

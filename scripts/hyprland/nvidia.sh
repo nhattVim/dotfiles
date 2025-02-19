@@ -28,6 +28,8 @@ else
     echo "Nvidia modules added in /etc/mkinitcpio.conf"
 fi
 
+# Rebuild Initramfs
+note "Rebuilding Initramfs ..."
 sudo mkinitcpio -P
 
 # Additional Nvidia steps

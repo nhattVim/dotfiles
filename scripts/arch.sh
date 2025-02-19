@@ -46,7 +46,7 @@ while true; do
     yes_no "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
     yes_no "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
     yes_no "Do you want to install XDG-DESKTOP-PORTAL-HYPRLAND? (Required for proper screen sharing, e.g., in OBS)" xdph
-    yes_no "Are you installing on an Asus ROG laptop?" rog
+    yes_no "Are you installing on an Asus ROG/TUF laptop?" rog
     yes_no "Are you Vietnamese and want to set up the Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
