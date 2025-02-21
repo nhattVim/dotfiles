@@ -112,7 +112,8 @@ fi
 
 # Change shell to zsh
 note "Changing shell to zsh..."
-chsh -s $(which zsh) && cd $HOME
+chsh -s /bin/zsh
+cd $HOME
 
 ok "Setup completed successfully!"
 zsh
