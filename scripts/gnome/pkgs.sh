@@ -8,7 +8,7 @@
 PIPES="https://github.com/pipeseroni/pipes.sh"
 COLORSCRIPT="https://gitlab.com/dwt1/shell-color-scripts.git"
 ARTTIME="https://github.com/poetaman/arttime/releases/download/v2.3.4/arttime_2.3.4-1_all.deb"
-NEOVIM="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+NEOVIM="https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 
@@ -180,20 +180,32 @@ if command -v nvim &>/dev/null; then
     sudo $PKGMN remove neovim -y
 fi
 
-note "Dowload latest version of neovim"
-if wget -O /tmp/nvim-linux64.tar.gz "$NEOVIM"; then
-    ok "Download successfully"
-    note "Installing neovim ..."
-    mkdir -p $HOME/.local/bin &&
-        mv /tmp/nvim-linux64.tar.gz $HOME/.local/bin &&
-        tar -xf $HOME/.local/bin/nvim-linux64.tar.gz -C $HOME/.local/bin &&
-        rm -fr $HOME/.local/bin/nvim-linux64.tar.gz &&
-        ln -s $HOME/.local/bin/nvim-linux64/bin/nvim $HOME/.local/bin/nvim &&
-        ok "Install neovim successfully" || {
-        err "Failed to install neovim"
-    }
+note "Downloading latest version of Neovim..."
+if wget -O /tmp/nvim.tar.gz "$NEOVIM"; then
+    ok "Download successful"
+
+    note "Installing Neovim..."
+    INSTALL_DIR="$HOME/.local/bin"
+    NVIM_DIR="$INSTALL_DIR/nvim-linux"
+
+    mkdir -p "$INSTALL_DIR"
+    rm -rf "$NVIM_DIR"
+
+    tar -xf /tmp/nvim.tar.gz -C "$INSTALL_DIR"
+    rm -f /tmp/nvim.tar.gz
+
+    EXTRACTED_DIR=$(find "$INSTALL_DIR" -mindepth 1 -maxdepth 1 -type d -name 'nvim-*' | head -n 1)
+
+    if [ -n "$EXTRACTED_DIR" ] && [ -d "$EXTRACTED_DIR" ]; then
+        mv "$EXTRACTED_DIR" "$NVIM_DIR"
+    else
+        err "Neovim extraction failed: Folder not found"
+    fi
+
+    ln -sf "$NVIM_DIR/bin/nvim" "$INSTALL_DIR/nvim"
+    ok "Neovim installed successfully"
 else
-    err "Failed to download neovim"
+    err "Failed to download Neovim"
 fi
 
 # Clone tpm
