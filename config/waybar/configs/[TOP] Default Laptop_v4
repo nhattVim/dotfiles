@@ -26,7 +26,7 @@
 	"group/laptop",
 	"custom/separator#line",
 	"custom/weather",
-	"custom/hint"
+	"custom/night_mode" 
 	],
 
 "modules-center": [
@@ -38,7 +38,7 @@
 	"hyprland/workspaces#kanji",
 	"custom/separator#dot-line",
 	"idle_inhibitor",	
-	"custom/night_mode"
+	"custom/hint",	
 	], 
 
 "modules-right": [
