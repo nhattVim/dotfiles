@@ -30,7 +30,7 @@ iPac() {
         return 0
     else
         act "Installing $1 ..."
-        sudo pacman -Syu --noconfirm --needed "$1"
+        sudo pacman -Sy --noconfirm --needed "$1"
         rc=$?
 
         if [[ $rc -eq 0 ]]; then
@@ -39,7 +39,7 @@ iPac() {
         else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[pacman\] $1$" "$LOG_FILE"; then
-                echo "[pacman] $1" >>"$LOG_FILE"
+                echo "[pacman] $1 failed to install" >>"$LOG_FILE"
             fi
             return $rc
         fi
@@ -52,7 +52,7 @@ iAur() {
         return 0
     else
         act "Installing $1 ..."
-        $ISAUR -Syu --noconfirm "$1"
+        $ISAUR -Sy --noconfirm "$1"
         rc=$?
 
         if [[ $rc -eq 0 ]]; then
@@ -61,7 +61,7 @@ iAur() {
         else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^\[yay\] $1$" "$LOG_FILE"; then
-                echo "[yay] $1" >>"$LOG_FILE"
+                echo "[yay] $1 failed to install" >>"$LOG_FILE"
             fi
             return $rc
         fi
@@ -83,7 +83,7 @@ iDeb() {
         else
             err "$1 failed to install."
             if [[ ! -f "$LOG_FILE" ]] || ! grep -q "^-> $1$" "$LOG_FILE"; then
-                echo "-> $1" >>"$LOG_FILE"
+                echo "-> $1 failed to install" >>"$LOG_FILE"
             fi
             return $rc
         fi
