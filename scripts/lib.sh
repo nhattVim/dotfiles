@@ -149,7 +149,7 @@ reinstall_failed_pkgs() {
         grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
             iPac "$pkg"
             if [[ $? -eq 0 ]]; then
-                sed -i "\|^\[pacman\] $pkg |d" "$LOG_FILE"
+                sed -i "\|^\[pacman\] $pkg|d" "$LOG_FILE"
             else
                 err "Retry failed for $pkg. Keeping in log."
             fi
@@ -159,7 +159,7 @@ reinstall_failed_pkgs() {
         grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
             iAur "$pkg"
             if [[ $? -eq 0 ]]; then
-                sed -i "\|^\[yay\] $pkg |d" "$LOG_FILE"
+                sed -i "\|^\[yay\] $pkg|d" "$LOG_FILE"
             else
                 err "Retry failed for $pkg. Keeping in log."
             fi
@@ -169,11 +169,16 @@ reinstall_failed_pkgs() {
         grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
             iDeb "$pkg"
             if [[ $? -eq 0 ]]; then
-                sed -i "\|^-> $pkg |d" "$LOG_FILE"
+                sed -i "\|^-> $pkg|d" "$LOG_FILE"
             else
                 err "Retry failed for $pkg. Keeping in log."
             fi
         done
+
+        # Delete log files
+        if [[ ! -s "$LOG_FILE" ]]; then
+            rm "$LOG_FILE"
+        fi
     fi
 }
 
