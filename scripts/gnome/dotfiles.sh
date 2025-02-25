@@ -25,7 +25,7 @@ DOTFILES_DIR=$(mktemp -d)
 
 # check dotfiles
 note "Cloning dotfiles..."
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+if git clone -b gnome https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
     ok "Cloned dotfiles successfully"
 else
     err "Failed to clone dotfiles" && exit 1
