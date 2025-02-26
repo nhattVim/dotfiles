@@ -92,7 +92,7 @@ aur_pkgs=(
     shell-color-scripts-git
     # onlyoffice-bin
     # visual-studio-code-bin
-    messenger-nativefier
+    # messenger-nativefier
     # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
