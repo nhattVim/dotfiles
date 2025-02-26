@@ -61,13 +61,13 @@ note "Enabling power-profiles-daemon..."
 sudo systemctl enable --now power-profiles-daemon.service
 
 # Set GRUB default to linux-g14
-note "Setting linux-g14 as default kernel in GRUB..."
+# note "Setting linux-g14 as default kernel in GRUB..."
 
 # Check if the entry exists in grub.cfg
-if grep -q "Arch Linux, with Linux linux-g14" /boot/grub/grub.cfg; then
-    sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT="Arch Linux, with Linux linux-g14"/' /etc/default/grub
-    sudo grub-mkconfig -o /boot/grub/grub.cfg
-    ok "GRUB is set to boot linux-g14 by default."
-else
-    err "linux-g14 entry not found in GRUB. Check installation."
-fi
+# if grep -q "Arch Linux, with Linux linux-g14" /boot/grub/grub.cfg; then
+#     sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT="Arch Linux, with Linux linux-g14"/' /etc/default/grub
+#     sudo grub-mkconfig -o /boot/grub/grub.cfg
+#     ok "GRUB is set to boot linux-g14 by default."
+# else
+#     err "linux-g14 entry not found in GRUB. Check installation."
+# fi
