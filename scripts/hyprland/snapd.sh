@@ -16,16 +16,16 @@ fi
 
 # Setup snapd before proceeding
 act "Enabling snap..."
-if sudo systemctl enable --now snapd; then
+if sudo systemctl enable --now snapd && sudo systemctl enable --now snapd.apparmor; then
     ok "Snap setup completed successfully!"
 else
     err "Failed to enable snapd"
 fi
 
-# act "Installing snap-store..."
-# if export PATH="$PATH:/var/lib/snapd/snap/bin" && sudo snap install snap-store &&
-#     sudo snap install snapd-desktop-integration; then
-#     ok "Install snap-store successfully"
-# else
-#     err "Failed to install snap-store"
-# fi
+# Install snap store
+act "Installing snap-store..."
+if sudo snap install snap-store && sudo snap install snapd-desktop-integration; then
+    ok "Install snap-store successfully"
+else
+    err "Failed to install snap-store"
+fi
