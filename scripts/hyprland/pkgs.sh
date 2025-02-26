@@ -41,7 +41,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     discord neovide ranger cmatrix chromium qalculate-gtk
     telegram-desktop eog mousepad
-    # libreoffice-fresh
+    libreoffice-fresh
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
@@ -90,8 +90,8 @@ aur_pkgs=(
     arttime-git
     pipes.sh
     shell-color-scripts-git
-    onlyoffice-bin
-    visual-studio-code-bin
+    # onlyoffice-bin
+    # visual-studio-code-bin
     messenger-nativefier
     # zen-browser-bin
     # microsoft-edge-stable-bin
