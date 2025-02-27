@@ -82,7 +82,7 @@ done
 
 if [ "$dual_boot" == "Y" ]; then
     act "I will set the local time on Ubuntu to display the correct time on Windows"
-    timedatectl set-local-rtc 1 --adjust-system-clock
+    sudo timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
 if [ "$battery" == "Y" ]; then
