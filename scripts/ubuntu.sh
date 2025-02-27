@@ -86,7 +86,7 @@ if [ "$dual_boot" == "Y" ]; then
 fi
 
 if [ "$battery" == "Y" ]; then
-    exHypr "battery.sh"
+    exGnome "battery.sh"
 fi
 
 # install package
