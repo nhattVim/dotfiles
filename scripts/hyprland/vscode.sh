@@ -46,7 +46,7 @@ cp -f "$temp/assest/vscode/keybindings.json" "$vscode_config/User/keybindings.js
 act "Installing extensions..."
 while read -r extension; do
     "$vscode" --install-extension "$extension"
-done <"$temp/assest/vscode/extension.txt"
+done <"$temp/assest/vscode/extensions.txt"
 
 # Done
 ok "VSCode setup completed successfully!"
