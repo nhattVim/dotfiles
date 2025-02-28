@@ -5,6 +5,7 @@
 # yay -Rns vscodium-bin
 
 rm -rf ~/.config/Code
+rm -rf "$HOME/.config/Code - OSS"
 rm -rf ~/.vscode
 rm -rf ~/.cache/Code
 rm -rf ~/.local/share/Code

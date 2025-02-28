@@ -38,7 +38,7 @@ git clone https://github.com/nhattVim/dotfiles.git --depth 1 "$temp" || exit 1
 
 # Detect vscode config directory
 case "$vscode" in
-    "code") vscode_config="$HOME/.config/Code - OSS" ;;
+"code") vscode_config="$HOME/.config/Code - OSS" ;;
 "visual-studio-code-bin") vscode_config="$HOME/.config/Code" ;;
 "vscodium") vscode_config="$HOME/.config/VSCodium" ;;
 esac
