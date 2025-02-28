@@ -131,9 +131,9 @@
     // Extensions settings
     "prettier.tabWidth": 4,
     "tabnine.experimentalAutoImports": true,
-    "vscode_custom_css.imports": [
-        "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
-    ],
+    // "vscode_custom_css.imports": [
+    //     "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
+    // ],
     "indentRainbow.indicatorStyle": "light",
     "indentRainbow.lightIndicatorStyleLineWidth": 1,
     "indentRainbow.colors": [
