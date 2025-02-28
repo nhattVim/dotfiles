@@ -53,11 +53,10 @@ cp -f "$temp/assets/vscode/keybindings.json" "$vscode_config/User/keybindings.js
 
 # Install extensions
 act "Installing extensions..."
-while read -r extension; do
-    "$vscode" --install-extension "$extension"
+while read ext; do
+    code --install-extension "$ext" &
 done <"$temp/assets/vscode/extensions.txt"
-
-cat "$temp/assets/vscode/extensions.txt" | xargs -I {} code --install-extension {}
+wait
 
 # Set ownership
 case "$vscode" in
