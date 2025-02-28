@@ -1,7 +1,7 @@
 {
     // Theme && UI
     "workbench.colorTheme": "Aura Dracula Spirit",
-    "workbench.iconTheme": "material-theme-icons",
+    "workbench.iconTheme": "material-icon-theme",
     "editor.fontFamily": "MesloLGS NF, Consolas, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
