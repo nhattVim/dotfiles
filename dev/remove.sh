@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# sudo pacman -Rns code
+sudo pacman -Rns code
 # yay -Rns visual-studio-code-bin
 # yay -Rns vscodium-bin
 

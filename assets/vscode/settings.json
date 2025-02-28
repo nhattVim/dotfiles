@@ -1,6 +1,6 @@
 {
     // Theme && UI
-    "workbench.colorTheme": "Aura Dracula Spirit",
+    "workbench.colorTheme": "Aura Dark",
     "workbench.iconTheme": "material-icon-theme",
     "editor.fontFamily": "MesloLGS NF, Consolas, 'Courier New', monospace",
     "editor.fontSize": 14,
@@ -62,7 +62,7 @@
     "window.titleBarStyle": "custom",
     "window.menuBarVisibility": "toggle",
     "workbench.activityBar.location": "hidden",
-    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.showTabs": "single",
     "workbench.statusBar.visible": false,
     "workbench.startupEditor": "none",
     "workbench.tips.enabled": false,
