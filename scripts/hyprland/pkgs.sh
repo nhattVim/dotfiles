@@ -15,7 +15,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo rust
-    jdk-openjdk
+    jdk-openjdk electron
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -91,8 +91,9 @@ aur_pkgs=(
     pipes.sh
     shell-color-scripts-git
     # onlyoffice-bin
-    # visual-studio-code-bin
-    # messenger-nativefier
+    visual-studio-code-bin
+    messenger-nativefier
+    zalo-nativefier
     # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
