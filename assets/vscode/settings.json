@@ -21,6 +21,7 @@
     },
 
     // General settings
+    "editor.acceptSuggestionOnCommitCharacter": false,
     "editor.parameterHints.enabled": false,
     "editor.lightbulb.enabled": "off",
     "editor.hover.enabled": false,
