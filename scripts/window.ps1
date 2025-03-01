@@ -9,7 +9,7 @@ Write-Host ""
 Write-Host ""
 Write-Host "------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
 Write-Host " ------------------ Github: httpls://github.com/nhattVim -------------------- " -ForegroundColor Magenta
-Write-Host 
+Write-Host
 
 # Util function
 function StartMsg {
@@ -17,9 +17,9 @@ function StartMsg {
     Write-Host("-> " + $msg) -ForegroundColor Green
 }
 
-function MsgDone { 
+function MsgDone {
     Write-Host "Done" -ForegroundColor Magenta;
-    Write-Host 
+    Write-Host
 }
 
 function exGithub {
@@ -29,6 +29,33 @@ function exGithub {
 
 # Start
 Start-Process -Wait powershell -verb runas -ArgumentList "Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0"
+
+# Scoop packages
+$scoop_pkgs = @(
+    "flow-launcher", "oh-my-posh", "fzf", "winrar", "lsd", "winfetch",
+    "lazygit", "tere", "autoclicker", "ventoy", "firefox",
+    "git", "gcc", "nodejs", "openjdk", "python", "make", "ripgrep",
+    "neovim", "neovide", "unzip", "wget", "gzip", "pwsh"
+)
+
+# Winget packages
+$winget_pkgs = @(
+    "VNGCorp.Zalo", # Zalo
+    "9WZDNCRF0083", # Messenger
+    "9N97ZCKPD60Q", # Telegram
+    "XPDC2RH70K22MN", # Discord
+    "XPDLNJ2FWVCXR1", # PDFgear
+    "Cloudflare.Warp", # 1.1.1.1
+    "XPDCFJDKLZJLP8", # Visual Studio Code
+    "XP8BZ39V4J50XJ", # TeraBox
+    "Microsoft.DotNet.SDK.9", # .NET SDK
+    "CocCoc.CocCoc", # Cốc Cốc
+    "XP89DCGQ3K6VLD", # PowerToys
+    "CharlesMilette.TranslucentTB", # TranslucentTB
+    "9N5JJZW4QZBR", # XDM
+    "9N7R5S6B0ZZH", # MyAsus
+    "9NSGM705MQWC", # WPS Office
+)
 
 StartMsg -msg "Installing scoop..."
 if (Get-Command scoop -errorAction SilentlyContinue)
@@ -50,13 +77,21 @@ StartMsg -msg "Initializing Scoop..."
 MsgDone
 
 StartMsg -msg "Installing Scoop's packages"
-    scoop install <# apps #> flow-launcher oh-my-posh fzf winrar lsd winfetch lazygit tere autoclicker ventoy firefox
-    scoop install <# coding #> git gcc nodejs openjdk python make ripgrep neovim neovide
-    scoop install <# requirements for mason_neovim #> unzip wget gzip pwsh
-    # scoop install <# custom apps #> paint.net windhawk qutebrowser
+    foreach ($pkg in $scoop_pkgs) {
+        StartMsg -msg "Installing $pkg via Scoop..."
+        scoop install $pkg
+    }
     scoop cache rm *
 MsgDone
 
+StartMsg -msg "Installing Winget's packages"
+    foreach ($pkg in $winget_pkgs) {
+        StartMsg -msg "Installing $pkg via Winget..."
+        winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements
+    }
+MsgDone
+
+# Start config
 StartMsg -msg "Start config"
 
 # Clone dotfiles
@@ -72,15 +107,6 @@ StartMsg -msg "Config Powershell"
     $PROFILEPath = $PROFILE
     Get-Content -Path ".\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
 MsgDone
-
-# Config Alacritty
-# StartMsg -msg "Config Alacritty"
-#     $DestinationPath = "~\AppData\Roaming\alacritty"
-#     If (-not (Test-Path $DestinationPath)) {
-#         New-Item -ItemType Directory -Path $DestinationPath -Force
-#     }
-#     Copy-Item ".\alacritty\alacritty.yml" -Destination $DestinationPath -Force
-# MsgDone
 
 # Config Neovim
 StartMsg -msg "Config Neovim"
@@ -126,8 +152,8 @@ MsgDone
 # MsgDone
 #
 # StartMsg -msg "Installing Choco's packages"
-#     Start-Process -Wait powershell -verb runas -ArgumentList "choco install zalopc internet-download-manager vmwareworkstation" 
-#     # Start-Process -Wait powershell -verb runas -ArgumentList "choco install steam bluestacks" 
+#     Start-Process -Wait powershell -verb runas -ArgumentList "choco install zalopc internet-download-manager vmwareworkstation"
+#     # Start-Process -Wait powershell -verb runas -ArgumentList "choco install steam bluestacks"
 # MsgDone
 
 # StartMsg -msg "Enable Virtualiztion"
@@ -149,5 +175,5 @@ MsgDone
 #     Write-Warning "Wsl installed"
 # }
 # MsgDone
- 
+
 MsgDone
