@@ -55,6 +55,7 @@ $winget_pkgs = @(
     "9N5JJZW4QZBR", # XDM
     "9N7R5S6B0ZZH", # MyAsus
     "9NSGM705MQWC" # WPS Office
+    "9NV4BS3L1H4S" # QuickLook
 )
 
 StartMsg -msg "Installing scoop..."
