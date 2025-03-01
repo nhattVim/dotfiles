@@ -41,7 +41,7 @@ $scoop_pkgs = @(
 # Winget packages
 $winget_pkgs = @(
     "VNGCorp.Zalo", # Zalo
-    "9WZDNCRF0083", # Messenger
+    "Telegram.TelegramDesktop", # Messenger
     "9N97ZCKPD60Q", # Telegram
     "XPDC2RH70K22MN", # Discord
     "XPDLNJ2FWVCXR1", # PDFgear
@@ -54,12 +54,11 @@ $winget_pkgs = @(
     "CharlesMilette.TranslucentTB", # TranslucentTB
     "9N5JJZW4QZBR", # XDM
     "9N7R5S6B0ZZH", # MyAsus
-    "9NSGM705MQWC", # WPS Office
+    "9NSGM705MQWC" # WPS Office
 )
 
 StartMsg -msg "Installing scoop..."
-if (Get-Command scoop -errorAction SilentlyContinue)
-{
+if (Get-Command scoop -errorAction SilentlyContinue) {
     Write-Warning "Scoop already installed"
 }
 else {
@@ -69,26 +68,26 @@ else {
 MsgDone
 
 StartMsg -msg "Initializing Scoop..."
-    scoop install git
-    scoop bucket add extras
-    scoop bucket add nerd-fonts
-    scoop bucket add java
-    scoop update
+scoop install git
+scoop bucket add extras
+scoop bucket add nerd-fonts
+scoop bucket add java
+scoop update
 MsgDone
 
 StartMsg -msg "Installing Scoop's packages"
-    foreach ($pkg in $scoop_pkgs) {
-        StartMsg -msg "Installing $pkg via Scoop..."
-        scoop install $pkg
-    }
-    scoop cache rm *
+foreach ($pkg in $scoop_pkgs) {
+    StartMsg -msg "Installing $pkg via Scoop..."
+    scoop install $pkg
+}
+scoop cache rm *
 MsgDone
 
 StartMsg -msg "Installing Winget's packages"
-    foreach ($pkg in $winget_pkgs) {
-        StartMsg -msg "Installing $pkg via Winget..."
-        winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements
-    }
+foreach ($pkg in $winget_pkgs) {
+    StartMsg -msg "Installing $pkg via Winget..."
+    winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements
+}
 MsgDone
 
 # Start config
@@ -96,48 +95,48 @@ StartMsg -msg "Start config"
 
 # Clone dotfiles
 StartMsg -msg "Clone dotfiles"
-    cd $HOME
-    git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1
-    cd dotfiles
+cd $HOME
+git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1
+cd dotfiles
 MsgDone
 
 # Config powershell
 StartMsg -msg "Config Powershell"
-    New-Item -Path $PROFILE -Type File -Force
-    $PROFILEPath = $PROFILE
-    Get-Content -Path ".\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
+New-Item -Path $PROFILE -Type File -Force
+$PROFILEPath = $PROFILE
+Get-Content -Path ".\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
 MsgDone
 
 # Config Neovim
 StartMsg -msg "Config Neovim"
-    $DestinationPath = "$env:LOCALAPPDATA"
-    If (-not (Test-Path $DestinationPath)) {
-        New-Item -ItemType Directory -Path $DestinationPath -Force
-    }
+$DestinationPath = "$env:LOCALAPPDATA"
+If (-not (Test-Path $DestinationPath)) {
+    New-Item -ItemType Directory -Path $DestinationPath -Force
+}
 
-    $NvimPath = Join-Path $DestinationPath "nvim"
-    $NvimDataPath = Join-Path $DestinationPath "nvim-data"
+$NvimPath = Join-Path $DestinationPath "nvim"
+$NvimDataPath = Join-Path $DestinationPath "nvim-data"
 
-    if (Test-Path $NvimPath) {
-        Remove-Item -Path $NvimPath -Recurse -Force
-        Write-Warning "!!!Remove nvim folder"
-    }
+if (Test-Path $NvimPath) {
+    Remove-Item -Path $NvimPath -Recurse -Force
+    Write-Warning "!!!Remove nvim folder"
+}
 
-    if (Test-Path $NvimDataPath) {
-        Remove-Item -Path $NvimDataPath -Recurse -Force
-        Write-Warning "!!!Remove nvim data folder"
-    }
+if (Test-Path $NvimDataPath) {
+    Remove-Item -Path $NvimDataPath -Recurse -Force
+    Write-Warning "!!!Remove nvim data folder"
+}
 
-    git clone https://github.com/nhattVim/MYnvim "$NvimPath" --depth 1
+git clone https://github.com/nhattVim/MYnvim "$NvimPath" --depth 1
 
-    pip install pynvim
-    npm install neovim -g
+pip install pynvim
+npm install neovim -g
 MsgDone
 
 # Remove dotfiles
 StartMsg -msg "Remove dotfiles"
-    cd $HOME
-    Remove-Item dotfiles -Recurse -Force
+cd $HOME
+Remove-Item dotfiles -Recurse -Force
 MsgDone
 
 # StartMsg -msg "Installing choco..."
