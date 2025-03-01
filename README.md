@@ -29,11 +29,12 @@ bash <(curl -sSL https://is.gd/nhattVim_wsl)
 ## Ubuntu _(gnome)_
 
 ```bash
-# script to install dependencies and setup gnome
+# script to install dependencies and customize gnome
 sudo apt install curl -y
 bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 ```
 
+![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu3.png?raw=true)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true)
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu2.png?raw=true)
 
