@@ -52,7 +52,7 @@ iAur() {
         return 0
     else
         act "Installing $1 ..."
-        $ISAUR -Sy --noconfirm --norebuild --removemake "$1"
+        $ISAUR -Sy --noconfirm "$1"
         rc=$?
 
         if [[ $rc -eq 0 ]]; then

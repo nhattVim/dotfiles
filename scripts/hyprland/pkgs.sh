@@ -91,9 +91,9 @@ aur_pkgs=(
     pipes.sh
     shell-color-scripts-git
     # onlyoffice-bin
-    visual-studio-code-bin
-    messenger-nativefier
-    zalo-nativefier
+    # visual-studio-code-bin
+    # messenger-nativefier
+    # zalo-nativefier
     # zen-browser-bin
     # microsoft-edge-stable-bin
     # vmware-workstation
