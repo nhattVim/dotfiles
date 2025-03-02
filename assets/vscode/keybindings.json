@@ -183,6 +183,16 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
+        "key": "space l j",
+        "command": "editor.action.marker.nextInFiles",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
+        "key": "space l k",
+        "command": "editor.action.marker.prevInFiles",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
         "key": "space g d",
         "command": "editor.action.revealDefinition",
         "when": "vim.mode == 'Normal' && editorTextFocus"
