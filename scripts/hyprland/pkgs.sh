@@ -29,7 +29,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
-    pacman-contrib nwg-look gammastep
+    pacman-contrib nwg-look gammastep polkit-gnome
 
     # ----------------------------------------------------
     # Multimedia
@@ -40,8 +40,7 @@ pacman_pkgs=(
     # GUI Applications
     # ----------------------------------------------------
     discord neovide ranger cmatrix chromium qalculate-gtk
-    telegram-desktop eog mousepad
-    libreoffice-fresh
+    telegram-desktop eog mousepad libreoffice-fresh
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
