@@ -12,28 +12,28 @@ NEOVIM="https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x8
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 
-ppa=(
-    ppa:zhangsongcui3371/fastfetch
-)
+# ppa=(
+#     ppa:zhangsongcui3371/fastfetch
+# )
 
 pkgs=(
     build-essential python3 python3-pip python3-venv python3-pynvim
     neofetch xclip zsh bat default-jdk htop fzf make ripgrep cmake
     tmux cava net-tools lolcat sl ca-certificates gnupg ranger unzip
-    gdb nano vim bpytop fastfetch
+    gdb nano vim bpytop libmagickwand-dev libmysqlclient-dev libpq-dev
     bison pkg-config autoconf clang libssl-dev libreadline-dev zlib1g-dev
     libyaml-dev libncurses5-dev libffi-dev libgdbm-dev libjemalloc2 libvips
-    libmagickwand-dev libmysqlclient-dev libpq-dev
+    # fastfetch
 )
 
 # Add ppa
-note "Adding ppa..."
-for PPA in "${ppa[@]}"; do
-    sudo add-apt-repository -y "$PPA"
-    if [ $? -ne 0 ]; then
-        err "Failed to add $PPA"
-    fi
-done
+# note "Adding ppa..."
+# for PPA in "${ppa[@]}"; do
+#     sudo add-apt-repository -y "$PPA"
+#     if [ $? -ne 0 ]; then
+#         err "Failed to add $PPA"
+#     fi
+# done
 
 # Re-update system
 note "Updating system..."
