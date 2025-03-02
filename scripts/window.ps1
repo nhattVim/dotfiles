@@ -28,17 +28,21 @@ function exGithub {
     Invoke-Expression (Invoke-RestMethod -Uri $script_url)
 }
 
-# Disable UAC
-Start-Process -Wait powershell -verb runas -ArgumentList "Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0"
+# List of commands
+$commands = @(
+    # Disable UAC
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name ConsentPromptBehaviorAdmin -Type DWord -Value 0",
+    # Disable browser tabs in Alt + Tab
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name MultiTaskingAltTabFilter -Type DWord -Value 3",
+    # Hide Task View button
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Type DWord -Value 0",
+    # Custom search box in taskbar
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3"
+)
 
-# Disable browser tabs in Alt + Tab
-Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name MultiTaskingAltTabFilter -Type DWord -Value 3"
-
-# Hide Task View button
-Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Type DWord -Value 0"
-
-# Custom search box in taskbar
-Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3"
+# Join and run commands
+$commandString = $commands -join "; "
+Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
 
 # Scoop packages
 $scoop_pkgs = @(
