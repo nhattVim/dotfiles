@@ -14,12 +14,13 @@ Write-Host
 # Util function
 function StartMsg {
     param ($msg)
+    Write-Host
     Write-Host("-> " + $msg) -ForegroundColor Green
 }
 
 function MsgDone {
-    Write-Host "Done" -ForegroundColor Magenta;
     Write-Host
+    Write-Host "Done" -ForegroundColor Magenta;
 }
 
 function exGithub {
@@ -27,8 +28,17 @@ function exGithub {
     Invoke-Expression (Invoke-RestMethod -Uri $script_url)
 }
 
-# Start
+# Disable UAC
 Start-Process -Wait powershell -verb runas -ArgumentList "Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0"
+
+# Disable browser tabs in Alt + Tab
+Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name MultiTaskingAltTabFilter -Type DWord -Value 3"
+
+# Hide Task View button
+Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Type DWord -Value 0"
+
+# Custom search box in taskbar
+Start-Process -Wait powershell -Verb runas -ArgumentList "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3"
 
 # Scoop packages
 $scoop_pkgs = @(
@@ -40,22 +50,26 @@ $scoop_pkgs = @(
 
 # Winget packages
 $winget_pkgs = @(
-    "VNGCorp.Zalo", # Zalo
-    "Telegram.TelegramDesktop", # Messenger
-    "9N97ZCKPD60Q", # Telegram
-    "XPDC2RH70K22MN", # Discord
-    "XPDLNJ2FWVCXR1", # PDFgear
-    "Cloudflare.Warp", # 1.1.1.1
-    "XPDCFJDKLZJLP8", # Visual Studio Code
-    "XP8BZ39V4J50XJ", # TeraBox
-    "Microsoft.DotNet.SDK.9", # .NET SDK
-    "CocCoc.CocCoc", # Cốc Cốc
-    "XP89DCGQ3K6VLD", # PowerToys
-    "CharlesMilette.TranslucentTB", # TranslucentTB
-    "9N5JJZW4QZBR", # XDM
-    "9N7R5S6B0ZZH", # MyAsus
+    "VNGCorp.Zalo" # Zalo
+    "Telegram.TelegramDesktop" # Messenger
+    "Microsoft.VisualStudioCode" # VSCode
+    "Microsoft.DotNet.SDK.9" # .NET SDK
+    "lamquangminh.EVKey" # EVKey
+    "9N5JJZW4QZBR" # XDM
+    "9N7R5S6B0ZZH" # MyAsus
     "9NSGM705MQWC" # WPS Office
     "9NV4BS3L1H4S" # QuickLook
+    "XPDC2RH70K22MN" # Discord
+    "XPDLNJ2FWVCXR1" # PDFgear
+    "XP8BZ39V4J50XJ" # TeraBox
+    "XP89DCGQ3K6VLD" # PowerToys
+)
+
+# Winget packages with Administrator
+$winget_admin_pkgs = @(
+    "Cloudflare.Warp" # 1.1.1.1
+    "CocCoc.CocCoc" # Cốc Cốc
+    "CharlesMilette.TranslucentTB" # TranslucentTB
 )
 
 StartMsg -msg "Installing scoop..."
@@ -91,14 +105,21 @@ foreach ($pkg in $winget_pkgs) {
 }
 MsgDone
 
+StartMsg -msg "Installing Winget's packages with Administrator"
+foreach ($pkg in $winget_admin_pkgs) {
+    StartMsg -msg "Installing $pkg via Winget (Admin)..."
+    Start-Process -Wait powershell -Verb RunAs -ArgumentList "winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements"
+}
+MsgDone
+
 # Start config
 StartMsg -msg "Start config"
 
 # Clone dotfiles
 StartMsg -msg "Clone dotfiles"
-cd $HOME
+Set-Location $HOME
 git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1
-cd dotfiles
+Set-Location dotfiles
 MsgDone
 
 # Config powershell
@@ -136,7 +157,7 @@ MsgDone
 
 # Remove dotfiles
 StartMsg -msg "Remove dotfiles"
-cd $HOME
+Set-Location $HOME
 Remove-Item dotfiles -Recurse -Force
 MsgDone
 
