@@ -117,7 +117,8 @@
 
     // Formatters setting
     "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.insertSpaces": true
     },
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
