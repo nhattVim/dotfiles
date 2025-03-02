@@ -112,7 +112,7 @@ MsgDone
 StartMsg -msg "Installing Winget's packages with Administrator"
 foreach ($pkg in $winget_admin_pkgs) {
     StartMsg -msg "Installing $pkg via Winget (Admin)..."
-    Start-Process -Wait powershell -Verb RunAs -ArgumentList "winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements"
+    Start-Process -Wait powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements"
 }
 MsgDone
 
