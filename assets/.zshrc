@@ -49,6 +49,8 @@ plugins=(
     aliases
     history
     gradle
+    kitty
+    themes
     zsh-autosuggestions
 )
 
@@ -118,6 +120,24 @@ alias ll='lsd -ll'
 alias lt='lsd --tree'
 alias lt='lsd --tree -a'
 alias ltl='lsd --tree --long'
+
+# Dotnet
+alias dnb="dotnet build"
+alias dnr="dotnet run"
+alias dnt="dotnet test"
+alias dnc="dotnet clean"
+alias dnp="dotnet publish"
+alias dni="dotnet install"
+# Entity Framework Core Migrations
+alias dnm="dotnet ef migrations"
+alias dnma="dotnet ef migrations add"
+alias dnml="dotnet ef migrations list"
+alias dnmrm="dotnet ef migrations remove"
+alias dnmu="dotnet ef database update"
+alias dnminit="dotnet ef migrations add Init && dotnet ef database update"
+# Database Management
+alias dndu="dotnet ef database update"
+alias dndd="dotnet ef database drop"
 
 # Tools
 alias cd..='cd ..'
