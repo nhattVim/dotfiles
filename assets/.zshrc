@@ -31,8 +31,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Import path -------------------------------------------------
 
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.dotnet/tools:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 export VISUAL="nvim"
 
