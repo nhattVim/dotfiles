@@ -97,6 +97,8 @@ aur_pkgs=(
     # microsoft-edge-stable-bin
     # vmware-workstation
     # xampp
+    # mssql
+    # mssql-tools
 )
 
 # ==============================================================================
