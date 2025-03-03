@@ -148,6 +148,11 @@
         "command": "code-runner.run",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
+    {
+        "key": "space f f",
+        "command": "workbench.action.quickOpen",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
 
     // Split editors
     {
