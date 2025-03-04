@@ -34,7 +34,7 @@ else
         fi
 
         rm -rf "$temp_dir"
-        ok "Successfully installed snap!"
+        ok "Successfully installed yay!"
         break
     done
 
