@@ -1,5 +1,5 @@
 sudo mkdir -p /mnt/win11
 lsblk -f
-echo "UUID=80101D6C101D6A84 /mnt/win11 ntfs3 defaults,noatime,nofail 0 0" | sudo tee -a /etc/fstab
+echo "UUID=80101D6C101D6A84 /mnt/win11 ntfs3 defaults,noatime,nofail,uid=1000,gid=1000,umask=0022 0 0" | sudo tee -a /etc/fstab
 sudo mount -a
 ln -s /mnt/win11/Users/nhatt/Data $HOME
