@@ -17,14 +17,14 @@ enable_night_mode() {
     pkill -x gammastep
     gammastep -O 4000 -m wayland &
     echo "on" >"$STATE_FILE"
-    notify-send -u low " 🌙 Night Mode: ON"
+    notify-send -e -u low " 🌙 Night Mode: ON"
 }
 
 # Function to disable Night Mode
 disable_night_mode() {
     pkill -x gammastep
     echo "off" >"$STATE_FILE"
-    notify-send -u low " 🌞 Night Mode: OFF"
+    notify-send -e -u low " 🌞 Night Mode: OFF"
 }
 
 # Function to toggle Night Mode
