@@ -41,7 +41,7 @@ while true; do
     yes_no "Do you want to configure Bluetooth?" bluetooth
     yes_no "Do you have any NVIDIA GPU in your system?" nvidia
     yes_no "Do you want to install Thunar (File Manager)?" thunar
-    yes_no "Do you want to install Snap (GUI Package Manager)?" snapd
+    # yes_no "Do you want to install Snap (GUI Package Manager)?" snapd
     yes_no "Do you want to install Homebrew (CLI Package Manager)?" homebrew
     yes_no "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
     yes_no "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
@@ -61,7 +61,7 @@ while true; do
         "Bluetooth:${YELLOW} $bluetooth ${RESET}" \
         "Nvidia GPU:${YELLOW} $nvidia ${RESET}" \
         "Thunar File Manager:${YELLOW} $thunar ${RESET}" \
-        "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
+        # "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
         "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
         "Asus ROG Laptops:${YELLOW} $rog ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
@@ -110,9 +110,9 @@ if [ "$rog" == "Y" ]; then
     exHypr "rog.sh"
 fi
 
-if [ "$snapd" == "Y" ]; then
-    exHypr "snapd.sh"
-fi
+# if [ "$snapd" == "Y" ]; then
+#     exHypr "snapd.sh"
+# fi
 
 if [ "$homebrew" == "Y" ]; then
     exHypr "homebrew.sh"
