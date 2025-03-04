@@ -14,20 +14,17 @@ STATE=$(cat "$STATE_FILE")
 
 # Function to enable Night Mode
 enable_night_mode() {
-    pkill gammastep
+    pkill -x gammastep
     gammastep -O 4000 -m wayland &
     echo "on" >"$STATE_FILE"
-    notify-send -e -u low " 🌙 Night Mode: ON"
+    notify-send -u low " 🌙 Night Mode: ON"
 }
 
 # Function to disable Night Mode
 disable_night_mode() {
-    if pgrep -x "gammastep" &>/dev/null; then
-        pkill gammastep
-        wait $!
-        echo "off" >"$STATE_FILE"
-        notify-send -e -u low " 🌞 Night Mode: OFF"
-    fi
+    pkill -x gammastep
+    echo "off" >"$STATE_FILE"
+    notify-send -u low " 🌞 Night Mode: OFF"
 }
 
 # Function to toggle Night Mode
