@@ -15,7 +15,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo rust
-    jdk-openjdk electron
+    jdk-openjdk electron python-pyquery
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
