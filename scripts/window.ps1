@@ -67,6 +67,7 @@ $winget_pkgs = @(
     "XPDLNJ2FWVCXR1" # PDFgear
     "XP8BZ39V4J50XJ" # TeraBox
     "XP89DCGQ3K6VLD" # PowerToys
+    "XP9M26RSCLNT88" # TreeSize
 )
 
 # Winget packages with Administrator
