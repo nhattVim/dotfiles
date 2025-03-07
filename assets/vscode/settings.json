@@ -1,6 +1,6 @@
 {
     // Theme && UI
-    "workbench.colorTheme": "Aura Dark",
+    "workbench.colorTheme": "Vesper",
     "workbench.iconTheme": "material-icon-theme",
     "editor.fontFamily": "MesloLGS NF, Consolas, 'Courier New', monospace",
     "editor.fontSize": 14,
@@ -77,14 +77,11 @@
         "editorBracketHighlight.foreground4": "#FFC28B",
         "editorBracketHighlight.foreground5": "#B9F2A6",
         "editorBracketHighlight.foreground6": "#EFA6FF",
-        "editorSuggestWidget.background": "#0c0d18",
-        "editorSuggestWidget.foreground": "#abb2bf",
         "editorCursor.background": "#000000",
         "widget.border": "#2cccff",
         "widget.shadow": "#2cccff",
         "focusBorder": "#2cccff",
         "terminalCursor.foreground": "#2dd0dcee",
-        "editor.lineHighlightBorder": "#DA70D6",
         "editorOverviewRuler.wordHighlightStrongForeground": "#0000",
         "editorOverviewRuler.selectionHighlightForeground": "#0000",
         "editorOverviewRuler.rangeHighlightForeground": "#0000",
@@ -99,7 +96,17 @@
         "editorOverviewRuler.infoForeground": "#0000",
         "editorOverviewRuler.border": "#0000",
         "[Aura Dracula Spirit]": {
+            "editor.lineHighlightBorder": "#DA70D6",
             "editorSuggestWidget.selectedBackground": "#3A334B"
+        },
+        "[Vesper]": {
+            "editorSuggestWidget.background": "#000000",
+            "editorSuggestWidget.foreground": "#abb2bf",
+            "editor.lineHighlightBorder": "#FFC799",
+            "editorSuggestWidget.border": "#FFc799",
+            "widget.border": "#FFC799",
+            "widget.shadow": "#FFC799",
+            "focusBorder": "#FFC799"
         }
     },
 
@@ -111,7 +118,7 @@
         ".editor-widget.find-widget": "border-radius: 4px",
         ".title.show-file-icons .label-container .monaco-icon-label.file-icon": "justify-content: center; padding: 0 !important",
         ".sidebar .title-label": "padding: 0 !important",
-        ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)",
+        // ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)",
         ".monaco-scrollable-element > .scrollbar > .slider": "border-radius: 6px; max-height: 100px"
     },
 
@@ -133,9 +140,6 @@
     // Extensions settings
     "prettier.tabWidth": 4,
     "tabnine.experimentalAutoImports": true,
-    // "vscode_custom_css.imports": [
-    //     "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
-    // ],
     "indentRainbow.indicatorStyle": "light",
     "indentRainbow.lightIndicatorStyleLineWidth": 1,
     "indentRainbow.colors": [
@@ -178,7 +182,7 @@
     "vim.normalModeKeyBindings": [
         // Utils
         {
-            "before": ["space", "n"],
+            "before": ["<leader>", "n"],
             "commands": [":nohl"]
         },
         // Bookmark
@@ -214,5 +218,8 @@
         "vscodevim.vim": 1
     },
     "liveServer.settings.donotVerifyTags": true,
-    "code-runner.runInTerminal": true
+    "code-runner.runInTerminal": true,
+    "vscode_custom_css.imports": [
+        "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
+    ]
 }
