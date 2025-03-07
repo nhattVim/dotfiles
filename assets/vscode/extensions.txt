@@ -66,3 +66,4 @@ ms-dotnettools.csdevkit
 tonybaloney.vscode-pets
 visualstudioexptteam.vscodeintellicode
 mrmlnc.vscode-scss
+ms-dotnettools.vscodeintellicode-csharp
