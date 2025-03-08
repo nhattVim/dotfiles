@@ -2,7 +2,7 @@
 # Install packages
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 # Variable
 PIPES="https://github.com/pipeseroni/pipes.sh"

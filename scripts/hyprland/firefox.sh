@@ -2,7 +2,7 @@
 # Setup firefox
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 note "Customizing Firefox..."
 

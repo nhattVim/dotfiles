@@ -2,7 +2,7 @@
 # Enhancing pacman with extra features
 
 # Source the library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 # Start script
 echo "$CYAN"

@@ -2,7 +2,7 @@
 # Yay AUR Helper
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 if [ -n "$ISAUR" ]; then
     ok "AUR helper already installed, moving on."

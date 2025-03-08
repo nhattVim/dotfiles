@@ -2,7 +2,7 @@
 # Setup vscode
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 note "Choose your vscode version ..."
 vscode=$(gum choose "code" "visual-studio-code-bin" "vscodium")

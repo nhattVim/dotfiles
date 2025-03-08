@@ -2,7 +2,7 @@
 # Thunar
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 # start script
 thunar=(

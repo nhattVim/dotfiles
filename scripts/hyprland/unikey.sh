@@ -2,7 +2,7 @@
 # Script to install and setup Fcitx5 with Unikey support
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 pkgs=(
     fcitx5

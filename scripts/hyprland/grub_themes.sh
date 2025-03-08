@@ -2,7 +2,7 @@
 # Custom grub theme
 
 # source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 # Variables
 theme="Rappa"

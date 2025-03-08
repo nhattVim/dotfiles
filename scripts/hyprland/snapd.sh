@@ -2,7 +2,7 @@
 # Snap install script for Arch Linux
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib)
+. <(curl -sSL https://nhattVim.github.io/lib.sh)
 
 # Check if snap is installed
 if command -v snap &>/dev/null; then

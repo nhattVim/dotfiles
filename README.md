@@ -17,13 +17,13 @@
 
 ```
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://is.gd/nhattVim_window | iex
+irm https://nhattVim.github.io/window.ps1 | iex
 ```
 
 - Set up Wsl (ubuntu & arch):
 
 ```bash
-bash <(curl -sSL https://is.gd/nhattVim_wsl)
+bash <(curl -sSL https://nhattVim.github.io/wsl)
 ```
 
 ## Ubuntu _(gnome)_
@@ -31,7 +31,7 @@ bash <(curl -sSL https://is.gd/nhattVim_wsl)
 ```bash
 # script to install dependencies and customize gnome
 sudo apt install curl -y
-bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
+bash <(curl -sSL https://nhattVim.github.io/ubuntu)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu3.png?raw=true)
@@ -44,7 +44,7 @@ bash <(curl -sSL https://is.gd/nhattVim_ubuntu)
 
 ```bash
 # script to install and setup hyprland
-bash <(curl -sSL https://is.gd/nhattVim_arch)
+bash <(curl -sSL https://nhattVim.github.io/arch)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)

@@ -2,7 +2,7 @@
 # config wsl
 
 # Source library
-. <(curl -sSL https://is.gd/nhattVim_lib) && clear
+. <(curl -sSL https://nhattVim.github.io/lib.sh) && clear
 
 # Require boot script
 exGnome "boot.sh"
