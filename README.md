@@ -15,7 +15,7 @@
 
 - Then run this command on powershell:
 
-```
+```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm https://nhattVim.github.io/window.ps1 | iex
 ```
