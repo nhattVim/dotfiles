@@ -61,7 +61,6 @@ while true; do
         "Bluetooth:${YELLOW} $bluetooth ${RESET}" \
         "Nvidia GPU:${YELLOW} $nvidia ${RESET}" \
         "Thunar File Manager:${YELLOW} $thunar ${RESET}" \
-        \
         "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
         "Asus ROG Laptops:${YELLOW} $rog ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
