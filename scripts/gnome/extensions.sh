@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 SCHEMA_DIR="/usr/share/glib-2.0/schemas/"
 

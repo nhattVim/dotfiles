@@ -2,7 +2,7 @@
 # Asus ROG Laptops #
 
 # Source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 pkgs=(
     asusctl

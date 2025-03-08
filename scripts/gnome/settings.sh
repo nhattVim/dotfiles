@@ -2,7 +2,7 @@
 # Install packages
 
 # Source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 note "Setting up Gnome."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'

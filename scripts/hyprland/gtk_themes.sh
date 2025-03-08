@@ -2,7 +2,7 @@
 # GTK Themes & ICONS and  Sourcing from a different Repo #
 
 # source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # Dotfiles directory
 temp_dir=$(mktemp -d)

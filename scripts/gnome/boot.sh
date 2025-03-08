@@ -1,7 +1,7 @@
 #!/bin/bash
 # required
 
-. <(curl -sSL https://nhattVim.github.io/lib.sh) && clear
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
 # start script
 echo "$CYAN"

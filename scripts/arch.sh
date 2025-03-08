@@ -2,7 +2,7 @@
 # config arch
 
 # source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # init
 exHypr "boot.sh" && clear
@@ -61,14 +61,14 @@ while true; do
         "Bluetooth:${YELLOW} $bluetooth ${RESET}" \
         "Nvidia GPU:${YELLOW} $nvidia ${RESET}" \
         "Thunar File Manager:${YELLOW} $thunar ${RESET}" \
-        # "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
+        \
         "Homebrew (CLI Packages Manager):${YELLOW} $homebrew ${RESET}" \
         "Asus ROG Laptops:${YELLOW} $rog ${RESET}" \
         "SDDM Log-in Manager:${YELLOW} $sddm ${RESET}" \
         "Firefoxcss:${YELLOW} $firefox ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
         "Unikey:${YELLOW} $unikey ${RESET}" \
-        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
+        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}" # "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
 
     if gum confirm "Are these options correct?"; then
         break

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh) && clear
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
 # Check if the system is running under WSL
 if grep -qi 'microsoft' /proc/sys/kernel/osrelease; then

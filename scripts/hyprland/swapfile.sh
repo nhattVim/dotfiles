@@ -2,7 +2,7 @@
 # set swapfile
 
 # source library
-. <(curl -sSL https://nhattVim.github.io/lib.sh)
+. <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # start script
 if ! gum confirm "Do you want to set up swapfile?"; then
