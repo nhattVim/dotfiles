@@ -67,3 +67,5 @@ tonybaloney.vscode-pets
 visualstudioexptteam.vscodeintellicode
 mrmlnc.vscode-scss
 ms-dotnettools.vscodeintellicode-csharp
+aykutsarac.jsoncrack-vscode
+yoavbls.pretty-ts-errors
