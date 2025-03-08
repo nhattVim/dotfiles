@@ -23,7 +23,7 @@ irm https://nhattVim.github.io/window.ps1 | iex
 - Set up Wsl (ubuntu & arch):
 
 ```bash
-bash <(curl -sSL https://nhattVim.github.io/wsl)
+bash <(curl -sSL https://nhattVim.github.io/wsl.sh)
 ```
 
 ## Ubuntu _(gnome)_
@@ -31,7 +31,7 @@ bash <(curl -sSL https://nhattVim.github.io/wsl)
 ```bash
 # script to install dependencies and customize gnome
 sudo apt install curl -y
-bash <(curl -sSL https://nhattVim.github.io/ubuntu)
+bash <(curl -sSL https://nhattVim.github.io/ubuntu.sh)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu3.png?raw=true)
@@ -44,7 +44,7 @@ bash <(curl -sSL https://nhattVim.github.io/ubuntu)
 
 ```bash
 # script to install and setup hyprland
-bash <(curl -sSL https://nhattVim.github.io/arch)
+bash <(curl -sSL https://nhattVim.github.io/arch.sh)
 ```
 
 ![](https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true)
