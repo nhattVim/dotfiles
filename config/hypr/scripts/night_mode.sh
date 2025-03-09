@@ -36,6 +36,12 @@ toggle_mode() {
     fi
 }
 
+# Check and enable Night Mode on startup
+if [[ "$1" == "--startup" && "$STATE" == "on" ]]; then
+    enable_night_mode
+    exit 0
+fi
+
 # Handle input arguments
 case "$1" in
 --on) enable_night_mode ;;
