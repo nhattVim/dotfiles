@@ -21,3 +21,17 @@ ok() { echo -e "\n${GREEN}[OK]${RESET} - $1\n"; }
 err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
 act() { echo -e "\n${CYAN}[ACTION]${RESET} - $1\n"; }
 note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
+
+whiptail --title "Arch Linux Configuration" --textbox /dev/stdin 27 90 <<<"
+  ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____  
+ |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    | 
+ |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __| 
+ |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  | 
+ |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ | 
+ |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     | 
+ |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_| 
+                                                                              
+ ---------------------- Script developed by nhattVim -------------------------
+ 
+  ----------------- Github: https://github.com/nhattVim ---------------------
+"

@@ -115,6 +115,7 @@ required_pkgs=(
     unzip
     base-devel
     wget
+    libnewt
 )
 
 note "Installing essential packages..."
