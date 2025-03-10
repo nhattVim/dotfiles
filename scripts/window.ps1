@@ -60,7 +60,6 @@ $winget_pkgs = @(
     "Microsoft.VisualStudioCode" # VSCode
     "Microsoft.DotNet.SDK.9" # .NET SDK
     "lamquangminh.EVKey" # EVKey
-    "9N5JJZW4QZBR" # XDM
     "9N7R5S6B0ZZH" # MyAsus
     "9NSGM705MQWC" # WPS Office
     "9NV4BS3L1H4S" # QuickLook
