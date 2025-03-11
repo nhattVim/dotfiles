@@ -41,7 +41,8 @@ pacman_pkgs=(
     # GUI Applications
     # ----------------------------------------------------
     discord neovide ranger cmatrix chromium qalculate-gtk
-    telegram-desktop eog mousepad libreoffice-fresh
+    telegram-desktop eog gnome-software libreoffice-fresh
+    mousepad
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
