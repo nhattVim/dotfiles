@@ -2,7 +2,7 @@
 
 bindkey -e
 autoload -Uz compinit
-compinit
+compinit -C
 
 HISTSIZE=1000
 SAVEHIST=1000
@@ -117,7 +117,7 @@ alias ls='lsd'
 alias la='lsd -la'
 alias ll='lsd -ll'
 alias lt='lsd --tree'
-alias lt='lsd --tree -a'
+alias lta='lsd --tree -a'
 alias ltl='lsd --tree --long'
 
 # Dotnet
@@ -144,7 +144,6 @@ alias sd='sudo'
 alias cd-='cd -'
 alias lc='lolcat'
 alias se='sudoedit'
-alias nf='neofetch'
 alias cf='cpufetch'
 alias nf='neofetch'
 alias pipes='pipes.sh'
@@ -153,7 +152,7 @@ alias cl='colorscript'
 alias pk='pokemon-colorscripts'
 alias xamppui='sudo /opt/lampp/manager-linux-x64.run'
 alias win='sudo efibootmgr --bootnext 0006 && reboot'
-alias ip="echo $(ifconfig | grep broadcast | awk '{print $2}')"
+alias myip="echo $(ifconfig | grep broadcast | awk '{print $2}')"
 alias dl='aria2c --enable-http-pipelining=true --max-concurrent-downloads=32 -s 32 -x 16 -k 8M --file-allocation=none --auto-file-renaming=false --summary-interval=0 --console-log-level=warn'
 alias time="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVim' --ac 6"
 
@@ -162,6 +161,5 @@ alias time="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVi
 # Prompt init --------------------------------------------------
 
 colorscript -e tiefighter2 | lolcat
-source $ZSH/oh-my-zsh.sh
 
 # --------------------------------------------------------------
