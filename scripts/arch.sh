@@ -66,7 +66,7 @@ while true; do
         "Firefoxcss:${YELLOW} $firefox ${RESET}" \
         "XDG-DESKTOP-PORTAL-HYPRLAND:${YELLOW} $xdph ${RESET}" \
         "Unikey:${YELLOW} $unikey ${RESET}" \
-        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}" # "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
+        "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}"
 
     if gum confirm "${YELLOW} Are these options correct? ${RESET}"; then
         break
@@ -107,10 +107,6 @@ fi
 if [ "$rog" == "Y" ]; then
     exHypr "rog.sh"
 fi
-
-# if [ "$snapd" == "Y" ]; then
-#     exHypr "snapd.sh"
-# fi
 
 if [ "$homebrew" == "Y" ]; then
     exHypr "homebrew.sh"
