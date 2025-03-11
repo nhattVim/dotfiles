@@ -41,7 +41,6 @@ while true; do
     yes_no "Do you want to configure Bluetooth?" bluetooth
     yes_no "Do you have any NVIDIA GPU in your system?" nvidia
     yes_no "Do you want to install Thunar (File Manager)?" thunar
-    # yes_no "Do you want to install Snap (GUI Package Manager)?" snapd
     yes_no "Do you want to install Homebrew (CLI Package Manager)?" homebrew
     yes_no "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
     yes_no "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
@@ -69,7 +68,7 @@ while true; do
         "Unikey:${YELLOW} $unikey ${RESET}" \
         "${GREEN}\-\-\-\-\-\-\-\-\-\-\-\-\-\-${RESET}" # "Snapd (GUI Packages Manager):${YELLOW} $snapd ${RESET}" \
 
-    if gum confirm "Are these options correct?"; then
+    if gum confirm "${YELLOW} Are these options correct? ${RESET}"; then
         break
     fi
 done
@@ -153,7 +152,7 @@ gum style \
     "${CYAN}GREAT Copy Completed." "" \
     "${CYAN}YOU NEED to logout and re-login or reboot to avoid issues"
 
-if gum confirm "${CAT} Would you like to reboot now?${RESET}"; then
+if gum confirm "${CYAN} Would you like to reboot now? ${RESET}"; then
     if [[ "$nvidia" == "Y" ]]; then
         act "NVDIA GPU detected. Rebooting the system..."
         systemctl reboot

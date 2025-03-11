@@ -93,7 +93,7 @@ select_theme_variant() {
 }
 
 # Theme installation
-if gum confirm "${CYAN}Install SDDM theme?${RESET}"; then
+if gum confirm "${CYAN} Install SDDM theme? ${RESET}"; then
     note "Installing SDDM Astronaut Theme..."
 
     if [ ! -d "/usr/share/sddm/themes" ]; then

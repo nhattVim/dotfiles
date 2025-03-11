@@ -17,8 +17,8 @@ err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
 act() { echo -e "\n${CYAN}[ACTION]${RESET} - $1\n"; }
 note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
 
-yes_no() { gum confirm "$1" && eval "$2='Y'" || eval "$2='N'"; }
-choose() { gum confirm "$1" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
+yes_no() { gum confirm "${CYAN}$1${RESET}" && eval "$2='Y'" || eval "$2='N'"; }
+choose() { gum confirm "${CYAN}$1${RESET}" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
 
 LOG_FILE="$HOME/install.log"
 ISAUR=$(basename "$(command -v paru || command -v yay)")
@@ -124,7 +124,7 @@ cleanup_backups() {
 
                 latest_backup="${BACKUP_DIRS[0]}"
 
-                if gum confirm "Found backups for: ${DIR##*/}. Keep only the latest backup?" --affirmative "Yes" --negative "Delete all"; then
+                if gum confirm "${CYAN} Found backups for: ${DIR##*/}. Keep only the latest backup?" --affirmative "Yes" --negative "Delete all ${RESET}"; then
                     for ((i = 1; i < ${#BACKUP_DIRS[@]}; i++)); do
                         rm -rf "${BACKUP_DIRS[i]}"
                     done

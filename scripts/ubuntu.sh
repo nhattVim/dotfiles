@@ -73,9 +73,9 @@ while true; do
         "${CYAN}Your selected options:" \
         "Dual Boot:${YELLOW} $dual_boot" \
         "Battery Charging Limit (Laptop Only):${YELLOW} $battery"
-        # "Firefoxcss:${YELLOW} $firefox ${RESET}"
+    # "Firefoxcss:${YELLOW} $firefox ${RESET}"
 
-    if gum confirm "Are these options correct?"; then
+    if gum confirm "${YELLOW} Are these options correct? ${RESET}"; then
         break
     fi
 done

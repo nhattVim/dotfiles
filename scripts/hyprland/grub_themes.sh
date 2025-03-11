@@ -26,7 +26,7 @@ if [[ ! -d "$grub_dir" ]]; then
 fi
 
 # Ask user
-if gum confirm "Do you want to install grub custom theme?"; then
+if gum confirm "${CYAN}Do you want to install grub custom theme?${RESET}"; then
 
     note "Clone grub themes."
     git clone https://github.com/voidlhf/StarRailGrubThemes.git --depth 1 "$temp_dir" || {

@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # start script
-if ! gum confirm "Do you want to set up swapfile?"; then
+if ! gum confirm "${YELLOW} Do you want to set up swapfile? ${RESET}"; then
     exit 1
 fi
 
@@ -15,7 +15,7 @@ total_ram=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 recommended_size=$((((total_ram / 1024 / 1024) + 1) / 2))
 
 if [[ -f "/swapfile" ]]; then
-    if gum confirm "Swap file already exists. Do you want to delete old swapfile?"; then
+    if gum confirm "${PINK} Swap file already exists. Do you want to delete old swapfile? ${RESET}"; then
         sudo swapoff /swapfile
         sudo rm -f /swapfile
         ok "Old swapfile deleted."
