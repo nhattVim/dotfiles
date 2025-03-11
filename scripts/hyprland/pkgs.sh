@@ -22,14 +22,15 @@ pacman_pkgs=(
     # ----------------------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf jq
     lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
-    lsd curl wget
+    lsd curl wget axel
 
     # ----------------------------------------------------
     # System utilities
     # ----------------------------------------------------
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
-    pacman-contrib nwg-look gammastep polkit-gnome
+    pacman-contrib nwg-look gammastep polkit-gnome ccache
+    rebuild-detector python-beautifulsoup4
 
     # ----------------------------------------------------
     # Multimedia
@@ -78,17 +79,13 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout
-    pyprland
-    cava
+    wlogout pyprland cava bauh
     # wallust
 
     # ----------------------------------------------------
     # Extras Packages
     # ----------------------------------------------------
-    arttime-git
-    pipes.sh
-    shell-color-scripts-git
+    arttime-git pipes.sh shell-color-scripts-git
     # onlyoffice-bin
     # visual-studio-code-bin
     # messenger-nativefier
