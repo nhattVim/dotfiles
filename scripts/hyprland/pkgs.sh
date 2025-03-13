@@ -15,7 +15,8 @@ pacman_pkgs=(
     # ----------------------------------------------------
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo rust
-    jdk-openjdk electron python-pyquery flatpak
+    jdk-openjdk python-pyquery python-beautifulsoup4
+    flatpak
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -30,7 +31,7 @@ pacman_pkgs=(
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
     pacman-contrib nwg-look gammastep polkit-gnome ccache
-    rebuild-detector python-beautifulsoup4
+    rebuild-detector
 
     # ----------------------------------------------------
     # Multimedia
@@ -87,12 +88,9 @@ aur_pkgs=(
     # Extras Packages
     # ----------------------------------------------------
     arttime-git pipes.sh shell-color-scripts-git
+    ferdium-bin
     # onlyoffice-bin
     # visual-studio-code-bin
-    # messenger-nativefier
-    # zalo-nativefier
-    # zen-browser-bin
-    # microsoft-edge-stable-bin
     # vmware-workstation
     # xampp
     # mssql
