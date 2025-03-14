@@ -63,17 +63,21 @@
     "window.titleBarStyle": "custom",
     "window.menuBarVisibility": "toggle",
     "workbench.activityBar.location": "hidden",
-    "workbench.editor.showTabs": "single",
+    // "workbench.editor.showTabs": "single",
     "workbench.statusBar.visible": false,
     "workbench.startupEditor": "none",
     "workbench.tips.enabled": false,
     "workbench.layoutControl.enabled": false,
+    "workbench.navigationControl.enabled": false,
     "editor.minimap.enabled": false,
     "breadcrumbs.enabled": false,
+    "chat.commandCenter.enabled": false,
 
     // Customization settings
     "workbench.colorCustomizations": {
         "editorBracketHighlight.foreground1": "#FFE19E",
+        "editorBracketHighlight.foreground2": "#FF8A94",
+        "editorBracketHighlight.foreground3": "#8AD5FF",
         "editorBracketHighlight.foreground4": "#FFC28B",
         "editorBracketHighlight.foreground5": "#B9F2A6",
         "editorBracketHighlight.foreground6": "#EFA6FF",
@@ -110,18 +114,6 @@
         }
     },
 
-    // Custom UI by CSS
-    "custom-ui-style.stylesheet": {
-        ".quick-input-widget": "top: 25vh !important",
-        ".quick-input-list .scrollbar": "display: none",
-        ".monaco-action-bar.quick-input-inline-action-bar": "display: none",
-        ".editor-widget.find-widget": "border-radius: 4px",
-        ".title.show-file-icons .label-container .monaco-icon-label.file-icon": "justify-content: center; padding: 0 !important",
-        ".sidebar .title-label": "padding: 0 !important",
-        // ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)",
-        ".monaco-scrollable-element > .scrollbar > .slider": "border-radius: 6px; max-height: 100px"
-    },
-
     // Formatters setting
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -135,6 +127,15 @@
     },
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[handlebars]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
     },
 
     // Extensions settings
@@ -220,6 +221,9 @@
     "liveServer.settings.donotVerifyTags": true,
     "code-runner.runInTerminal": true,
     "vscode_custom_css.imports": [
-        "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
-    ]
+        "file:///c:/Users/nhatt/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
+        "file:///c:/Users/nhatt/custom.js",
+        "file:///c:/Users/nhatt/custom.css"
+    ],
+    "powermode.enabled": true
 }
