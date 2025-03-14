@@ -1,0 +1,62 @@
+.quick-input-widget {
+    top: 25vh !important
+}
+
+.quick-input-list .scrollbar,
+.monaco-action-bar.quick-input-inline-action-bar {
+    display: none
+}
+
+.editor-widget.find-widget {
+    border-radius: 4px
+}
+
+.title.show-file-icons .label-container .monaco-icon-label.file-icon {
+    justify-content: center;
+    padding: 0 !important
+}
+
+.sidebar .title-label {
+    padding: 0 !important
+}
+
+.monaco-scrollable-element>.scrollbar>.slider {
+    border-radius: 6px;
+    max-height: 100px
+}
+
+.tab.active:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://i.imgur.com/tjNcFJS.gif");
+    background-position: center center;
+    mix-blend-mode: color-dodge;
+    background-size: cover;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.monaco-editor .bracket-highlighting-0 {
+    text-shadow: 0 0 10px #FFE19E;
+}
+
+.monaco-editor .bracket-highlighting-1 {
+    text-shadow: 0 0 10px #FF8A94;
+}
+
+.monaco-editor .bracket-highlighting-2 {
+    text-shadow: 0 0 10px #8AD5FF;
+}
+
+.monaco-editor .bracket-highlighting-3 {
+    text-shadow: 0 0 10px #FFC28B;
+}
+
+.monaco-editor .bracket-highlighting-4 {
+    text-shadow: 0 0 10px #B9F2A6;
+}
+
+.monaco-editor .bracket-highlighting-4 {
+    text-shadow: 0 0 10px #EFA6FF;
+}
