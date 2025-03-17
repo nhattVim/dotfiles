@@ -41,9 +41,9 @@ pacman_pkgs=(
     # ----------------------------------------------------
     # GUI Applications
     # ----------------------------------------------------
-    discord neovide ranger cmatrix chromium qalculate-gtk
+    discord neovide ranger cmatrix qalculate-gtk mousepad
     telegram-desktop eog gnome-software libreoffice-fresh
-    mousepad
+    # chromium
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
@@ -88,7 +88,7 @@ aur_pkgs=(
     # Extras Packages
     # ----------------------------------------------------
     arttime-git pipes.sh shell-color-scripts-git
-    ferdium-bin
+    # ferdium-bin
     # onlyoffice-bin
     # visual-studio-code-bin
     # vmware-workstation
