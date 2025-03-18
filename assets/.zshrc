@@ -62,7 +62,7 @@ source $ZSH/oh-my-zsh.sh
 
 function nvims() {
     items=("Default" "Kickstart" "NvChad" "LazyVim" "AstroNvim")
-    config=$(printf "%s\n" "${items[@]}" | fzf --no-sort --preview-window=wrap --preview='echo "nhattruongNeoVim"' --prompt=" Neovim Config  " --height=10% --layout=reverse --border --exit-0)
+    config=$(printf "%s\n" "${items[@]}" | fzf --no-sort --preview-window=wrap --preview='echo Config: {}' --prompt=" Neovim Config  " --height=10% --layout=reverse --border --exit-0)
     if [[ -z $config ]]; then
         echo "Nothing selected"
         return 0
