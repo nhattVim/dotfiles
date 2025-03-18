@@ -107,7 +107,7 @@ if command -v fcitx5 >/dev/null 2>&1; then
     {
         echo ""
         echo "# Setup Fcitx5"
-        echo "export GTK_IM_MODULE=fcitx5"
+        # echo "export GTK_IM_MODULE=fcitx5"
         echo "export QT_IM_MODULE=fcitx5"
         echo "export XMODIFIERS=@im=fcitx5"
     } | tee -a "$HOME/.bashrc" "$HOME/.zshrc"
