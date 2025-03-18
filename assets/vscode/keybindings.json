@@ -91,6 +91,21 @@
         "key": "ctrl+shift+tab",
         "command": "workbench.action.previousEditor"
     },
+    {
+        "key": "space j j",
+        "command": "jump-extension.jump-to-the-start-of-a-word",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
+        "key": "space j k",
+        "command": "jump-extension.jump-to-the-end-of-a-word",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
+        "key": "space space",
+        "command": "jump-extension.exit",
+        "when": "vim.mode == 'Normal' && editorTextFocus && jump.isInJumpMode"
+    },
 
     // Editors actions
     {
@@ -188,11 +203,6 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
-        "key": "space l s",
-        "command": "workbench.action.gotoSymbol",
-        "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
         "key": "space l j",
         "command": "editor.action.marker.nextInFiles",
         "when": "vim.mode == 'Normal' && editorTextFocus"
@@ -203,40 +213,40 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
-        "key": "space g d",
+        "key": "space l s",
+        "command": "workbench.action.gotoSymbol",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
+        "key": "space l g",
         "command": "editor.action.revealDefinition",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
-        "key": "space g r",
-        "command": "editor.action.goToReferences",
-        "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-        "key": "space g i",
-        "command": "editor.action.goToImplementation",
+        "key": "space l p",
+        "command": "editor.action.peekDefinition",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
 
     // Views
     {
-        "key": "space v f",
-        "command": "workbench.action.findInFiles",
+        "key": "space v s",
+        "command": "workbench.action.toggleStatusbarVisibility",
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
     {
-        "key": "space v g",
-        "command": "workbench.view.scm",
+        "key": "space v m",
+        "command": "editor.action.toggleMinimap",
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
     {
-        "key": "space v e",
-        "command": "workbench.view.explorer",
+        "key": "space v b",
+        "command": "breadcrumbs.toggle",
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
     {
-        "key": "space v x",
-        "command": "workbench.view.extensions",
+        "key": "space v a",
+        "command": "workbench.action.toggleActivityBarVisibility",
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
 
@@ -263,7 +273,7 @@
     },
     {
         "key": "d",
-        "command": "moveFileToTrash",
+        "command": "deleteFile",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
