@@ -107,6 +107,6 @@ bash <(curl -sSL https://nhattVim.github.io/arch.sh)
 
 > **Congratulations!** at this point have successfully configured your linux distribution.
 >
-> # (￣ y▽ ￣)╭ Ohohoho.....
+> (￣ y▽ ￣)╭ Ohohoho.....
 
 ![Alt](https://repobeats.axiom.co/api/embed/7dcc8c99ecfa4358e4f13ce9f6d369a50ef350d8.svg "Repobeats analytics image")
