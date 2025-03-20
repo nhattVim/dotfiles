@@ -15,6 +15,7 @@ ENV_FILE="$HYPR_FOLDER/env_variables.conf"
 MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
 SETTINGS_FILE="$HYPR_FOLDER/settings.conf"
 STARTUP_FILE="$HYPR_FOLDER/execs.conf"
+KEYBINDS_FILE="$HYPR_FOLDER/keybinds.conf"
 
 # start script
 gum style \
@@ -129,6 +130,9 @@ if hostnamectl | grep -q 'Chassis: vm'; then
     sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(env = WLR_RENDERER_ALLOW_SOFTWARE,1\)/\1/' "$ENV_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(monitor = Virtual-1, 1920x1080@60,auto,1\)/\1/' "$MONITOR_FILE"
+
+    note "Change default termial from kitty to foot"
+    sed -i 's/kitty/foot/g' "$KEYBINDS_FILE"
 fi
 
 # activating hyprcursor on env by checking if the directory ~/.icons/Bibata-Modern-Ice/hyprcursors exists
