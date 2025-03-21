@@ -49,7 +49,8 @@ $scoop_pkgs = @(
     "flow-launcher", "oh-my-posh", "fzf", "winrar", "lsd", "winfetch",
     "lazygit", "tere", "autoclicker", "ventoy", "firefox",
     "git", "gcc", "nodejs", "openjdk", "python", "make", "ripgrep",
-    "neovim", "neovide", "unzip", "wget", "gzip", "pwsh"
+    "neovim", "neovide", "unzip", "wget", "gzip", "pwsh",
+    "abdownloadmanager"
 )
 
 # Winget packages
