@@ -41,7 +41,11 @@ $commands = @(
     # Small desktop icons
     "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\Shell\Bags\1\Desktop' -Name IconSize -Type DWord -Value 32",
     # Hide desktop icons
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideIcons -Type DWord -Value 1"
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideIcons -Type DWord -Value 1",
+    # Set explorer default open "This PC"
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name LaunchTo -Type DWord -Value 1",
+    # Show hidden file in explorer
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Type DWord -Value 1"
 )
 
 # Join and run commands
