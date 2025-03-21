@@ -37,12 +37,17 @@ $commands = @(
     # Hide Task View button
     "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Type DWord -Value 0",
     # Custom search box in taskbar
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3"
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3",
+    # Small desktop icons
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\Shell\Bags\1\Desktop' -Name IconSize -Type DWord -Value 32",
+    # Hide desktop icons
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideIcons -Type DWord -Value 1"
 )
 
 # Join and run commands
 $commandString = $commands -join "; "
 Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
+Stop-Process -Name explorer -Force
 
 # Scoop packages
 $scoop_pkgs = @(
