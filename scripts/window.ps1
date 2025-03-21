@@ -52,7 +52,7 @@ Stop-Process -Name explorer -Force
 # Scoop packages
 $scoop_pkgs = @(
     "flow-launcher", "oh-my-posh", "fzf", "winrar", "lsd", "winfetch",
-    "lazygit", "tere", "autoclicker", "ventoy", "firefox",
+    "lazygit", "tere", "autoclicker", "firefox",
     "git", "gcc", "nodejs", "openjdk", "python", "make", "ripgrep",
     "neovim", "neovide", "unzip", "wget", "gzip", "pwsh",
     "abdownloadmanager"
