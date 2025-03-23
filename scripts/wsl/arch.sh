@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # require
-exHypr "base.sh"
+exHypr "boot.sh"
 
 # init
 clear
@@ -39,11 +39,7 @@ gum style \
 echo
 choose "Choose your AUR helper" "yay" "paru" aur_helper
 
-if [ "$aur_helper" == "paru" ]; then
-    exHypr "paru.sh"
-elif [ "$aur_helper" == "yay" ]; then
-    exHypr "yay.sh"
-fi
+exHypr "$aur_helper.sh"
 
 pacman_packages=(
     git
@@ -111,21 +107,13 @@ git clone https://github.com/nhattVim/MYnvim.git ~/.config/nvim --depth 1 &&
     ok "Setup neovim successfully" || err "Failed to setup neovim"
 
 # Remove old dotfiles if exist
-cd $HOME
-[ -d hyprland_nhattVim ] &&
-    rm -rf hyprland_nhattVim &&
-    ok "Remove old dotfiles successfully"
-
-# Clone dotfiles
-note "Clone dotfiles." &&
-    git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 hyprland_nhattVim &&
-    cd hyprland_nhattVim &&
-    ok "Clone dotfiles successfully" || {
-    err "Failed to clone dotfiles"
-    exit 1
-}
-
-note "Start config"
+DOTFILES_DIR=$(mktemp -d)
+note "Cloning dotfiles..."
+if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
+    ok "Cloned dotfiles successfully"
+else
+    err "Failed to clone dotfiles" && exit 1
+fi
 
 folder=(
     neofetch
@@ -134,9 +122,11 @@ folder=(
     starship.toml
 )
 
+note "Copying config files"
+
 # Back up configuration file
 for DIR in "${folder[@]}"; do
-    DIRPATH=~/.config/"$DIR"
+    DIRPATH=$HOME/.config/"$DIR"
     if [ -d "$DIRPATH" ]; then
         note "Config for $DIR found, attempting to back up."
         BACKUP_DIR="$DIRPATH-backup-$(date +%m%d_%H%M)"
@@ -147,21 +137,21 @@ done
 
 # Copying configuration file
 for ITEM in "${folder[@]}"; do
-    if [[ -d "config/$ITEM" ]]; then
-        cp -r "config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
-    elif [[ -f "config/$ITEM" ]]; then
-        cp "config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
+    if [[ -d "$DOTFILES_DIR/config/$ITEM" ]]; then
+        cp -r "$DOTFILES_DIR/config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
+    elif [[ -f "$DOTFILES_DIR/config/$ITEM" ]]; then
+        cp "$DOTFILES_DIR/config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
     fi
 done
 
 # Copying other
-cp assets/.zshrc $HOME && { ok "Copy completed"; } || {
+cp $DOTFILES_DIR/assets/.zshrc $HOME && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc"
 }
 
 # Copying font
 mkdir -p ~/.fonts
-cp -r assets/.fonts/* $HOME/.fonts/ && { ok "Copy fonts completed"; } || {
+cp -r $DOTFILES_DIR/assets/.fonts/* $HOME/.fonts/ && { ok "Copy fonts completed"; } || {
     err "Failed to copy fonts files."
 }
 
@@ -175,13 +165,6 @@ else
     else
         err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
-fi
-
-# remove dotfiles
-cd $HOME
-if [ -d dotfiles ]; then
-    rm -rf dotfiles
-    note "Remove dotfile successfully"
 fi
 
 if [ -f $HOME/install.log ]; then
