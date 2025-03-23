@@ -92,6 +92,30 @@ for PKG2 in "${aur_packages[@]}"; do
     iAur "$PKG2"
 done
 
+# Clone tpm
+if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+    note "Tmux Plugin Manager is already installed."
+else
+    note "Cloning TPM (Tmux Plugin Manager)..."
+    if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
+        ok "TPM (Tmux Plugin Manager) cloned successfully"
+    else
+        err "Failed to clone TPM (Tmux Plugin Manager)."
+    fi
+fi
+
+# Oh My Zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    act "Installing Oh My Zsh..."
+    sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
+        git clone https://github.com/zsh-users/zsh-autosuggestions \
+            ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        ok "Oh My Zsh configured"
+    } || err "Oh My Zsh installation failed"
+else
+    note "Oh My Zsh already installed"
+fi
+
 # Set up neovim
 note "Setting up MYnvim..."
 if [ -d $HOME/.config/nvim ]; then
@@ -118,9 +142,9 @@ fi
 
 folder=(
     neofetch
+    fastfetch
     ranger
     tmux
-    starship.toml
 )
 
 note "Copying config files"
@@ -137,6 +161,7 @@ for DIR in "${folder[@]}"; do
 done
 
 # Copying configuration file
+mkdir -p $HOME/.config
 for ITEM in "${folder[@]}"; do
     if [[ -d "$DOTFILES_DIR/config/$ITEM" ]]; then
         cp -r "$DOTFILES_DIR/config/$ITEM" ~/.config/ && ok "Copy completed" || err "Failed to copy config files."
@@ -149,36 +174,6 @@ done
 cp $DOTFILES_DIR/assets/.zshrc $HOME && { ok "Copy completed"; } || {
     err "Failed to copy .zshrc"
 }
-
-# Copying font
-mkdir -p ~/.fonts
-cp -r $DOTFILES_DIR/assets/.fonts/* $HOME/.fonts/ && { ok "Copy fonts completed"; } || {
-    err "Failed to copy fonts files."
-}
-
-# Clone tpm
-if [ -d "$HOME/.tmux/plugins/tpm" ]; then
-    note "Tmux Plugin Manager is already installed."
-else
-    note "Cloning TPM (Tmux Plugin Manager)..."
-    if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
-        ok "TPM (Tmux Plugin Manager) cloned successfully"
-    else
-        err "Failed to clone TPM (Tmux Plugin Manager)."
-    fi
-fi
-
-# Oh My Zsh
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    act "Installing Oh My Zsh..."
-    sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
-        git clone https://github.com/zsh-users/zsh-autosuggestions \
-            ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-        ok "Oh My Zsh configured"
-    } || err "Oh My Zsh installation failed"
-else
-    note "Oh My Zsh already installed"
-fi
 
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
