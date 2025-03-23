@@ -72,6 +72,7 @@ pacman_packages=(
 )
 
 aur_packages=(
+    shell-color-scripts-git
     arttime-git
     pipes.sh
     cava
@@ -167,6 +168,18 @@ else
     fi
 fi
 
+# Oh My Zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    act "Installing Oh My Zsh..."
+    sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
+        git clone https://github.com/zsh-users/zsh-autosuggestions \
+            ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        ok "Oh My Zsh configured"
+    } || err "Oh My Zsh installation failed"
+else
+    note "Oh My Zsh already installed"
+fi
+
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
 fi
@@ -174,7 +187,7 @@ fi
 # Change shell to zsh
 note "Changing default shell to zsh..."
 
-while ! chsh -s $(which zsh); do
+while ! chsh -s /bin/zsh; do
     err "Authentication failed. Please enter the correct password."
     sleep 1
 done
