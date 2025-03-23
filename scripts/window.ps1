@@ -65,6 +65,7 @@ $scoop_pkgs = @(
     "git"
     "gcc"
     "nvm"
+    "yarn"
     "openjdk"
     "python"
     "make"
