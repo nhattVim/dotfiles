@@ -8,19 +8,19 @@ Write-Host "  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|
 Write-Host ""
 Write-Host ""
 Write-Host "------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
-Write-Host " ------------------ Github: httpls://github.com/nhattVim -------------------- " -ForegroundColor Magenta
+Write-Host " ------------------ Github: https://github.com/nhattVim -------------------- " -ForegroundColor Magenta
 Write-Host
 
 # Util function
 function StartMsg {
     param ($msg)
     Write-Host
-    Write-Host("-> " + $msg) -ForegroundColor Green
+    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] -> " + $msg) -ForegroundColor Green
 }
 
 function MsgDone {
     Write-Host
-    Write-Host "Done" -ForegroundColor Magenta;
+    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Magenta
 }
 
 function exGithub {
@@ -51,15 +51,38 @@ $commands = @(
 # Join and run commands
 $commandString = $commands -join "; "
 Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
-Stop-Process -Name explorer -Force
+try {
+    Stop-Process -Name explorer -Force
+} catch {
+    Write-Warning "Cannot stop explorer process. You may need to restart manually."
+}
 
 # Scoop packages
 $scoop_pkgs = @(
-    "flow-launcher", "oh-my-posh", "fzf", "winrar", "lsd", "winfetch",
-    "lazygit", "tere", "autoclicker", "firefox",
-    "git", "gcc", "nodejs", "openjdk", "python", "make", "ripgrep",
-    "neovim", "neovide", "unzip", "wget", "gzip", "pwsh",
+    "fzf"
+    "lazygit"
+    "tere"
+    "git"
+    "gcc"
+    "nvm"
+    "openjdk"
+    "python"
+    "make"
+    "oh-my-posh"
+    "lsd"
+    "winfetch"
+    "ripgrep"
+    "unzip"
+    "wget"
+    "gzip"
+    "pwsh"
+    "winrar"
+    "autoclicker"
+    "firefox"
+    "neovim"
+    "neovide"
     "abdownloadmanager"
+    "flow-launcher"
 )
 
 # Winget packages
@@ -110,6 +133,11 @@ foreach ($pkg in $scoop_pkgs) {
     scoop install $pkg
 }
 scoop cache rm *
+MsgDone
+
+StartMsg -msg "Installing Nodejs via NVM..."
+nvm install latest
+nvm use latest
 MsgDone
 
 StartMsg -msg "Installing Winget's packages"
