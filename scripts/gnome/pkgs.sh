@@ -62,24 +62,19 @@ for PKG in "${pkgs[@]}"; do
     iDeb "$PKG"
 done
 
-# Install Nodejs
-# if ! command -v nodejs &>/dev/null; then
-#     note "Install lastest version of Node.js ..."
-#     if curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo $PKGMN install -y nodejs; then
-#         ok "Node.js has been successfully installed."
-#     else
-#         err "Failed to install Node.js."
-#     fi
-# else
-#     ok "Node.js is already installed. Skipping ..."
-# fi
-if ! command -v nodejs &>/dev/null; then
-    note "Install nvm (node version manager) ..."
+# Remove old version of Node.js
+command -v node &>/dev/null && sudo $PKGMN remove node -y
+
+# Install NVM (Node Version Manager)
+if ! command -v nvm &>/dev/null; then
+    note "Installing NVM (Node Version Manager)..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    note "Install lastest version of Node.js ..."
+
+    note "Installing latest version of Node.js..."
     if nvm install node; then
         ok "Node.js has been successfully installed."
     else
