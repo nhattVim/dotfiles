@@ -137,8 +137,7 @@ scoop cache rm *
 MsgDone
 
 StartMsg -msg "Installing Nodejs via NVM..."
-nvm install latest
-nvm use latest
+nvm install node
 MsgDone
 
 StartMsg -msg "Installing Winget's packages"
