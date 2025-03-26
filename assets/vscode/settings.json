@@ -1,13 +1,15 @@
 {
-    // Theme && UI
+    // * ==============================================================================
+    // * Theme && UI
+    // * ==============================================================================
     "workbench.colorTheme": "Vesper",
-    "workbench.iconTheme": "material-icon-theme",
+    "workbench.iconTheme": "eq-material-theme-icons",
     "editor.fontFamily": "MesloLGS NF, Consolas, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
     "editor.lineHeight": 3,
     "editor.letterSpacing": 0.5,
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "editor.lineNumbers": "relative",
     "editor.tokenColorCustomizations": {
         "textMateRules": [
@@ -20,18 +22,20 @@
         ]
     },
 
-    // General settings
+    // * ==============================================================================
+    // * General settings
+    // * ==============================================================================
     "editor.acceptSuggestionOnCommitCharacter": false,
     "editor.parameterHints.enabled": false,
     "editor.lightbulb.enabled": "off",
     "editor.hover.enabled": false,
     "editor.showFoldingControls": "never",
     "editor.guides.indentation": false,
-    "editor.renderWhitespace": "none",
+    "editor.renderWhitespace": "boundary",
     "editor.renderLineHighlight": "gutter",
     "editor.occurrencesHighlight": "off",
     "editor.selectionHighlight": false,
-    "editor.scrollbar.horizontal": "auto",
+    "editor.scrollbar.horizontal": "hidden",
     "editor.scrollbar.vertical": "auto",
     "editor.scrollbar.horizontalScrollbarSize": 8,
     "editor.scrollbar.verticalScrollbarSize": 8,
@@ -39,6 +43,7 @@
     "editor.hideCursorInOverviewRuler": true,
     "editor.matchBrackets": "near",
     "editor.wordWrap": "on",
+    "editor.wrappingIndent": "none",
     "editor.codeLens": false,
     "editor.stickyScroll.enabled": false,
     "editor.cursorBlinking": "smooth",
@@ -56,10 +61,14 @@
     "files.autoSave": "afterDelay",
     "telemetry.telemetryLevel": "off",
     "git.decorations.enabled": false,
+    "git.openRepositoryInParentFolders": "never",
     "security.workspace.trust.untrustedFiles": "open",
     "extensions.closeExtensionDetailsOnViewChange": true,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
 
-    // Customization settings
+    // * ==============================================================================
+    // * Customization settings
+    // * ==============================================================================
     "workbench.colorCustomizations": {
         "editorBracketHighlight.foreground1": "#FFE19E",
         "editorBracketHighlight.foreground2": "#FF8A94",
@@ -100,9 +109,11 @@
         }
     },
 
-    // Formatters setting
+    // * ==============================================================================
+    // * Langs settings
+    // * ==============================================================================
     "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -126,9 +137,12 @@
         "editor.defaultFormatter": "vscode.css-language-features"
     },
 
-    // Extensions settings
+    // * ==============================================================================
+    // * Extensions settings
+    // * ==============================================================================
     "prettier.tabWidth": 4,
     "tabnine.experimentalAutoImports": true,
+    "liveServer.settings.donotShowInfoMsg": true,
     "indentRainbow.indicatorStyle": "light",
     "indentRainbow.lightIndicatorStyleLineWidth": 1,
     "indentRainbow.colors": [
@@ -140,7 +154,9 @@
         "#EFA6FF"
     ],
 
-    // Vim setup
+    // * ==============================================================================
+    // * Vim setup
+    // * ==============================================================================
     "vim.easymotion": true,
     "vim.incsearch": true,
     "vim.useSystemClipboard": true,
@@ -216,17 +232,19 @@
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.js"
     ],
 
-    // Hide layout
+    // * ==============================================================================
+    // * Hide layout
+    // * ==============================================================================
     "window.titleBarStyle": "custom",
     "window.menuBarVisibility": "toggle",
     "workbench.editor.enablePreview": false,
     "workbench.startupEditor": "none",
     "workbench.tips.enabled": false,
     "workbench.layoutControl.enabled": false,
-    "chat.commandCenter.enabled": false,
     "workbench.navigationControl.enabled": false,
-    "workbench.activityBar.location": "hidden",
     "breadcrumbs.enabled": false,
     "editor.minimap.enabled": false,
-    "workbench.statusBar.visible": false
+    "workbench.statusBar.visible": false,
+    "chat.commandCenter.enabled": false,
+    "workbench.activityBar.location": "hidden"
 }

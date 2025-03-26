@@ -1,6 +1,8 @@
 // Place your key bindings in this file to override the defaults
 [
-    // General
+    // * ==============================================================================
+    // * General
+    // * ==============================================================================
     {
         "key": "alt+j",
         "command": "editor.action.moveLinesDownAction",
@@ -32,36 +34,132 @@
         "when": "inQuickOpen"
     },
 
-    // Navigation
+    // * ==============================================================================
+    // * Terminal
+    // * ==============================================================================
+    {
+        "key": "ctrl+t",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
+    },
+    {
+        "key": "ctrl+shift+t",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "workbench.action.terminal.kill",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.focusPanel",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.focusPanel",
+        "when": "!terminalFocus && !inQuickOpen"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "!terminalFocus && !inQuickOpen"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+j",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+alt+h",
+        "command": "workbench.action.terminal.resizePaneLeft",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "workbench.action.terminal.resizePaneRight",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+alt+k",
+        "command": "workbench.action.terminal.resizePaneUp",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+alt+j",
+        "command": "workbench.action.terminal.resizePaneDown",
+        "when": "terminalFocus"
+    },
+
+    // * ==============================================================================
+    // * Navigation
+    // * ==============================================================================
     {
         "key": "ctrl+h",
         "command": "workbench.action.navigateLeft",
-        "when": "vim.mode == 'Normal' && !inQuickOpen"
+        "when": "vim.mode == 'Normal' && !inQuickOpen && !terminalFocus"
     },
     {
         "key": "ctrl+j",
         "command": "workbench.action.navigateDown",
-        "when": "vim.mode == 'Normal' && !inQuickOpen"
+        "when": "vim.mode == 'Normal' && !inQuickOpen && !terminalFocus"
     },
     {
         "key": "ctrl+k",
         "command": "workbench.action.navigateUp",
-        "when": "vim.mode == 'Normal' && !inQuickOpen"
+        "when": "vim.mode == 'Normal' && !inQuickOpen && !terminalFocus"
     },
     {
         "key": "ctrl+l",
         "command": "workbench.action.navigateRight",
-        "when": "vim.mode == 'Normal' && !inQuickOpen"
+        "when": "vim.mode == 'Normal' && !inQuickOpen && !terminalFocus"
     },
     {
         "key": "tab",
         "command": "workbench.action.nextEditorInGroup",
-        "when": "vim.mode == 'Normal' && editorTextFocus"
+        "when": "vim.mode == 'Normal' && editorTextFocus && !terminalfocus"
     },
     {
         "key": "shift+tab",
         "command": "workbench.action.previousEditorInGroup",
-        "when": "vim.mode == 'Normal' && editorTextFocus"
+        "when": "vim.mode == 'Normal' && editorTextFocus && !terminalfocus"
     },
     {
         "key": "tab",
@@ -85,11 +183,13 @@
     },
     {
         "key": "ctrl+tab",
-        "command": "workbench.action.nextEditor"
+        "command": "workbench.action.nextEditor",
+        "when": "!terminalFocus"
     },
     {
         "key": "ctrl+shift+tab",
-        "command": "workbench.action.previousEditor"
+        "command": "workbench.action.previousEditor",
+        "when": "!terminalFocus"
     },
     {
         "key": "space j j",
@@ -107,7 +207,9 @@
         "when": "vim.mode == 'Normal' && editorTextFocus && jump.isInJumpMode"
     },
 
-    // Editors actions
+    // * ==============================================================================
+    // * Editors actions
+    // * ==============================================================================
     {
         "key": "ctrl+n",
         "command": "editor.action.addSelectionToNextFindMatch",
@@ -174,7 +276,9 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
 
-    // Split editors
+    // * ==============================================================================
+    // * Split editors
+    // * ==============================================================================
     {
         "key": "space s h",
         "command": "workbench.action.splitEditor",
@@ -185,8 +289,15 @@
         "command": "workbench.action.splitEditorDown",
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
+    {
+        "key": "space s m",
+        "command": "workbench.action.toggleMaximizeEditorGroup",
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
+    },
 
-    // Coding
+    // * ==============================================================================
+    // * Coding
+    // * ==============================================================================
     {
         "key": "shift+k",
         "command": "editor.action.showHover",
@@ -228,7 +339,9 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
 
-    // Views
+    // * ==============================================================================
+    // * Views
+    // * ==============================================================================
     {
         "key": "space v s",
         "command": "workbench.action.toggleStatusbarVisibility",
@@ -250,7 +363,9 @@
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
 
-    // File explorer
+    // * ==============================================================================
+    // * File explorer
+    // * ==============================================================================
     {
         "key": "r",
         "command": "renameFile",
@@ -309,7 +424,9 @@
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceIsFolder && !inputFocus"
     },
 
-    // Debug
+    // * ==============================================================================
+    // * Debug
+    // * ==============================================================================
     {
         "key": "space d a",
         "command": "workbench.action.debug.selectandstart",
@@ -341,7 +458,9 @@
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && inDebugMode && debugState == 'stopped'"
     },
 
-    // Remove some default keybindings
+    // * ==============================================================================
+    // * Remove some default keybindings
+    // * ==============================================================================
     {
         "key": "tab",
         "command": "-editor.action.inlineSuggest.commit",
