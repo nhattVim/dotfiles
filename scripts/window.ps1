@@ -19,6 +19,7 @@ function StartMsg {
 }
 
 function MsgDone {
+    param ($msg = "Task")
     Write-Host
     Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Magenta
 }
@@ -174,14 +175,51 @@ $PROFILEPath = $PROFILE
 Get-Content -Path "$Dot\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
 MsgDone
 
-# Custom Windhawk
-StartMsg -msg "Customize Windhawk"
-$sourcePath = "$Dot\windhawk\windhawk-backup.zip"
-$destPath = "$env:USERPROFILE\Downloads\windhawk-backup.zip"
-Copy-Item -Path $sourcePath -Destination $destPath -Force
-$scriptPath = "$HOME\dotfiles\windhawk\windhawk-backup.ps1"
-Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -Action R"
-MsgDone
+# Configuring Windhawk
+$windhawkBackupSrc = "$Dot\windhawk\windhawk-backup.zip"
+$windhawkBackupDst = "$env:USERPROFILE\Downloads\windhawk-backup.zip"
+$windhawkScript = "$Dot\windhawk\windhawk-backup.ps1"
+
+# Check & copy file backup
+if (Test-Path $windhawkBackupSrc) {
+    Copy-Item -Path $windhawkBackupSrc -Destination $windhawkBackupDst -Force
+    MsgDone "Windhawk backup copied successfully."
+}
+else {
+    Write-Warning "Windhawk backup file not found in dotfiles."
+}
+
+# Execute Windhawk backup/restore script
+if (Test-Path $windhawkScript) {
+    Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$windhawkScript`" -Action R"
+    MsgDone "Windhawk restore script executed."
+}
+else {
+    Write-Warning "Windhawk backup script not found."
+}
+
+# Configuring Flow Launcher theme
+$flowLauncherThemeSrc = "$Dot\flow-launcher\Transparent.xaml"
+$flowLauncherThemeDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-1.19.5\UserData\Themes\"
+if (Test-Path $flowLauncherThemeSrc) {
+    Copy-Item -Path $flowLauncherThemeSrc -Destination $flowLauncherThemeDst -Force
+    Write-Host "Flow Launcher theme updated."
+}
+else {
+    Write-Warning "Flow Launcher theme file not found in dotfiles."
+}
+
+# Configuring Flow Launcher settings
+StartMsg -msg "Configuring Flow Launcher"
+$flowLauncherSettingsSrc = "$Dot\flow-launcher\Settings.json"
+$flowLauncherSettingsDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-1.19.5\UserData\Settings\Settings.json"
+if (Test-Path $flowLauncherSettingsSrc) {
+    Copy-Item -Path $flowLauncherSettingsSrc -Destination $flowLauncherSettingsDst -Force
+    Write-Host "Flow Launcher settings updated."
+}
+else {
+    Write-Warning "Flow Launcher settings file not found in dotfiles."
+}
 
 StartMsg -msg "Start App"
 Start-Process "C:\Program Files\Windhawk\windhawk.exe"
