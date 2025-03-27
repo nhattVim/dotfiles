@@ -89,6 +89,7 @@ $scoop_pkgs = @(
 
 # Winget packages
 $winget_pkgs = @(
+    "RamenSoftware.Windhawk" # Windhawk
     "VNGCorp.Zalo" # Zalo
     "Telegram.TelegramDesktop" # Telegram
     "Microsoft.VisualStudioCode" # VSCode
