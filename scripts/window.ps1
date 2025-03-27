@@ -53,7 +53,8 @@ $commandString = $commands -join "; "
 Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
 try {
     Stop-Process -Name explorer -Force
-} catch {
+}
+catch {
     Write-Warning "Cannot stop explorer process. You may need to restart manually."
 }
 
@@ -157,19 +158,34 @@ MsgDone
 # Start config
 StartMsg -msg "Start config"
 
+# Temp dir
+$Dot = "$env:TEMP\dotfiles"
+
 # Clone dotfiles
 StartMsg -msg "Clone dotfiles"
-Set-Location $HOME
-git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1
-Set-Location dotfiles
+git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1 $Dot
 MsgDone
 
 # Config powershell
 StartMsg -msg "Config Powershell"
 New-Item -Path $PROFILE -Type File -Force
 $PROFILEPath = $PROFILE
-Get-Content -Path ".\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
+Get-Content -Path "$Dot\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
 MsgDone
+
+# Custom Windhawk
+StartMsg -msg "Customize Windhawk"
+$sourcePath = "$Dot\windhawk\windhawk-backup.zip"
+$destPath = "$env:USERPROFILE\Downloads\windhawk-backup.zip"
+Copy-Item -Path $sourcePath -Destination $destPath -Force
+$scriptPath = "$HOME\dotfiles\windhawk\windhawk-backup.ps1"
+Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -Action R"
+MsgDone
+
+StartMsg -msg "Start App"
+Start-Process "C:\Program Files\Windhawk\windhawk.exe"
+Start-Process "C:\Users\nhatt\scoop\apps\flow-launcher\current\Flow.Launcher.exe"
+Start-Process "C:\Program Files\WindowsApps\28017CharlesMilette.TranslucentTB_2024.3.0.0_x64__v826wp6bftszj\TranslucentTB.exe"
 
 # Config Neovim
 StartMsg -msg "Config Neovim"
@@ -199,8 +215,7 @@ MsgDone
 
 # Remove dotfiles
 StartMsg -msg "Remove dotfiles"
-Set-Location $HOME
-Remove-Item dotfiles -Recurse -Force
+Remove-Item $Dot -Recurse -Force
 MsgDone
 
 # StartMsg -msg "Installing choco..."
