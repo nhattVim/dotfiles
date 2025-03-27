@@ -1,19 +1,8 @@
-<#
-.SYNOPSIS
-    Backup or restore Windhawk configuration, mods, and registry settings.
-
-.DESCRIPTION
-    This script checks if Windhawk is installed, then prompts the user
-    to either create a backup or restore from an existing backup. The
-    backup includes the ModsSource folder, the Engine\Mods folder, and
-    the Windhawk registry settings.
-
-    By default, it stores or retrieves the backup from:
-        $env:USERPROFILE\Downloads\windhawk-backup.zip
-#>
-
 [CmdletBinding()]
-param()
+param(
+    [ValidateSet("B", "R", "E")]
+    [string]$Action
+)
 
 ###############################################################################
 #                            CONFIGURABLE VARIABLES                           #
@@ -23,10 +12,10 @@ param()
 $backupZipPath = Join-Path $env:USERPROFILE "Downloads\windhawk-backup.zip"
 
 # The root Windhawk installation folder:
-$windhawkRoot  = "C:\ProgramData\Windhawk"
+$windhawkRoot = "C:\ProgramData\Windhawk"
 
 # Registry key where Windhawk stores its settings:
-$registryKey   = "HKLM:\SOFTWARE\Windhawk"
+$registryKey = "HKLM:\SOFTWARE\Windhawk"
 
 ###############################################################################
 #                               HELPER FUNCTIONS                              #
@@ -36,11 +25,7 @@ function Test-WindhawkInstalled {
     param(
         [string]$WindhawkFolder
     )
-    if (Test-Path $WindhawkFolder) {
-        return $true
-    } else {
-        return $false
-    }
+    return (Test-Path $WindhawkFolder)
 }
 
 function Do-Backup {
@@ -51,9 +36,9 @@ function Do-Backup {
     )
 
     Write-Host "`n--- Starting Windhawk backup ---" -ForegroundColor Cyan
-    
+
     # Create a temporary folder to stage the backup contents
-    $timeStamp    = (Get-Date -Format 'yyyyMMddHHmmss')
+    $timeStamp = (Get-Date -Format 'yyyyMMddHHmmss')
     $backupFolder = Join-Path $env:TEMP ("WindhawkBackup_$timeStamp")
     New-Item -ItemType Directory -Path $backupFolder -Force | Out-Null
 
@@ -63,13 +48,14 @@ function Do-Backup {
 
     # Define the paths to copy from
     $modsSourceFolder = Join-Path $WindhawkFolder "ModsSource"
-    $modsFolder       = Join-Path $WindhawkFolder "Engine\Mods"
+    $modsFolder = Join-Path $WindhawkFolder "Engine\Mods"
 
     # Copy ModsSource if it exists
     if (Test-Path $modsSourceFolder) {
         Write-Host "Copying ModsSource folder..."
         Copy-Item -Path $modsSourceFolder -Destination $backupFolder -Recurse -Force
-    } else {
+    }
+    else {
         Write-Warning "ModsSource folder not found at: $modsSourceFolder"
     }
 
@@ -77,14 +63,14 @@ function Do-Backup {
     if (Test-Path $modsFolder) {
         Write-Host "Copying Engine\Mods folder..."
         Copy-Item -Path $modsFolder -Destination $engineFolder -Recurse -Force
-    } else {
+    }
+    else {
         Write-Warning "Mods folder not found at: $modsFolder"
     }
 
     # Export registry key
     Write-Host "Exporting Windhawk registry key..."
     $regExportFile = Join-Path $backupFolder "Windhawk.reg"
-    # Using reg.exe for consistent export. /y overwrites without prompt.
     reg export "HKLM\SOFTWARE\Windhawk" $regExportFile /y | Out-Null
 
     # Create/overwrite the existing backup zip
@@ -116,48 +102,46 @@ function Do-Restore {
     }
 
     # Create a temporary folder to extract contents
-    $timeStamp     = (Get-Date -Format 'yyyyMMddHHmmss')
+    $timeStamp = (Get-Date -Format 'yyyyMMddHHmmss')
     $extractFolder = Join-Path $env:TEMP ("WindhawkRestore_$timeStamp")
     New-Item -ItemType Directory -Path $extractFolder -Force | Out-Null
 
     Write-Host "Extracting backup zip: $BackupPath"
     Expand-Archive -Path $BackupPath -DestinationPath $extractFolder -Force
 
-    # After extraction, we expect:
-    #   ModsSource in the root of $extractFolder
-    #   Engine\Mods in $extractFolder\Engine
-    #   Windhawk.reg also in $extractFolder
-
+    # Paths inside extracted folder
     $modsSourceBackup = Join-Path $extractFolder "ModsSource"
-    $modsBackup       = Join-Path $extractFolder "Engine\Mods"
-    $regBackup        = Join-Path $extractFolder "Windhawk.reg"
+    $modsBackup = Join-Path $extractFolder "Engine\Mods"
+    $regBackup = Join-Path $extractFolder "Windhawk.reg"
 
-    # Copy ModsSource back if present
+    # Restore ModsSource
     if (Test-Path $modsSourceBackup) {
         Write-Host "Copying ModsSource to Windhawk folder..."
         Copy-Item -Path $modsSourceBackup -Destination $WindhawkFolder -Recurse -Force
-    } else {
+    }
+    else {
         Write-Warning "ModsSource not found in backup."
     }
 
-    # Copy Mods back if present
+    # Restore Mods
     if (Test-Path $modsBackup) {
         Write-Host "Copying Engine\Mods to Windhawk folder..."
-        # Ensure Engine folder exists
         $engineFolder = Join-Path $WindhawkFolder "Engine"
         if (!(Test-Path $engineFolder)) {
             New-Item -ItemType Directory -Path $engineFolder -Force | Out-Null
         }
         Copy-Item -Path $modsBackup -Destination $engineFolder -Recurse -Force
-    } else {
+    }
+    else {
         Write-Warning "Mods folder not found in backup."
     }
 
-    # Import registry if present
+    # Restore registry
     if (Test-Path $regBackup) {
         Write-Host "Importing Windhawk registry settings..."
         reg import $regBackup | Out-Null
-    } else {
+    }
+    else {
         Write-Warning "Windhawk registry file not found in backup."
     }
 
@@ -179,10 +163,13 @@ if (!(Test-WindhawkInstalled -WindhawkFolder $windhawkRoot)) {
     }
 }
 
-Write-Host "`nWould you like to (B)ackup or (R)estore or (E)xit?"
-$action = Read-Host "Enter your choice (B/R/E)"
+# Ask user if action not used
+if (-not $Action) {
+    Write-Host "`nWould you like to (B)ackup or (R)estore or (E)xit?"
+    $Action = Read-Host "Enter your choice (B/R/E)"
+}
 
-switch ($action.ToUpper()) {
+switch ($Action.ToUpper()) {
     'B' {
         Do-Backup -WindhawkFolder $windhawkRoot -BackupPath $backupZipPath -RegistryKey $registryKey
     }
@@ -198,4 +185,3 @@ switch ($action.ToUpper()) {
 }
 
 Write-Host "`nDone."
-
