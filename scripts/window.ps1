@@ -141,6 +141,7 @@ MsgDone
 
 StartMsg -msg "Installing Nodejs via NVM..."
 nvm install node
+nvm use node
 MsgDone
 
 StartMsg -msg "Installing Winget's packages"
@@ -198,9 +199,18 @@ else {
     Write-Warning "Windhawk backup script not found."
 }
 
+# Flow launch config path
+$flowLauncherBaseDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-*"
+
 # Configuring Flow Launcher theme
 $flowLauncherThemeSrc = "$Dot\flow-launcher\Transparent.xaml"
-$flowLauncherThemeDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-1.19.5\UserData\Themes\"
+$flowLauncherThemeDst = Get-Item -Path $flowLauncherBaseDst | Select-Object -ExpandProperty FullName | Join-Path -ChildPath "UserData\Themes"
+
+if (!(Test-Path $flowLauncherThemeDst)) {
+    New-Item -ItemType Directory -Path $flowLauncherThemeDst -Force | Out-Null
+    Write-Host "Created directory: $flowLauncherThemeDst"
+}
+
 if (Test-Path $flowLauncherThemeSrc) {
     Copy-Item -Path $flowLauncherThemeSrc -Destination $flowLauncherThemeDst -Force
     Write-Host "Flow Launcher theme updated."
@@ -212,7 +222,13 @@ else {
 # Configuring Flow Launcher settings
 StartMsg -msg "Configuring Flow Launcher"
 $flowLauncherSettingsSrc = "$Dot\flow-launcher\Settings.json"
-$flowLauncherSettingsDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-1.19.5\UserData\Settings\Settings.json"
+$flowLauncherSettingsDst = Get-Item -Path $flowLauncherBaseDst | Select-Object -ExpandProperty FullName | Join-Path -ChildPath "UserData\Settings"
+
+if (!(Test-Path $flowLauncherSettingsDst)) {
+    New-Item -ItemType Directory -Path $flowLauncherSettingsDst -Force | Out-Null
+    Write-Host "Created directory: $flowLauncherSettingsDst"
+}
+
 if (Test-Path $flowLauncherSettingsSrc) {
     Copy-Item -Path $flowLauncherSettingsSrc -Destination $flowLauncherSettingsDst -Force
     Write-Host "Flow Launcher settings updated."
@@ -223,7 +239,7 @@ else {
 
 StartMsg -msg "Start App"
 Start-Process "C:\Program Files\Windhawk\windhawk.exe"
-Start-Process "C:\Users\nhatt\scoop\apps\flow-launcher\current\Flow.Launcher.exe"
+Start-Process "$env:USERPROFILE\scoop\apps\flow-launcher\current\Flow.Launcher.exe"
 Start-Process "C:\Program Files\WindowsApps\28017CharlesMilette.TranslucentTB_2024.3.0.0_x64__v826wp6bftszj\TranslucentTB.exe"
 
 # Config Neovim

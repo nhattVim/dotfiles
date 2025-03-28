@@ -75,7 +75,7 @@ if ! command -v nvm &>/dev/null; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
     note "Installing latest version of Node.js..."
-    if nvm install node; then
+    if nvm install node && nvm use node; then
         ok "Node.js has been successfully installed."
     else
         err "Failed to install Node.js."
