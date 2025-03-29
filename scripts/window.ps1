@@ -31,6 +31,9 @@ function exGithub {
 
 # List of commands
 $commands = @(
+    # Dark theme
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name AppsUseLightTheme -Type DWord -Value 0",
+    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name SystemUsesLightTheme -Type DWord -Value 0",
     # Disable UAC
     "Set-ItemProperty -Path 'REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name ConsentPromptBehaviorAdmin -Type DWord -Value 0",
     # Disable browser tabs in Alt + Tab
@@ -309,4 +312,16 @@ MsgDone
 # }
 # MsgDone
 
-MsgDone
+# Restart computer
+Add-Type -AssemblyName System.Windows.Forms
+
+$Result = [System.Windows.Forms.MessageBox]::Show(
+    "Do you want to restart your computer now to apply the changes?",
+    "Restart Required",
+    [System.Windows.Forms.MessageBoxButtons]::YesNo,
+    [System.Windows.Forms.MessageBoxIcon]::Question
+)
+
+if ($Result -eq [System.Windows.Forms.DialogResult]::Yes) {
+    Restart-Computer -Force
+}
