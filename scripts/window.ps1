@@ -180,6 +180,7 @@ Get-Content -Path "$Dot\powershell\Microsoft.PowerShell_profile.ps1" | Set-Conte
 MsgDone
 
 # Configuring Windhawk
+StartMsg -msg "Configuring Windhawk"
 $windhawkBackupSrc = "$Dot\windhawk\windhawk-backup.zip"
 $windhawkBackupDst = "$env:USERPROFILE\Downloads\windhawk-backup.zip"
 $windhawkScript = "$Dot\windhawk\windhawk-backup.ps1"
@@ -203,6 +204,7 @@ else {
 }
 
 # Flow launch config path
+StartMsg -msg "Configuring Flow Launcher"
 $flowLauncherBaseDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-*"
 
 # Configuring Flow Launcher theme
@@ -223,7 +225,6 @@ else {
 }
 
 # Configuring Flow Launcher settings
-StartMsg -msg "Configuring Flow Launcher"
 $flowLauncherSettingsSrc = "$Dot\flow-launcher\Settings.json"
 $flowLauncherSettingsDst = Get-Item -Path $flowLauncherBaseDst | Select-Object -ExpandProperty FullName | Join-Path -ChildPath "UserData\Settings"
 
