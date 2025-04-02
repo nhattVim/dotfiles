@@ -111,7 +111,6 @@ $winget_pkgs = @(
 
 # Winget packages with Administrator
 $winget_admin_pkgs = @(
-    "Cloudflare.Warp" # 1.1.1.1
     "CocCoc.CocCoc" # Cốc Cốc
     "CharlesMilette.TranslucentTB" # TranslucentTB
 )
