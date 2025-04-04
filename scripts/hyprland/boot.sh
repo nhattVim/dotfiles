@@ -47,7 +47,6 @@ act "Updating mirrorlist..."
 if sudo reflector \
     --verbose \
     --latest 20 \
-    --protocol https \
     --sort rate \
     --save "$mirrorlist"; then
 
