@@ -9,7 +9,7 @@
     "editor.fontLigatures": true,
     "editor.lineHeight": 3,
     "editor.letterSpacing": 0.5,
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
     "editor.lineNumbers": "relative",
     "editor.tokenColorCustomizations": {
         "textMateRules": [
@@ -44,7 +44,7 @@
     "editor.matchBrackets": "near",
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "none",
-    "editor.codeLens": false,
+    // "editor.codeLens": false,
     "editor.stickyScroll.enabled": false,
     "editor.cursorBlinking": "smooth",
     "editor.cursorSmoothCaretAnimation": "on",
@@ -65,10 +65,12 @@
     "security.workspace.trust.untrustedFiles": "open",
     "extensions.closeExtensionDetailsOnViewChange": true,
     "terminal.integrated.defaultProfile.windows": "PowerShell",
+    // "terminal.integrated.suggest.enabled": true,
 
     // * ==============================================================================
     // * Customization settings
     // * ==============================================================================
+    "files.associations": { "*.css": "tailwindcss" },
     "workbench.colorCustomizations": {
         "editorBracketHighlight.foreground1": "#FFE19E",
         "editorBracketHighlight.foreground2": "#FF8A94",
@@ -112,47 +114,16 @@
     // * ==============================================================================
     // * Langs settings
     // * ==============================================================================
-    "[json]": {
-        // "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[css]": {
-        "editor.defaultFormatter": "vscode.css-language-features"
-    },
-    "[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[handlebars]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "[scss]": {
-        "editor.defaultFormatter": "vscode.css-language-features"
-    },
-
-    // * ==============================================================================
-    // * Extensions settings
-    // * ==============================================================================
-    "prettier.tabWidth": 4,
-    "tabnine.experimentalAutoImports": true,
-    "liveServer.settings.donotShowInfoMsg": true,
-    "indentRainbow.indicatorStyle": "light",
-    "indentRainbow.lightIndicatorStyleLineWidth": 1,
-    "indentRainbow.colors": [
-        "#FFE19E",
-        "#FF8A94",
-        "#8AD5FF",
-        "#FFC28B",
-        "#B9F2A6",
-        "#EFA6FF"
-    ],
+    "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.tabSize": 2 },
+    "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "prettier.printWidth": 9999999, "editor.wordWrap": "off" },
+    "[css]": { "editor.defaultFormatter": "vscode.css-language-features", "editor.tabSize": 2 },
+    "[html]": { "editor.defaultFormatter": "vscode.html-language-features" },
+    "[javascript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+    "[javascriptreact]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+    "[handlebars]": { "editor.defaultFormatter": "vscode.html-language-features" },
+    "[scss]": { "editor.defaultFormatter": "vscode.css-language-features" },
+    "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "[typescript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
 
     // * ==============================================================================
     // * Vim setup
@@ -163,57 +134,22 @@
     "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
     "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "k"],
-            "after": ["Esc"]
-        },
-        {
-            "before": ["C-h"],
-            "after": ["left"]
-        },
-        {
-            "before": ["C-j"],
-            "after": ["down"]
-        },
-        {
-            "before": ["C-k"],
-            "after": ["up"]
-        },
-        {
-            "before": ["C-l"],
-            "after": ["right"]
-        }
+        { "before": ["j", "k"], "after": ["Esc"] },
+        { "before": ["C-h"], "after": ["left"] },
+        { "before": ["C-j"], "after": ["down"] },
+        { "before": ["C-k"], "after": ["up"] },
+        { "before": ["C-l"], "after": ["right"] }
     ],
     "vim.normalModeKeyBindings": [
         // Utils
-        {
-            "before": ["<leader>", "n"],
-            "commands": [":nohl"]
-        },
+        { "before": ["<leader>", "n"], "commands": [":nohl"] },
         // Bookmark
-        {
-            "before": ["m", "m"],
-            "commands": ["bookmarks.toggle"]
-        },
-        {
-            "before": ["m", "l"],
-            "commands": ["bookmarks.list"]
-        },
-        {
-            "before": ["m", "j"],
-            "commands": ["bookmarks.jumpToNext"]
-        },
-        {
-            "before": ["m", "k"],
-            "commands": ["bookmarks.jumpToPrevious"]
-        }
+        { "before": ["m", "m"], "commands": ["bookmarks.toggle"] },
+        { "before": ["m", "l"], "commands": ["bookmarks.list"] },
+        { "before": ["m", "j"], "commands": ["bookmarks.jumpToNext"] },
+        { "before": ["m", "k"], "commands": ["bookmarks.jumpToPrevious"] }
     ],
-    "vim.visualModeKeyBindings": [
-        {
-            "before": ["space", "space"],
-            "after": ["<ESC>"]
-        }
-    ],
+    "vim.visualModeKeyBindings": [{ "before": ["space", "space"], "after": ["<ESC>"] }],
     "vim.leader": "\\",
     "vim.handleKeys": {
         "<C-a>": false,
@@ -222,15 +158,54 @@
     "extensions.experimental.affinity": {
         "vscodevim.vim": 1
     },
+
+    // * ==============================================================================
+    // * Extensions settings
+    // * ==============================================================================
+    "prettier.tabWidth": 4,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "indentRainbow.indicatorStyle": "light",
+    "indentRainbow.lightIndicatorStyleLineWidth": 1,
+    "indentRainbow.colors": ["#FFE19E", "#FF8A94", "#8AD5FF", "#FFC28B", "#B9F2A6", "#EFA6FF"],
     "liveServer.settings.donotVerifyTags": true,
     "code-runner.runInTerminal": true,
     "powermode.enabled": true,
     "vscode_custom_css.imports": [
         "file:///${env:USERPROFILE}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
-        "file:///${env:HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
+        // "file:///${env:HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.css",
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.js"
     ],
+    "mssql.enableRichExperiences": true,
+    "mssql.connections": [
+        {
+            "authenticationType": "SqlLogin",
+            "connectTimeout": 30,
+            "applicationName": "vscode-mssql",
+            "server": "172.28.182.33",
+            "user": "sa",
+            "trustServerCertificate": true,
+            "password": "",
+            "savePassword": true,
+            "id": "4019ACC0-71A1-40BB-BB53-9E3A131B2EA8",
+            "groupId": "F88E445D-9364-4887-8524-DE1FB284CF86"
+        }
+    ],
+    // "mdb.showMongoDBPlaygrounds": false,
+    "mdb.showMongoDBHelpExplorer": false,
+    "dineug.erd-editor.theme.appearance": "dark",
+    "dineug.erd-editor.theme.grayColor": "slate",
+    "dineug.erd-editor.theme.accentColor": "crimson",
+    "git.autofetch": true,
+    "bootstrapIntelliSense": {
+        "enable": true,
+        "bsVersion": "5.3.3",
+        "useLocalFile": false,
+        "cssFilePath": "",
+        "languageSupport": ["html", "php", "handlebars", "vue-html", "django-html", "blade", "twig", "erb", "ejs", "nunjucks", "mustache", "liquid", "pug", "jade", "haml", "slim", "jinja", "jinja2", "jinja-html", "edge", "markdown", "javascript", "javascriptreact", "typescript", "typescriptreact", "angular", "vue", "svelte", "astro", "razor", "cshtml", "aspnetcorerazor", "css", "scss", "sass", "less", "stylus", "glimmer-js"]
+    },
+    "mssql.connectionGroups": [{ "name": "ROOT", "id": "F88E445D-9364-4887-8524-DE1FB284CF86" }],
+    "mssql.enableQueryHistoryCapture": false,
 
     // * ==============================================================================
     // * Hide layout
@@ -244,7 +219,7 @@
     "workbench.navigationControl.enabled": false,
     "breadcrumbs.enabled": false,
     "editor.minimap.enabled": false,
-    "workbench.statusBar.visible": false,
     "chat.commandCenter.enabled": false,
-    "workbench.activityBar.location": "hidden"
+    "workbench.activityBar.location": "hidden",
+    "workbench.statusBar.visible": false
 }
