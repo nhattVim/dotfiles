@@ -1,4 +1,3 @@
-
 // * ==============================================================================
 // * Command Palette Blur Effect
 // * ==============================================================================
@@ -57,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const targetDiv = document.querySelector(".monaco-workbench");
 
         // Remove existing element if it already exists
-        const existingElement = document.getElementById("command-blur");
+        const existingElement = document.getElementById("bg-blur");
         existingElement && existingElement.remove();
 
         // Create and configure the new element
         const newElement = document.createElement("div");
-        newElement.setAttribute('id', 'command-blur');
+        newElement.setAttribute('id', 'bg-blur');
 
         newElement.addEventListener('click', function () {
             newElement.remove();
