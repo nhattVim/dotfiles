@@ -1,3 +1,10 @@
+/* ------------ Reset Font Family ------------ */
+.mac,
+.windows,
+.linux {
+    font-family: 'MesloLGS NF', 'SF Mono', monospace;
+}
+
 /* ------------ Command Center ------------ */
 .monaco-workbench .part.titlebar>.titlebar-container>.titlebar-center>.window-title>.command-center.hide {
     visibility: visible !important;
@@ -92,4 +99,79 @@
 
 .monaco-workbench .part.editor>.content .editor-group-container>.editor-group-watermark .shortcuts {
     display: none;
+}
+
+/* ------------ Activity Bar ------------ */
+.monaco-workbench .activitybar>.content {
+    justify-content: center;
+}
+
+.monaco-workbench .activitybar>.content>.composite-bar {
+    margin-bottom: inherit;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label.codicon {
+    border-radius: 8px !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item.checked .active-item-indicator:before {
+    border-left-color: transparent !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item {
+    background: var(--vscode-editor-lineHighlightBackground) !important;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    width: 36px;
+    height: 36px;
+    margin-left: 4px;
+}
+
+div#workbench\.parts\.activitybar {
+    background-color: var(--vscode-editorWidget-background) !important;
+}
+
+li.action-item.icon {
+    border: 2px solid transparent;
+}
+
+li.action-item.icon:hover {
+    border: 2px solid var(--vscode-icon-foreground);
+}
+
+li.action-item.icon.checked:hover .codicon:before {
+    color: var(--vscode-activityBar-activeBorder) !important;
+}
+
+li.action-item.icon.checked {
+    border: 2px solid var(--vscode-activityBar-activeBorder);
+}
+
+li.action-item.icon.checked a.action-label.codicon {
+    color: var(--vscode-activityBar-activeBorder) !important;
+    border-radius: 12px !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label.codicon,
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label:not(.codicon) {
+    width: 36px !important;
+    height: 36px !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label:not(.codicon) {
+    padding: 0;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label:not(.codicon):hover {
+    background-color: var(--vscode-input-foreground) !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item:focus .active-item-indicator:before {
+    border-left-color: transparent !important;
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .badge .badge-content {
+    position: absolute;
+    top: 16px;
+    right: 4px;
 }
