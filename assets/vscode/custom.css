@@ -24,6 +24,17 @@
     display: none
 }
 
+#bg-blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .15);
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(8px);
+    transition: all 1s ease-in;
+}
+
 /* ------------ Find widget ------------ */
 .editor-widget.find-widget {
     border-radius: 4px
@@ -82,19 +93,6 @@
 
 .monaco-editor .bracket-highlighting-4 {
     text-shadow: 0 0 10px #EFA6FF;
-}
-
-/* ------------ Editor Screen ------------ */
-#bg-blur {
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background: rgba(0, 0, 0, .15);
-    backdrop-filter: blur(6px);
-    transition: all 1s ease-in;
 }
 
 /* ------------ Welcome Screen ------------ */
