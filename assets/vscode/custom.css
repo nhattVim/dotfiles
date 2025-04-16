@@ -19,7 +19,7 @@
     top: 25vh !important;
 }
 
-.quick-input-list .scrollbar,
+.bg-blurquick-input-list .scrollbar,
 .monaco-action-bar.quick-input-inline-action-bar {
     display: none
 }
