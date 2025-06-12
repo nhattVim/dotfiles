@@ -23,7 +23,6 @@
             }
         ]
     },
-
     // * ==============================================================================
     // * General settings
     // * ==============================================================================
@@ -69,7 +68,6 @@
     "extensions.closeExtensionDetailsOnViewChange": true,
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "files.associations": { "*.css": "css" },
-
     // * ==============================================================================
     // * Customization settings
     // * ==============================================================================
@@ -110,18 +108,17 @@
             "widget.border": "#FFC799",
             "widget.shadow": "#FFC799",
             "focusBorder": "#FFC799"
-        }
+        },
+        "statusBar.background": "#171717",
+        "statusBar.noFolderBackground": "#000000",
+        "statusBar.debuggingBackground": "#000000",
+        "statusBar.foreground": "#FFFFFF",
+        "statusBar.debuggingForeground": "#FFFFFF"
     },
-
     // * ==============================================================================
     // * Langs settings
     // * ==============================================================================
-    "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "prettier.printWidth": 9999999,
-        "editor.wordWrap": "off",
-        "editor.tabSize": 4
-    },
+    "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "prettier.printWidth": 200, "editor.wordWrap": "off", "editor.tabSize": 4 },
     "[sql]": { "editor.defaultFormatter": "ms-mssql.mssql" },
     "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
     "[css]": { "editor.defaultFormatter": "vscode.css-language-features" },
@@ -137,7 +134,6 @@
     "[dotenv]": { "editor.formatOnSave": false, "editor.wordWrap": "off", "editor.defaultFormatter": null },
     "[http]": { "editor.codeLens": true },
     "[java]": { "editor.codeLens": true },
-
     // * ==============================================================================
     // * Vim setup
     // * ==============================================================================
@@ -164,13 +160,10 @@
     ],
     "vim.leader": "\\",
     "vim.handleKeys": {
-        // "<C-a>": false,
+        // "<C-a>": false
         // "<C-v>": false
     },
-    "extensions.experimental.affinity": {
-        "vscodevim.vim": 1
-    },
-
+    "extensions.experimental.affinity": { "vscodevim.vim": 1 },
     // * ==============================================================================
     // * Extensions settings
     // * ==============================================================================
@@ -183,14 +176,19 @@
     "liveServer.settings.donotVerifyTags": true,
     "code-runner.runInTerminal": true,
     "powermode.enabled": true,
+    "powermode.combo.location": "off",
+    "powermode.shake.enabled": false,
+    "tailwind-fold.autoFold": false,
+    "git.enableSmartCommit": true,
+    "glassit.alpha": 255,
     "vscode_custom_css.imports": [
-        "file:///${env:USERPROFILE}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
-        // "file:///${env:HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.css",
-        "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.js"
-        // "file:///C:/Users/nhatt/Code/custom.js"
+        "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.js",
+        "file:///${env:USERPROFILE}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
     ],
     "mssql.enableRichExperiences": true,
+    "mssql.objectExplorer.groupBySchema": false,
+    "mssql.autoDisableNonTSqlLanguageService": true,
     "mssql.connections": [
         {
             "authenticationType": "SqlLogin",
@@ -217,7 +215,6 @@
     },
     "mssql.connectionGroups": [{ "name": "ROOT", "id": "F88E445D-9364-4887-8524-DE1FB284CF86" }],
     "mssql.enableQueryHistoryCapture": false,
-
     // * ==============================================================================
     // * Hide layout
     // * ==============================================================================
@@ -231,9 +228,7 @@
     "breadcrumbs.enabled": false,
     "workbench.startupEditor": "none",
     "editor.minimap.enabled": false,
-    "mssql.objectExplorer.groupBySchema": false,
-    "tailwind-fold.autoFold": false,
-    "mssql.autoDisableNonTSqlLanguageService": true,
-    "git.enableSmartCommit": true,
-    "workbench.activityBar.location": "hidden"
+    "workbench.activityBar.location": "hidden",
+    "workbench.editor.showTabs": "single",
+    "workbench.statusBar.visible": false
 }
