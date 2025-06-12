@@ -3,14 +3,16 @@
     // * Theme && UI
     // * ==============================================================================
     "workbench.colorTheme": "Vesper",
-    "workbench.iconTheme": "eq-material-theme-icons",
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
     "editor.fontFamily": "MesloLGS NF, Consolas, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
     "editor.lineHeight": 3,
     "editor.letterSpacing": 0.5,
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "editor.lineNumbers": "relative",
+    "editor.quickSuggestions": { "strings": "on" },
+    "editor.codeActionsOnSave": { "source.fixAll.eslint": "always" },
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
@@ -44,7 +46,7 @@
     "editor.matchBrackets": "near",
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "none",
-    // "editor.codeLens": false,
+    "editor.codeLens": false,
     "editor.stickyScroll.enabled": false,
     "editor.cursorBlinking": "smooth",
     "editor.cursorSmoothCaretAnimation": "on",
@@ -58,6 +60,7 @@
     "explorer.confirmDelete": false,
     "files.enableTrash": true,
     "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
     "files.autoSave": "afterDelay",
     "telemetry.telemetryLevel": "off",
     "git.decorations.enabled": false,
@@ -65,12 +68,11 @@
     "security.workspace.trust.untrustedFiles": "open",
     "extensions.closeExtensionDetailsOnViewChange": true,
     "terminal.integrated.defaultProfile.windows": "PowerShell",
-    // "terminal.integrated.suggest.enabled": true,
+    "files.associations": { "*.css": "css" },
 
     // * ==============================================================================
     // * Customization settings
     // * ==============================================================================
-    "files.associations": { "*.css": "tailwindcss" },
     "workbench.colorCustomizations": {
         "editorBracketHighlight.foreground1": "#FFE19E",
         "editorBracketHighlight.foreground2": "#FF8A94",
@@ -114,16 +116,27 @@
     // * ==============================================================================
     // * Langs settings
     // * ==============================================================================
-    "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.tabSize": 2 },
-    "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "prettier.printWidth": 9999999, "editor.wordWrap": "off" },
-    "[css]": { "editor.defaultFormatter": "vscode.css-language-features", "editor.tabSize": 2 },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "prettier.printWidth": 9999999,
+        "editor.wordWrap": "off",
+        "editor.tabSize": 4
+    },
+    "[sql]": { "editor.defaultFormatter": "ms-mssql.mssql" },
+    "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+    "[css]": { "editor.defaultFormatter": "vscode.css-language-features" },
+    "[csharp]": { "editor.tabSize": 4 },
+    "[tailwindcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "[scss]": { "editor.defaultFormatter": "vscode.css-language-features" },
     "[html]": { "editor.defaultFormatter": "vscode.html-language-features" },
     "[javascript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
     "[javascriptreact]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
     "[handlebars]": { "editor.defaultFormatter": "vscode.html-language-features" },
-    "[scss]": { "editor.defaultFormatter": "vscode.css-language-features" },
     "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
     "[typescript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+    "[dotenv]": { "editor.formatOnSave": false, "editor.wordWrap": "off", "editor.defaultFormatter": null },
+    "[http]": { "editor.codeLens": true },
+    "[java]": { "editor.codeLens": true },
 
     // * ==============================================================================
     // * Vim setup
@@ -149,11 +162,10 @@
         { "before": ["m", "j"], "commands": ["bookmarks.jumpToNext"] },
         { "before": ["m", "k"], "commands": ["bookmarks.jumpToPrevious"] }
     ],
-    "vim.visualModeKeyBindings": [{ "before": ["space", "space"], "after": ["<ESC>"] }],
     "vim.leader": "\\",
     "vim.handleKeys": {
-        "<C-a>": false,
-        "<C-v>": false
+        // "<C-a>": false,
+        // "<C-v>": false
     },
     "extensions.experimental.affinity": {
         "vscodevim.vim": 1
@@ -167,14 +179,16 @@
     "indentRainbow.indicatorStyle": "light",
     "indentRainbow.lightIndicatorStyleLineWidth": 1,
     "indentRainbow.colors": ["#FFE19E", "#FF8A94", "#8AD5FF", "#FFC28B", "#B9F2A6", "#EFA6FF"],
+    "editor.guides.bracketPairs": "active",
     "liveServer.settings.donotVerifyTags": true,
     "code-runner.runInTerminal": true,
     "powermode.enabled": true,
     "vscode_custom_css.imports": [
         "file:///${env:USERPROFILE}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
-        "file:///${env:HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
+        // "file:///${env:HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.css",
         "https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/assets/vscode/custom.js"
+        // "file:///C:/Users/nhatt/Code/custom.js"
     ],
     "mssql.enableRichExperiences": true,
     "mssql.connections": [
@@ -191,18 +205,15 @@
             "groupId": "F88E445D-9364-4887-8524-DE1FB284CF86"
         }
     ],
-    // "mdb.showMongoDBPlaygrounds": false,
+    "mdb.showMongoDBPlaygrounds": false,
     "mdb.showMongoDBHelpExplorer": false,
-    "dineug.erd-editor.theme.appearance": "dark",
-    "dineug.erd-editor.theme.grayColor": "slate",
-    "dineug.erd-editor.theme.accentColor": "crimson",
     "git.autofetch": true,
     "bootstrapIntelliSense": {
-        "enable": true,
-        "bsVersion": "5.3.3",
-        "useLocalFile": false,
-        "cssFilePath": "",
-        "languageSupport": ["html", "php", "handlebars", "vue-html", "django-html", "blade", "twig", "erb", "ejs", "nunjucks", "mustache", "liquid", "pug", "jade", "haml", "slim", "jinja", "jinja2", "jinja-html", "edge", "markdown", "javascript", "javascriptreact", "typescript", "typescriptreact", "angular", "vue", "svelte", "astro", "razor", "cshtml", "aspnetcorerazor", "css", "scss", "sass", "less", "stylus", "glimmer-js"]
+        "enable": false,
+        "bsVersionl": "5.3.3",
+        "useLocalFlile": false,
+        "cssFilePalth": "",
+        "languageSlupport": ["html", "handlebars", "javascript", "javascriptreact", "typescript", "typescriptreact", "angular", "razor", "cshtml", "aspnetcorerazor"]
     },
     "mssql.connectionGroups": [{ "name": "ROOT", "id": "F88E445D-9364-4887-8524-DE1FB284CF86" }],
     "mssql.enableQueryHistoryCapture": false,
@@ -213,13 +224,16 @@
     "window.titleBarStyle": "custom",
     "window.menuBarVisibility": "toggle",
     "workbench.editor.enablePreview": false,
-    "workbench.startupEditor": "none",
     "workbench.tips.enabled": false,
     "workbench.layoutControl.enabled": false,
     "workbench.navigationControl.enabled": false,
-    "breadcrumbs.enabled": false,
-    "editor.minimap.enabled": false,
     "chat.commandCenter.enabled": false,
-    "workbench.activityBar.location": "hidden",
-    "workbench.statusBar.visible": false
+    "breadcrumbs.enabled": false,
+    "workbench.startupEditor": "none",
+    "editor.minimap.enabled": false,
+    "mssql.objectExplorer.groupBySchema": false,
+    "tailwind-fold.autoFold": false,
+    "mssql.autoDisableNonTSqlLanguageService": true,
+    "git.enableSmartCommit": true,
+    "workbench.activityBar.location": "hidden"
 }
