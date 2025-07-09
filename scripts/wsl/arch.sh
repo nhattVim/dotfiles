@@ -42,33 +42,10 @@ choose "Choose your AUR helper" "yay" "paru" aur_helper
 exHypr "$aur_helper.sh"
 
 pacman_packages=(
-    git
-    unzip
-    tmux
-    starship
-    zsh
-    make
-    python-pip
-    nodejs
-    npm
-    ripgrep
-    fzf
-    neofetch
-    lsd
-    lazygit
-    net-tools
-    neovim
-    bat
-    ranger
-    aria2
-    btop
-    curl
-    wget
-    nvtop
-    cargo
-    openssh
-    lolcat
-    python-virtualenv
+    git unzip tmux starship zsh make python-pip nodejs npm
+    ripgrep fzf neofetch lsd lazygit net-tools neovim bat
+    ranger openssh btop wget nvtop cargo python-virtualenv
+    lolcat openssh curl aria2
 )
 
 aur_packages=(
@@ -96,12 +73,22 @@ done
 if [ -d "$HOME/.tmux/plugins/tpm" ]; then
     note "Tmux Plugin Manager is already installed."
 else
-    note "Cloning TPM (Tmux Plugin Manager)..."
+    act "Cloning TPM (Tmux Plugin Manager)..."
     if git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm --depth 1; then
         ok "TPM (Tmux Plugin Manager) cloned successfully"
     else
         err "Failed to clone TPM (Tmux Plugin Manager)."
     fi
+fi
+
+# Install win32yank clipboard
+if ! command -v win32yank.exe &>/dev/null; then
+    act "Installing win32yank..."
+    curl -LO https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip &&
+        unzip win32yank-x64.zip &&
+        chmod +x win32yank.exe &&
+        sudo mv win32yank.exe /usr/local/bin/ &&
+        rm win32yank-x64.zip
 fi
 
 # Oh My Zsh
