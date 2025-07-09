@@ -1,8 +1,10 @@
 #!/bin/bash
-# Yay AUR Helper
+# Yay AUR Helper Installer
 
 # Source library
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
+
+ISAUR=$(command -v yay || command -v paru)
 
 if [ -n "$ISAUR" ]; then
     ok "AUR helper already installed, moving on."
@@ -17,36 +19,32 @@ else
 
         temp_dir=$(mktemp -d)
 
-        git clone https://aur.archlinux.org/yay-bin.git "$temp_dir" && cd "$temp_dir" || {
-            err "Failed to clone yay from AUR (Attempt $attempt)"
-            ((attempt++))
-            continue
-        }
-
-        if makepkg -si --noconfirm; then
-            ok "Successfully installed yay!"
-            rm -rf "$temp_dir"
-            break
+        if git clone https://aur.archlinux.org/yay-bin.git "$temp_dir" && cd "$temp_dir"; then
+            if makepkg -si --noconfirm; then
+                ok "Successfully installed yay!"
+                rm -rf "$temp_dir"
+                break
+            else
+                err "Failed to install yay (Attempt $attempt)"
+            fi
         else
-            err "Failed to install yay from AUR (Attempt $attempt)"
-            rm -rf "$temp_dir"
-            ((attempt++))
+            err "Failed to clone yay (Attempt $attempt)"
         fi
 
         rm -rf "$temp_dir"
-        ok "Successfully installed yay!"
-        break
+        ((attempt++))
     done
 
     if [ $attempt -gt $MAX_RETRIES ]; then
         err "Exceeded maximum retries. Exiting..."
         exit 1
     fi
+
+    ISAUR=$(command -v yay || command -v paru)
 fi
 
 # Update system before proceeding
 note "Performing a full system update to avoid issues..."
-ISAUR=$(command -v yay || command -v paru)
 
 $ISAUR -Syu --noconfirm || {
     err "Failed to update system"
