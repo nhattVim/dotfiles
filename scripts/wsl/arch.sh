@@ -43,7 +43,7 @@ exHypr "$aur_helper.sh"
 
 pacman_packages=(
     git unzip tmux starship zsh make python-pip nodejs npm
-    ripgrep fzf neofetch lsd lazygit net-tools neovim bat
+    ripgrep fzf fastfetch lsd lazygit net-tools neovim bat
     ranger openssh btop wget nvtop cargo python-virtualenv
     lolcat openssh curl aria2
 )
