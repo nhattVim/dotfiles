@@ -81,8 +81,8 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava bauh
-    # wallust
+    wlogout pyprland cava
+    # wallust bauh
 
     # ----------------------------------------------------
     # Extras Packages
