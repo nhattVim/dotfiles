@@ -88,7 +88,7 @@ aur_pkgs=(
     # Extras Packages
     # ----------------------------------------------------
     arttime-git pipes.sh shell-color-scripts-git
-    # ferdium-bin
+    ferdium-bin
     # onlyoffice-bin
     # visual-studio-code-bin
     # vmware-workstation
