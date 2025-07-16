@@ -7,3 +7,6 @@ ln -s /mnt/win11/Users/nhatt/Data $HOME
 PACKAGE_NAMES=$(whiptail --inputbox "Enter package names (space-separated):" 10 60 "" 3>&1 1>&2 2>&3)
 
 sudo chown -R $(whoami) /opt/visual-studio-code
+
+echo "--ozone-platform-hint=x11" >>"$HOME/.config/code-flags.conf"
+echo "--disable-gpu" >>"$HOME/.config/code-flags.conf"

@@ -297,10 +297,6 @@ while true; do
     fi
 done
 
-# configure electron app
-note "Configuring Electron apps..."
-echo "--disable-gpu" >>"$HOME/.config/electron-flags.conf"
-
 # Change shell to zsh
 note "Changing default shell to zsh..."
 
