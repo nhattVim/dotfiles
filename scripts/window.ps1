@@ -112,7 +112,6 @@ $winget_pkgs = @(
 # Winget packages with Administrator
 $winget_admin_pkgs = @(
     "CocCoc.CocCoc" # Cốc Cốc
-    "CharlesMilette.TranslucentTB" # TranslucentTB
 )
 
 StartMsg -msg "Installing scoop..."
