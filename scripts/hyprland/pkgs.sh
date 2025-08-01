@@ -16,7 +16,7 @@ pacman_pkgs=(
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo rust
     jdk-openjdk python-pyquery python-beautifulsoup4
-    flatpak
+    flatpak python-pynvim gdb
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -125,6 +125,10 @@ note "Installing pacman packages..."
 for pkg in "${pacman_pkgs[@]}"; do
     iPac "$pkg"
 done
+
+# Install Node.js provider for neovim
+note "Installing Node.js provider for neovim..."
+sudo npm install -g neovim
 
 # Install AUR packages
 note "Installing AUR packages..."
