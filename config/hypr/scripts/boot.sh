@@ -14,7 +14,7 @@ cursor_theme="Bibata-Modern-Ice"
 
 # variables
 scriptsDir=$HOME/.config/hypr/scripts
-waybar_style="$HOME/.config/waybar/style/[Dark] Latte-Wallust combined.css"
+waybar_style="$HOME/.config/waybar/style/[Catppuccin] Mocha.css"
 wallDir="$HOME/Pictures/wallpapers"
 wallpaper="$wallDir/car-2.png"
 notif="$HOME/.config/swaync/images/bell.png"
