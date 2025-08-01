@@ -4,7 +4,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
 # variables
-wallpaper="$HOME/Pictures/wallpapers/anime-night.jpg"
+wallpaper="$HOME/Pictures/wallpapers/car-2.png"
 waybar_style="$HOME/.config/waybar/style/[Dark] Latte-Wallust combined.css"
 waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
 waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
