@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # Variables
-theme="Rappa"
+theme="Cipher"
 grub="/etc/default/grub"
 grub_dir="/boot/grub/themes"
 grub_theme="$grub_dir/$theme/theme.txt"
@@ -67,8 +67,7 @@ if gum confirm "${CYAN}Do you want to install grub custom theme?${RESET}"; then
     fi
 
     # Extract and copy theme
-    tar xzvf $temp_dir/themes/"$theme".tar.gz -C $temp_dir >/dev/null
-    sudo cp -r $temp_dir/$theme $grub_dir
+    sudo cp -r $temp_dir/assets/themes/$theme $grub_dir
     rm -rf $temp_dir
 
     # Detect OS

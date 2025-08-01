@@ -46,7 +46,7 @@ note "Install and Compiling Aylurs GTK shell $ags_tag.."
 temp_dir=$(mktemp -d)
 
 # Clone nwg-look repository with the specified tag
-if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.git "$temp_dir"; then
+if git clone --depth=1 https://github.com/JaKooLit/ags_v1.9.0.git "$temp_dir"; then
     cd $temp_dir || exit 1
     # Build and install ags
     npm install

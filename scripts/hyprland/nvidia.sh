@@ -38,7 +38,7 @@ if [ -f "$NVEA" ]; then
     ok "Seems like nvidia-drm modeset=1 is already added in your system. Moving on."
 else
     note "Adding options to $NVEA..."
-    sudo echo -e "options nvidia-drm modeset=1 fbdev=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
+    echo "options nvidia-drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
 fi
 
 # Additional for GRUB users

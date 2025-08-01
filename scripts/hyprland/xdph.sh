@@ -27,8 +27,10 @@ done
 # Remove conflic xdg-desktop-portal
 note "Clearing any other xdg-desktop-portal implementations..."
 for xdgs in "${remove[@]}"; do
-    act "Removing $xdgs..."
-    sudo pacman -R --noconfirm "$xdgs"
+    if pacman -Qs "$xdgs" >/dev/null; then
+        act "Removing $xdgs..."
+        sudo pacman -R --noconfirm "$xdgs"
+    fi
 done
 
 # Configure xdg-desktop-portal
