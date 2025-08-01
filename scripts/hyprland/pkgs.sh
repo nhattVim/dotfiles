@@ -14,9 +14,9 @@ pacman_pkgs=(
     # Core System & Development
     # ----------------------------------------------------
     linux-lts linux-lts-headers base-devel libxcrypt-compat
-    python-pip python-virtualenv python-requests cargo rust
-    jdk-openjdk python-pyquery python-beautifulsoup4
-    flatpak python-pynvim gdb
+    python-pip python-virtualenv python-requests cargo gdb
+    jdk-openjdk python-pyquery python-beautifulsoup4 rust
+    python-pynvim
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -42,7 +42,7 @@ pacman_pkgs=(
     # GUI Applications
     # ----------------------------------------------------
     discord neovide ranger cmatrix qalculate-gtk mousepad
-    telegram-desktop eog gnome-software libreoffice-fresh
+    telegram-desktop eog libreoffice-fresh
     # chromium
 
     # ----------------------------------------------------
@@ -88,9 +88,8 @@ aur_pkgs=(
     # Extras Packages
     # ----------------------------------------------------
     arttime-git pipes.sh shell-color-scripts-git
-    ferdium-bin
+    ferdium-bin visual-studio-code-bin
     # onlyoffice-bin
-    # visual-studio-code-bin
     # vmware-workstation
     # xampp
     # mssql
