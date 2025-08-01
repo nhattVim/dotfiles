@@ -5,7 +5,7 @@
 
 # variables
 wallpaper="$HOME/Pictures/wallpapers/car-2.png"
-waybar_style="$HOME/.config/waybar/style/[Dark] Latte-Wallust combined.css"
+waybar_style="$HOME/.config/waybar/style/[Catppuccin] Mocha.css"
 waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
 waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 
