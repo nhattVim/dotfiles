@@ -40,10 +40,4 @@ waybar &
 sleep 0.5
 swaync >/dev/null 2>&1 &
 
-# Relaunching rainbow borders if the script exists
-sleep 1
-if file_exists "${SCRIPTSDIR}/rainbow_borders.sh"; then
-    ${SCRIPTSDIR}/rainbow_borders.sh &
-fi
-
 exit 0
