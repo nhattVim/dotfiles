@@ -75,8 +75,8 @@ while true; do
     if git clone https://github.com/nhattVim/wallpapers --depth 1; then
         note "Wallpapers downloaded successfully."
 
-        mkdir -p $HOME/Pictures/wallpapers
-        if cp -R wallpapers/wallpapers/* $HOME/Pictures/wallpapers/; then
+        mkdir -p $HOME/Pictures/Wallpapers
+        if cp -R wallpapers/wallpapers/* $HOME/Pictures/Wallpapers/; then
             note "Wallpapers copied successfully."
             rm -rf wallpapers
             break

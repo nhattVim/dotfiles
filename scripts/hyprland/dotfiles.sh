@@ -4,7 +4,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
 # variables
-wallpaper="$HOME/Pictures/wallpapers/car-2.png"
+wallpaper="$HOME/Pictures/Wallpapers/car-2.png"
 waybar_style="$HOME/.config/waybar/style/[Catppuccin] Mocha.css"
 waybar_config="$HOME/.config/waybar/configs/[TOP] Default_v4"
 waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
@@ -68,8 +68,8 @@ cp -r "$DOTFILES_DIR/config/." "$HOME/.config/" && { ok "Copy config files compl
 }
 
 # Copying wallpapers
-mkdir -p "$HOME/Pictures/wallpapers"
-cp -r "$DOTFILES_DIR/wallpapers" "$HOME/Pictures/" && { ok "Copy wallpapers completed"; } || {
+mkdir -p "$HOME/Pictures/Wallpapers"
+cp -r "$DOTFILES_DIR/Wallpapers" "$HOME/Pictures/" && { ok "Copy wallpapers completed"; } || {
     err "Failed to copy wallpapers"
 }
 
@@ -282,7 +282,7 @@ while true; do
         if git clone https://github.com/nhattVim/wallpapers --depth 1; then
             note "Wallpapers downloaded successfully."
 
-            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/wallpapers/"; then
+            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/Wallpapers/"; then
                 note "Wallpapers copied successfully."
                 rm -rf wallpapers
                 break
