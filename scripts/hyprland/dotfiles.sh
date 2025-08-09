@@ -105,15 +105,6 @@ done
 # Setup Fcitx5
 if command -v fcitx5 >/dev/null 2>&1; then
     act "Setting up Fcitx5..."
-
-    # {
-    #     echo ""
-    #     echo "# Setup Fcitx5"
-    #     echo "export GTK_IM_MODULE=fcitx5"
-    #     echo "export QT_IM_MODULE=fcitx5"
-    #     echo "export XMODIFIERS=@im=fcitx5"
-    # } | tee -a "$HOME/.bashrc" "$HOME/.zshrc"
-
     echo "--ozone-platform-hint=x11" >>"$HOME/.config/electron-flags.conf"
     echo "--ozone-platform-hint=x11" >>"$HOME/.config/code-flags.conf"
 fi
@@ -238,9 +229,6 @@ note "You chose $resolution resolution."
 # Add your commands based on the resolution choice
 if [ "$resolution" == "< 1440p" ]; then
     cp -r $HOME/.config/rofi/resolution/1080p/* $HOME/.config/rofi/
-    # hyprlock matters
-    # mv config/hypr/hyprlock.conf config/hypr/hyprlock-2k.conf
-    # mv config/hypr/hyprlock-1080p.conf config/hypr/hyprlock.conf
 elif [ "$resolution" == "≥ 1440p" ]; then
     cp -r $HOME/.config/rofi/resolution/1440p/* $HOME/.config/rofi/
     sed -i 's/font_size 13.0/font_size 16.0/' $HOME/.config/kitty/kitty.conf

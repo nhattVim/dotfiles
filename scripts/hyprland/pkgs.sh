@@ -81,7 +81,7 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava caelestia-meta
+    wlogout pyprland cava
     # wallust bauh
 
     # ----------------------------------------------------
@@ -159,12 +159,6 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 else
     note "TPM already installed"
 fi
-
-# Generate scheme stuff if needed
-note "Generating caelestia scheme..."
-caelestia scheme set -n shadotheme
-sleep .5
-hyprctl reload
 
 # Wallust
 if ! command -v wallust &>/dev/null; then
