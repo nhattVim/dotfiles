@@ -2,7 +2,7 @@
 # This script for selecting wallpapers (SUPER W)
 
 # WALLPAPERS PATH
-wallDIR="$HOME/Pictures/wallpapers"
+wallDIR="$HOME/Pictures/Wallpapers"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
 # Transition config
