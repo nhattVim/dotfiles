@@ -23,7 +23,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf jq
     lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
-    lsd curl wget axel
+    lsd curl wget axel fish
 
     # ----------------------------------------------------
     # System utilities
@@ -81,7 +81,7 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava
+    wlogout pyprland cava caelestia-meta
     # wallust bauh
 
     # ----------------------------------------------------
@@ -159,6 +159,12 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 else
     note "TPM already installed"
 fi
+
+# Generate scheme stuff if needed
+note "Generating caelestia scheme..."
+caelestia scheme set -n shadotheme
+sleep .5
+hyprctl reload
 
 # Wallust
 if ! command -v wallust &>/dev/null; then

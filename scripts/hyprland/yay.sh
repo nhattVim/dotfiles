@@ -50,3 +50,12 @@ $ISAUR -Syu --noconfirm || {
     err "Failed to update system"
     exit 1
 }
+
+# Configure AUR helper
+note "Generating package database for AUR helper..."
+$ISAUR -Y --gendb || warn "Could not generate database"
+
+note "Enabling devel package tracking..."
+$ISAUR -Y --devel --save || warn "Could not enable devel tracking"
+
+ok "AUR helper configuration completed."
