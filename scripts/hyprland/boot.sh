@@ -119,7 +119,7 @@ required_pkgs=(
 
 note "Installing essential packages..."
 for pkg in "${required_pkgs[@]}"; do
-    iPac "$pkg"
+    sudo pacman -S --noconfirm "$pkg"
 done
 
 ok "All configurations completed successfully!"
