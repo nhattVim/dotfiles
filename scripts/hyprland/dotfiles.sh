@@ -11,7 +11,7 @@ waybar_config_laptop="$HOME/.config/waybar/configs/[TOP] Default Laptop_v4"
 
 DOTFILES_DIR=$(mktemp -d)
 HYPR_FOLDER="$HOME/.config/hypr/configs"
-ENV_FILE="$HYPR_FOLDER/env_variables.conf"
+ENV_FILE="$HYPR_FOLDER/envs.conf"
 MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
 SETTINGS_FILE="$HYPR_FOLDER/settings.conf"
 STARTUP_FILE="$HYPR_FOLDER/execs.conf"
@@ -45,10 +45,10 @@ fi
 note "Copying config files"
 
 folder=(
-    ranger btop cava hypr ags
+    ranger btop cava hypr ags caelestia
     kitty Kvantum qt5ct qt6ct rofi swappy
-    swaync swaylock waybar wlogout
-    fastfetch Thunar wallust
+    swaync swaylock waybar wlogout fish
+    fastfetch Thunar wallust foot
 )
 
 for DIR in "${folder[@]}"; do
@@ -90,9 +90,7 @@ chmod +x "$HOME/.config/hypr/scripts/"*
 declare -A startup_apps=(
     ["asusctl"]="rog-control-center"
     ["blueman-applet"]="blueman-applet"
-    ["ags"]="ags"
     ["fcitx5"]="fcitx5 -d"
-    ["asusctl"]="rog-control-center"
 )
 
 # Check if each app is installed and add it to Startup
@@ -115,6 +113,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     sed -i 's/^[[:space:]]*#[[:space:]]*\(env = LIBVA_DRIVER_NAME,nvidia\)/\1/' "$ENV_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(env = __GLX_VENDOR_LIBRARY_NAME,nvidia\)/\1/' "$ENV_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(env = NVD_BACKEND,direct\)/\1/' "$ENV_FILE"
+    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = GSK_RENDERER,ngl\)/\1/' "$ENV_FILE"
     # enabling no hardware cursors if nvidia detected
     sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
 fi
@@ -122,18 +121,13 @@ fi
 # uncommenting WLR_RENDERER_ALLOW_SOFTWARE,1 if running in a VM is detected
 if hostnamectl | grep -q 'Chassis: vm'; then
     note "System is running in a virtual machine"
-    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(env = WLR_RENDERER_ALLOW_SOFTWARE,1\)/\1/' "$ENV_FILE"
     sed -i 's/^[[:space:]]*#[[:space:]]*\(monitor = Virtual-1, 1920x1080@60,auto,1\)/\1/' "$MONITOR_FILE"
+    # enabling no hardware cursors if VM detected
+    sed -i 's/^\([[:space:]]*no_hardware_cursors[[:space:]]*=[[:space:]]*\)false/\1true/' "$SETTINGS_FILE"
 
     note "Change default termial from kitty to foot"
     sed -i 's/kitty/foot/g' "$KEYBINDS_FILE"
-fi
-
-# activating hyprcursor on env by checking if the directory ~/.icons/Bibata-Modern-Ice/hyprcursors exists
-if [ -d "$HOME/.icons/Bibata-Modern-Ice/hyprcursors" ]; then
-    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = HYPRCURSOR_THEME,Bibata-Modern-Ice\)/\1/' "$ENV_FILE"
-    sed -i 's/^[[:space:]]*#[[:space:]]*\(env = HYPRCURSOR_SIZE,24\)/\1/' "$ENV_FILE"
 fi
 
 # Function to detect keyboard layout using localectl or setxkbmap

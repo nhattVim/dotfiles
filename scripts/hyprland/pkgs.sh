@@ -23,7 +23,9 @@ pacman_pkgs=(
     # ----------------------------------------------------
     alacritty tmux zsh nano vim neovim make ripgrep fzf jq
     lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
-    lsd curl wget axel fish
+    lsd curl wget axel starship translate-shell trash-cli
+    fish 
+    
 
     # ----------------------------------------------------
     # System utilities
@@ -31,7 +33,7 @@ pacman_pkgs=(
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
     pacman-contrib nwg-look gammastep polkit-gnome ccache
-    rebuild-detector
+    rebuild-detector adw-gtk-theme
 
     # ----------------------------------------------------
     # Multimedia
@@ -82,12 +84,15 @@ aur_pkgs=(
     # Hyprland Ecosystem
     # ----------------------------------------------------
     wlogout pyprland cava
+    caelestia-cli-git
+    caelestia-shell-git
+    papirus-icon-theme
     # wallust bauh
 
     # ----------------------------------------------------
     # Extras Packages
     # ----------------------------------------------------
-    arttime-git pipes.sh shell-color-scripts-git
+    arttime-git pipes.sh shell-color-scripts-git tty-clock
     ferdium-bin visual-studio-code-bin
     # onlyoffice-bin
     # vmware-workstation
