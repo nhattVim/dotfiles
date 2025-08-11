@@ -1,10 +1,9 @@
 #!/bin/bash
+# Note: You can add more options below with the following format:
+# ["TITLE"]="link"
 
 # Directory for icons
 iDIR="$HOME/.config/swaync/icons"
-
-# Note: You can add more options below with the following format:
-# ["TITLE"]="link"
 
 # Define menu options as an associative array
 declare -A menu_options=(

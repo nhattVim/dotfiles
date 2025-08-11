@@ -72,7 +72,7 @@
                 },
                 {
                     "label": "󰌾",
-                    "command": "~/.config/hypr/scripts/lock_screen.sh"
+                    "command": "~/.config/hypr/scripts/hypr-lock.sh"
                 },
                 {
                     "label": "󰍃",
@@ -80,7 +80,7 @@
                 },
                 {
                     "label": "󰀝",
-                    "command": "~/.config/hypr/scripts/airplane_mode.sh"
+                    "command": "~/.config/hypr/scripts/sys-airplane.sh"
                 },
                 {
                     "label": "󰕾",

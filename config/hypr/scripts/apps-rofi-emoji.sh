@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rofi Emoticons. Not my own. Cant remember the source
+# Rofi Emoticons.
 
 sed '1,/^### DATA ###$/d' $0 | 
 rofi -dmenu -config ~/.config/rofi/config-long.rasi| 

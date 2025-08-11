@@ -1,16 +1,13 @@
 #!/bin/bash
 # Scripts for refreshing ags, waybar, rofi, swaync, wallust
 
-SCRIPTSDIR=$HOME/.config/hypr/scripts
+SHELL_FILE="$HOME/.cache/current_shell"
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
-# Define file_exists function
-file_exists() {
-    if [ -e "$1" ]; then
-        return 0 # File exists
-    else
-        return 1 # File does not exist
-    fi
-}
+# Only run on base shell
+if [[ "$(cat "$SHELL_FILE")" == "caelestia" ]]; then
+    exit 0
+fi
 
 # Kill already running processes
 _ps=(waybar rofi swaync ags)

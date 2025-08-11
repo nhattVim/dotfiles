@@ -14,7 +14,7 @@ polkit=(
     "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
 )
 
-executed=false # Flag to track if a file has been executed
+executed=false
 
 # Loop through the list of files
 for file in "${polkit[@]}"; do

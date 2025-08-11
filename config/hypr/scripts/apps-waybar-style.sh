@@ -4,13 +4,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Define directories
 waybar_styles="$HOME/.config/waybar/style"
 waybar_style="$HOME/.config/waybar/style.css"
 script_dir="$HOME/.config/hypr/scripts"
 rofi_config="$HOME/.config/rofi/config-waybar-style.rasi"
 
-# Function to display menu options
 menu() {
     options=()
     while IFS= read -r file; do
@@ -22,13 +20,11 @@ menu() {
     printf '%s\n' "${options[@]}"
 }
 
-# Apply selected style
 apply_style() {
     ln -sf "$waybar_styles/$1.css" "$waybar_style"
-    "${script_dir}/refresh.sh" &
+    "${script_dir}/hypr-refresh.sh" &
 }
 
-# Main function
 main() {
     choice=$(menu | rofi -i -dmenu -config "$rofi_config")
 
@@ -40,7 +36,6 @@ main() {
     apply_style "$choice"
 }
 
-# Kill Rofi if already running before execution
 if pgrep -x "rofi" >/dev/null; then
     pkill rofi
 fi

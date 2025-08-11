@@ -1,33 +1,36 @@
 #!/bin/bash
-# Keyhints. Idea got from Garuda Hyprland
+# Keyhints - Idea from Garuda Hyprland
 
-# Detect monitor resolution and scale
-x_mon=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .width')
-y_mon=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .height')
-hypr_scale=$(hyprctl -j monitors | jq '.[] | select (.focused == true) | .scale' | sed 's/\.//')
+set -euo pipefail
 
-# Calculate width and height based on percentages and monitor resolution
-width=$((x_mon * hypr_scale / 100))
-height=$((y_mon * hypr_scale / 100))
+# Get monitor info for focused monitor
+monitor_info=$(hyprctl -j monitors | jq '.[] | select(.focused==true)')
+x_mon=$(jq -r '.width' <<<"$monitor_info")
+y_mon=$(jq -r '.height' <<<"$monitor_info")
+hypr_scale=$(jq -r '.scale' <<<"$monitor_info")
 
-# Set maximum width and height
+# Configurable constants
 max_width=1200
 max_height=1000
-
-# Set percentage of screen size for dynamic adjustment
 percentage_width=70
 percentage_height=70
 
-# Calculate dynamic width and height
-dynamic_width=$((width * percentage_width / 100))
-dynamic_height=$((height * percentage_height / 100))
+# Calculate scaled resolution
+scaled_width=$(awk "BEGIN {print $x_mon * $hypr_scale}")
+scaled_height=$(awk "BEGIN {print $y_mon * $hypr_scale}")
 
-# Limit width and height to maximum values
-dynamic_width=$(($dynamic_width > $max_width ? $max_width : $dynamic_width))
-dynamic_height=$(($dynamic_height > $max_height ? $max_height : $dynamic_height))
+# Calculate dynamic size
+dynamic_width=$(awk -v sw="$scaled_width" -v pw="$percentage_width" \
+    'BEGIN {print int(sw * pw / 100)}')
+dynamic_height=$(awk -v sh="$scaled_height" -v ph="$percentage_height" \
+    'BEGIN {print int(sh * ph / 100)}')
 
-# Launch yad with calculated width and height
-yad --width=$dynamic_width --height=$dynamic_height \
+# Apply max limits
+((dynamic_width > max_width)) && dynamic_width=$max_width
+((dynamic_height > max_height)) && dynamic_height=$max_height
+
+# Show keybindings
+yad --width="$dynamic_width" --height="$dynamic_height" \
     --center \
     --title="Keybindings" \
     --no-buttons \
@@ -48,7 +51,7 @@ yad --width=$dynamic_width --height=$dynamic_height \
     " B" "hide / unhide waybar" "waybar" \
     " M" "fullscreen mode 0" "toggles to full screen mode 0" \
     " Shift M" "fullscreen mode 1" "toggles to full screen mode 1" \
-    " Shift Q " "closes a specified window" "(window)" \
+    " Shift Q" "closes a specified window" "(window)" \
     " Shift W" "choose waybar styles" "(waybar styles)" \
     " Shift N" "launch notification panel" "swaync notification center" \
     " Shift Print" "screenshot region" "(grim + slurp)" \

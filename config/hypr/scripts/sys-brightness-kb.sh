@@ -23,6 +23,7 @@ get_icon() {
         icon="$iDIR/brightness-100.png"
     fi
 }
+
 # Notify
 notify_user() {
     notify-send -e -h string:x-canonical-private-synchronous:brightness_notif -h int:value:$current -u low -i "$icon" "Keyboard Brightness : $current%"

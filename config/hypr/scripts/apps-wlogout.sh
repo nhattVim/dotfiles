@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # wlogout (Power, Screen Lock, Suspend, etc)
 
 # Set variables for parameters

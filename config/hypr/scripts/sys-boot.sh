@@ -23,7 +23,7 @@ effect="--transition-bezier .43,1.19,1,.4 --transition-fps 30 --transition-type 
 
 sleep 1
 
-# initialize pywal and wallpaper
+# initialize wallust and wallpaper
 if [ -f "$wallpaper" ]; then
     wallust run -s $wallpaper >/dev/null
     swww query || swww-daemon && $swww $wallpaper $effect

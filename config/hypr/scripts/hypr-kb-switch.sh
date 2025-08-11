@@ -8,7 +8,7 @@ notif="$HOME/.config/swaync/images/bell.png"
 if [ ! -f "$layout_f" ]; then
 	default_layout=$(grep 'kb_layout=' "$settings_file" | cut -d '=' -f 2 | cut -d ',' -f 1 2>/dev/null)
 	if [ -z "$default_layout" ]; then
-		default_layout="us" # Default to 'us' layout if Settings.conf or 'kb_layout' is not found
+		default_layout="us"
 	fi
 	echo "$default_layout" >"$layout_f"
 fi

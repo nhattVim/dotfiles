@@ -10,7 +10,6 @@ waybar_config="$HOME/.config/waybar/config"
 scripts_dir="$HOME/.config/hypr/scripts"
 rofi_config="$HOME/.config/rofi/config-waybar-layout.rasi"
 
-# Function to display menu options
 menu() {
     options=()
     while IFS= read -r file; do
@@ -20,13 +19,11 @@ menu() {
     printf '%s\n' "${options[@]}"
 }
 
-# Apply selected configuration
 apply_config() {
     ln -sf "$waybar_layouts/$1" "$waybar_config"
-    "${scripts_dir}/refresh.sh" &
+    "${scripts_dir}/hypr-refresh.sh" &
 }
 
-# Main function
 main() {
     choice=$(menu | rofi -i -dmenu -config "$rofi_config")
 
@@ -45,7 +42,6 @@ main() {
     esac
 }
 
-# Kill Rofi if already running before execution
 if pgrep -x "rofi" >/dev/null; then
     pkill rofi
 fi
