@@ -83,12 +83,11 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava
+    wlogout pyprland cava wallust
     papirus-icon-theme
     caelestia-shell-git 
     # caelestia-meta
     # quickshell-git google-breakpad-git caelestia-cli-git 
-    # wallust bauh
 
     # ----------------------------------------------------
     # Extras Packages
@@ -164,15 +163,6 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
         $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
 else
     note "TPM already installed"
-fi
-
-# Wallust
-if ! command -v wallust &>/dev/null; then
-    act "Installing Wallust..."
-    cargo install wallust && ok "Wallust installed" &&
-        echo 'export PATH="$HOME/.cargo/bin:$PATH"' >>$HOME/.bashrc
-else
-    note "Wallust already installed"
 fi
 
 ok "All packages installed successfully!"
