@@ -15,7 +15,7 @@ ENV_FILE="$HYPR_FOLDER/envs.conf"
 MONITOR_FILE="$HYPR_FOLDER/monitors.conf"
 SETTINGS_FILE="$HYPR_FOLDER/settings.conf"
 STARTUP_FILE="$HYPR_FOLDER/execs.conf"
-KEYBINDS_FILE="$HYPR_FOLDER/keybinds.conf"
+KEYBINDS_FILE="$HYPR_FOLDER/keybinds/base.conf"
 
 # start script
 gum style \

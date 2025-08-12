@@ -84,9 +84,10 @@ aur_pkgs=(
     # Hyprland Ecosystem
     # ----------------------------------------------------
     wlogout pyprland cava
-    caelestia-meta
+    papirus-icon-theme
+    caelestia-shell-git 
+    # caelestia-meta
     # quickshell-git google-breakpad-git caelestia-cli-git 
-    # caelestia-shell-git papirus-icon-theme
     # wallust bauh
 
     # ----------------------------------------------------
