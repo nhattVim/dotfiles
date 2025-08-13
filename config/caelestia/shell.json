@@ -1,13 +1,15 @@
 {
     "launcher": {
         "actionPrefix": ":",
-        "vimKeybinds": true
+        "vimKeybinds": true,
+        "enableDangerousActions": true
     },
     "services": {
         "useFahrenheit": false,
-        "useCelsius": true
+        "useCelsius": true,
+        "smartScheme": true
     },
     "session": {
-        "vimKeybinds": true,
+        "vimKeybinds": true
     }
 }
