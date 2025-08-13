@@ -74,7 +74,8 @@ cp -r "$DOTFILES_DIR/Wallpapers" "$HOME/Pictures/" && { ok "Copy wallpapers comp
 }
 
 # Copying assets files
-cp "$DOTFILES_DIR/assets/.ideavimrc" "$HOME" &&
+cp "$DOTFILES_DIR/assets/starship.toml" "$HOME" &&
+    cp "$DOTFILES_DIR/assets/.ideavimrc" "$HOME" &&
     cp "$DOTFILES_DIR/assets/.zshrc" "$HOME" &&
     cp "$DOTFILES_DIR/assets/.zprofile" "$HOME" && { ok "Copy assets files completed"; } || {
     err "Failed to copy assets files"
@@ -253,7 +254,10 @@ fi
 ln -sf "$waybar_style" "$HOME/.config/waybar/style.css" &&
 
     # initialize wallust to avoid config error on hyprland
-    wallust run -s $wallpaper
+    wallust run -s $wallpaper &&
+
+    # Generate scheme stuff
+    caelestia scheme set -n shadotheme
 
 # additional wallpapers
 note "By default only a few wallpapers are copied..." && cd "$HOME"
