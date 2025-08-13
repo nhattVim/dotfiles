@@ -1,15 +1,16 @@
 #!/bin/bash
 # Wallpaper Selector Script (SUPER + W)
+# Support swww (base) and caelestia wallpaper (caelestia shell)
 
 set -euo pipefail
 
-wallDIR="$HOME/Pictures/Wallpapers"
-SCRIPTSDIR="$HOME/.config/hypr/scripts"
+WALL_DIR="$HOME/Pictures/Wallpapers"
+SCRIPT_SDIR="$HOME/.config/hypr/scripts"
+SHELL_FILE="$HOME/.cache/current_shell"
 
 FPS=60
-TYPE="any" # alternatives: wipe, simple, etc.
+TYPE="any" # wipe, simple, etc.
 DURATION=2
-BEZIER=".43,1.19,1,.4" # (currently unused but can be added)
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION"
 
 focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name; exit}')
@@ -18,7 +19,7 @@ if pidof swaybg >/dev/null; then
     pkill swaybg
 fi
 
-mapfile -d '' PICS < <(find "$wallDIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
+mapfile -d '' PICS < <(find "$WALL_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
 
 RANDOM_PIC="${PICS[RANDOM % ${#PICS[@]}]}"
 RANDOM_PIC_NAME=". random"
@@ -40,9 +41,18 @@ menu() {
     done
 }
 
-if ! swww query &>/dev/null; then
+# Get current shell
+if [[ -f "$SHELL_FILE" ]]; then
+    CURRENT_SHELL=$(<"$SHELL_FILE")
+else
+    CURRENT_SHELL="base"
+fi
+
+# If swww-daemon is not running, start it
+if [[ "$CURRENT_SHELL" == "base" && ! $(swww query 2>/dev/null) ]]; then
+    pkill swww-daemon 2>/dev/null || true
     swww-daemon --format xrgb &
-    sleep 1
+    sleep 0.5
 fi
 
 main() {
@@ -54,15 +64,21 @@ main() {
         exit 0
     fi
 
+    # Random
     if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
-        swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
-        sleep 2
-        "$SCRIPTSDIR/apps-wall-swww.sh"
-        sleep 0.5
-        "$SCRIPTSDIR/hypr-refresh.sh"
+        if [[ "$CURRENT_SHELL" == "base" ]]; then
+            swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
+            sleep 1
+            "$SCRIPT_SDIR/apps-wall-swww.sh"
+            sleep 0.5
+            "$SCRIPT_SDIR/hypr-refresh.sh"
+        else
+            caelestia wallpaper -f "$RANDOM_PIC"
+        fi
         exit 0
     fi
 
+    # Get the index of the selected image
     pic_index=-1
     for i in "${!PICS[@]}"; do
         filename=$(basename "${PICS[$i]}")
@@ -72,8 +88,17 @@ main() {
         fi
     done
 
+    # Set the wallpaper
     if ((pic_index != -1)); then
-        swww img -o "$focused_monitor" "${PICS[$pic_index]}" $SWWW_PARAMS
+        if [[ "$CURRENT_SHELL" == "base" ]]; then
+            swww img -o "$focused_monitor" "${PICS[$pic_index]}" $SWWW_PARAMS
+            sleep 1
+            "$SCRIPT_SDIR/apps-wall-swww.sh"
+            sleep 0.5
+            "$SCRIPT_SDIR/hypr-refresh.sh"
+        else
+            caelestia wallpaper -f "${PICS[$pic_index]}"
+        fi
     else
         echo "Image not found."
         exit 1
@@ -85,9 +110,3 @@ if pidof rofi >/dev/null; then
 fi
 
 main
-
-wait $!
-"$SCRIPTSDIR/apps-wall-swww.sh"
-wait $!
-sleep 1
-"$SCRIPTSDIR/hypr-refresh.sh"
