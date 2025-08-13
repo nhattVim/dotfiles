@@ -143,8 +143,9 @@ alias xamppui='sudo /opt/lampp/manager-linux-x64.run'
 alias win='sudo efibootmgr --bootnext 0006 && reboot'
 alias myip="echo $(ifconfig | grep broadcast | awk '{print $2}')"
 alias dl='aria2c --enable-http-pipelining=true --max-concurrent-downloads=32 -s 32 -x 16 -k 8M --file-allocation=none --auto-file-renaming=false --summary-interval=0 --console-log-level=warn'
-alias time="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVim' --ac 6"
-
-colorscript -e tiefighter2 | lolcat
+alias time1="arttime --nolearn -a kissingcats -b kissingcats2 -t 'nhattruongNeoVim' --ac 6"
+alias time2="tty-clock -c -s"
 
 # --------------------------------------------------------------
+
+fastfetch
