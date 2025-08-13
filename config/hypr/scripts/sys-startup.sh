@@ -19,6 +19,7 @@ base)
 
     # Wallpaper daemon
     swww-daemon --format xrgb &
+    sleep .5
     "$SCRIPTS_DIR/apps-wall-auto.sh" "$WALL_DIR" &
 
     exit 0

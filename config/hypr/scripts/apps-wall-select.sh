@@ -57,9 +57,9 @@ main() {
     if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
         swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
         sleep 2
-        "$SCRIPTSDIR/wallust_swww.sh"
+        "$SCRIPTSDIR/apps-wall-swww.sh"
         sleep 0.5
-        "$SCRIPTSDIR/refresh.sh"
+        "$SCRIPTSDIR/hypr-refresh.sh"
         exit 0
     fi
 
