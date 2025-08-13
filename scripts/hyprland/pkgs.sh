@@ -16,7 +16,7 @@ pacman_pkgs=(
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo gdb
     jdk-openjdk python-pyquery python-beautifulsoup4 rust
-    python-pynvim
+    python-pynvim nodejs npm
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -24,8 +24,7 @@ pacman_pkgs=(
     alacritty tmux zsh nano vim neovim make ripgrep fzf jq
     lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
     lsd curl wget axel starship translate-shell trash-cli
-    fish 
-    
+    fish
 
     # ----------------------------------------------------
     # System utilities
@@ -45,7 +44,6 @@ pacman_pkgs=(
     # ----------------------------------------------------
     discord neovide ranger cmatrix qalculate-gtk mousepad
     telegram-desktop eog libreoffice-fresh
-    # chromium
 
     # ----------------------------------------------------
     # Hyprland Ecosystem
@@ -55,7 +53,7 @@ pacman_pkgs=(
     xdg-user-dirs xdg-utils yad hyprcursor hyprutils nvtop
     aquamarine hypridle hyprlock hyprland hyprland-qtutils
     libspng imagemagick kitty kvantum rofi-wayland swaync
-    swww waybar swappy swayidle
+    swww waybar swappy swayidle hyprpicker
 
     # ----------------------------------------------------
     # Fonts
@@ -83,11 +81,8 @@ aur_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    wlogout pyprland cava wallust
-    papirus-icon-theme
-    caelestia-shell-git 
-    # caelestia-meta
-    # quickshell-git google-breakpad-git caelestia-cli-git 
+    wlogout pyprland cava wallust papirus-icon-theme
+    caelestia-shell-git
 
     # ----------------------------------------------------
     # Extras Packages
