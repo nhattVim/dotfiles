@@ -74,7 +74,7 @@ cp -r "$DOTFILES_DIR/Wallpapers" "$HOME/Pictures/" && { ok "Copy wallpapers comp
 }
 
 # Copying assets files
-cp "$DOTFILES_DIR/assets/starship.toml" "$HOME" &&
+cp "$DOTFILES_DIR/assets/starship.toml" "$HOME/.config" &&
     cp "$DOTFILES_DIR/assets/.ideavimrc" "$HOME" &&
     cp "$DOTFILES_DIR/assets/.zshrc" "$HOME" &&
     cp "$DOTFILES_DIR/assets/.zprofile" "$HOME" && { ok "Copy assets files completed"; } || {
