@@ -77,6 +77,7 @@ $scoop_pkgs = @(
     "oh-my-posh"
     "lsd"
     "winfetch"
+    "fastfetch"
     "ripgrep"
     "unzip"
     "wget"
@@ -175,6 +176,23 @@ StartMsg -msg "Config Powershell"
 New-Item -Path $PROFILE -Type File -Force
 $PROFILEPath = $PROFILE
 Get-Content -Path "$Dot\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
+MsgDone
+
+# Config fastfetch
+StartMsg -msg "Config fastfetch"
+$fastfetchSrc = "$Dot\fastfetch"
+$fastfetchDst = "$env:USERPROFILE\.config"
+
+if (Test-Path $fastfetchSrc) {
+    if (!(Test-Path $fastfetchDst)) {
+        New-Item -ItemType Directory -Path $fastfetchDst -Force | Out-Null
+    }
+    Copy-Item -Path $fastfetchSrc -Destination $fastfetchDst -Recurse -Force
+    Write-Host "Fastfetch folder copied to $fastfetchDst"
+} else {
+    Write-Warning "Fastfetch folder not found in dotfiles."
+}
+
 MsgDone
 
 # Configuring Windhawk
