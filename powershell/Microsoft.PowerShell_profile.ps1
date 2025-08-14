@@ -214,4 +214,4 @@ function scr
 
 # Init prompt
 oh-my-posh init pwsh --config '~/scoop/apps/oh-my-posh/current/themes/amro.omp.json' | Invoke-Expression
-winfetch
+fastfetch
