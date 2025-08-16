@@ -14,15 +14,14 @@ STATE=$(cat "$STATE_FILE")
 
 # Function to enable Night Mode
 enable_night_mode() {
-    pkill -x gammastep
-    gammastep -O 4000 -m wayland &
+    hyprctl hyprsunset temperature 2500
     echo "on" >"$STATE_FILE"
     notify-send -e -u low " 🌙 Night Mode: ON"
 }
 
 # Function to disable Night Mode
 disable_night_mode() {
-    pkill -x gammastep
+    hyprctl hyprsunset identity
     echo "off" >"$STATE_FILE"
     notify-send -e -u low " 🌞 Night Mode: OFF"
 }

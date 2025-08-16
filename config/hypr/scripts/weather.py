@@ -2,109 +2,123 @@
 
 import json
 import os
-from datetime import datetime, timedelta
 
 import requests
+from pyquery import PyQuery
 
-# Weather icons mapping
-weather_icons = {
-    "clear-day": "󰖙",
-    "clear-night": "󰖔",
-    "partly-cloudy-day": "",
-    "partly-cloudy-night": "",
-    "cloudy": "",
-    "fog": "",
-    "rain": "",
-    "drizzle": "",
-    "thunderstorm": "",
-    "snow": "",
-    "sleet": "",
-    "wind": "",
+# Weather icons
+ICONS = {
+    "sunnyDay": "󰖙",
+    "clearNight": "󰖔",
+    "cloudyFoggyDay": "",
+    "cloudyFoggyNight": "",
+    "rainyDay": "",
+    "rainyNight": "",
+    "snowyIcyDay": "",
+    "snowyIcyNight": "",
+    "severe": "",
     "default": "",
 }
 
-CACHE_FILE = os.path.expanduser("~/.cache/weather_cache.json")
-CACHE_TIME = 30  # Cache expiration time (minutes)
-
 
 def get_location():
-    """Retrieve latitude and longitude based on IP address."""
+    """Get current location (lat, lon) using IP."""
     try:
-        response = requests.get("https://ipinfo.io/json")
-        data = response.json()
-        lat, lon = map(float, data["loc"].split(","))
-        return lat, lon
-    except Exception as e:
-        print(f"⚠️ Error fetching location: {e}")
-        return None, None
+        data = requests.get("https://ipinfo.io", timeout=5).json()
+        lat, lon = data["loc"].split(",")
+        return float(lat), float(lon)
+    except Exception:
+        # fallback: Manila
+        return 14.5995, 120.9842
 
 
-def fetch_weather(lat, lon):
-    """Fetch weather data from Open-Meteo API."""
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+def fetch_weather_html(lat, lon):
+    url = f"https://weather.com/en-PH/weather/today/l/{lat},{lon}"
+    return PyQuery(url=url)
+
+
+def safe_text(query, idx=0):
+    """Return text from query, safe for missing nodes."""
     try:
-        response = requests.get(url, timeout=5)
-        return response.json() if response.status_code == 200 else None
-    except Exception as e:
-        print(f"⚠️ Error fetching weather data: {e}")
-        return None
-
-
-def get_cached_weather():
-    """Read cached weather data if it's still valid."""
-    if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, "r") as f:
-            data = json.load(f)
-        if "timestamp" in data and datetime.now() - datetime.fromisoformat(
-            data["timestamp"]
-        ) < timedelta(minutes=CACHE_TIME):
-            return data
-    return None
-
-
-def save_cache(data):
-    """Save weather data to cache."""
-    data["timestamp"] = datetime.now().isoformat()
-    with open(CACHE_FILE, "w") as f:
-        json.dump(data, f)
-
-
-def format_weather(data):
-    """Format weather data for output."""
-    temp = data["current_weather"]["temperature"]
-    wind_speed = data["current_weather"]["windspeed"]
-    status_code = data["current_weather"].get("weathercode", "default")
-    icon = weather_icons.get(status_code, weather_icons["default"])
-
-    return {
-        "text": f"{icon} {temp}°C",
-        "tooltip": f"<b>{icon} {temp}°C</b>\n💨 Wind: {wind_speed} km/h",
-        "alt": f"Temp: {temp}°C, Wind: {wind_speed} km/h",
-    }
+        return query.eq(idx).text()
+    except Exception:
+        return ""
 
 
 def main():
-    """Main function to fetch and display weather data."""
     lat, lon = get_location()
-    if not lat or not lon:
-        print(
-            json.dumps(
-                {"text": "⚠️ Error: No location", "tooltip": "Could not get location"}
-            )
-        )
-        return
+    html = fetch_weather_html(lat, lon)
 
-    data = get_cached_weather()
-    if not data:
-        data = fetch_weather(lat, lon)
-        if data:
-            save_cache(data)
+    temp = safe_text(html("span[data-testid='TemperatureValue']"))
+    status = html("div[data-testid='wxPhrase']").text()
+    status = f"{status[:16]}.." if len(status) > 17 else status
 
-    if data:
-        output = format_weather(data)
-        print(json.dumps(output))
-    else:
-        print(json.dumps({"text": "⚠️ No data", "tooltip": "Weather data unavailable"}))
+    # extract status code from CSS class
+    status_class = html("#regionHeader").attr("class") or ""
+    status_code = (
+        status_class.split(" ")[2].split("-")[2] if "-" in status_class else "default"
+    )
+    icon = ICONS.get(status_code, ICONS["default"])
+
+    temp_feel = safe_text(
+        html("div[data-testid='FeelsLikeSection'] span[data-testid='TemperatureValue']")
+    )
+    temp_feel_text = f"Feels like {temp_feel}c" if temp_feel else ""
+
+    # min/max temp
+    wx_data = html("div[data-testid='wxData'] span[data-testid='TemperatureValue']")
+    temp_max, temp_min = safe_text(wx_data, 0), safe_text(wx_data, 1)
+    temp_min_max = f" {temp_min}\t {temp_max}"
+
+    wind = html("span[data-testid='Wind'] > span").text()
+    humidity = html("span[data-testid='PercentageValue']").text()
+    visibility = html("span[data-testid='VisibilityValue']").text()
+    aqi = html("text[data-testid='DonutChartValue']").text()
+
+    # hourly rain prediction
+    prediction = html(
+        "section[aria-label='Hourly Forecast'] div[data-testid='SegmentPrecipPercentage'] > span"
+    ).text()
+    prediction = (
+        f"\n\n (hourly) {prediction.replace('Chance of Rain', '')}"
+        if prediction
+        else ""
+    )
+
+    # Tooltip (Pango markup)
+    tooltip = (
+        f"\t\t<span size='xx-large'>{temp}</span>\t\t\n"
+        f"<big>{icon}</big>\n"
+        f"<b>{status}</b>\n"
+        f"<small>{temp_feel_text}</small>\n\n"
+        f"<b>{temp_min_max}</b>\n"
+        f" {wind}\t {humidity}\n"
+        f" {visibility}\tAQI {aqi}\n"
+        f"<i>{prediction}</i>"
+    )
+
+    # Output for Waybar
+    out = {
+        "text": f"{icon} {temp}",
+        "alt": status,
+        "tooltip": tooltip,
+        "class": status_code,
+    }
+    print(json.dumps(out))
+
+    # Simple cache text
+    simple_weather = (
+        f"{icon} {status}\n"
+        f" {temp} ({temp_feel_text})\n"
+        f" {wind}\n"
+        f" {humidity}\n"
+        f" {visibility} AQI {aqi}\n"
+    )
+    try:
+        with open(os.path.expanduser("~/.cache/.weather_cache"), "w") as f:
+            f.write(simple_weather)
+    except OSError as e:
+        print(f"Error writing cache: {e}")
 
 
 if __name__ == "__main__":
