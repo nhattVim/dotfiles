@@ -15,8 +15,18 @@ declare -A files=(
     ["view settings"]="settings.conf"
 )
 
-choice=$(printf '%s\n' "${!files[@]}" | sort | rofi -dmenu -config ~/.config/rofi/config-compact.rasi)
+# If rofi is running, kill it
+if pidof rofi >/dev/null; then
+    pkill rofi
+    exit 0
+fi
 
+# Select a file
+choice=$(printf '%s\n' "${!files[@]}" |
+    sort |
+    rofi -dmenu -config ~/.config/rofi/config-compact.rasi)
+
+# Open the selected file
 if [[ -n "$choice" && -f "$configs/${files[$choice]}" ]]; then
     kitty -e nvim "$configs/${files[$choice]}"
 fi

@@ -1,11 +1,8 @@
 #!/bin/bash
-# Note: You can add more options below with the following format:
-# ["TITLE"]="link"
+# Online Music Toggle Menu
 
-# Directory for icons
 iDIR="$HOME/.config/swaync/icons"
 
-# Define menu options as an associative array
 declare -A menu_options=(
 	["1.Lofi Girl"]="https://play.streamafrica.net/lofiradio"
 	["2.Easy Rock"]="https://radio-stations-philippines.com/easy-rock"
@@ -19,21 +16,17 @@ declare -A menu_options=(
 	["10.Coder Relax Music"]="https://youtu.be/KWX8lzzzrzA?si=YslYNHb40vHNMU04"
 )
 
-# Function for displaying notifications
 notification() {
 	notify-send -u normal -i "$iDIR/music.png" "Playing now: $@"
 }
 
-# Main function
 main() {
 	choice=$(printf "%s\n" "${!menu_options[@]}" | sort -n | rofi -dmenu -config ~/.config/rofi/config-rofi-Beats.rasi -i -p "")
 
-	if [ -z "$choice" ]; then
-		exit 1
-	fi
+	# Exit if nothing is selected
+	[ -z "$choice" ] && exit 0
 
 	link="${menu_options[$choice]}"
-
 	notification "$choice"
 
 	# Check if the link is a playlist
@@ -44,5 +37,16 @@ main() {
 	fi
 }
 
-# Check if an online music process is running and send a notification, otherwise run the main function
-pkill mpv && notify-send -u low -i "$iDIR/music.png" "Online Music stopped" || main
+# --- Toggle logic ---
+if pidof rofi >/dev/null; then
+	# If rofi is running, kill it
+	pkill rofi
+	exit 0
+elif pidof mpv >/dev/null; then
+	# If mpv is running, kill it
+	pkill mpv
+	notify-send -u low -i "$iDIR/music.png" "Online Music stopped"
+	exit 0
+else
+	main
+fi
