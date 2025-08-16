@@ -7,7 +7,7 @@
     "services": {
         "useFahrenheit": false,
         "useCelsius": true,
-        "smartScheme": true
+        "smartScheme": false
     },
     "session": {
         "vimKeybinds": true

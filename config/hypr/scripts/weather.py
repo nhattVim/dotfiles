@@ -1,22 +1,40 @@
 #!/usr/bin/env python3
+# Weather widget for Waybar / Hyprland
+# Weather provider: Open-Meteo (https://open-meteo.com/)
 
 import json
 import os
 
 import requests
-from pyquery import PyQuery
 
-# Weather icons
+# Weather icons mapped from Open-Meteo weather codes
 ICONS = {
-    "sunnyDay": "󰖙",
-    "clearNight": "󰖔",
-    "cloudyFoggyDay": "",
-    "cloudyFoggyNight": "",
-    "rainyDay": "",
-    "rainyNight": "",
-    "snowyIcyDay": "",
-    "snowyIcyNight": "",
-    "severe": "",
+    0: "󰖙",  # Clear sky
+    1: "󰖙",  # Mainly clear
+    2: "",  # Partly cloudy
+    3: "",  # Overcast
+    45: "",  # Fog
+    48: "",  # Depositing rime fog
+    51: "",  # Light drizzle
+    53: "",  # Moderate drizzle
+    55: "",  # Dense drizzle
+    61: "",  # Slight rain
+    63: "",  # Moderate rain
+    65: "",  # Heavy rain
+    66: "",  # Freezing rain (light)
+    67: "",  # Freezing rain (heavy)
+    71: "󰼴",  # Slight snow fall
+    73: "󰼴",  # Moderate snow fall
+    75: "󰼴",  # Heavy snow fall
+    77: "",  # Snow grains
+    80: "",  # Rain showers (slight)
+    81: "",  # Rain showers (moderate)
+    82: "",  # Rain showers (violent)
+    85: "󰼴",  # Snow showers (slight)
+    86: "󰼴",  # Snow showers (heavy)
+    95: "",  # Thunderstorm
+    96: "",  # Thunderstorm with hail
+    99: "",  # Thunderstorm with heavy hail
     "default": "",
 }
 
@@ -28,91 +46,59 @@ def get_location():
         lat, lon = data["loc"].split(",")
         return float(lat), float(lon)
     except Exception:
-        # fallback: Manila
-        return 14.5995, 120.9842
+        # fallback: Hanoi
+        return 21.0285, 105.8542
 
 
-def fetch_weather_html(lat, lon):
-    url = f"https://weather.com/en-PH/weather/today/l/{lat},{lon}"
-    return PyQuery(url=url)
-
-
-def safe_text(query, idx=0):
-    """Return text from query, safe for missing nodes."""
-    try:
-        return query.eq(idx).text()
-    except Exception:
-        return ""
+def fetch_weather(lat, lon):
+    """Fetch current weather from Open-Meteo API."""
+    url = (
+        f"https://api.open-meteo.com/v1/forecast"
+        f"?latitude={lat}&longitude={lon}"
+        f"&current=temperature_2m,apparent_temperature,weathercode,"
+        f"relative_humidity_2m,wind_speed_10m,visibility"
+    )
+    return requests.get(url, timeout=5).json()["current"]
 
 
 def main():
     lat, lon = get_location()
-    html = fetch_weather_html(lat, lon)
+    current = fetch_weather(lat, lon)
 
-    temp = safe_text(html("span[data-testid='TemperatureValue']"))
-    status = html("div[data-testid='wxPhrase']").text()
-    status = f"{status[:16]}.." if len(status) > 17 else status
+    temp = f"{current['temperature_2m']}°C"
+    temp_feel = f"Feels like {current['apparent_temperature']}°C"
+    humidity = f"{current['relative_humidity_2m']}%"
+    wind = f"{current['wind_speed_10m']} km/h"
+    visibility = f"{round(current['visibility']/1000,1)} km"
 
-    # extract status code from CSS class
-    status_class = html("#regionHeader").attr("class") or ""
-    status_code = (
-        status_class.split(" ")[2].split("-")[2] if "-" in status_class else "default"
-    )
-    icon = ICONS.get(status_code, ICONS["default"])
+    code = current["weathercode"]
+    icon = ICONS.get(code, ICONS["default"])
 
-    temp_feel = safe_text(
-        html("div[data-testid='FeelsLikeSection'] span[data-testid='TemperatureValue']")
-    )
-    temp_feel_text = f"Feels like {temp_feel}c" if temp_feel else ""
-
-    # min/max temp
-    wx_data = html("div[data-testid='wxData'] span[data-testid='TemperatureValue']")
-    temp_max, temp_min = safe_text(wx_data, 0), safe_text(wx_data, 1)
-    temp_min_max = f" {temp_min}\t {temp_max}"
-
-    wind = html("span[data-testid='Wind'] > span").text()
-    humidity = html("span[data-testid='PercentageValue']").text()
-    visibility = html("span[data-testid='VisibilityValue']").text()
-    aqi = html("text[data-testid='DonutChartValue']").text()
-
-    # hourly rain prediction
-    prediction = html(
-        "section[aria-label='Hourly Forecast'] div[data-testid='SegmentPrecipPercentage'] > span"
-    ).text()
-    prediction = (
-        f"\n\n (hourly) {prediction.replace('Chance of Rain', '')}"
-        if prediction
-        else ""
-    )
-
-    # Tooltip (Pango markup)
+    # Tooltip with Pango markup
     tooltip = (
-        f"\t\t<span size='xx-large'>{temp}</span>\t\t\n"
+        f"<span size='xx-large'>{temp}</span>\n"
         f"<big>{icon}</big>\n"
-        f"<b>{status}</b>\n"
-        f"<small>{temp_feel_text}</small>\n\n"
-        f"<b>{temp_min_max}</b>\n"
+        f"<small>{temp_feel}</small>\n\n"
         f" {wind}\t {humidity}\n"
-        f" {visibility}\tAQI {aqi}\n"
-        f"<i>{prediction}</i>"
+        f" {visibility}\n"
     )
 
-    # Output for Waybar
+    # Waybar output
     out = {
         "text": f"{icon} {temp}",
-        "alt": status,
+        "alt": str(code),
         "tooltip": tooltip,
-        "class": status_code,
+        "class": str(code),
     }
     print(json.dumps(out))
 
-    # Simple cache text
+    # Cache text
     simple_weather = (
-        f"{icon} {status}\n"
-        f" {temp} ({temp_feel_text})\n"
+        f"{icon} {temp}\n"
+        f"{temp_feel}\n"
         f" {wind}\n"
         f" {humidity}\n"
-        f" {visibility} AQI {aqi}\n"
+        f" {visibility}\n"
     )
     try:
         with open(os.path.expanduser("~/.cache/.weather_cache"), "w") as f:

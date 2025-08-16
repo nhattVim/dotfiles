@@ -14,7 +14,8 @@ STATE=$(cat "$STATE_FILE")
 
 # Function to enable Night Mode
 enable_night_mode() {
-    hyprctl hyprsunset temperature 2500
+    hyprctl hyprsunset temperature 3500
+    hyprctl hyprsunset gamma 90
     echo "on" >"$STATE_FILE"
     notify-send -e -u low " 🌙 Night Mode: ON"
 }
@@ -22,6 +23,7 @@ enable_night_mode() {
 # Function to disable Night Mode
 disable_night_mode() {
     hyprctl hyprsunset identity
+    hyprctl hyprsunset gamma 100
     echo "off" >"$STATE_FILE"
     notify-send -e -u low " 🌞 Night Mode: OFF"
 }
@@ -34,12 +36,6 @@ toggle_mode() {
         enable_night_mode
     fi
 }
-
-# Check and enable Night Mode on startup
-if [[ "$1" == "--startup" && "$STATE" == "on" ]]; then
-    enable_night_mode
-    exit 0
-fi
 
 # Handle input arguments
 case "$1" in

@@ -1,64 +1,62 @@
 #!/bin/bash
+# Weather widget for Waybar / Hyprland
+# Weather provider: Open-Meteo (https://open-meteo.com/)
 
-set -euo pipefail
-
-city=""
 cachedir="$HOME/.cache/rbn"
-cachefile="$cachedir/weather-${1:-default}"
+cachefile="$cachedir/weather.json"
+cacheage=0
 
 mkdir -p "$cachedir"
 
-# refresh every 30min
-cache_ttl=1740
-
-# Refresh cache if too old or empty
-if [[ ! -s "$cachefile" || $(($(date +%s) - $(stat -c '%Y' "$cachefile" 2>/dev/null || echo 0))) -gt $cache_ttl ]]; then
-	mapfile -t data < <(curl -s "https://en.wttr.in/${city}${1:-}?0qnT")
-	{
-		echo "${data[0]%%,*}"             # Location
-		echo "${data[1]#???????????????}" # Condition
-		echo "${data[2]#???????????????}" # Temperature
-	} >"$cachefile"
+if [[ -f "$cachefile" ]]; then
+	cacheage=$(($(date +%s) - $(stat -c '%Y' "$cachefile")))
 fi
 
-mapfile -t weather <"$cachefile"
+# refresh every 30 mins (1800s)
+if [[ $cacheage -gt 1800 ]] || [[ ! -s $cachefile ]]; then
+	# get location via ipinfo
+	loc=$(curl -s --max-time 5 https://ipinfo.io/loc 2>/dev/null)
+	if [[ -z "$loc" ]]; then
+		# fallback: Hanoi
+		lat=21.0285
+		lon=105.8542
+	else
+		lat=${loc%,*}
+		lon=${loc#*,}
+	fi
 
-temperature=$(echo "${weather[2]}" | sed -E 's/([[:digit:]]+)\.\./\1 to /g')
-condition_text=$(echo "${weather[1]##*,}" | tr '[:upper:]' '[:lower:]')
+	curl -s "https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&current=temperature_2m,apparent_temperature,weathercode,relative_humidity_2m,wind_speed_10m,visibility" \
+		-o "$cachefile"
+fi
 
-# Weather icons mapping
-case "$condition_text" in
-clear | sunny) icon="" ;;
-"partly cloudy") icon="󰖕" ;;
-cloudy) icon="" ;;
-overcast) icon="" ;;
-fog | "freezing fog") icon="" ;;
-"patchy rain possible" | \
-	"patchy light drizzle" | "light drizzle" | \
-	"patchy light rain" | "light rain" | "light rain shower" | \
-	mist | rain) icon="󰼳" ;;
-"moderate rain at times" | "moderate rain" | \
-	"heavy rain at times" | "heavy rain" | \
-	"moderate or heavy rain shower" | "torrential rain shower" | \
-	"rain shower") icon="" ;;
-"patchy snow possible" | "patchy sleet possible" | \
-	"patchy freezing drizzle possible" | "freezing drizzle" | \
-	"heavy freezing drizzle" | "light freezing rain" | \
-	"moderate or heavy freezing rain" | "light sleet" | \
-	"ice pellets" | "light sleet showers" | \
-	"moderate or heavy sleet showers") icon="󰼴" ;;
-"blowing snow" | "moderate or heavy sleet" | \
-	"patchy light snow" | "light snow" | "light snow showers") icon="󰙿" ;;
-"blizzard" | "patchy moderate snow" | "moderate snow" | \
-	"patchy heavy snow" | "heavy snow" | \
-	"moderate or heavy snow with thunder" | "moderate or heavy snow showers") icon="" ;;
-"thundery outbreaks possible" | "patchy light rain with thunder" | \
-	"moderate or heavy rain with thunder" | "patchy light snow with thunder") icon="" ;;
+current=$(jq -r '.current' "$cachefile")
+temp=$(jq -r '.temperature_2m' <<<"$current")
+temp_feel=$(jq -r '.apparent_temperature' <<<"$current")
+humidity=$(jq -r '.relative_humidity_2m' <<<"$current")
+wind=$(jq -r '.wind_speed_10m' <<<"$current")
+visibility=$(jq -r '.visibility' <<<"$current")
+code=$(jq -r '.weathercode' <<<"$current")
+
+# Map weathercode to icons
+case $code in
+51 | 53 | 55) icon="" ;;                # drizzle
+0 | 1) icon="󰖙" ;;                       # clear
+2) icon="" ;;                           # partly cloudy
+3) icon="" ;;                           # overcast
+45 | 48) icon="" ;;                     # fog
+61 | 63 | 65 | 80 | 81 | 82) icon="" ;; # rain
+66 | 67) icon="" ;;                     # freezing rain
+71 | 73 | 75 | 77 | 85 | 86) icon="󰼴" ;; # snow
+95 | 96 | 99) icon="" ;;                # thunder
 *) icon="" ;;
 esac
 
-# Waybar JSON
-echo -e "{\"text\":\"${temperature} ${icon}\", \"alt\":\"${weather[0]}\", \"tooltip\":\"${weather[0]}: ${temperature} ${weather[1]}\"}"
+temperature="${temp}°C"
+tooltip=" ${temperature} (Feels like ${temp_feel}°C)\n ${wind} km/h    ${humidity}%\n $(awk "BEGIN{print $visibility/1000}") km"
 
-# Simple cache text
-printf " %s\n%s %s\n" "$temperature" "$icon" "${weather[1]}" >"$HOME/.cache/.weather_cache"
+# Output for waybar
+echo -e "{\"text\":\"$icon $temperature\", \"alt\":\"$code\", \"tooltip\":\"$tooltip\"}"
+
+# Cache simple weather text
+echo -e " $temperature\n$icon code:$code\n $wind km/h\n $humidity%\n $(awk "BEGIN{print $visibility/1000}") km" \
+	>"$HOME/.cache/.weather_cache"
