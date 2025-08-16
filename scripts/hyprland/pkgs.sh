@@ -31,8 +31,8 @@ pacman_pkgs=(
     # ----------------------------------------------------
     net-tools gnome-disk-utility file-roller gvfs gvfs-mtp
     network-manager-applet gnome-system-monitor os-prober
-    pacman-contrib nwg-look gammastep polkit-gnome ccache
-    rebuild-detector adw-gtk-theme
+    pacman-contrib nwg-look polkit-gnome rebuild-detector
+    adw-gtk-theme ccache
 
     # ----------------------------------------------------
     # Multimedia
@@ -53,7 +53,7 @@ pacman_pkgs=(
     xdg-user-dirs xdg-utils yad hyprcursor hyprutils nvtop
     aquamarine hypridle hyprlock hyprland hyprland-qtutils
     libspng imagemagick kitty kvantum rofi-wayland swaync
-    swww waybar swappy swayidle hyprpicker
+    swww waybar swappy swayidle hyprpicker hyprsunset
 
     # ----------------------------------------------------
     # Fonts
