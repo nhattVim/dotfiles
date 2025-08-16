@@ -4,9 +4,6 @@
 # Source library
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
-# Dotfiles directory
-DOTFILES_DIR=$(mktemp -d)
-
 # Packages to install
 sddm_packages=(
     qt6-5compat
@@ -29,19 +26,11 @@ done
 # Disable other login managers
 note "Checking for conflicting login managers..."
 for login_manager in lightdm gdm lxdm lxdm-gtk3; do
-    if pacman -Qs "$login_manager" >/dev/null; then
+    if systemctl list-unit-files | grep -q "^$login_manager.service"; then
         note "Disabling $login_manager..."
-        sudo systemctl disable --now "$login_manager.service" 2>/dev/null
+        sudo systemctl disable --now "$login_manager.service"
     fi
 done
-
-# Clone dotfiles
-note "Cloning dotfiles..."
-if git clone -b hyprland https://github.com/nhattVim/dotfiles.git --depth 1 "$DOTFILES_DIR"; then
-    ok "Cloned dotfiles successfully"
-else
-    err "Failed to clone dotfiles" && exit 1
-fi
 
 wayland_sessions_dir=/usr/share/wayland-sessions
 [ ! -d "$wayland_sessions_dir" ] && {
@@ -49,7 +38,13 @@ wayland_sessions_dir=/usr/share/wayland-sessions
     sudo mkdir "$wayland_sessions_dir"
 }
 
-sudo cp "$DOTFILES_DIR/assets/hyprland.desktop" "$wayland_sessions_dir/"
+sudo tee "$wayland_sessions_dir/hyprland.desktop" >/dev/null <<EOF
+[Desktop Entry]
+Name=Hyprland
+Comment=An intelligent dynamic tiling Wayland compositor
+Exec=Hyprland
+Type=Application
+EOF
 
 # Enable SDDM service
 note "Activating SDDM service..."
