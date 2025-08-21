@@ -41,11 +41,16 @@ dispatcher="${dispatcher#"${dispatcher%%[![:space:]]*}"}"
 arg="${arg#"${arg%%[![:space:]]*}"}"
 repeat="${repeat#"${repeat%%[![:space:]]*}"}"
 
-# split args safely
-read -r -a parts <<<"$arg"
-
 # Run dispatcher helper
-run_dispatch() { hyprctl dispatch "$dispatcher" "${parts[@]}"; }
+run_dispatch() {
+    if [[ "${dispatcher,,}" == "exec" ]]; then
+        hyprctl dispatch "$dispatcher" "${arg}"
+    else
+        # split args safely
+        read -r -a parts <<<"$arg"
+        hyprctl dispatch "$dispatcher" "${parts[@]}"
+    fi
+}
 
 # Execute (handle repeat)
 if [[ "${repeat,,}" == "true" ]]; then
