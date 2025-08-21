@@ -1,70 +1,60 @@
 #!/bin/bash
-# Keyhints - Idea from Garuda Hyprland
+# Keyhints
 
 set -euo pipefail
 
-# Get monitor info for focused monitor
-monitor_info=$(hyprctl -j monitors | jq '.[] | select(.focused==true)')
-x_mon=$(jq -r '.width' <<<"$monitor_info")
-y_mon=$(jq -r '.height' <<<"$monitor_info")
-hypr_scale=$(jq -r '.scale' <<<"$monitor_info")
+# Config
+KEYHINTS_HELPER="$HOME/.config/hypr/scripts/apps-keyhints.py"
+ROFI_THEME="
+entry { placeholder: '⌨️ Keybindings'; }
+window { width: 70em; height: 40em; border-radius: 10px; }
+listview { lines: 20; columns: 2; }
+"
 
-# Configurable constants
-max_width=1200
-max_height=1000
-percentage_width=70
-percentage_height=70
+# Exit if rofi already running
+pidof rofi >/dev/null && {
+    pkill rofi
+    exit 0
+}
 
-# Calculate scaled resolution
-scaled_width=$(awk "BEGIN {print $x_mon * $hypr_scale}")
-scaled_height=$(awk "BEGIN {print $y_mon * $hypr_scale}")
+# Get all binds once
+binds_all="$(python3 "$KEYHINTS_HELPER")"
 
-# Calculate dynamic size
-dynamic_width=$(awk -v sw="$scaled_width" -v pw="$percentage_width" \
-    'BEGIN {print int(sw * pw / 100)}')
-dynamic_height=$(awk -v sh="$scaled_height" -v ph="$percentage_height" \
-    'BEGIN {print int(sh * ph / 100)}')
+# Show keybinds in rofi
+selected=$(
+    printf '%s\n' "$binds_all" |
+        awk -F $'\t' '{print $1}' |
+        rofi -dmenu -i -p "Keybinds" -theme-str "$ROFI_THEME"
+)
+[ -z "$selected" ] && exit 0
 
-# Apply max limits
-((dynamic_width > max_width)) && dynamic_width=$max_width
-((dynamic_height > max_height)) && dynamic_height=$max_height
+# Find matching bind line
+line="$(printf '%s\n' "$binds_all" | grep -F -- "$selected" | head -n1)"
+[ -z "$line" ] && {
+    echo "No match" >&2
+    exit 1
+}
 
-# Show keybindings
-yad --width="$dynamic_width" --height="$dynamic_height" \
-    --center \
-    --title="Keybindings" \
-    --no-buttons \
-    --list \
-    --column=Key: \
-    --column=Description: \
-    --column=Command: \
-    --timeout-indicator=bottom \
-    " = " "SUPER KEY (Windows Key)" "(SUPER KEY)" \
-    " T" "terminal" "(kitty)" \
-    " D" "app launcher" "(rofi)" \
-    " E" "view keybinds, settings, monitor" "" \
-    " R" "reload waybar swaync rofi" "CHECK NOTIFICATION FIRST!!!" \
-    " F" "open file manager" "(thunar)" \
-    " Q" "close active window" "(not kill)" \
-    " V" "clipboard manager" "(cliphist)" \
-    " W" "choose wallpaper" "(wallpaper Menu)" \
-    " B" "hide / unhide waybar" "waybar" \
-    " M" "fullscreen mode 0" "toggles to full screen mode 0" \
-    " Shift M" "fullscreen mode 1" "toggles to full screen mode 1" \
-    " Shift Q" "closes a specified window" "(window)" \
-    " Shift W" "choose waybar styles" "(waybar styles)" \
-    " Shift N" "launch notification panel" "swaync notification center" \
-    " Shift Print" "screenshot region" "(grim + slurp)" \
-    " Shift S" "screenshot region" "(swappy)" \
-    " Shift F" "toggle float" "single window" \
-    " Shift B" "toggle Blur" "normal or less blur" \
-    " Shift G" "gamemode! All animations OFF or ON" "toggle" \
-    " Print" "screenshot" "(grim)" \
-    " Ctrl W" "choose waybar layout" "(waybar layout)" \
-    " Alt F" "toggle all windows to float" "all windows" \
-    " Escape" "power-menu" "(wlogout)" \
-    "Alt Print" "Screenshot active window" "active window only" \
-    "Ctrl Alt L" "screen lock" "(swaylock)" \
-    "Ctrl Alt W" "random wallpaper" "(via swww)" \
-    "Ctrl Alt Del" "hyprland exit" "SAVE YOUR WORK!!!" \
-    "Ctrl Space" "toggle dwindle | master layout" "hyprland layout"
+# Parse columns
+IFS=$'\t' read -r display dispatcher arg repeat <<<"$line"
+dispatcher="${dispatcher#"${dispatcher%%[![:space:]]*}"}"
+arg="${arg#"${arg%%[![:space:]]*}"}"
+repeat="${repeat#"${repeat%%[![:space:]]*}"}"
+
+# split args safely
+read -r -a parts <<<"$arg"
+
+# Run dispatcher helper
+run_dispatch() { hyprctl dispatch "$dispatcher" "${parts[@]}"; }
+
+# Execute (handle repeat)
+if [[ "${repeat,,}" == "true" ]]; then
+    choice="Repeat"
+    while [[ "$choice" == "Repeat" ]]; do
+        run_dispatch
+        choice=$(echo -e "Repeat\nExit" | rofi -dmenu -i -p "Repeat?" \
+            -theme-str "entry { placeholder: '${dispatcher} ${arg}'; }")
+    done
+else
+    run_dispatch
+fi
