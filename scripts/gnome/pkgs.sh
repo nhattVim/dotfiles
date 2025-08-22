@@ -8,7 +8,7 @@
 PIPES="https://github.com/pipeseroni/pipes.sh"
 COLORSCRIPT="https://gitlab.com/dwt1/shell-color-scripts.git"
 ARTTIME="https://github.com/poetaman/arttime/releases/download/v2.3.4/arttime_2.3.4-1_all.deb"
-NEOVIM="https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.tar.gz"
+NEOVIM="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 LAZYGIT="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 
@@ -23,7 +23,6 @@ pkgs=(
     gdb nano vim bpytop libmagickwand-dev libmysqlclient-dev libpq-dev
     bison pkg-config autoconf clang libssl-dev libreadline-dev zlib1g-dev
     libyaml-dev libncurses5-dev libffi-dev libgdbm-dev libjemalloc2 libvips
-    # fastfetch
 )
 
 # Add ppa
@@ -162,6 +161,16 @@ else
     else
         err "Failed to clone pipe.sh repository"
     fi
+fi
+
+# Install fastfetch
+if command -v fastfetch &>/dev/null; then
+    ok "Fastfetch already installed, moving on"
+else
+    note "Install fastfetch ..."
+    wget -qO fastfetch.tar.gz https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
+    sudo tar xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
+    rm -rf fastfetch.tar.gz
 fi
 
 # Install Lazygit
