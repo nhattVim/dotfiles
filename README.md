@@ -60,11 +60,17 @@ bash <(curl -sSL https://nhattVim.github.io/arch.sh)
     </table>
 </div>
 
-### Keybindings
-
 <kbd>Super</kbd> + <kbd>Y</kbd> to open hyprland keybindings
 
-![](https://github.com/nhattVim/assets/blob/master/dotfiles/keybind.png?raw=true)
+<table>
+    <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/keybind.png?raw=true"/></td>
+</table>
+
+<kbd>Super</kbd> + <kbd>C</kbd> to change shell to [caelestia's shell](https://github.com/caelestia-dots)
+
+<table>
+    <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/caelestia.png?raw=true"/></td>
+</table>
 
 <!-- <div align="left"> -->
 <!---->
