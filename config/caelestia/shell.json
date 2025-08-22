@@ -4,6 +4,18 @@
         "vimKeybinds": true,
         "enableDangerousActions": true
     },
+    "appearance": {
+        "transparency": {
+            "enabled": true,
+            "base": 0.85,
+            "layers": 0.4
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "enabled": true
+        },
+    },
     "services": {
         "useFahrenheit": false,
         "useCelsius": true,
