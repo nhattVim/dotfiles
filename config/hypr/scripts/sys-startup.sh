@@ -6,6 +6,10 @@ SHELL_FILE="$HOME/.cache/current_shell"
 SCRIPTS_DIR="$HOME/.config/hypr/scripts"
 WALL_DIR="$HOME/Pictures/Wallpapers"
 
+if [[ ! -f "$SHELL_FILE" ]]; then
+    echo "base" >"$SHELL_FILE"
+fi
+
 CURRENT_SHELL=$(cat "$SHELL_FILE" 2>/dev/null || echo "base")
 
 case "$CURRENT_SHELL" in

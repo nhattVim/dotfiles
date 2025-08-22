@@ -1,6 +1,6 @@
 #!/bin/bash
 # Wallpaper Selector Script (SUPER + W)
-# Support swww (base) and caelestia wallpaper (caelestia shell)
+# Supports swww (base) and caelestia shell
 
 set -euo pipefail
 
@@ -9,102 +9,93 @@ SCRIPT_SDIR="$HOME/.config/hypr/scripts"
 SHELL_FILE="$HOME/.cache/current_shell"
 
 FPS=60
-TYPE="any" # wipe, simple, etc.
+TYPE="any"
 DURATION=2
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION"
 
+# Get focused monitor
 focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name; exit}')
 
-if pidof swaybg >/dev/null; then
-    pkill swaybg
-fi
+# Kill swaybg if running
+pkill swaybg 2>/dev/null || true
 
-mapfile -d '' PICS < <(find "$WALL_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
+# Collect pictures
+shopt -s nullglob
+PICS=("$WALL_DIR"/*.{jpg,jpeg,png,gif})
+shopt -u nullglob
+((${#PICS[@]} == 0)) && {
+    echo "No wallpapers found in $WALL_DIR"
+    exit 1
+}
 
 RANDOM_PIC="${PICS[RANDOM % ${#PICS[@]}]}"
 RANDOM_PIC_NAME=". random"
 
-rofi_command="rofi -i -show -dmenu -config ~/.config/rofi/config-wallpaper.rasi"
+# Rofi config
+rofi_command="rofi -i -dmenu -config ~/.config/rofi/config-wallpaper.rasi"
 
+# Menu generator
 menu() {
-    IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
-
     printf "%s\x00icon\x1f%s\n" "$RANDOM_PIC_NAME" "$RANDOM_PIC"
-
-    for pic_path in "${sorted_options[@]}"; do
+    for pic_path in "${PICS[@]}"; do
         pic_name=$(basename "$pic_path")
-        if [[ ! "$pic_name" =~ \.gif$ ]]; then
-            printf "%s\x00icon\x1f%s\n" "${pic_name%.*}" "$pic_path"
-        else
+        if [[ $pic_name == *.gif ]]; then
             printf "%s\n" "$pic_name"
+        else
+            printf "%s\x00icon\x1f%s\n" "${pic_name%.*}" "$pic_path"
         fi
-    done
+    done | sort
 }
 
-# Get current shell
-if [[ -f "$SHELL_FILE" ]]; then
-    CURRENT_SHELL=$(<"$SHELL_FILE")
-else
-    CURRENT_SHELL="base"
-fi
+# Detect shell
+CURRENT_SHELL=$(<"$SHELL_FILE")
 
-# If swww-daemon is not running, start it
-if [[ "$CURRENT_SHELL" == "base" && ! $(swww query 2>/dev/null) ]]; then
+# Ensure swww-daemon for base
+if [[ $CURRENT_SHELL == "base" ]] && ! swww query &>/dev/null; then
     pkill swww-daemon 2>/dev/null || true
     swww-daemon --format xrgb &
     sleep 0.5
 fi
 
-main() {
-    choice=$(menu | $rofi_command)
-    choice=$(echo "$choice" | xargs)
-
-    if [[ -z $choice ]]; then
-        echo "No choice selected. Exiting."
-        exit 0
-    fi
-
-    # Random
-    if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
-        if [[ "$CURRENT_SHELL" == "base" ]]; then
-            swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
-            sleep 1
-            "$SCRIPT_SDIR/apps-wall-swww.sh"
-            sleep 0.5
-            "$SCRIPT_SDIR/hypr-refresh.sh"
-        else
-            caelestia wallpaper -f "$RANDOM_PIC"
-        fi
-        exit 0
-    fi
-
-    # Get the index of the selected image
-    pic_index=-1
-    for i in "${!PICS[@]}"; do
-        filename=$(basename "${PICS[$i]}")
-        if [[ "$filename" == "$choice"* ]]; then
-            pic_index=$i
-            break
-        fi
-    done
-
-    # Set the wallpaper
-    if ((pic_index != -1)); then
-        if [[ "$CURRENT_SHELL" == "base" ]]; then
-            swww img -o "$focused_monitor" "${PICS[$pic_index]}" $SWWW_PARAMS
-            sleep 1
-            "$SCRIPT_SDIR/apps-wall-swww.sh"
-            sleep 0.5
-            "$SCRIPT_SDIR/hypr-refresh.sh"
-        else
-            caelestia wallpaper -f "${PICS[$pic_index]}"
-        fi
+# Apply wallpaper depending on shell
+set_wallpaper() {
+    local img="$1"
+    if [[ $CURRENT_SHELL == "base" ]]; then
+        swww img -o "$focused_monitor" "$img" $SWWW_PARAMS
+        sleep 0.5
+        "$SCRIPT_SDIR/apps-wall-swww.sh"
+        "$SCRIPT_SDIR/hypr-refresh.sh"
+    elif [[ $CURRENT_SHELL == "caelestia" ]]; then
+        ln -sf "$img" "$HOME/.cache/swww/.current_wallpaper"
+        wallust run "$img" -s &
+        caelestia wallpaper -f "$img"
     else
-        echo "Image not found."
+        echo "Unknown shell: $CURRENT_SHELL"
         exit 1
     fi
 }
 
+main() {
+    choice=$(menu | $rofi_command)
+    [[ -z $choice ]] && exit 0
+
+    if [[ $choice == "$RANDOM_PIC_NAME" ]]; then
+        set_wallpaper "$RANDOM_PIC"
+        exit 0
+    fi
+
+    for pic in "${PICS[@]}"; do
+        if [[ $(basename "$pic") == "$choice"* ]]; then
+            set_wallpaper "$pic"
+            exit 0
+        fi
+    done
+
+    echo "Image not found." >&2
+    exit 1
+}
+
+# If rofi is running, kill it
 if pidof rofi >/dev/null; then
     pkill rofi
     exit 0

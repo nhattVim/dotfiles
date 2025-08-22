@@ -3,15 +3,10 @@
 SHELL_FILE="$HOME/.cache/current_shell"
 KEYBINDS_DIR="$HOME/.config/hypr/configs/keybinds"
 KEYBINDS_LINK="$HOME/.config/hypr/configs/keybinds.conf"
-
 WALL_DIR="$HOME/Pictures/Wallpapers"
 SCRIPTS_DIR="$HOME/.config/hypr/scripts"
 
-if [[ ! -f "$SHELL_FILE" ]]; then
-    echo "base" >"$SHELL_FILE"
-fi
-
-CURRENT_SHELL=$(<"$SHELL_FILE")
+CURRENT_SHELL=$(cat "$SHELL_FILE" 2>/dev/null || echo "base")
 
 if [[ "$CURRENT_SHELL" == "caelestia" ]]; then
     # Switch to base shell
@@ -36,4 +31,8 @@ else
     pidof "swaync" >/dev/null && pkill swaync
 
     caelestia shell -d >/dev/null &
+    sleep .5
+    current_wall=$(caelestia shell wallpaper get)
+    ln -sf "$current_wall" $HOME/.cache/swww/.current_wallpaper
+    wallust run "$current_wall" -s &
 fi
