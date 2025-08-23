@@ -89,7 +89,7 @@
 
 "custom/lock": {
 	"format": "󰌾",
-	"on-click": "$HOME/.config/hypr/scripts/hypr-lock.sh",
+	"on-click": "loginctl lock-session",
 	"tooltip": true,
 	"tooltip-format": "󰷛 Screen Lock",
 },

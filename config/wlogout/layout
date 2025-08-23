@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "$HOME/.config/hypr/scripts/hypr-lock.sh",
+    "action" : "loginctl lock-session",
     "text" : "Lock",
     "keybind" : "l"
 }

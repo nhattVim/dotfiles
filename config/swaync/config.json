@@ -72,7 +72,7 @@
                 },
                 {
                     "label": "󰌾",
-                    "command": "~/.config/hypr/scripts/hypr-lock.sh"
+                    "command": "loginctl lock-session"
                 },
                 {
                     "label": "󰍃",
