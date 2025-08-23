@@ -57,6 +57,10 @@ bash <(curl -sSL https://nhattVim.github.io/arch.sh)
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice4.png?raw=true"/></td>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice5.png?raw=true"/></td>
         </tr>
+        <tr>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice6.png?raw=true"/></td>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice7.png?raw=true"/></td>
+        </tr>
     </table>
 </div>
 
