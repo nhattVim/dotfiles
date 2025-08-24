@@ -97,7 +97,7 @@ declare -A startup_apps=(
 # Check if each app is installed and add it to Startup
 for app in "${!startup_apps[@]}"; do
     if command -v "$app" >/dev/null 2>&1; then
-        sed -i "s/^[[:space:]]*#[[:space:]]*\(exec-once = ${startup_apps[$app]} &\)/\1/" "$STARTUP_FILE"
+        sed -i "s/^[[:space:]]*#[[:space:]]*\(exec-once = ${startup_apps[$app]}\)/\1/" "$STARTUP_FILE"
     fi
 done
 
