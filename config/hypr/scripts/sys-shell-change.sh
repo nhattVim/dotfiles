@@ -33,6 +33,12 @@ else
     caelestia shell -d >/dev/null &
     sleep .5
     current_wall=$(caelestia shell wallpaper get)
+
+    if [[ -z "$current_wall" ]]; then
+        caelestia wallpaper -r -N
+        current_wall=$(caelestia shell wallpaper get)
+    fi
+
     ln -sf "$current_wall" $HOME/.cache/swww/.current_wallpaper
     wallust run "$current_wall" -s &
 fi
