@@ -37,6 +37,10 @@ bash <(curl -sSL https://nhattVim.github.io/ubuntu.sh)
     <table>
         <tr>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu3.png?raw=true"/></td>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/rice1.png?raw=true"/></td>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu4.png?raw=true"/></td>
             <td><img src="https://github.com/nhattVim/assets/blob/master/dotfiles/ubuntu1.png?raw=true"/></td>
         </tr>
     </table>
