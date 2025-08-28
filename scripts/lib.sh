@@ -143,42 +143,41 @@ cleanup_backups() {
 reinstall_failed_pkgs() {
     act "Retrying failed installations from install.log ..."
 
-    if [[ -f "$LOG_FILE" ]]; then
+    [[ ! -f "$LOG_FILE" ]] && return 0
 
-        # Reinstall pacman pkgs
-        grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iPac "$pkg"
-            if [[ $? -eq 0 ]]; then
-                sed -i "\|^\[pacman\] $pkg|d" "$LOG_FILE"
-            else
-                err "Retry failed for $pkg. Keeping in log."
-            fi
-        done
-
-        # Reinstall AUR pkgs
-        grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iAur "$pkg"
-            if [[ $? -eq 0 ]]; then
-                sed -i "\|^\[yay\] $pkg|d" "$LOG_FILE"
-            else
-                err "Retry failed for $pkg. Keeping in log."
-            fi
-        done
-
-        # Reinstall deb pkgs
-        grep "^->" "$LOG_FILE" | awk '{print $2}' | while read -r pkg; do
-            iDeb "$pkg"
-            if [[ $? -eq 0 ]]; then
-                sed -i "\|^-> $pkg|d" "$LOG_FILE"
-            else
-                err "Retry failed for $pkg. Keeping in log."
-            fi
-        done
-
-        # Delete log files
-        if [[ ! -s "$LOG_FILE" ]]; then
-            rm "$LOG_FILE"
+    # Reinstall pacman pkgs
+    while read -r pkg; do
+        [[ -z "$pkg" ]] && continue
+        if iPac "$pkg"; then
+            sed -i "\|^\[pacman\] $pkg failed to install|d" "$LOG_FILE"
+        else
+            err "Retry failed for $pkg. Keeping in log."
         fi
+    done < <(grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}')
+
+    # Reinstall AUR pkgs
+    while read -r pkg; do
+        [[ -z "$pkg" ]] && continue
+        if iAur "$pkg"; then
+            sed -i "\|^\[yay\] $pkg failed to install|d" "$LOG_FILE"
+        else
+            err "Retry failed for $pkg. Keeping in log."
+        fi
+    done < <(grep "^\[yay\]" "$LOG_FILE" | awk '{print $2}')
+
+    # Reinstall deb pkgs
+    while read -r pkg; do
+        [[ -z "$pkg" ]] && continue
+        if iDeb "$pkg"; then
+            sed -i "\|^-> $pkg failed to install|d" "$LOG_FILE"
+        else
+            err "Retry failed for $pkg. Keeping in log."
+        fi
+    done < <(grep "^->" "$LOG_FILE" | awk '{print $2}')
+
+    # Delete log file if empty
+    if [[ ! -s "$LOG_FILE" ]]; then
+        rm "$LOG_FILE"
     fi
 }
 
