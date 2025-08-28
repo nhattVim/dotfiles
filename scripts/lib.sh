@@ -43,8 +43,11 @@ iPac() {
     fi
 
     act "Installing $1 with pacman ..."
-    if sudo pacman -Sy --noconfirm --needed "$1"; then
+    sudo pacman -S --noconfirm --needed "$1"
+
+    if pacman -Q "$1" &>/dev/null; then
         ok "$1 was installed"
+        return 0
     else
         err "$1 failed to install."
         echo "[pacman] $1 failed" >>"$LOG_FILE"
@@ -59,8 +62,11 @@ iAur() {
     fi
 
     act "Installing $1 with $ISAUR ..."
-    if $ISAUR -Sy --noconfirm "$1"; then
+    $ISAUR -S --noconfirm --needed "$1"
+
+    if $ISAUR -Q "$1" &>/dev/null; then
         ok "$1 was installed"
+        return 0
     else
         err "$1 failed to install."
         echo "[aur] $1 failed" >>"$LOG_FILE"
@@ -75,8 +81,11 @@ iDeb() {
     fi
 
     act "Installing $1 with $PKGMN ..."
-    if sudo $PKGMN install -y "$1"; then
+    sudo $PKGMN install -y "$1"
+
+    if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         ok "$1 was installed"
+        return 0
     else
         err "$1 failed to install."
         echo "[deb] $1 failed" >>"$LOG_FILE"
