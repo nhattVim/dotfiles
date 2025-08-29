@@ -9,7 +9,6 @@ pkgs=(
     fcitx5-unikey
     fcitx5-gtk
     fcitx5-qt
-    fcitx5-im
     fcitx5-configtool
 )
 

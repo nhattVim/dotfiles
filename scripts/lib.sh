@@ -157,6 +157,7 @@ reinstall_failed_pkgs() {
     done < <(grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}')
 
     # aur pkgs
+    ISAUR=$(basename "$(command -v paru || command -v yay)")
     while read -r pkg; do
         [[ -z "$pkg" ]] && continue
         if iAur "$pkg"; then
@@ -207,7 +208,7 @@ enable_service() {
     [[ "$scope" == "system" && $EUID -ne 0 ]] && cmd=("sudo" "systemctl")
     [[ "$scope" == "user" ]] && cmd=("systemctl" "--user")
 
-    # Loop qua từng service
+    # Loop through services
     for svc in "${svc_list[@]}"; do
         note "Checking $svc ($scope)..."
 
@@ -275,7 +276,7 @@ disable_service() {
 
         # Check if service exists
         if ! "${cmd[@]}" list-unit-files "$svc" &>/dev/null; then
-            err "$svc not found"
+            note "$svc not found"
             continue
         fi
 
