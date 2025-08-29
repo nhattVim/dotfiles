@@ -24,66 +24,59 @@ function MsgDone {
     Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Magenta
 }
 
+function MsgErr {
+    param([string]$Message)
+    Write-Host
+    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Red
+}
+
 function exGithub {
     param([string]$Token)
 
+    # Check if token is empty
     if (-not $Token) {
-        Msg-Err "GitHub token is empty. Exiting."
+        MsgErr "GitHub token is empty. Exiting."
         return
     }
 
+    # Define variables
     $TempDir = Join-Path $env:USERPROFILE "temp_secrets_$([guid]::NewGuid().ToString())"
     $RepoUrl = "https://$Token@github.com/nhattVim/.env"
-    $SshDir  = Join-Path $env:USERPROFILE ".ssh"
 
     # Clone repo
-    Start-Msg "Cloning .env repository..."
+    StartMsg "Cloning .env repository..."
     if (git -c credential.helper= clone $RepoUrl $TempDir -q) {
-        Msg-Done "Repository cloned successfully"
+        MsgDone "Repository cloned successfully"
     } else {
-        Msg-Err "Failed to clone repo. Check token or access rights."
+        MsgErr "Failed to clone repo. Check token or access rights."
         return
     }
 
     # Prepare SSH directory
+    $SshDir  = Join-Path $env:USERPROFILE ".ssh"
     if (-not (Test-Path $SshDir)) { New-Item -ItemType Directory -Path $SshDir | Out-Null }
 
     # Copy SSH keys
-    Start-Msg "Copying SSH keys..."
+    StartMsg "Copying SSH keys..."
     try {
         Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519") -Destination (Join-Path $SshDir "id_ed25519") -Force
-        Msg-Done "Private key copied"
+        MsgDone "Private key copied"
         Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519.pub") -Destination (Join-Path $SshDir "id_ed25519.pub") -Force
-        Msg-Done "Public key copied"
+        MsgDone "Public key copied"
     } catch {
-        Msg-Err "Failed to copy SSH keys: $_"
+        MsgErr "Failed to copy SSH keys: $_"
     }
 
-    # Configure SSH (disable host key checking)
-    Start-Msg "Applying SSH configuration..."
-    $SshConfigPath = Join-Path $SshDir "config"
-    @"
-Host *
-    StrictHostKeyChecking no
-    UserKnownHostsFile NUL
-"@ | Out-File -FilePath $SshConfigPath -Encoding ASCII
-    Msg-Done "SSH config applied"
-
     # Configure Git
-    Start-Msg "Configuring Git..."
-    $GitConfigPath = Join-Path $env:USERPROFILE ".gitconfig"
-    @"
-[user]
-    email = nhattruong13112000@gmail.com
-    name = nhattvim
-[core]
-    autocrlf = false
-"@ | Out-File -FilePath $GitConfigPath -Encoding UTF8
-    Msg-Done "Git configuration applied"
+    StartMsg "Configuring Git..."
+    git config --global user.name "nhattvim"
+    git config --global user.email "nhattruong13112000@gmail.com"
+    git config --global core.autocrlf false
+    MsgDone "Git configuration applied"
 
     # Cleanup
     Remove-Item -Recurse -Force $TempDir
-    Msg-Done "GitHub setup completed"
+    MsgDone "GitHub setup completed"
 }
 
 # List of commands
