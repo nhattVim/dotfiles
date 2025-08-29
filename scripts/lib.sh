@@ -310,6 +310,7 @@ exGithub() {
         return 1
     fi
 
+    # Define variables
     TEMP_DIR="$HOME/temp_secrets_$$"
     REPO_URL="https://$TOKEN@github.com/nhattVim/.env"
 
@@ -328,34 +329,23 @@ exGithub() {
 
     # Copy SSH keys
     act "Copying SSH keys from repo..."
-    cp "$TEMP_DIR/Github/linux/id_ed25519" "$SSH_DIR/id_ed25519" 2>/dev/null &&
-        ok "Private key copied" || err "Failed to copy private key"
+    if cp "$TEMP_DIR/Github/linux/id_ed25519" "$SSH_DIR/id_ed25519" 2>/dev/null &&
+        cp "$TEMP_DIR/Github/linux/id_ed25519.pub" "$SSH_DIR/id_ed25519.pub" 2>/dev/null; then
+        chmod 600 "$SSH_DIR/id_ed25519"
+        echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >"$SSH_DIR/config"
+        ok "SSH keys copied and configured"
+    else
+        err "Failed to copy SSH keys"
+    fi
 
-    cp "$TEMP_DIR/Github/linux/id_ed25519.pub" "$SSH_DIR/id_ed25519.pub" 2>/dev/null &&
-        ok "Public key copied" || err "Failed to copy public key"
-
-    chmod 600 "$SSH_DIR/id_ed25519" 2>/dev/null
-    echo "StrictHostKeyChecking=no" >"$SSH_DIR/config"
-
-    # Configure Git
+    # Configure Git safely
     act "Configuring Git..."
-    cat >"$HOME/.gitconfig" <<EOF
-[user]
-    email = nhattruong13112000@gmail.com
-    name = nhattvim
-[core]
-    autocrlf = false
-EOF
+    git config --global user.name "nhattvim"
+    git config --global user.email "nhattruong13112000@gmail.com"
+    git config --global core.autocrlf false
     ok "Git configuration applied"
 
     # Cleanup temporary folder
     rm -rf "$TEMP_DIR"
     ok "GitHub setup completed"
 }
-
-# ============================================================
-# External installers
-# ============================================================
-exHypr() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }
-exGnome() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"); }
-exWsl() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"); }
