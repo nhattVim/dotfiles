@@ -211,7 +211,7 @@ enable_service() {
     for svc in "${svc_list[@]}"; do
         note "Checking $svc ($scope)..."
 
-        # Check if service exists or is masked
+        # Check if service exists
         if ! "${cmd[@]}" list-unit-files "$svc" &>/dev/null; then
             err "$svc not found"
             continue
@@ -274,8 +274,8 @@ disable_service() {
         act "Checking $svc ($scope)..."
 
         # Check if service exists
-        if ! "${cmd[@]}" status "$svc" &>/dev/null; then
-            note "$svc not found or masked, skipping."
+        if ! "${cmd[@]}" list-unit-files "$svc" &>/dev/null; then
+            err "$svc not found"
             continue
         fi
 
