@@ -312,7 +312,7 @@ exGithub() {
 
     # Define variables
     TEMP_DIR="$HOME/temp_secrets_$$"
-    REPO_URL="https://$TOKEN@github.com/nhattVim/.env"
+    REPO_URL="https://$TOKEN@github.com/nhattVim/sshKey"
 
     # Clone repository
     act "Cloning .env repository..."
@@ -329,14 +329,22 @@ exGithub() {
 
     # Copy SSH keys
     act "Copying SSH keys from repo..."
-    if cp "$TEMP_DIR/Github/linux/id_ed25519" "$SSH_DIR/id_ed25519" 2>/dev/null &&
-        cp "$TEMP_DIR/Github/linux/id_ed25519.pub" "$SSH_DIR/id_ed25519.pub" 2>/dev/null; then
+    if cp "$TEMP_DIR/linux/id_ed25519" "$SSH_DIR/id_ed25519" 2>/dev/null &&
+        cp "$TEMP_DIR/linux/id_ed25519.pub" "$SSH_DIR/id_ed25519.pub" 2>/dev/null; then
         chmod 600 "$SSH_DIR/id_ed25519"
-        echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >"$SSH_DIR/config"
-        ok "SSH keys copied and configured"
+        ok "SSH keys copied"
     else
         err "Failed to copy SSH keys"
+        return 1
     fi
+
+    # Configure SSH
+    cat >"$SSH_DIR/config" <<EOF
+Host github.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+EOF
+    ok "SSH config applied"
 
     # Configure Git safely
     act "Configuring Git..."
@@ -349,3 +357,10 @@ exGithub() {
     rm -rf "$TEMP_DIR"
     ok "GitHub setup completed"
 }
+
+# ============================================================
+# External installers
+# ============================================================
+exHypr() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }
+exGnome() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"); }
+exWsl() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"); }

@@ -25,13 +25,41 @@ function MsgDone {
 }
 
 function MsgErr {
-    param([string]$Message)
+    param($msg)
     Write-Host
-    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Red
+    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Error " + $msg) -ForegroundColor Red
 }
 
 function exGithub {
-    param([string]$Token)
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Prompt for GitHub token (hidden)
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = "GitHub Token"
+    $form.Width = 400
+    $form.Height = 150
+    $form.StartPosition = "CenterScreen"
+
+    $label = New-Object System.Windows.Forms.Label
+    $label.Text = "Paste your GitHub token:"
+    $label.AutoSize = $true
+    $label.Location = New-Object System.Drawing.Point(10,20)
+    $form.Controls.Add($label)
+
+    $textbox = New-Object System.Windows.Forms.TextBox
+    $textbox.Location = New-Object System.Drawing.Point(10,50)
+    $textbox.Width = 360
+    $textbox.UseSystemPasswordChar = $true
+    $form.Controls.Add($textbox)
+
+    $okButton = New-Object System.Windows.Forms.Button
+    $okButton.Text = "OK"
+    $okButton.Location = New-Object System.Drawing.Point(150,80)
+    $okButton.Add_Click({ $form.Close() })
+    $form.Controls.Add($okButton)
+
+    $form.ShowDialog() | Out-Null
+    $Token = $textbox.Text
 
     # Check if token is empty
     if (-not $Token) {
@@ -39,32 +67,57 @@ function exGithub {
         return
     }
 
-    # Define variables
+    # Define paths
     $TempDir = Join-Path $env:USERPROFILE "temp_secrets_$([guid]::NewGuid().ToString())"
-    $RepoUrl = "https://$Token@github.com/nhattVim/.env"
+    $RepoUrl = "https://$Token@github.com/nhattVim/sshKey"
+    $SshDir = Join-Path $env:USERPROFILE ".ssh"
+    if (-not (Test-Path $SshDir)) { New-Item -ItemType Directory -Path $SshDir | Out-Null }
 
     # Clone repo
-    StartMsg "Cloning .env repository..."
-    if (git -c credential.helper= clone $RepoUrl $TempDir -q) {
+    StartMsg "Cloning repository..."
+    git -c credential.helper= clone $RepoUrl $TempDir
+    if ($LASTEXITCODE -eq 0) {
         MsgDone "Repository cloned successfully"
     } else {
         MsgErr "Failed to clone repo. Check token or access rights."
+        Write-Host $Error[0].Exception.Message -ForegroundColor Red
         return
     }
 
-    # Prepare SSH directory
-    $SshDir  = Join-Path $env:USERPROFILE ".ssh"
-    if (-not (Test-Path $SshDir)) { New-Item -ItemType Directory -Path $SshDir | Out-Null }
-
-    # Copy SSH keys
+    # Copy SSH keys if they exist
     StartMsg "Copying SSH keys..."
+    $privateKeySrc = Join-Path $TempDir "window/id_ed25519"
+    $publicKeySrc  = Join-Path $TempDir "window/id_ed25519.pub"
+    $privateKeyDest = Join-Path $SshDir "id_ed25519"
+    $publicKeyDest  = Join-Path $SshDir "id_ed25519.pub"
+
+    if ((Test-Path $privateKeySrc) -and (Test-Path $publicKeySrc)) {
+        Copy-Item -Path $privateKeySrc -Destination $privateKeyDest -Force
+        Copy-Item -Path $publicKeySrc -Destination $publicKeyDest -Force
+        MsgDone "SSH keys copied successfully"
+    } else {
+        MsgErr "SSH key files not found in the repository"
+    }
+
+    # Change permissions of private key
     try {
-        Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519") -Destination (Join-Path $SshDir "id_ed25519") -Force
-        MsgDone "Private key copied"
-        Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519.pub") -Destination (Join-Path $SshDir "id_ed25519.pub") -Force
-        MsgDone "Public key copied"
+        icacls $privateKeyDest /inheritance:r /grant:r "$($env:USERNAME):(F)"
+        MsgDone "Changed permissions successfully!"
     } catch {
-        MsgErr "Failed to copy SSH keys: $_"
+        MsgErr "Failed to change permissions"
+    }
+
+    # Configure SSH
+    try {
+        $sshConfigPath = Join-Path $SshDir "config"
+        @"
+Host github.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile NUL
+"@ | Set-Content -Path $sshConfigPath -Encoding ASCII
+        MsgDone "SSH config applied successfully"
+    } catch {
+        MsgErr "Failed to apply SSH config"
     }
 
     # Configure Git
