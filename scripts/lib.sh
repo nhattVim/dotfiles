@@ -212,8 +212,8 @@ enable_service() {
         note "Checking $svc ($scope)..."
 
         # Check if service exists or is masked
-        if ! "${cmd[@]}" status "$svc" &>/dev/null; then
-            err "$svc not found or masked"
+        if ! "${cmd[@]}" list-unit-files "$svc" &>/dev/null; then
+            err "$svc not found"
             continue
         fi
 

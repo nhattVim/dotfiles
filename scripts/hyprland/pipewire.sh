@@ -34,9 +34,6 @@ disable_service --user pulseaudio.service
 note "Installing pipewire packages..."
 for PIPEWIRE in "${install[@]}"; do
     iAur "$PIPEWIRE"
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
 done
 
 # Enable and start Pipewire services
