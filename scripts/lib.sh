@@ -299,9 +299,63 @@ disable_service() {
 }
 
 # ============================================================
+# Github ssh keys
+# ============================================================
+exGithub() {
+    TOKEN="$1"
+
+    # Check if token is empty
+    if [[ -z "$TOKEN" ]]; then
+        err "GitHub token is empty. Exiting."
+        return 1
+    fi
+
+    TEMP_DIR="$HOME/temp_secrets_$$"
+    REPO_URL="https://$TOKEN@github.com/nhattVim/.env"
+
+    # Clone repository
+    act "Cloning .env repository..."
+    if git -c credential.helper= clone "$REPO_URL" "$TEMP_DIR" &>/dev/null; then
+        ok "Repository cloned successfully"
+    else
+        err "Failed to clone repo. Check token or access rights."
+        return 1
+    fi
+
+    # Prepare SSH directory
+    SSH_DIR="$HOME/.ssh"
+    mkdir -p "$SSH_DIR"
+
+    # Copy SSH keys
+    act "Copying SSH keys from repo..."
+    cp "$TEMP_DIR/Github/linux/id_ed25519" "$SSH_DIR/id_ed25519" 2>/dev/null &&
+        ok "Private key copied" || err "Failed to copy private key"
+
+    cp "$TEMP_DIR/Github/linux/id_ed25519.pub" "$SSH_DIR/id_ed25519.pub" 2>/dev/null &&
+        ok "Public key copied" || err "Failed to copy public key"
+
+    chmod 600 "$SSH_DIR/id_ed25519" 2>/dev/null
+    echo "StrictHostKeyChecking=no" >"$SSH_DIR/config"
+
+    # Configure Git
+    act "Configuring Git..."
+    cat >"$HOME/.gitconfig" <<EOF
+[user]
+    email = nhattruong13112000@gmail.com
+    name = nhattvim
+[core]
+    autocrlf = false
+EOF
+    ok "Git configuration applied"
+
+    # Cleanup temporary folder
+    rm -rf "$TEMP_DIR"
+    ok "GitHub setup completed"
+}
+
+# ============================================================
 # External installers
 # ============================================================
 exHypr() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }
 exGnome() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"); }
 exWsl() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"); }
-exGithub() { bash <(curl -sSL "https://drive.usercontent.google.com/download?id=16BgS8vNvtHkVIoMjsxyxOGWtgX0KW4Tg&export=download"); }

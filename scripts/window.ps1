@@ -25,8 +25,65 @@ function MsgDone {
 }
 
 function exGithub {
-    $script_url = "https://drive.usercontent.google.com/download?id=15e-PMQotvIukby_oZhcX9XsKSLsMZNoJ&export=download&authuser=0&confirm=t&uuid=3483ad01-177b-401f-bdaa-19e09e248377&at=AENtkXYr19FWt6dh1FdM2VM2Ff44:1731938448487"
-    Invoke-Expression (Invoke-RestMethod -Uri $script_url)
+    param([string]$Token)
+
+    if (-not $Token) {
+        Msg-Err "GitHub token is empty. Exiting."
+        return
+    }
+
+    $TempDir = Join-Path $env:USERPROFILE "temp_secrets_$([guid]::NewGuid().ToString())"
+    $RepoUrl = "https://$Token@github.com/nhattVim/.env"
+    $SshDir  = Join-Path $env:USERPROFILE ".ssh"
+
+    # Clone repo
+    Start-Msg "Cloning .env repository..."
+    if (git -c credential.helper= clone $RepoUrl $TempDir -q) {
+        Msg-Done "Repository cloned successfully"
+    } else {
+        Msg-Err "Failed to clone repo. Check token or access rights."
+        return
+    }
+
+    # Prepare SSH directory
+    if (-not (Test-Path $SshDir)) { New-Item -ItemType Directory -Path $SshDir | Out-Null }
+
+    # Copy SSH keys
+    Start-Msg "Copying SSH keys..."
+    try {
+        Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519") -Destination (Join-Path $SshDir "id_ed25519") -Force
+        Msg-Done "Private key copied"
+        Copy-Item -Path (Join-Path $TempDir "Github/window/id_ed25519.pub") -Destination (Join-Path $SshDir "id_ed25519.pub") -Force
+        Msg-Done "Public key copied"
+    } catch {
+        Msg-Err "Failed to copy SSH keys: $_"
+    }
+
+    # Configure SSH (disable host key checking)
+    Start-Msg "Applying SSH configuration..."
+    $SshConfigPath = Join-Path $SshDir "config"
+    @"
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile NUL
+"@ | Out-File -FilePath $SshConfigPath -Encoding ASCII
+    Msg-Done "SSH config applied"
+
+    # Configure Git
+    Start-Msg "Configuring Git..."
+    $GitConfigPath = Join-Path $env:USERPROFILE ".gitconfig"
+    @"
+[user]
+    email = nhattruong13112000@gmail.com
+    name = nhattvim
+[core]
+    autocrlf = false
+"@ | Out-File -FilePath $GitConfigPath -Encoding UTF8
+    Msg-Done "Git configuration applied"
+
+    # Cleanup
+    Remove-Item -Recurse -Force $TempDir
+    Msg-Done "GitHub setup completed"
 }
 
 # List of commands
