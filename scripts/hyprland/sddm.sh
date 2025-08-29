@@ -21,7 +21,7 @@ for package in "${sddm_packages[@]}"; do
 done
 
 # Disable other login managers
-note "Checking for conflicting login managers..."
+act "Checking for conflicting login managers..."
 for login_manager in lightdm gdm lxdm lxdm-gtk3; do
     disable_service "$login_manager.service"
 done
@@ -39,7 +39,7 @@ EOF
 
 # Enable SDDM service
 note "Activating SDDM service..."
-enable_service --not-now sddm
+enable_service --not-now sddm.service
 
 # Setup SDDM config directory
 sddm_conf_dir="/etc/sddm.conf.d"
