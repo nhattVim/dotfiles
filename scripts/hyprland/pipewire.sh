@@ -27,12 +27,8 @@ done
 
 # Disabling pulseaudio to avoid conflicts
 note "Disabling pulseaudio if exits"
-if systemctl --user is-active --quiet pulseaudio.service; then
-    systemctl --user disable --now pulseaudio.socket pulseaudio.service
-    note "Pulseaudio has been disabled"
-else
-    note "Pulseaudio is not running, skipping disable."
-fi
+disable_service --user pulseaudio.socket
+disable_service --user pulseaudio.service
 
 # Pipewire
 note "Installing pipewire packages..."
@@ -45,6 +41,6 @@ done
 
 # Enable and start Pipewire services
 note "Enabling and starting Pipewire services..."
-systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
-systemctl --user enable --now pipewire.service
+enable_service --user pipewire.socket pipewire-pulse.socket wireplumber.service
+enable_service --user pipewire.socket pipewire.service
 note "Pipewire services have been activated"

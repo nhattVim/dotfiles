@@ -29,21 +29,23 @@ note "Updating mirrorlist..."
 mirrorlist="/etc/pacman.d/mirrorlist"
 mirrorlist_backup="/etc/pacman.d/mirrorlist.bak"
 
-# Check and install reflector if not available
-if ! command -v reflector &>/dev/null; then
-    iPac reflector
-fi
+# Ensure reflector is available
+iPac reflector
 
 # Backup existing mirrorlist
-act "Backing up mirrorlist..."
-if sudo cp -v "$mirrorlist" "$mirrorlist_backup"; then
-    ok "Mirrorlist backup successful: $mirrorlist_backup"
+if [[ ! -f "$mirrorlist_backup" ]]; then
+    act "Backing up mirrorlist..."
+    if sudo cp -v "$mirrorlist" "$mirrorlist_backup"; then
+        ok "Mirrorlist backup created: $mirrorlist_backup"
+    else
+        err "Failed to create mirrorlist backup!"
+    fi
 else
-    err "Failed to back up mirrorlist!"
+    note "Mirrorlist backup already exists: $mirrorlist_backup"
 fi
 
 # Update mirrorlist with best mirrors
-act "Updating mirrorlist..."
+act "Fetching best mirrors..."
 if sudo reflector \
     --verbose \
     --latest 20 \
@@ -55,8 +57,10 @@ if sudo reflector \
     grep -E '^Server' "$mirrorlist" | head -n5 | sed 's/^/    /'
 else
     err "Failed to update mirrorlist!"
-    note "Restoring mirrorlist from backup..."
-    sudo mv -v "$mirrorlist_backup" "$mirrorlist"
+    if [[ -f "$mirrorlist_backup" ]]; then
+        note "Restoring backup mirrorlist..."
+        sudo cp -v "$mirrorlist_backup" "$mirrorlist"
+    fi
 fi
 
 # ==============================================================================
@@ -96,11 +100,12 @@ fi
 # ==============================================================================
 # System Update
 # ==============================================================================
-note "Starting system update..."
-act "Synchronizing package database..."
-sudo pacman -Syy || {
-    err "Failed to synchronize package database"
-}
+note "Updating system..."
+if sudo pacman -Syy; then
+    ok "Package database synchronized"
+else
+    err "Failed to sync database!"
+fi
 
 # ==============================================================================
 # Install Required Packages
@@ -117,9 +122,12 @@ required_pkgs=(
     libnewt
 )
 
+note "Refreshing archlinux-keyring..."
+sudo pacman -Sy --noconfirm archlinux-keyring
+
 note "Installing essential packages..."
 for pkg in "${required_pkgs[@]}"; do
-    sudo pacman -Sy --noconfirm "$pkg"
+    iPac "$pkg"
 done
 
-ok "All configurations completed successfully!"
+ok "Pacman enhancements completed successfully!"

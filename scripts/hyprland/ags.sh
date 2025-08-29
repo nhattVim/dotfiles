@@ -4,6 +4,7 @@
 # source library
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
+# pkgs
 ags=(
     typescript
     npm

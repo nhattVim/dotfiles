@@ -6,14 +6,10 @@
 
 # Dotfiles directory
 temp_dir=$(mktemp -d)
-
-# start script
-engine=(
-    unzip
-    gtk-engine-murrine
-)
+trap 'rm -rf "$temp_dir"' EXIT
 
 # installing engine needed for gtk themes
+engine=(unzip gtk-engine-murrine)
 for PKG1 in "${engine[@]}"; do
     iAur "$PKG1"
 done
@@ -28,26 +24,12 @@ fi
 
 # Copy gtk_themes file
 note "Copying gtk themes file"
-
-# copying icon
-mkdir -p $HOME/.icons
-cp -r "$temp_dir/assets/.icons/." "$HOME/.icons/" && { ok "Copy icons completed!"; } || {
-    err "Failed to copy icons files"
-}
-
-# copying font
-mkdir -p $HOME/.fonts
-cp -r "$temp_dir/assets/.fonts/." "$HOME/.fonts/" && { ok "Copy fonts completed!"; } || {
-    err "Failed to copy fonts files"
-}
-
-# copying theme
-mkdir -p $HOME/.themes
-cp -r "$temp_dir/assets/.themes/." "$HOME/.themes" && { ok "Copy themes completed!"; } || {
-    err "Failed to copy themes files"
-}
-
-# reload fonts
-fc-cache -fv
-
-rm -rf "$temp_dir"
+for dir in .icons .fonts .themes; do
+    mkdir -p "$HOME/$dir"
+    if cp -r "$temp_dir/assets/$dir/." "$HOME/$dir/"; then
+        ok "Copied $dir successfully"
+        [[ "$dir" == ".fonts" ]] && fc-cache -fv
+    else
+        err "Failed to copy $dir"
+    fi
+done

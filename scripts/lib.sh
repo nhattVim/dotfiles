@@ -177,6 +177,128 @@ reinstall_failed_pkgs() {
 }
 
 # ============================================================
+# Enable / disable services
+# ============================================================
+enable_service() {
+    local svc_list=()
+    local scope="system"
+    local with_now=true
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        --now) with_now=true ;;
+        --not-now) with_now=false ;;
+        --user) scope="user" ;;
+        --system) scope="system" ;;
+        *) svc_list+=("$1") ;;
+        esac
+        shift
+    done
+
+    # Check if service list is empty
+    if [[ ${#svc_list[@]} -eq 0 ]]; then
+        err "No service specified"
+        return 1
+    fi
+
+    # Choose systemctl command
+    local cmd=("systemctl")
+    [[ "$scope" == "system" && $EUID -ne 0 ]] && cmd=("sudo" "systemctl")
+    [[ "$scope" == "user" ]] && cmd=("systemctl" "--user")
+
+    # Loop qua từng service
+    for svc in "${svc_list[@]}"; do
+        note "Checking $svc ($scope)..."
+
+        # Check if service exists or is masked
+        if ! "${cmd[@]}" status "$svc" &>/dev/null; then
+            err "$svc not found or masked"
+            continue
+        fi
+
+        # Check if service is already enabled
+        if "${cmd[@]}" is-enabled "$svc" &>/dev/null; then
+            if [[ "$with_now" == true ]] && "${cmd[@]}" is-active "$svc" &>/dev/null; then
+                ok "$svc is already enabled and running"
+                continue
+            elif [[ "$with_now" == false ]]; then
+                ok "$svc is already enabled"
+                continue
+            fi
+        fi
+
+        # Enable/start service
+        if [[ "$with_now" == true ]]; then
+            act "Enabling and starting $svc..."
+            "${cmd[@]}" enable --now "$svc"
+            ok "$svc enabled and started"
+        else
+            act "Enabling $svc (will start on next boot)..."
+            "${cmd[@]}" enable "$svc"
+            ok "$svc enabled (not started now)"
+        fi
+    done
+}
+
+disable_service() {
+    local svc_list=()
+    local scope="system"
+    local with_now=true
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        --now) with_now=true ;;
+        --not-now) with_now=false ;;
+        --user) scope="user" ;;
+        --system) scope="system" ;;
+        *) svc_list+=("$1") ;;
+        esac
+        shift
+    done
+
+    # Check if any service provided
+    if [[ ${#svc_list[@]} -eq 0 ]]; then
+        err "No service specified"
+        return 1
+    fi
+
+    # Choose systemctl command
+    local cmd=("systemctl")
+    [[ "$scope" == "system" && $EUID -ne 0 ]] && cmd=("sudo" "systemctl")
+    [[ "$scope" == "user" ]] && cmd=("systemctl" "--user")
+
+    # Loop through services
+    for svc in "${svc_list[@]}"; do
+        act "Checking $svc ($scope)..."
+
+        # Check if service exists
+        if ! "${cmd[@]}" status "$svc" &>/dev/null; then
+            note "$svc not found or masked, skipping."
+            continue
+        fi
+
+        # Check if service is already disabled
+        if ! "${cmd[@]}" is-enabled "$svc" &>/dev/null; then
+            ok "$svc is already disabled"
+            continue
+        fi
+
+        # Disable / stop service
+        if [[ "$with_now" == true ]]; then
+            act "Disabling and stopping $svc..."
+            "${cmd[@]}" disable --now "$svc"
+            ok "$svc disabled and stopped"
+        else
+            act "Disabling $svc (will not stop now)..."
+            "${cmd[@]}" disable "$svc"
+            ok "$svc disabled (not stopped)"
+        fi
+    done
+}
+
+# ============================================================
 # External installers
 # ============================================================
 exHypr() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }

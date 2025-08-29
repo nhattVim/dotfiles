@@ -6,10 +6,8 @@
 
 note "Customizing Firefox..."
 
-iPac "firefox"
-if [ $? -ne 0 ]; then
-    exit 1
-fi
+# Ensure Firefox is installed
+iPac "firefox" || exit 1
 
 # Path to profiles.ini
 PROFILE_INI="$HOME/.mozilla/firefox/profiles.ini"
@@ -55,7 +53,7 @@ fi
 # Clone custom CSS and apply
 temp_dir=$(mktemp -d)
 note "Cloning firefox customcss"
-if git clone https://github.com/nhattVim/firefox.git "$temp_dir"; then
+if git clone https://github.com/nhattVim/firefox.git "$temp_dir" --depth 1; then
 
     # Delete existing chrome folder
     if [ -d "$PROFILE_PATH/chrome" ]; then

@@ -16,15 +16,14 @@ pacman_pkgs=(
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo gdb
     jdk-openjdk python-pyquery python-beautifulsoup4 rust
-    python-pynvim nodejs npm
+    nodejs npm
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
     # ----------------------------------------------------
-    alacritty tmux zsh nano vim neovim make ripgrep fzf jq
-    lazygit bat btop aria2 foot fastfetch lolcat yazi inxi
-    lsd curl wget axel starship translate-shell trash-cli
-    fish
+    alacritty tmux zsh vim neovim make ripgrep fzf jq fish
+    lazygit bat btop aria2 foot fastfetch yazi inxi curl
+    lsd wget starship translate-shell trash-cli
 
     # ----------------------------------------------------
     # System utilities
@@ -53,7 +52,7 @@ pacman_pkgs=(
     xdg-user-dirs xdg-utils yad hyprcursor hyprutils nvtop
     aquamarine hypridle hyprlock hyprland hyprland-qtutils
     libspng imagemagick kitty kvantum rofi-wayland swaync
-    swww waybar swappy swayidle hyprpicker hyprsunset
+    swww waybar swappy hyprpicker hyprsunset
 
     # ----------------------------------------------------
     # Fonts

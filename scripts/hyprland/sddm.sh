@@ -17,27 +17,18 @@ sddm_packages=(
 # Install SDDM and dependencies
 note "Installing SDDM and dependencies..."
 for package in "${sddm_packages[@]}"; do
-    iAur "$package" || {
-        err "$package installation failed!"
-        exit 1
-    }
+    iAur "$package"
 done
 
 # Disable other login managers
 note "Checking for conflicting login managers..."
 for login_manager in lightdm gdm lxdm lxdm-gtk3; do
-    if systemctl list-unit-files | grep -q "^$login_manager.service"; then
-        note "Disabling $login_manager..."
-        sudo systemctl disable --now "$login_manager.service"
-    fi
+    disable_service "$login_manager.service"
 done
 
+# Create hyprland desktop file
 wayland_sessions_dir=/usr/share/wayland-sessions
-[ ! -d "$wayland_sessions_dir" ] && {
-    note "$wayland_sessions_dir not found, creating..."
-    sudo mkdir "$wayland_sessions_dir"
-}
-
+sudo mkdir -p "$wayland_sessions_dir"
 sudo tee "$wayland_sessions_dir/hyprland.desktop" >/dev/null <<EOF
 [Desktop Entry]
 Name=Hyprland
@@ -48,7 +39,7 @@ EOF
 
 # Enable SDDM service
 note "Activating SDDM service..."
-sudo systemctl enable sddm
+enable_service --not-now sddm
 
 # Setup SDDM config directory
 sddm_conf_dir="/etc/sddm.conf.d"
@@ -97,6 +88,7 @@ if gum confirm "${CYAN} Install SDDM theme? ${RESET}"; then
 
     # Clone theme safely
     temp_dir=$(mktemp -d)
+    trap 'rm -rf "$temp_dir"' EXIT
     note "Cloning theme repository..."
     if git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git "$temp_dir"; then
 

@@ -12,13 +12,10 @@ bluetooth=(
 )
 
 # install bluetooth
-note "Installing bluetooth Packages..."
+note "Installing bluetooth packages..."
 for BLUE in "${bluetooth[@]}"; do
     iPac "$BLUE"
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
 done
 
-note "Activating bluetooth Services..."
-sudo systemctl enable --now bluetooth.service
+# enable service if needed
+enable_service bluetooth.service

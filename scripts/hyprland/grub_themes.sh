@@ -5,18 +5,19 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # Variables
-theme="Cipher"
+theme="Cerydra"
 grub="/etc/default/grub"
 grub_dir="/boot/grub/themes"
 grub_theme="$grub_dir/$theme/theme.txt"
 temp_dir=$(mktemp -d)
+trap 'rm -rf "$temp_dir"' EXIT
 
 # start script
 note "Setting up grub theme."
 
 # Check file
 if [[ ! -f "$grub" ]]; then
-    note "$grub does not exist. Skipping"
+    err "$grub does not exist. Skipping"
     exit 1
 fi
 
@@ -28,11 +29,12 @@ fi
 # Ask user
 if gum confirm "${CYAN}Do you want to install grub custom theme?${RESET}"; then
 
-    note "Clone grub themes."
-    git clone https://github.com/voidlhf/StarRailGrubThemes.git --depth 1 "$temp_dir" || {
+    if git clone https://github.com/voidlhf/StarRailGrubThemes.git --depth 1 "$temp_dir"; then
+        ok "Cloned grub themes successfully"
+    else
         err "Failed to clone grub themes directory"
         exit 1
-    }
+    fi
 
     # Update GRUB_TIMEOUT
     sudo sed -i "s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=\"-1\"/" "$grub"
@@ -67,8 +69,7 @@ if gum confirm "${CYAN}Do you want to install grub custom theme?${RESET}"; then
     fi
 
     # Extract and copy theme
-    sudo cp -r $temp_dir/assets/themes/$theme $grub_dir
-    rm -rf $temp_dir
+    sudo cp -r "$temp_dir/assets/themes/$theme" "$grub_dir/"
 
     # Detect OS
     if command -v os-prober >/dev/null; then
