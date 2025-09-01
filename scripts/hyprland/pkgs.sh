@@ -16,7 +16,7 @@ pacman_pkgs=(
     linux-lts linux-lts-headers base-devel libxcrypt-compat
     python-pip python-virtualenv python-requests cargo gdb
     jdk-openjdk python-pyquery python-beautifulsoup4 rust
-    nodejs npm
+    nodejs npm python-pynvim
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
