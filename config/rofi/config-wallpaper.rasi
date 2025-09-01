@@ -23,8 +23,8 @@ configuration {
 
 /* ---- Window ---- */
 window {
-    width:					700px;
-	/*height:				450px;*/
+    width:					900px;
+	height:				    800px;
     x-offset:               0px;
     y-offset:               0px;
     spacing:                0px;
@@ -37,7 +37,6 @@ window {
     anchor:                 center;
     fullscreen:             false;
     enabled:                true;
-    border-radius:          12px;
     border-radius:          12px;
 	background-image:   	url("~/.cache/swww/.current_wallpaper", height);
 }
@@ -109,9 +108,9 @@ entry {
 /* ---- Listview ---- */
 listview {
 	enabled:				true;
-	columns:				4;
-	lines:					3;
-	spacing:                4px;
+	columns:				3;
+	// lines:					4;
+	// spacing:                4px;
 	dynamic:                true;
 	cycle:                  true;
 	scrollbar:              false;
@@ -126,13 +125,13 @@ listview {
 /* ---- Element ---- */
 element {
     enabled:                true;
-    padding:                5px;
-    margin:                 2px;
+    padding:                0px;
+    margin:                 10px;
     cursor:                 pointer;
 	orientation: 			vertical;
     background-color:       transparent;
-    border-radius:          10px;
-    border:                 0px;
+    border-radius:          8px;
+    border:                 1px;
 }
 
 element normal.normal {
@@ -183,16 +182,18 @@ element alternate.active {
 element-icon {
     background-color:      transparent;
     text-color:            inherit;
-    size:                  130px;
+    size:                  199px;
     cursor:                inherit;
+    border-radius:         8px;
+    border:                1px;
 }
-
 
 element-text {
 	font:                  "Fira Code SemiBold 8";
     background-color:      transparent;
     text-color:            inherit;
     cursor:                inherit;
+    horizontal-align:      0.5;    
 }
 
 /*****----- Message -----*****/

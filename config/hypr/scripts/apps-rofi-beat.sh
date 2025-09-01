@@ -21,7 +21,7 @@ notification() {
 }
 
 main() {
-	choice=$(printf "%s\n" "${!menu_options[@]}" | sort -n | rofi -dmenu -config ~/.config/rofi/config-rofi-Beats.rasi -i -p "")
+	choice=$(printf "%s\n" "${!menu_options[@]}" | sort -n | rofi -dmenu -config ~/.config/rofi/config-beats.rasi -i -p "")
 
 	# Exit if nothing is selected
 	[ -z "$choice" ] && exit 0
