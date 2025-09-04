@@ -23,7 +23,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     alacritty tmux zsh vim neovim make ripgrep fzf jq fish
     lazygit bat btop aria2 foot fastfetch yazi inxi curl
-    lsd wget starship translate-shell trash-cli
+    lsd wget starship translate-shell trash-cli zip unzip
 
     # ----------------------------------------------------
     # System utilities
