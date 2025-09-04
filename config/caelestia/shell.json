@@ -14,6 +14,10 @@
     "background": {
         "desktopClock": {
             "enabled": true
+        },
+        "visualiser": {
+            "enabled": true,
+            "autoHide": true
         }
     },
     "services": {
