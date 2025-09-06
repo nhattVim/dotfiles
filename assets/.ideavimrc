@@ -40,6 +40,7 @@ nmap <s-Enter> O<esc>
 nmap <a-f> <action>(ReformatCode)
 nmap <tab> <action>(NextTab)
 nmap <s-tab> <action>(PreviousTab)
+vmap <leader><leader> <Esc>
 
 nmap <leader>e :NERDTree<cr>
 nmap <leader>x <action>(CloseEditor)
@@ -75,7 +76,9 @@ nmap <leader>sp <action>(WelcomeScreen.Plugins)
 nmap <leader>st <action>(ChangeLaf)
 
 nmap <a-j> <action>(MoveLineDown)
+vmap <a-j> <action>(MoveLineDown)
 nmap <a-k> <action>(MoveLineUp)
+vmap <a-k> <action>(MoveLineUp)
 imap <a-j> <action>(MoveLineDown)
 imap <a-k> <action>(MoveLineUp)
 
