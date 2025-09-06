@@ -13,6 +13,7 @@ set showmode
 set so=5
 set incsearch
 set nu
+set clipboard+=unnamedplus
 set number relativenumber
 
 """ Idea specific settings ------------------
@@ -22,7 +23,10 @@ set idearefactormode=keep
 
 """ Mappings --------------------------------
 nmap H  <action>(EditorJoinLines)
+nmap K  <action>(ShowHoverInfo)
+nmap S  <action>(EditorDuplicate)
 nmap gi <action>(QuickImplementations)
+nmap gh <action>(ShowErrorDescription)
 nmap za <action>(ExpandCollapseToggleAction)
 nmap zo <action>(ExpandRegion)
 nmap zO <action>(ExpandRegionRecursively)
@@ -33,12 +37,11 @@ imap jk <esc>
 
 nmap <cr> o<esc>
 nmap <s-Enter> O<esc>
+nmap <a-f> <action>(ReformatCode)
 nmap <tab> <action>(NextTab)
 nmap <s-tab> <action>(PreviousTab)
-nmap <a-f> <action>(ReformatCode)
 
 nmap <leader>e :NERDTree<cr>
-nmap <leader>E :NERDTreeToggle<cr>
 nmap <leader>x <action>(CloseEditor)
 nmap <leader>X <action>(CloseAllEditorsButActive)
 nmap <leader>z <action>(ToggleDistractionFreeMode)
@@ -54,6 +57,7 @@ nmap <leader>sv <action>(SplitVertically)
 nmap <leader>sh <action>(SplitHorizontally)
 
 nmap <leader>rr <action>(Run)
+nmap <leader>rs <action>(Stop)
 nmap <leader>rc <action>(RunClass)
 
 nmap <leader>dd <action>(DebugClass)
@@ -74,7 +78,6 @@ nmap <a-j> <action>(MoveLineDown)
 nmap <a-k> <action>(MoveLineUp)
 imap <a-j> <action>(MoveLineDown)
 imap <a-k> <action>(MoveLineUp)
-nmap <s-j> <action>(EditorDuplicate)
 
 nmap <c-c> <action>(CopyAsPlainText)
 vmap <c-c> <action>(CopyAsPlainText)
@@ -82,6 +85,7 @@ nmap <c-x> <action>($Cut)
 vmap <c-x> <action>($Cut)
 nmap <c-v> <action>($Paste)
 vmap <c-v> <action>($Paste)
+imap <c-v> <action>($Paste)
 
 imap <c-h> <left>
 imap <c-j> <down>
