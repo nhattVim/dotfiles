@@ -8,6 +8,9 @@ set commentary
 set easymotion
 set nerdtree
 
+""" Plugins settings ------------------------
+let g:EasyMotion_do_mapping = 0
+
 """ Common settings -------------------------
 set showmode
 set so=5
@@ -17,14 +20,15 @@ set clipboard+=unnamedplus
 set number relativenumber
 
 """ Idea specific settings ------------------
-set ideajoin
 set ideastatusicon=gray
 set idearefactormode=keep
 
 """ Mappings --------------------------------
-nmap H  <action>(EditorJoinLines)
-nmap K  <action>(ShowHoverInfo)
-nmap S  <action>(EditorDuplicate)
+nmap H <action>(EditorJoinLines)
+nmap K <action>(ShowHoverInfo)
+nmap J <action>(EditorDuplicate)
+vmap J <action>(EditorDuplicate)
+
 nmap gi <action>(QuickImplementations)
 nmap gh <action>(ShowErrorDescription)
 nmap za <action>(ExpandCollapseToggleAction)
@@ -33,14 +37,14 @@ nmap zO <action>(ExpandRegionRecursively)
 nmap zc <action>(CollapseRegion)
 nmap zC <action>(CollapseRegionRecursively)
 nmap zz <action>(EditorToggleUseSoftWraps)
-imap jk <esc>
 
+imap jk <esc>
 nmap <cr> o<esc>
 nmap <s-Enter> O<esc>
 nmap <a-f> <action>(ReformatCode)
 nmap <tab> <action>(NextTab)
 nmap <s-tab> <action>(PreviousTab)
-vmap <leader><leader> <Esc>
+vmap <Space><Space> <Esc>
 
 nmap <leader>e :NERDTree<cr>
 nmap <leader>x <action>(CloseEditor)
