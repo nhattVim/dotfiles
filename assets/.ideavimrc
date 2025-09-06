@@ -1,3 +1,8 @@
+""" Require extensions ----------------------
+" Which-Key
+" AceJump
+" IdeaVim-Easymotion
+" IdeaVim-Quickscope
 """ Map leader to space ---------------------
 let mapleader=" "
 
@@ -7,15 +12,22 @@ set multiple-cursors
 set commentary
 set easymotion
 set nerdtree
+set highlightedyank
+set quickscope
+set which-key
 
 """ Plugins settings ------------------------
 let g:EasyMotion_do_mapping = 0
+let g:highlightedyank_highlight_duration = "100"
+let g:WhichKeyDesc_debug = "<leader>d Debug"
+let g:WhichKeyDesc_find = "<leader>f Find"
 
 """ Common settings -------------------------
-set showmode
-set so=5
 set incsearch
+set timeoutlen=5000
+set showmode
 set nu
+set so=5
 set clipboard+=unnamedplus
 set number relativenumber
 
@@ -103,3 +115,8 @@ nmap <c-h> <c-w>h
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
+
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
