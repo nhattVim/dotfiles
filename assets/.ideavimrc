@@ -1,4 +1,4 @@
-""" Require extensions ----------------------
+ns ----------------------
 " Which-Key
 " AceJump
 " IdeaVim-Easymotion
@@ -19,8 +19,9 @@ set which-key
 """ Plugins settings ------------------------
 let g:EasyMotion_do_mapping = 0
 let g:highlightedyank_highlight_duration = "100"
-let g:WhichKeyDesc_debug = "<leader>d Debug"
-let g:WhichKeyDesc_find = "<leader>f Find"
+let g:WhichKeyDesc_d = "<leader>d Debug"
+let g:WhichKeyDesc_f = "<leader>f Find"
+let g:WhichKeyDesc_r = "<leader>r Run"
 
 """ Common settings -------------------------
 set incsearch
@@ -43,6 +44,7 @@ vmap J <action>(EditorDuplicate)
 
 nmap gi <action>(QuickImplementations)
 nmap gh <action>(ShowErrorDescription)
+nmap gR <action>(RenameElement)
 nmap za <action>(ExpandCollapseToggleAction)
 nmap zo <action>(ExpandRegion)
 nmap zO <action>(ExpandRegionRecursively)
@@ -64,7 +66,6 @@ nmap <leader>X <action>(CloseAllEditorsButActive)
 nmap <leader>z <action>(ToggleDistractionFreeMode)
 nmap <leader>t <action>(ActivateTerminalToolWindow)
 nmap <leader>n <action>(NewElement)
-nmap <leader>r <action>(RenameElement)
 nmap <leader>w <action>(SaveAll)
 nmap <leader>o <action>(OptimizeImports)
 nmap <leader>u <action>(ShowUsages)
