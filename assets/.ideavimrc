@@ -1,3 +1,8 @@
+""" Require extensions ----------------------
+" Which-Key
+" AceJump
+" IdeaVim-Easymotion
+" IdeaVim-Quickscope
 """ Map leader to space ---------------------
 let mapleader=" "
 
@@ -7,44 +12,60 @@ set multiple-cursors
 set commentary
 set easymotion
 set nerdtree
+set highlightedyank
+set quickscope
+set which-key
+
+""" Plugins settings ------------------------
+let g:EasyMotion_do_mapping = 0
+let g:highlightedyank_highlight_duration = "100"
+let g:WhichKeyDesc_d = "<leader>d Debug"
+let g:WhichKeyDesc_f = "<leader>f Find"
+let g:WhichKeyDesc_r = "<leader>r Run"
 
 """ Common settings -------------------------
-set showmode
-set so=5
 set incsearch
+set timeoutlen=5000
+set showmode
 set nu
+set so=5
+set clipboard+=unnamedplus
 set number relativenumber
 
 """ Idea specific settings ------------------
-set ideajoin
 set ideastatusicon=gray
 set idearefactormode=keep
 
 """ Mappings --------------------------------
-nmap H  <action>(EditorJoinLines)
+nmap H <action>(EditorJoinLines)
+nmap K <action>(ShowHoverInfo)
+nmap J <action>(EditorDuplicate)
+vmap J <action>(EditorDuplicate)
+
 nmap gi <action>(QuickImplementations)
+nmap gh <action>(ShowErrorDescription)
+nmap gR <action>(RenameElement)
 nmap za <action>(ExpandCollapseToggleAction)
 nmap zo <action>(ExpandRegion)
 nmap zO <action>(ExpandRegionRecursively)
 nmap zc <action>(CollapseRegion)
 nmap zC <action>(CollapseRegionRecursively)
 nmap zz <action>(EditorToggleUseSoftWraps)
-imap jk <esc>
 
+imap jk <esc>
 nmap <cr> o<esc>
 nmap <s-Enter> O<esc>
+nmap <a-f> <action>(ReformatCode)
 nmap <tab> <action>(NextTab)
 nmap <s-tab> <action>(PreviousTab)
-nmap <a-f> <action>(ReformatCode)
+vmap <Space><Space> <Esc>
 
 nmap <leader>e :NERDTree<cr>
-nmap <leader>E :NERDTreeToggle<cr>
 nmap <leader>x <action>(CloseEditor)
 nmap <leader>X <action>(CloseAllEditorsButActive)
 nmap <leader>z <action>(ToggleDistractionFreeMode)
 nmap <leader>t <action>(ActivateTerminalToolWindow)
 nmap <leader>n <action>(NewElement)
-nmap <leader>r <action>(RenameElement)
 nmap <leader>w <action>(SaveAll)
 nmap <leader>o <action>(OptimizeImports)
 nmap <leader>u <action>(ShowUsages)
@@ -54,6 +75,7 @@ nmap <leader>sv <action>(SplitVertically)
 nmap <leader>sh <action>(SplitHorizontally)
 
 nmap <leader>rr <action>(Run)
+nmap <leader>rs <action>(Stop)
 nmap <leader>rc <action>(RunClass)
 
 nmap <leader>dd <action>(DebugClass)
@@ -71,10 +93,11 @@ nmap <leader>sp <action>(WelcomeScreen.Plugins)
 nmap <leader>st <action>(ChangeLaf)
 
 nmap <a-j> <action>(MoveLineDown)
+vmap <a-j> <action>(MoveLineDown)
 nmap <a-k> <action>(MoveLineUp)
+vmap <a-k> <action>(MoveLineUp)
 imap <a-j> <action>(MoveLineDown)
 imap <a-k> <action>(MoveLineUp)
-nmap <s-j> <action>(EditorDuplicate)
 
 nmap <c-c> <action>(CopyAsPlainText)
 vmap <c-c> <action>(CopyAsPlainText)
@@ -82,6 +105,7 @@ nmap <c-x> <action>($Cut)
 vmap <c-x> <action>($Cut)
 nmap <c-v> <action>($Paste)
 vmap <c-v> <action>($Paste)
+imap <c-v> <action>($Paste)
 
 imap <c-h> <left>
 imap <c-j> <down>
@@ -92,3 +116,8 @@ nmap <c-h> <c-w>h
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
+
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
