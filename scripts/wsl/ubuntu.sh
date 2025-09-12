@@ -39,11 +39,12 @@ exGnome "pkgs.sh"
 # Install win32yank clipboard
 if ! command -v win32yank.exe &>/dev/null; then
     act "Installing win32yank..."
+    tmp_win32yank=$(mktemp -d)
     curl -LO https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip &&
-        unzip win32yank-x64.zip &&
-        chmod +x win32yank.exe &&
-        sudo mv win32yank.exe /usr/local/bin/ &&
-        rm win32yank-x64.zip
+        unzip win32yank-x64.zip -d "$tmp_win32yank" &&
+        chmod +x "$tmp_win32yank/win32yank.exe" &&
+        sudo mv "$tmp_win32yank/win32yank.exe" /usr/local/bin/ &&
+        rm -rf "$tmp_win32yank" win32yank-x64.zip
 fi
 
 # Config MYnvim
