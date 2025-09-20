@@ -6,16 +6,16 @@
 # =============================================================================
 
 $banner = @"
-   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ 
-  |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |
-  |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|
-  |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |
-  |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |
-  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |
-  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|
+ ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ 
+|    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |
+|  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|
+|  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |
+|  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |
+|  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |
+|__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|
 "@
 
-Write-Host $banner -ForegroundColor Magenta
+Write-Host "$banner" -ForegroundColor Magenta
 Write-Host "`n------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
 Write-Host " ------------------ Github: https://github.com/nhattVim --------------------`n" -ForegroundColor Magenta
 #endregion
@@ -64,7 +64,7 @@ $scoopPackages = @(
     "fzf", "lazygit", "tere", "git", "gcc", "nvm", "yarn", "openjdk", "python",
     "make", "oh-my-posh", "lsd", "winfetch", "fastfetch", "ripgrep", "unzip",
     "wget", "gzip", "pwsh", "winrar", "autoclicker", "firefox", "neovim",
-    "neovide", "abdownloadmanager", "flow-launcher", "yasb"
+    "neovide", "abdownloadmanager", "flow-launcher"
 )
 
 # List of Winget packages (user context)
@@ -320,10 +320,9 @@ if ($LASTEXITCODE -eq 0) {
     # PowerShell Profile
     Copy-Config -SourceName "powershell\Microsoft.PowerShell_profile.ps1" -DestinationPath $PROFILE -IsFile
     
-    # Fastfetch & yasb config
+    # Fastfetch config
     $configDir = Join-Path $env:USERPROFILE ".config"
     Copy-Config -SourceName "fastfetch" -DestinationPath $configDir
-    Copy-Config -SourceName "yasb" -DestinationPath $configDir
 
     # Windhawk
     $windhawkScript = Join-Path $dotfilesTempDir "windhawk\windhawk-backup.ps1"
@@ -369,9 +368,6 @@ try {
     # Sử dụng đường dẫn đầy đủ cho Windhawk
     Start-Process (Join-Path $env:ProgramFiles "Windhawk\windhawk.exe") -ErrorAction Stop
     Start-Process (Join-Path $env:UserProfile "scoop\apps\flow-launcher\current\Flow.Launcher.exe") -ErrorAction Stop    Start-Process "C:\Program Files\WindowsApps\28017CharlesMilette.TranslucentTB_2024.3.0.0_x64__v826wp6bftszj\TranslucentTB.exe"
-
-    Start-Process "yasb" -ErrorAction Stop
-    yasbc enable-autostart | Out-Null
 }
 catch {
     Write-ErrorLog "An error occurred while starting applications. A restart or manual start might be needed. Error: $_"
