@@ -1,447 +1,383 @@
-Write-Host "   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ " -ForegroundColor Magenta
-Write-Host "  |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |" -ForegroundColor Magenta
-Write-Host "  |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|" -ForegroundColor Magenta
-Write-Host "  |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |" -ForegroundColor Magenta
-Write-Host "  |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |" -ForegroundColor Magenta
-Write-Host "  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |" -ForegroundColor Magenta
-Write-Host "  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|" -ForegroundColor Magenta
-Write-Host ""
-Write-Host ""
-Write-Host "------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
-Write-Host " ------------------ Github: https://github.com/nhattVim -------------------- " -ForegroundColor Magenta
-Write-Host
+#Requires -RunAsAdministrator
 
-# Util function
-function StartMsg {
-    param ($msg)
-    Write-Host
-    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] -> " + $msg) -ForegroundColor Green
+#region Banner and Header
+# =============================================================================
+#                              BANNER AND HEADER
+# =============================================================================
+
+$banner = @"
+   ____   __ __   ____  ______      ______  ____   __ __   ___   ____    ____ 
+  |    \ |  |  | /    ||      |    |      ||    \ |  |  | /   \ |    \  /    |
+  |  _  ||  |  ||  o  ||      |    |      ||  D  )|  |  ||     ||  _  ||   __|
+  |  |  ||  _  ||     ||_|  |_|    |_|  |_||    / |  |  ||  O  ||  |  ||  |  |
+  |  |  ||  |  ||  _  |  |  |        |  |  |    \ |  :  ||     ||  |  ||  |_ |
+  |  |  ||  |  ||  |  |  |  |        |  |  |  .  \|     ||     ||  |  ||     |
+  |__|__||__|__||__|__|  |__|        |__|  |__|\_| \__,_| \___/ |__|__||___,_|
+"@
+
+Write-Host $banner -ForegroundColor Magenta
+Write-Host "`n------------------------ Script developed by nhattVim ------------------------" -ForegroundColor Magenta
+Write-Host " ------------------ Github: https://github.com/nhattVim --------------------`n" -ForegroundColor Magenta
+#endregion
+
+#region Utility Functions
+# =============================================================================
+#                              UTILITY FUNCTIONS
+# =============================================================================
+
+function Write-Log {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Message,
+        [System.ConsoleColor]$Color = 'Green'
+    )
+    $timestamp = Get-Date -Format "HH:mm:ss"
+    Write-Host "[$timestamp] -> $Message" -ForegroundColor $Color
 }
 
-function MsgDone {
-    param ($msg = "Task")
-    Write-Host
-    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Done " + $msg) -ForegroundColor Magenta
+function Write-ErrorLog {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Message
+    )
+    $timestamp = Get-Date -Format "HH:mm:ss"
+    Write-Host "[$timestamp] ERROR: $Message" -ForegroundColor Red
 }
 
-function MsgErr {
-    param($msg)
-    Write-Host
-    Write-Host("[" + (Get-Date -Format "HH:mm:ss") + "] Error " + $msg) -ForegroundColor Red
+function Write-TaskDone {
+    param ($TaskName = "Task")
+    $timestamp = Get-Date -Format "HH:mm:ss"
+    Write-Host "[$timestamp] ✔ Done: $TaskName`n" -ForegroundColor Magenta
+}
+#endregion
+
+#region Configuration Variables
+# =============================================================================
+#                           CONFIGURATION VARIABLES
+# =============================================================================
+
+# Temporary directory for dotfiles
+$dotfilesTempDir = Join-Path $env:TEMP "dotfiles"
+
+# List of Scoop packages
+$scoopPackages = @(
+    "fzf", "lazygit", "tere", "git", "gcc", "nvm", "yarn", "openjdk", "python",
+    "make", "oh-my-posh", "lsd", "winfetch", "fastfetch", "ripgrep", "unzip",
+    "wget", "gzip", "pwsh", "winrar", "autoclicker", "firefox", "neovim",
+    "neovide", "abdownloadmanager", "flow-launcher", "yasb"
+)
+
+# List of Winget packages (user context)
+$wingetPackages = @(
+    "RamenSoftware.Windhawk", "VNGCorp.Zalo", "Telegram.TelegramDesktop",
+    "Microsoft.VisualStudioCode", "Microsoft.DotNet.SDK.9", "lamquangminh.EVKey",
+    "9N7R5S6B0ZZH", # MyAsus
+    "9NSGM705MQWC", # WPS Office
+    "9WZDNCRF0083", # Messenger
+    "XPDC2RH70K22MN", # Discord
+    "XPDLNJ2FWVCXR1", # PDFgear
+    "XP8BZ39V4J50XJ", # TeraBox
+    "XP9M26RSCLNT88"  # TreeSize
+)
+
+# List of Winget packages (admin context)
+$wingetAdminPackages = @(
+    "CocCoc.CocCoc"
+)
+#endregion
+
+#region Helper Functions
+# =============================================================================
+#                               HELPER FUNCTIONS
+# =============================================================================
+
+function Set-WindowsCustomizations {
+    Write-Log "Applying Windows registry customizations..."
+    $commands = @(
+        # Dark theme
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name AppsUseLightTheme -Value 0",
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name SystemUsesLightTheme -Value 0",
+        # Disable UAC (ConsentPromptBehaviorAdmin=0 means elevate without prompting)
+        "Set-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name ConsentPromptBehaviorAdmin -Value 0",
+        # Disable browser tabs in Alt + Tab
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name MultiTaskingAltTabFilter -Value 3",
+        # Hide Task View button
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Value 0",
+        # Custom search box in taskbar (3 = Search icon only)
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Value 3",
+        # Small desktop icons
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop' -Name IconSize -Value 32 -ErrorAction SilentlyContinue",
+        # Hide desktop icons
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideIcons -Value 1",
+        # Set explorer default open "This PC"
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name LaunchTo -Value 1",
+        # Show hidden files in explorer
+        "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Value 1"
+    )
+    
+    Invoke-Expression ($commands -join "; ")
+    
+    try {
+        Stop-Process -Name explorer -Force -ErrorAction Stop
+        Write-Log "Explorer process restarted to apply changes."
+    }
+    catch {
+        Write-ErrorLog "Failed to restart explorer. A manual restart may be required."
+    }
+    Write-TaskDone "Windows customizations"
 }
 
-function exGithub {
+function Install-Packages {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$PackageManager, # 'scoop' or 'winget'
+        [Parameter(Mandatory=$true)]
+        [string[]]$Packages,
+        [switch]$AsAdmin
+    )
+
+    Write-Log "Installing packages via $PackageManager..."
+    foreach ($pkg in $Packages) {
+        Write-Log "Installing $pkg..."
+        $command = ""
+        switch ($PackageManager) {
+            'scoop'  { $command = "scoop install $pkg" }
+            'winget' { $command = "winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements" }
+            default  { Write-ErrorLog "Unknown package manager: $PackageManager"; return }
+        }
+
+        try {
+            if ($AsAdmin) {
+                Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$command`"" -Wait
+            } else {
+                Invoke-Expression $command -ErrorAction Stop
+            }
+        }
+        catch {
+            Write-ErrorLog "Failed to install $pkg."
+        }
+    }
+    Write-TaskDone "$PackageManager packages installation"
+}
+
+function Copy-Config {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$SourceName, # e.g., 'fastfetch'
+        [Parameter(Mandatory=$true)]
+        [string]$DestinationPath,
+        [switch]$IsFile
+    )
+
+    $sourcePath = Join-Path $dotfilesTempDir $SourceName
+    if (!(Test-Path $sourcePath)) {
+        Write-ErrorLog "Source '$SourceName' not found in dotfiles."
+        return
+    }
+
+    $parentDir = if ($IsFile) { Split-Path $DestinationPath -Parent } else { $DestinationPath }
+    if (!(Test-Path $parentDir)) {
+        New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
+    }
+
+    Copy-Item -Path $sourcePath -Destination $DestinationPath -Recurse -Force
+    Write-Log "Copied '$SourceName' configuration successfully."
+}
+
+function Setup-Github {
+    Write-Log "Setting up SSH keys from GitHub..."
     Add-Type -AssemblyName System.Windows.Forms
-
-    # Prompt for GitHub token (hidden)
-    $form = New-Object System.Windows.Forms.Form
-    $form.Text = "GitHub Token"
-    $form.Width = 400
-    $form.Height = 150
-    $form.StartPosition = "CenterScreen"
-
-    $label = New-Object System.Windows.Forms.Label
-    $label.Text = "Paste your GitHub token:"
-    $label.AutoSize = $true
-    $label.Location = New-Object System.Drawing.Point(10,20)
-    $form.Controls.Add($label)
-
-    $textbox = New-Object System.Windows.Forms.TextBox
-    $textbox.Location = New-Object System.Drawing.Point(10,50)
-    $textbox.Width = 360
-    $textbox.UseSystemPasswordChar = $true
-    $form.Controls.Add($textbox)
-
-    $okButton = New-Object System.Windows.Forms.Button
-    $okButton.Text = "OK"
-    $okButton.Location = New-Object System.Drawing.Point(150,80)
+    
+    # GUI Prompt for GitHub Token
+    $form = New-Object System.Windows.Forms.Form -Property @{ Text = "GitHub Token"; Width = 400; Height = 150; StartPosition = "CenterScreen" }
+    $label = New-Object System.Windows.Forms.Label -Property @{ Text = "Paste your GitHub token:"; AutoSize = $true; Location = New-Object System.Drawing.Point(10, 20) }
+    $textbox = New-Object System.Windows.Forms.TextBox -Property @{ Location = New-Object System.Drawing.Point(10, 50); Width = 360; UseSystemPasswordChar = $true }
+    $okButton = New-Object System.Windows.Forms.Button -Property @{ Text = "OK"; Location = New-Object System.Drawing.Point(150, 80) }
     $okButton.Add_Click({ $form.Close() })
-    $form.Controls.Add($okButton)
-
+    $form.Controls.AddRange(@($label, $textbox, $okButton))
     $form.ShowDialog() | Out-Null
-    $Token = $textbox.Text
+    $token = $textbox.Text
 
-    # Check if token is empty
-    if (-not $Token) {
-        MsgErr "GitHub token is empty. Exiting."
+    if ([string]::IsNullOrWhiteSpace($token)) {
+        Write-ErrorLog "GitHub token is empty. Aborting SSH setup."
         return
     }
 
-    # Define paths
-    $TempDir = Join-Path $env:USERPROFILE "temp_secrets_$([guid]::NewGuid().ToString())"
-    $RepoUrl = "https://$Token@github.com/nhattVim/sshKey"
-    $SshDir = Join-Path $env:USERPROFILE ".ssh"
-    if (-not (Test-Path $SshDir)) { New-Item -ItemType Directory -Path $SshDir | Out-Null }
-
-    # Clone repo
-    StartMsg "Cloning repository..."
-    git -c credential.helper= clone $RepoUrl $TempDir
-    if ($LASTEXITCODE -eq 0) {
-        MsgDone "Repository cloned successfully"
-    } else {
-        MsgErr "Failed to clone repo. Check token or access rights."
-        Write-Host $Error[0].Exception.Message -ForegroundColor Red
-        return
-    }
-
-    # Copy SSH keys if they exist
-    StartMsg "Copying SSH keys..."
-    $privateKeySrc = Join-Path $TempDir "window/id_ed25519"
-    $publicKeySrc  = Join-Path $TempDir "window/id_ed25519.pub"
-    $privateKeyDest = Join-Path $SshDir "id_ed25519"
-    $publicKeyDest  = Join-Path $SshDir "id_ed25519.pub"
-
-    if ((Test-Path $privateKeySrc) -and (Test-Path $publicKeySrc)) {
-        Copy-Item -Path $privateKeySrc -Destination $privateKeyDest -Force
-        Copy-Item -Path $publicKeySrc -Destination $publicKeyDest -Force
-        MsgDone "SSH keys copied successfully"
-    } else {
-        MsgErr "SSH key files not found in the repository"
-    }
-
-    # Change permissions of private key
+    $sshDir = Join-Path $env:USERPROFILE ".ssh"
+    $tempRepoDir = Join-Path $env:TEMP "temp_secrets_$(New-Guid)"
+    $repoUrl = "https://$($token)@github.com/nhattVim/sshKey"
+    New-Item -ItemType Directory -Path $sshDir -ErrorAction SilentlyContinue | Out-Null
+    
     try {
-        icacls $privateKeyDest /inheritance:r /grant:r "$($env:USERNAME):(F)"
-        MsgDone "Changed permissions successfully!"
-    } catch {
-        MsgErr "Failed to change permissions"
-    }
+        Write-Log "Cloning SSH key repository..."
+        git clone --quiet $repoUrl $tempRepoDir
+        if ($LASTEXITCODE -ne 0) { throw "Git clone failed." }
 
-    # Configure SSH
-    try {
-        $sshConfigPath = Join-Path $SshDir "config"
+        $privateKeySrc = Join-Path $tempRepoDir "window/id_ed25519"
+        $publicKeySrc  = Join-Path $tempRepoDir "window/id_ed25519.pub"
+        
+        if ((Test-Path $privateKeySrc) -and (Test-Path $publicKeySrc)) {
+            Copy-Item -Path $privateKeySrc -Destination $sshDir -Force
+            Copy-Item -Path $publicKeySrc -Destination $sshDir -Force
+            Write-Log "SSH keys copied."
+            
+            # Set permissions
+            $privateKeyDest = Join-Path $sshDir "id_ed25519"
+            icacls $privateKeyDest /inheritance:r /grant:r "$($env:USERNAME):(F)" | Out-Null
+            Write-Log "Private key permissions set."
+        } else {
+            throw "SSH key files not found in the repository."
+        }
+
+        # Configure SSH
+        $sshConfigPath = Join-Path $sshDir "config"
         @"
 Host github.com
     StrictHostKeyChecking no
     UserKnownHostsFile NUL
-"@ | Set-Content -Path $sshConfigPath -Encoding ASCII
-        MsgDone "SSH config applied successfully"
-    } catch {
-        MsgErr "Failed to apply SSH config"
+"@ | Set-Content -Path $sshConfigPath -Encoding ASCII -Force
+        Write-Log "SSH config created."
+
+        # Configure Git
+        git config --global user.name "nhattvim"
+        git config --global user.email "nhattruong13112000@gmail.com"
+        git config --global core.autocrlf false
+        Write-Log "Git user configured."
     }
-
-    # Configure Git
-    StartMsg "Configuring Git..."
-    git config --global user.name "nhattvim"
-    git config --global user.email "nhattruong13112000@gmail.com"
-    git config --global core.autocrlf false
-    MsgDone "Git configuration applied"
-
-    # Cleanup
-    Remove-Item -Recurse -Force $TempDir
-    MsgDone "GitHub setup completed"
+    catch {
+        Write-ErrorLog "Failed to set up SSH keys. $_"
+    }
+    finally {
+        if (Test-Path $tempRepoDir) {
+            Remove-Item -Recurse -Force $tempRepoDir
+        }
+    }
+    Write-TaskDone "SSH Key Setup"
 }
 
-# List of commands
-$commands = @(
-    # Dark theme
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name AppsUseLightTheme -Type DWord -Value 0",
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name SystemUsesLightTheme -Type DWord -Value 0",
-    # Disable UAC
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name ConsentPromptBehaviorAdmin -Type DWord -Value 0",
-    # Disable browser tabs in Alt + Tab
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name MultiTaskingAltTabFilter -Type DWord -Value 3",
-    # Hide Task View button
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowTaskViewButton -Type DWord -Value 0",
-    # Custom search box in taskbar
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search' -Name SearchBoxTaskbarMode -Type DWord -Value 3",
-    # Small desktop icons
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\Shell\Bags\1\Desktop' -Name IconSize -Type DWord -Value 32",
-    # Hide desktop icons
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideIcons -Type DWord -Value 1",
-    # Set explorer default open "This PC"
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name LaunchTo -Type DWord -Value 1",
-    # Show hidden file in explorer
-    "Set-ItemProperty -Path 'REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Type DWord -Value 1"
-)
-
-# Join and run commands
-$commandString = $commands -join "; "
-Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
-try {
-    Stop-Process -Name explorer -Force
+function Prompt-ForRestart {
+    Add-Type -AssemblyName System.Windows.Forms
+    $result = [System.Windows.Forms.MessageBox]::Show(
+        "Do you want to restart your computer now to apply the changes?",
+        "Restart Required",
+        [System.Windows.Forms.MessageBoxButtons]::YesNo,
+        [System.Windows.Forms.MessageBoxIcon]::Question
+    )
+    if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+        Write-Log "Restarting computer..."
+        Restart-Computer -Force
+    }
 }
-catch {
-    Write-Warning "Cannot stop explorer process. You may need to restart manually."
-}
+#endregion
 
-# Scoop packages
-$scoop_pkgs = @(
-    "fzf"
-    "lazygit"
-    "tere"
-    "git"
-    "gcc"
-    "nvm"
-    "yarn"
-    "openjdk"
-    "python"
-    "make"
-    "oh-my-posh"
-    "lsd"
-    "winfetch"
-    "fastfetch"
-    "ripgrep"
-    "unzip"
-    "wget"
-    "gzip"
-    "pwsh"
-    "winrar"
-    "autoclicker"
-    "firefox"
-    "neovim"
-    "neovide"
-    "abdownloadmanager"
-    "flow-launcher"
-)
+#region Main Execution
+# =============================================================================
+#                               MAIN EXECUTION
+# =============================================================================
 
-# Winget packages
-$winget_pkgs = @(
-    "RamenSoftware.Windhawk" # Windhawk
-    "VNGCorp.Zalo" # Zalo
-    "Telegram.TelegramDesktop" # Telegram
-    "Microsoft.VisualStudioCode" # VSCode
-    "Microsoft.DotNet.SDK.9" # .NET SDK
-    "lamquangminh.EVKey" # EVKey
-    "9N7R5S6B0ZZH" # MyAsus
-    "9NSGM705MQWC" # WPS Office
-    "9WZDNCRF0083" # Messenger
-    "XPDC2RH70K22MN" # Discord
-    "XPDLNJ2FWVCXR1" # PDFgear
-    "XP8BZ39V4J50XJ" # TeraBox
-    "XP9M26RSCLNT88" # TreeSize
-    # "XP89DCGQ3K6VLD" # PowerToys
-)
+# -- Step 1: Apply Windows Customizations --
+Set-WindowsCustomizations
 
-# Winget packages with Administrator
-$winget_admin_pkgs = @(
-    "CocCoc.CocCoc" # Cốc Cốc
-)
-
-StartMsg -msg "Installing scoop..."
-if (Get-Command scoop -errorAction SilentlyContinue) {
-    Write-Warning "Scoop already installed"
-}
-else {
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# -- Step 2: Install Scoop and its packages --
+Write-Log "Installing Scoop..."
+if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
     Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+} else {
+    Write-Log "Scoop is already installed." -Color Yellow
 }
-MsgDone
-
-StartMsg -msg "Initializing Scoop..."
+Write-Log "Initializing Scoop buckets..."
 scoop install git
 scoop bucket add extras
 scoop bucket add nerd-fonts
 scoop bucket add java
 scoop update
-MsgDone
+Install-Packages -PackageManager 'scoop' -Packages $scoopPackages
+scoop cache rm * | Out-Null
+Write-TaskDone "Scoop Setup"
 
-StartMsg -msg "Installing Scoop's packages"
-foreach ($pkg in $scoop_pkgs) {
-    StartMsg -msg "Installing $pkg via Scoop..."
-    scoop install $pkg
+# -- Step 3: Install Node.js via NVM --
+Write-Log "Installing latest Node.js via NVM..."
+try {
+    nvm install latest
+    nvm use latest
+    Write-TaskDone "Node.js installation"
+} catch {
+    Write-ErrorLog "Failed to install Node.js. Is NVM installed correctly?"
 }
-scoop cache rm *
-MsgDone
 
-StartMsg -msg "Installing Nodejs via NVM..."
-nvm install node
-nvm use node
-MsgDone
+# -- Step 4: Install Winget packages --
+Install-Packages -PackageManager 'winget' -Packages $wingetPackages
+Install-Packages -PackageManager 'winget' -Packages $wingetAdminPackages -AsAdmin
+Write-TaskDone "Winget package installations"
 
-StartMsg -msg "Installing Winget's packages"
-foreach ($pkg in $winget_pkgs) {
-    StartMsg -msg "Installing $pkg via Winget..."
-    winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements
-}
-MsgDone
+# -- Step 5: Clone dotfiles and configure applications --
+Write-Log "Cloning dotfiles for configuration..."
+if (Test-Path $dotfilesTempDir) { Remove-Item $dotfilesTempDir -Recurse -Force }
+git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1 $dotfilesTempDir
 
-StartMsg -msg "Installing Winget's packages with Administrator"
-foreach ($pkg in $winget_admin_pkgs) {
-    StartMsg -msg "Installing $pkg via Winget (Admin)..."
-    Start-Process -Wait powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command winget install --id=$pkg --silent --accept-package-agreements --accept-source-agreements"
-}
-MsgDone
+if ($LASTEXITCODE -eq 0) {
+    # PowerShell Profile
+    Copy-Config -SourceName "powershell\Microsoft.PowerShell_profile.ps1" -DestinationPath $PROFILE -IsFile
+    
+    # Fastfetch & yasb config
+    $configDir = Join-Path $env:USERPROFILE ".config"
+    Copy-Config -SourceName "fastfetch" -DestinationPath $configDir
+    Copy-Config -SourceName "yasb" -DestinationPath $configDir
 
-# Start config
-StartMsg -msg "Start config"
-
-# Temp dir
-$Dot = "$env:TEMP\dotfiles"
-
-# Clone dotfiles
-StartMsg -msg "Clone dotfiles"
-git clone -b window https://github.com/nhattVim/dotfiles.git --depth 1 $Dot
-MsgDone
-
-# Config powershell
-StartMsg -msg "Config Powershell"
-New-Item -Path $PROFILE -Type File -Force
-$PROFILEPath = $PROFILE
-Get-Content -Path "$Dot\powershell\Microsoft.PowerShell_profile.ps1" | Set-Content -Path $PROFILEPath
-MsgDone
-
-# Config fastfetch
-StartMsg -msg "Config fastfetch"
-$fastfetchSrc = "$Dot\fastfetch"
-$fastfetchDst = "$env:USERPROFILE\.config"
-
-if (Test-Path $fastfetchSrc) {
-    if (!(Test-Path $fastfetchDst)) {
-        New-Item -ItemType Directory -Path $fastfetchDst -Force | Out-Null
+    # Windhawk
+    $windhawkScript = Join-Path $dotfilesTempDir "windhawk\windhawk-backup.ps1"
+    Copy-Config -SourceName "windhawk\windhawk-backup.zip" -DestinationPath "$env:USERPROFILE\Downloads\windhawk-backup.zip" -IsFile
+    if (Test-Path $windhawkScript) {
+        Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$windhawkScript`" -Action R" -Wait
     }
-    Copy-Item -Path $fastfetchSrc -Destination $fastfetchDst -Recurse -Force
-    Write-Host "Fastfetch folder copied to $fastfetchDst"
+
+    # Flow Launcher
+    $flowLauncherAppPath = (Get-Item "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-*").FullName
+    $flowSettingsDir = Join-Path $flowLauncherAppPath "UserData\Settings"
+    Copy-Config -SourceName "flow-launcher\Settings.json" -DestinationPath $flowSettingsDir -IsFile
+    
+    Write-TaskDone "Application Configuration"
 } else {
-    Write-Warning "Fastfetch folder not found in dotfiles."
+    Write-ErrorLog "Failed to clone dotfiles repository. Skipping configuration."
 }
 
-MsgDone
+# -- Step 7: Configure Neovim --
+Write-Log "Configuring Neovim..."
+$nvimConfigPath = Join-Path $env:LOCALAPPDATA "nvim"
+$nvimDataPath = Join-Path $env:LOCALAPPDATA "nvim-data"
+if (Test-Path $nvimConfigPath) { Remove-Item $nvimConfigPath -Recurse -Force }
+if (Test-Path $nvimDataPath) { Remove-Item $nvimDataPath -Recurse -Force }
 
-# Configuring Windhawk
-StartMsg -msg "Configuring Windhawk"
-$windhawkBackupSrc = "$Dot\windhawk\windhawk-backup.zip"
-$windhawkBackupDst = "$env:USERPROFILE\Downloads\windhawk-backup.zip"
-$windhawkScript = "$Dot\windhawk\windhawk-backup.ps1"
-
-# Check & copy file backup
-if (Test-Path $windhawkBackupSrc) {
-    Copy-Item -Path $windhawkBackupSrc -Destination $windhawkBackupDst -Force
-    MsgDone "Windhawk backup copied successfully."
-}
-else {
-    Write-Warning "Windhawk backup file not found in dotfiles."
-}
-
-# Execute Windhawk backup/restore script
-if (Test-Path $windhawkScript) {
-    Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$windhawkScript`" -Action R"
-    MsgDone "Windhawk restore script executed."
-}
-else {
-    Write-Warning "Windhawk backup script not found."
+try {
+    git clone https://github.com/nhattVim/MYnvim $nvimConfigPath --depth 1
+    # Install dependencies
+    pip install pynvim
+    npm install -g neovim
+    Write-TaskDone "Neovim Configuration"
+} catch {
+    Write-ErrorLog "Failed to clone Neovim configuration."
 }
 
-# Flow launch config path
-StartMsg -msg "Configuring Flow Launcher"
-$flowLauncherBaseDst = "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-*"
+# -- Step 8: Cleanup and Start Apps --
+Write-Log "Cleaning up temporary files..."
+if (Test-Path $dotfilesTempDir) { Remove-Item $dotfilesTempDir -Recurse -Force }
+Write-TaskDone "Cleanup"
 
-# Configuring Flow Launcher theme
-$flowLauncherThemeSrc = "$Dot\flow-launcher\Transparent.xaml"
-$flowLauncherThemeDst = Get-Item -Path $flowLauncherBaseDst | Select-Object -ExpandProperty FullName | Join-Path -ChildPath "UserData\Themes"
+Write-Log "Starting essential applications..."
+try {
+    # Sử dụng đường dẫn đầy đủ cho Windhawk
+    Start-Process (Join-Path $env:ProgramFiles "Windhawk\windhawk.exe") -ErrorAction Stop
+    Start-Process (Join-Path $env:UserProfile "scoop\apps\flow-launcher\current\Flow.Launcher.exe") -ErrorAction Stop    Start-Process "C:\Program Files\WindowsApps\28017CharlesMilette.TranslucentTB_2024.3.0.0_x64__v826wp6bftszj\TranslucentTB.exe"
 
-if (!(Test-Path $flowLauncherThemeDst)) {
-    New-Item -ItemType Directory -Path $flowLauncherThemeDst -Force | Out-Null
-    Write-Host "Created directory: $flowLauncherThemeDst"
+    Start-Process "yasb" -ErrorAction Stop
+    yasbc enable-autostart | Out-Null
 }
-
-if (Test-Path $flowLauncherThemeSrc) {
-    Copy-Item -Path $flowLauncherThemeSrc -Destination $flowLauncherThemeDst -Force
-    Write-Host "Flow Launcher theme updated."
+catch {
+    Write-ErrorLog "An error occurred while starting applications. A restart or manual start might be needed. Error: $_"
 }
-else {
-    Write-Warning "Flow Launcher theme file not found in dotfiles."
-}
+Write-TaskDone "Application Start"
 
-# Configuring Flow Launcher settings
-$flowLauncherSettingsSrc = "$Dot\flow-launcher\Settings.json"
-$flowLauncherSettingsDst = Get-Item -Path $flowLauncherBaseDst | Select-Object -ExpandProperty FullName | Join-Path -ChildPath "UserData\Settings"
-
-if (!(Test-Path $flowLauncherSettingsDst)) {
-    New-Item -ItemType Directory -Path $flowLauncherSettingsDst -Force | Out-Null
-    Write-Host "Created directory: $flowLauncherSettingsDst"
-}
-
-if (Test-Path $flowLauncherSettingsSrc) {
-    Copy-Item -Path $flowLauncherSettingsSrc -Destination $flowLauncherSettingsDst -Force
-    Write-Host "Flow Launcher settings updated."
-}
-else {
-    Write-Warning "Flow Launcher settings file not found in dotfiles."
-}
-
-StartMsg -msg "Start App"
-Start-Process "C:\Program Files\Windhawk\windhawk.exe"
-Start-Process "$env:USERPROFILE\scoop\apps\flow-launcher\current\Flow.Launcher.exe"
-Start-Process "C:\Program Files\WindowsApps\28017CharlesMilette.TranslucentTB_2024.3.0.0_x64__v826wp6bftszj\TranslucentTB.exe"
-
-# Config Neovim
-StartMsg -msg "Config Neovim"
-$DestinationPath = "$env:LOCALAPPDATA"
-If (-not (Test-Path $DestinationPath)) {
-    New-Item -ItemType Directory -Path $DestinationPath -Force
-}
-
-$NvimPath = Join-Path $DestinationPath "nvim"
-$NvimDataPath = Join-Path $DestinationPath "nvim-data"
-
-if (Test-Path $NvimPath) {
-    Remove-Item -Path $NvimPath -Recurse -Force
-    Write-Warning "!!!Remove nvim folder"
-}
-
-if (Test-Path $NvimDataPath) {
-    Remove-Item -Path $NvimDataPath -Recurse -Force
-    Write-Warning "!!!Remove nvim data folder"
-}
-
-git clone https://github.com/nhattVim/MYnvim "$NvimPath" --depth 1
-
-pip install pynvim
-npm install neovim -g
-MsgDone
-
-# Remove dotfiles
-StartMsg -msg "Remove dotfiles"
-Remove-Item $Dot -Recurse -Force
-MsgDone
-
-# StartMsg -msg "Installing choco..."
-# if (Get-Command choco -errorAction SilentlyContinue)
-# {
-#     Write-Warning "Choco already installed"
-# }
-# else {
-#     Start-Process -Wait powershell -verb runas -ArgumentList "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-#     Start-Process -Wait powershell -verb runas -ArgumentList "choco feature enable -n allowGlobalConfirmation"
-# }
-# MsgDone
-#
-# StartMsg -msg "Installing Choco's packages"
-#     Start-Process -Wait powershell -verb runas -ArgumentList "choco install zalopc internet-download-manager vmwareworkstation"
-#     # Start-Process -Wait powershell -verb runas -ArgumentList "choco install steam bluestacks"
-# MsgDone
-
-# StartMsg -msg "Enable Virtualiztion"
-# Start-Process -Wait powershell -verb runas -ArgumentList @"
-#     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -Norestart
-#     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -All -Norestart
-#     Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All -Norestart
-#     Enable-WindowsOptionalFeature -Online -FeatureName Contaniners -All -Norestart
-# "@
-# MsgDone
-
-# StartMsg -msg "Installing WSl..."
-# if(!(wsl -l -v)){
-#     wsl --install
-#     wsl --update
-#     wsl --install --no-launch --web-download -d Ubuntu
-# }
-# else {
-#     Write-Warning "Wsl installed"
-# }
-# MsgDone
-
-# Restart computer
-Add-Type -AssemblyName System.Windows.Forms
-
-$Result = [System.Windows.Forms.MessageBox]::Show(
-    "Do you want to restart your computer now to apply the changes?",
-    "Restart Required",
-    [System.Windows.Forms.MessageBoxButtons]::YesNo,
-    [System.Windows.Forms.MessageBoxIcon]::Question
-)
-
-if ($Result -eq [System.Windows.Forms.DialogResult]::Yes) {
-    Restart-Computer -Force
-}
+# -- Step 9: Final Restart Prompt --
+Prompt-ForRestart
+#endregion
