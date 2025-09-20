@@ -31,8 +31,13 @@ base)
 caelestia)
     ln -sf "$KEYBINDS_DIR/shell.conf" "$KEYBINDS_LINK"
 
+    # Start caelestia shell
     caelestia shell -d >/dev/null &
     hyprctl reload
+
+    # Disable swaync to use caelestia notifications
+    sleep .5
+    pidof "swaync" >/dev/null && pkill swaync
 
     exit 0
     ;;
