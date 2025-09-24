@@ -17,7 +17,7 @@ echo " ---------------------- Script developed by nhattVim ---------------------
 echo "  ----------------- Github: https://github.com/nhattVim ------------------         "
 echo "$RESET"
 
-GUM_VERSION="0.14.5"
+GUM_VERSION="0.17.0"
 GUM_LINKDOWNLOADS="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/gum_${GUM_VERSION}_amd64.deb"
 
 # update system
