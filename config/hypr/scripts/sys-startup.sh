@@ -22,7 +22,7 @@ base)
     pgrep -x "swaync" >/dev/null || swaync &
 
     # Wallpaper daemon
-    swww-daemon --format xrgb &
+    swww-daemon --format argb &
     sleep .5
     "$SCRIPTS_DIR/apps-wall-auto.sh" "$WALL_DIR" &
 

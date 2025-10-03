@@ -25,7 +25,7 @@ if [ "$HYPRGAMEMODE" = 1 ]; then
     notify-send -e -u low -i "$notif" " Gamemode:" " enabled"
     exit
 else
-    swww-daemon --format xrgb && swww img "$HOME/.cache/swww/.current_wallpaper" &
+    swww-daemon --format argb && swww img "$HOME/.cache/swww/.current_wallpaper" &
     sleep 0.1
     ${SCRIPTSDIR}/apps-wall-swww.sh
     sleep 0.5

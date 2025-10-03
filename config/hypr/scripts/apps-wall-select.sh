@@ -53,7 +53,7 @@ CURRENT_SHELL=$(<"$SHELL_FILE")
 # Ensure swww-daemon for base
 if [[ $CURRENT_SHELL == "base" ]] && ! swww query &>/dev/null; then
     pkill swww-daemon 2>/dev/null || true
-    swww-daemon --format xrgb &
+    swww-daemon --format argb &
     sleep 0.5
 fi
 

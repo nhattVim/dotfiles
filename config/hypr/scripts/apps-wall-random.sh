@@ -37,7 +37,7 @@ SWWW_PARAMS=(
 
 # Ensure daemon running
 swww query &>/dev/null || {
-    swww-daemon --format xrgb &
+    swww-daemon --format argb &
     sleep 1
 }
 

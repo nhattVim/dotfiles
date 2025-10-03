@@ -16,7 +16,7 @@ if [[ "$CURRENT_SHELL" == "caelestia" ]]; then
 
     caelestia shell -k
 
-    swww-daemon --format xrgb &
+    swww-daemon --format argb &
     sleep .5
     "$SCRIPTS_DIR/apps-wall-auto.sh" "$WALL_DIR" &
 else
