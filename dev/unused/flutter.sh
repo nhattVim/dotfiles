@@ -27,10 +27,13 @@ sudo gpasswd -a $(whoami) android-sdk
 sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
 sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
 
-# relogin and run
-# fvm flutter doctor --android-licenses
+sdkmanager --licenses
+sdkmanager "platform-tools" "platforms;android-36" "system-images;android-36;google_apis;x86_64" "emulator"
+avdmanager create avd \
+    --name "medium_phone_api36" \
+    --package "system-images;android-34;google_apis;x86_64" \
+    --device "medium_phone"
 
 # sudo rm -rf /opt/android-sdk
-
 # export ANDROID_HOME=$HOME/Android/Sdk
 # export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
