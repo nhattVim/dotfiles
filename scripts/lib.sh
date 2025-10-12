@@ -303,7 +303,8 @@ disable_service() {
 # Github ssh keys
 # ============================================================
 exGithub() {
-    TOKEN="$1"
+    note "Enter your GitHub token: "
+    read -s TOKEN
 
     # Check if token is empty
     if [[ -z "$TOKEN" ]]; then
