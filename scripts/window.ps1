@@ -115,7 +115,8 @@ function Set-WindowsCustomizations {
         "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Value 1"
     )
     
-    Invoke-Expression ($commands -join "; ")
+    $commandString = $commands -join "; "
+    Start-Process -Wait powershell -Verb runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$commandString`""
     
     try {
         Stop-Process -Name explorer -Force -ErrorAction Stop
