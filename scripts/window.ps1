@@ -334,7 +334,7 @@ if ($LASTEXITCODE -eq 0) {
 
     # Flow Launcher
     $flowLauncherAppPath = (Get-Item "$env:USERPROFILE\scoop\apps\flow-launcher\current\app-*").FullName
-    $flowSettingsDir = Join-Path $flowLauncherAppPath "UserData\Settings"
+    $flowSettingsDir = Join-Path $flowLauncherAppPath "UserData\Settings\Settings.json"
     Copy-Config -SourceName "flow-launcher\Settings.json" -DestinationPath $flowSettingsDir -IsFile
     
     Write-TaskDone "Application Configuration"
