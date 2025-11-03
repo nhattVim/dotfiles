@@ -73,7 +73,6 @@ $wingetPackages = @(
     "Microsoft.VisualStudioCode", "Microsoft.DotNet.SDK.9", "lamquangminh.EVKey",
     "9N7R5S6B0ZZH", # MyAsus
     "9NSGM705MQWC", # WPS Office
-    "9WZDNCRF0083", # Messenger
     "XPDC2RH70K22MN", # Discord
     "XPDLNJ2FWVCXR1", # PDFgear
     "XP8BZ39V4J50XJ", # TeraBox
