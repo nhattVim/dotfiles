@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MY_PASS="nhattVim2*"
+MY_PASS="albedo2"
 APP_COMMAND="$@"
 
 if [ -z "$APP_COMMAND" ]; then
