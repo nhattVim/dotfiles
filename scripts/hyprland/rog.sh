@@ -26,10 +26,10 @@ enable_service "switcheroo-control.service"
 enable_service "power-profiles-daemon.service"
 
 # Set battery charging limit
-yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+# yes_no "Do you want to set battery charging limit (only for laptop)?" battery
 
-if [ "$battery" == "Y" ]; then
-    act "Setting up battery charge limit."
-    number=$(gum input --prompt="-> " --width 80 --placeholder "Enter the battery charge limit (0 - 100):")
-    asusctl battery limit $number
-fi
+# if [ "$battery" == "Y" ]; then
+#     act "Setting up battery charge limit."
+#     number=$(gum input --prompt="-> " --width 80 --placeholder "Enter the battery charge limit (0 - 100):")
+#     asusctl battery limit $number
+# fi

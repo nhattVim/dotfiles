@@ -33,11 +33,11 @@ disable_service --user pulseaudio.service
 # Pipewire
 note "Installing pipewire packages..."
 for PIPEWIRE in "${install[@]}"; do
-    iAur "$PIPEWIRE"
+    iPac "$PIPEWIRE"
 done
 
 # Enable and start Pipewire services
-note "Enabling and starting Pipewire services..."
-enable_service --user pipewire.socket pipewire-pulse.socket wireplumber.service
-enable_service --user pipewire.socket pipewire.service
-note "Pipewire services have been activated"
+# note "Enabling and starting Pipewire services..."
+# enable_service --user pipewire.socket pipewire-pulse.socket wireplumber.service
+# enable_service --user pipewire.socket pipewire.service
+# note "Pipewire services have been activated"

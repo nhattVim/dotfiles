@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # Variables
-theme="Cerydra"
+theme="Rappa"
 grub="/etc/default/grub"
 grub_dir="/boot/grub/themes"
 grub_theme="$grub_dir/$theme/theme.txt"

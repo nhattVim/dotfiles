@@ -6,6 +6,7 @@
 
 # start script
 xdg=(
+    xdg-desktop-portal
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
 )
@@ -20,28 +21,14 @@ remove=(
 
 # XDG-DESKTOP-PORTAL-HYPRLAND
 for xdgs in "${xdg[@]}"; do
-    iAur "$xdgs"
+    iPac "$xdgs"
 done
 
 # Remove conflic xdg-desktop-portal
 note "Clearing any other xdg-desktop-portal implementations..."
 for xdgs in "${remove[@]}"; do
-    if pacman -Qs "$xdgs" >/dev/null; then
+    if pacman -Q "$xdgs" >/dev/null; then
         act "Removing $xdgs..."
         sudo pacman -R --noconfirm "$xdgs"
     fi
 done
-
-# Configure xdg-desktop-portal
-note "Configuring xdg-desktop-portal-hyprland..."
-mkdir -p ~/.config/xdg-desktop-portal
-cat <<EOF >~/.config/xdg-desktop-portal/portal.conf
-[preferred]
-default=hyprland
-EOF
-
-# Restart services
-act "Restart portal services..."
-systemctl --user daemon-reexec
-systemctl --user restart xdg-desktop-portal-gtk.service
-systemctl --user restart xdg-desktop-portal-hyprland.service
