@@ -1,0 +1,23 @@
+sudo mkdir -p /mnt/win11
+lsblk -f
+echo "UUID=80101D6C101D6A84 /mnt/win11 ntfs3 defaults,noatime,nofail,uid=1000,gid=1000,umask=0022 0 0" | sudo tee -a /etc/fstab
+sudo mount -a
+ln -s /mnt/win11/Users/nhatt/Data $HOME
+
+PACKAGE_NAMES=$(whiptail --inputbox "Enter package names (space-separated):" 10 60 "" 3>&1 1>&2 2>&3)
+
+sudo chown -R $(whoami) /opt/visual-studio-code
+
+echo "--ozone-platform-hint=x11" >>"$HOME/.config/code-flags.conf"
+echo "--disable-gpu" >>"$HOME/.config/code-flags.conf"
+
+
+
+:: to make it work.
+:: See https://gitlab.com/asus-linux/asusctl#kernel-support.
+:: for latest required kernel patches/versions
+Optional dependencies for asusctl
+    acpi_call: fan control
+    asusctltray: tray profile switcher
+    rog-control-center: app to control asusctl
+    supergfxctl: hybrid GPU control
