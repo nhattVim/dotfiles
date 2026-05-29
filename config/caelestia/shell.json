@@ -1,0 +1,31 @@
+{
+    "launcher": {
+        "actionPrefix": ":",
+        "vimKeybinds": true,
+        "enableDangerousActions": true
+    },
+    "appearance": {
+        "transparency": {
+            "enabled": true,
+            "base": 0.9,
+            "layers": 0.4
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "enabled": true
+        },
+        "visualiser": {
+            "enabled": true,
+            "autoHide": true
+        }
+    },
+    "services": {
+        "useFahrenheit": false,
+        "useCelsius": true,
+        "smartScheme": false
+    },
+    "session": {
+        "vimKeybinds": true
+    }
+}
