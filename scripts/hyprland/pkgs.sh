@@ -13,7 +13,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     # Core System & Development
     # ----------------------------------------------------
-    jdk-openjdk nodejs npm hyprland
+    jdk-openjdk nodejs npm hyprland rustup
 
     # ----------------------------------------------------
     # Terminal & CLI Tools
@@ -141,12 +141,18 @@ fi
 
 # TPM (Tmux Plugin Manager)
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-    act "Installing TPM..."
+        act "Installing TPM..."
     git clone https://github.com/tmux-plugins/tpm \
         $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
 else
     note "TPM already installed"
 fi
+
+# Set up Rustup
+act "Configuring Rustup..."
+rustup default stable && { ok "Configuring Rustup completed"; } || {
+    err "Failed to Configuring Rustup"
+}
 
 ok "All packages installed successfully!"
 
