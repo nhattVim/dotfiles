@@ -1,13 +1,8 @@
 {
-    "launcher": {
-        "actionPrefix": ":",
-        "vimKeybinds": true,
-        "enableDangerousActions": true
-    },
     "appearance": {
         "transparency": {
-            "enabled": true,
             "base": 0.9,
+            "enabled": true,
             "layers": 0.4
         }
     },
@@ -16,16 +11,21 @@
             "enabled": true
         },
         "visualiser": {
-            "enabled": true,
-            "autoHide": true
+            "autoHide": true,
+            "enabled": true
         }
     },
+    "launcher": {
+        "actionPrefix": ":",
+        "enableDangerousActions": true,
+        "vimKeybinds": true
+    },
     "services": {
-        "useFahrenheit": false,
-        "useCelsius": true,
-        "smartScheme": false
+        "smartScheme": false,
+        "useFahrenheit": false
     },
     "session": {
+        "commands": { "logout": ["hyprshutdown"] },
         "vimKeybinds": true
     }
 }
