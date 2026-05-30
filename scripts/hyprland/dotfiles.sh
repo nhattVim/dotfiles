@@ -3,14 +3,6 @@
 # source library
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
-# variables
-wallpaper="$HOME/Pictures/Wallpapers/car-2.png"
-color_scheme="prefer-dark"
-gtk_theme="adw-gtk3-dark"
-icon_theme="Tokyonight-SE"
-cursor_theme="Bibata-Modern-Ice"
-cursor_size=24
-
 DOTFILES_DIR=$(mktemp -d)
 trap 'rm -rf "$DOTFILES_DIR"' EXIT
 HYPR_FOLDER="$HOME/.config/hypr/configs"
@@ -205,9 +197,6 @@ else
     note "kb_layout $new_layout configured in settings."
 fi
 
-# Generate scheme stuff
-caelestia scheme set -n shadotheme
-
 # additional wallpapers
 note "By default only a few wallpapers are copied..." && cd "$HOME"
 while true; do
@@ -231,16 +220,6 @@ while true; do
         break
     fi
 done
-
-# Apply theme
-act "Apply Theme..."
-caelestia shell wallpaper "$wallpaper"
-caelestia scheme set -n dynamic
-gsettings set org.gnome.desktop.interface color-scheme "$color_scheme"
-gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
-gsettings set org.gnome.desktop.interface icon-theme "$icon_theme"
-gsettings set org.gnome.desktop.interface cursor-theme "$cursor_theme"
-gsettings set org.gnome.desktop.interface cursor-size "$cursor_size"
 
 # Change shell to zsh
 note "Changing default shell to zsh..."
