@@ -43,7 +43,7 @@ pacman_pkgs=(
     # ----------------------------------------------------
     # Hyprland Ecosystem
     # ----------------------------------------------------
-    hyprcursor hyprpolkitagent hyprpicker
+    hyprcursor hyprpicker hyprshutdown
 
     # ----------------------------------------------------
     # Fonts
@@ -141,7 +141,7 @@ fi
 
 # TPM (Tmux Plugin Manager)
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-        act "Installing TPM..."
+    act "Installing TPM..."
     git clone https://github.com/tmux-plugins/tpm \
         $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
 else
