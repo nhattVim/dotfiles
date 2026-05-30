@@ -6,7 +6,7 @@
 
 # Packages
 pacman=(power-profiles-daemon switcheroo-control)
-aur=(asusctl supergfxctl rog-control-center)
+aur=(asusctl supergfxctl)
 
 # Install ASUS ROG packages
 note "Installing ASUS ROG packages ..."
@@ -25,11 +25,17 @@ enable_service "supergfxd.service"
 enable_service "switcheroo-control.service"
 enable_service "power-profiles-daemon.service"
 
-# Set battery charging limit
-# yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+# Start asusd
+sudo mkdir -p /etc/asusd
+sudo systemctl daemon-reload
+sudo systemctl reset-failed asusd.service
+sudo systemctl start asusd.service
 
-# if [ "$battery" == "Y" ]; then
-#     act "Setting up battery charge limit."
-#     number=$(gum input --prompt="-> " --width 80 --placeholder "Enter the battery charge limit (0 - 100):")
-#     asusctl battery limit $number
-# fi
+# Set battery charging limit
+yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+
+if [ "$battery" == "Y" ]; then
+    act "Setting up battery charge limit."
+    number=$(gum input --prompt="-> " --width 80 --placeholder "Enter the battery charge limit (0 - 100):")
+    asusctl battery limit $number
+fi

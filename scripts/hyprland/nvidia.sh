@@ -13,6 +13,7 @@ nvidia_pkgs=(
     egl-wayland
     libva
     libva-nvidia-driver
+    intel-media-driver
 )
 
 # Install kernel headers

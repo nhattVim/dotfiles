@@ -5,7 +5,6 @@
 
 # variables
 wallpaper="$HOME/Pictures/Wallpapers/car-2.png"
-kvantum_theme="Tokyo-Night"
 color_scheme="prefer-dark"
 gtk_theme="adw-gtk3-dark"
 icon_theme="Tokyonight-SE"
@@ -233,7 +232,10 @@ while true; do
     fi
 done
 
-act "Apply GTK theme..."
+# Apply theme
+act "Apply Theme..."
+caelestia shell wallpaper "$wallpaper"
+caelestia scheme set -n dynamic
 gsettings set org.gnome.desktop.interface color-scheme "$color_scheme"
 gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
 gsettings set org.gnome.desktop.interface icon-theme "$icon_theme"
