@@ -10,6 +10,9 @@ on("hyprland.start", function()
     -- shell
     exec("caelestia shell -d")
 
+    -- one-time boot script (auto-commented after first run)
+    exec("$HOME/.config/hypr/scripts/boot.sh")
+
     -- authentication agents
     exec("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
