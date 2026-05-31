@@ -5,12 +5,15 @@
 
 local env = hl.env
 
--- NVIDIA GPU support
--- env("LIBVA_DRIVER_NAME", "nvidia")
--- env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-
 -- Cursor
 env("XCURSOR_SIZE", "24")
 env("XCURSOR_THEME", "Bibata-Modern-Ice")
 env("HYPRCURSOR_SIZE", "24")
 env("HYPRCURSOR_THEME", "Bibata-Modern-Ice")
+
+-- QT
+env("QT_QPA_PLATFORMTHEME", "gtk3")
+
+-- NVIDIA GPU support
+-- env("LIBVA_DRIVER_NAME", "nvidia")
+-- env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
