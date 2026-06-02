@@ -12,11 +12,11 @@ aur=(asusctl supergfxctl)
 note "Installing ASUS ROG packages ..."
 
 for pkg in "${pacman[@]}"; do
-    iAur "$pkg"
+    install_arch_pkg "$pkg"
 done
 
 for pkg in "${aur[@]}"; do
-    iAur "$pkg"
+    install_arch_pkg "$pkg"
 done
 
 # Enable ROG services
@@ -32,7 +32,7 @@ sudo systemctl reset-failed asusd.service
 sudo systemctl start asusd.service
 
 # Set battery charging limit
-yes_no "Do you want to set battery charging limit (only for laptop)?" battery
+ask_confirm "Do you want to set battery charging limit (only for laptop)?" battery
 
 if [ "$battery" == "Y" ]; then
     act "Setting up battery charge limit."

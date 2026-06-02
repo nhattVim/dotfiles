@@ -7,7 +7,7 @@
 note "Customizing Firefox..."
 
 # Ensure Firefox is installed
-iAur "firefox"
+install_arch_pkg "firefox"
 
 get_profile_ini() {
     local paths=(

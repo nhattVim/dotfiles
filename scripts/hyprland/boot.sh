@@ -101,7 +101,7 @@ required_pkgs=(
 note "Installing essential packages..."
 
 for pkg in "${required_pkgs[@]}"; do
-    iAur "$pkg"
+    install_arch_pkg "$pkg"
 done
 
 ok "Pacman enhancements completed successfully!"

@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # init
-exHypr "boot.sh" && clear
+run_hypr_script "boot.sh" && clear
 
 # start script
 gum style \
@@ -34,18 +34,18 @@ gum style \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start ${RESET}"
 
 while true; do
-    choose "Choose your AUR helper" "yay" "paru" aur_helper
-    yes_no "Do you dual boot with Windows?" dual_boot
-    yes_no "Do you want to install the Grub theme?" grub_themes
-    yes_no "Do you want to configure Bluetooth?" bluetooth
-    yes_no "Do you have any NVIDIA GPU in your system?" nvidia
-    yes_no "Do you want to install Thunar (File Manager)?" thunar
-    yes_no "Do you want to install Homebrew (CLI Package Manager)?" homebrew
-    yes_no "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
-    yes_no "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
-    yes_no "Do you want to install XDG-DESKTOP-PORTAL-HYPRLAND? (Required for proper screen sharing, e.g., in OBS)" xdph
-    yes_no "Are you installing on an Asus ROG/TUF laptop?" rog
-    yes_no "Are you Vietnamese and want to set up the Vietnamese keyboard (Unikey)?" unikey
+    ask_choice "Choose your AUR helper" "yay" "paru" aur_helper
+    ask_confirm "Do you dual boot with Windows?" dual_boot
+    ask_confirm "Do you want to install the Grub theme?" grub_themes
+    ask_confirm "Do you want to configure Bluetooth?" bluetooth
+    ask_confirm "Do you have any NVIDIA GPU in your system?" nvidia
+    ask_confirm "Do you want to install Thunar (File Manager)?" thunar
+    ask_confirm "Do you want to install Homebrew (CLI Package Manager)?" homebrew
+    ask_confirm "Do you want to install and configure SDDM (Login Manager) with an optional SDDM theme?" sddm
+    ask_confirm "Do you want to install and configure Firefox with Firefox CSS customization?" firefox
+    ask_confirm "Do you want to install XDG-DESKTOP-PORTAL-HYPRLAND? (Required for proper screen sharing, e.g., in OBS)" xdph
+    ask_confirm "Are you installing on an Asus ROG/TUF laptop?" rog
+    ask_confirm "Are you Vietnamese and want to set up the Vietnamese keyboard (Unikey)?" unikey
 
     gum style \
         --border-foreground 6 --border rounded \
@@ -76,60 +76,60 @@ if [ "$dual_boot" == "Y" ]; then
     sudo timedatectl set-local-rtc 1 --adjust-system-clock
 fi
 
-exHypr "swapfile.sh"
+run_hypr_script "swapfile.sh"
 
-exHypr "$aur_helper.sh"
+run_hypr_script "$aur_helper.sh"
 
-exHypr "pkgs.sh"
+run_hypr_script "pkgs.sh"
 
 if [ "$nvidia" == "Y" ]; then
-    exHypr "nvidia.sh"
+    run_hypr_script "nvidia.sh"
 fi
 
 if [ "$bluetooth" == "Y" ]; then
-    exHypr "bluetooth.sh"
+    run_hypr_script "bluetooth.sh"
 fi
 
 if [ "$thunar" == "Y" ]; then
-    exHypr "thunar.sh"
+    run_hypr_script "thunar.sh"
 fi
 
 if [ "$rog" == "Y" ]; then
-    exHypr "rog.sh"
+    run_hypr_script "rog.sh"
 fi
 
 if [ "$homebrew" == "Y" ]; then
-    exHypr "homebrew.sh"
+    run_hypr_script "homebrew.sh"
 fi
 
 if [ "$sddm" == "Y" ]; then
-    exHypr "sddm.sh"
+    run_hypr_script "sddm.sh"
 fi
 
 if [ "$firefox" == "Y" ]; then
-    exHypr "firefox.sh"
+    run_hypr_script "firefox.sh"
 fi
 
 if [ "$xdph" == "Y" ]; then
-    exHypr "xdph.sh"
+    run_hypr_script "xdph.sh"
 fi
 
 if [ "$grub_themes" == "Y" ]; then
-    exHypr "grub_themes.sh"
+    run_hypr_script "grub_themes.sh"
 fi
 
 if [ "$unikey" == "Y" ]; then
-    exHypr "unikey.sh"
+    run_hypr_script "unikey.sh"
 fi
 
-exHypr "input_group.sh"
+run_hypr_script "input_group.sh"
 
-exHypr "dotfiles.sh"
+run_hypr_script "dotfiles.sh"
 
 # Check log
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
-    gum confirm "${CYAN} Do you want to reinstall failed packages?" && reinstall_failed_pkgs
+    gum confirm "${CYAN} Do you want to reinstall failed packages?" && retry_failed_installs
 fi
 
 gum style \

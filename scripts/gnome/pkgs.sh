@@ -58,7 +58,7 @@ fi
 # Install packages
 note "Installing packages..."
 for PKG in "${pkgs[@]}"; do
-    iDeb "$PKG"
+    install_deb_pkg "$PKG"
 done
 
 # Remove old version of Node.js

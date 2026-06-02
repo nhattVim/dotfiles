@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
 # require
-exHypr "boot.sh"
+run_hypr_script "boot.sh"
 
 # init
 clear
@@ -37,9 +37,9 @@ gum style \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start ${RESET}"
 
 echo
-choose "Choose your AUR helper" "yay" "paru" aur_helper
+ask_choice "Choose your AUR helper" "yay" "paru" aur_helper
 
-exHypr "$aur_helper.sh"
+run_hypr_script "$aur_helper.sh"
 
 packages=(
     git unzip tmux starship zsh make python-pip nodejs npm
@@ -59,7 +59,7 @@ ISAUR=$(command -v yay || command -v paru)
 note "Installing packages"
 
 for PKG in "${packages[@]}"; do
-    iAur "$PKG"
+    install_arch_pkg "$PKG"
 done
 
 # Clone tpm

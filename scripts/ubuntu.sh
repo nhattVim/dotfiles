@@ -34,7 +34,7 @@ gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.session idle-delay 0
 
 # require
-exGnome "boot.sh"
+run_gnome_script "boot.sh"
 
 # start script
 gum style \
@@ -63,9 +63,9 @@ gum style \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
 
 while true; do
-    yes_no "Do you dual boot with window?" dual_boot
-    yes_no "Do you want to set battery charging limit (only for laptop)?" battery
-    # yes_no "Install & configure firefox with firefoxcss?" firefox
+    ask_confirm "Do you dual boot with window?" dual_boot
+    ask_confirm "Do you want to set battery charging limit (only for laptop)?" battery
+    # ask_confirm "Install & configure firefox with firefoxcss?" firefox
 
     gum style \
         --border-foreground 6 --border rounded \
@@ -86,30 +86,30 @@ if [ "$dual_boot" == "Y" ]; then
 fi
 
 if [ "$battery" == "Y" ]; then
-    exGnome "battery.sh"
+    run_gnome_script "battery.sh"
 fi
 
 # install package
-exGnome "pkgs.sh"
+run_gnome_script "pkgs.sh"
 
 # copy dotfiles
-exGnome "dotfiles.sh"
+run_gnome_script "dotfiles.sh"
 
 # if [ "$firefox" == "Y" ]; then
-#     exGnome "firefox.sh"
+#     run_gnome_script "firefox.sh"
 # fi
 
 # settings gnome
-exGnome "settings.sh"
+run_gnome_script "settings.sh"
 
 # change keybindings
-exGnome "hotkeys.sh"
+run_gnome_script "hotkeys.sh"
 
 # install gnome extensions
-exGnome "extensions.sh"
+run_gnome_script "extensions.sh"
 
 # change keybindings
-exGnome "hotkeys.sh"
+run_gnome_script "hotkeys.sh"
 
 # Revert to normal idle and lock settings
 gsettings set org.gnome.desktop.screensaver lock-enabled true
@@ -118,7 +118,7 @@ gsettings set org.gnome.desktop.session idle-delay 300
 # Check log
 if [ -f $HOME/install.log ]; then
     gum confirm "${CYAN} Do you want to check log?" && gum pager <$HOME/install.log
-    gum confirm "${CYAN} Do you want to reinstall failed packages?" && reinstall_failed_pkgs
+    gum confirm "${CYAN} Do you want to reinstall failed packages?" && retry_failed_installs
 fi
 
 # successfully

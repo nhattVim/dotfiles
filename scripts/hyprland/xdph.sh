@@ -21,11 +21,11 @@ remove=(
 
 # XDG-DESKTOP-PORTAL-HYPRLAND
 for xdgs in "${xdg[@]}"; do
-    iAur "$xdgs"
+    install_arch_pkg "$xdgs"
 done
 
 # Remove conflic xdg-desktop-portal
 note "Clearing any other xdg-desktop-portal implementations..."
 for xdgs in "${remove[@]}"; do
-    uPac "$xdgs"
+    uninstall_arch_pkg "$xdgs"
 done

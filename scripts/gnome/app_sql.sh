@@ -6,7 +6,7 @@
 
 PKGMN=$(command -v nala || command -v apt)
 
-choose "Choose your databases" "mysql" "sql" db
+ask_choice "Choose your databases" "mysql" "sql" db
 
 if [ "$db" == "mysql" ]; then
 

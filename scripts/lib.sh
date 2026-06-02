@@ -23,8 +23,8 @@ err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
 act() { echo -e "\n${CYAN}[ACTION]${RESET} - $1\n"; }
 note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
 
-yes_no() { gum confirm "${CYAN}$1${RESET}" && eval "$2='Y'" || eval "$2='N'"; }
-choose() { gum confirm "${CYAN}$1${RESET}" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
+ask_confirm() { gum confirm "${CYAN}$1${RESET}" && eval "$2='Y'" || eval "$2='N'"; }
+ask_choice() { gum confirm "${CYAN}$1${RESET}" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
 
 # ============================================================
 # Globals
@@ -36,7 +36,7 @@ PKGMN=$(basename "$(command -v nala || command -v apt)")
 # ============================================================
 # Install functions
 # ============================================================
-iAur() {
+install_arch_pkg() {
     if $ISAUR -Q "$1" &>/dev/null; then
         ok "$1 is already installed. Skipping ..."
         return 0
@@ -55,7 +55,7 @@ iAur() {
     fi
 }
 
-iDeb() {
+install_deb_pkg() {
     if dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q " installed"; then
         ok "$1 is already installed. Skipping ..."
         return 0
@@ -74,7 +74,7 @@ iDeb() {
     fi
 }
 
-uPac() {
+uninstall_arch_pkg() {
     if pacman -Qi "$1" &>/dev/null; then
         act "Uninstalling $1 ..."
         sudo pacman -Rns --noconfirm "$1"
@@ -124,7 +124,7 @@ cleanup_backups() {
 # ============================================================
 # Retry failed installs
 # ============================================================
-reinstall_failed_pkgs() {
+retry_failed_installs() {
     act "Retrying failed installations from install.log ..."
 
     [[ ! -f "$LOG_FILE" ]] && return 0
@@ -133,7 +133,7 @@ reinstall_failed_pkgs() {
     ISAUR=$(basename "$(command -v paru || command -v yay)")
     while read -r pkg; do
         [[ -z "$pkg" ]] && continue
-        if iAur "$pkg"; then
+        if install_arch_pkg "$pkg"; then
             sed -i "\|^\[aur\] $pkg failed|d" "$LOG_FILE"
         fi
     done < <(grep "^\[aur\]" "$LOG_FILE" | awk '{print $2}')
@@ -141,7 +141,7 @@ reinstall_failed_pkgs() {
     # deb pkgs
     while read -r pkg; do
         [[ -z "$pkg" ]] && continue
-        if iDeb "$pkg"; then
+        if install_deb_pkg "$pkg"; then
             sed -i "\|^\[deb\] $pkg failed|d" "$LOG_FILE"
         fi
     done < <(grep "^\[deb\]" "$LOG_FILE" | awk '{print $2}')
@@ -275,7 +275,7 @@ disable_service() {
 # ============================================================
 # Github ssh keys
 # ============================================================
-exGithub() {
+setup_github_ssh() {
     note "Enter your GitHub token: "
     read -s TOKEN
 
@@ -336,6 +336,6 @@ EOF
 # ============================================================
 # External installers
 # ============================================================
-exHypr() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }
-exGnome() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"); }
-exWsl() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"); }
+run_hypr_script() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/hyprland/$1"); }
+run_gnome_script() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/gnome/$1"); }
+run_wsl_script() { bash <(curl -sSL "https://raw.githubusercontent.com/nhattVim/dotfiles/master/scripts/wsl/$1"); }

@@ -23,7 +23,7 @@ fi
 
 # Install os-prober
 for PKG in os-prober fuse3; do
-    iAur "$PKG"
+    install_arch_pkg "$PKG"
 done
 
 # Check folder

@@ -22,7 +22,7 @@ uninstall=(
 # Removal of pulseaudio
 note "Removing pulseaudio stuff... if exist"
 for PKG in "${uninstall[@]}"; do
-    uPac "$PKG"
+    uninstall_arch_pkg "$PKG"
 done
 
 # Disabling pulseaudio to avoid conflicts
@@ -33,7 +33,7 @@ disable_service --user pulseaudio.service
 # Pipewire
 note "Installing pipewire packages..."
 for PIPEWIRE in "${install[@]}"; do
-    iAur "$PIPEWIRE"
+    install_arch_pkg "$PIPEWIRE"
 done
 
 # Enable and start Pipewire services

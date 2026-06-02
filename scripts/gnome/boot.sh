@@ -58,7 +58,7 @@ pkgs=(
 # install some required packages
 note "Installing required packages..."
 for PKG in "${pkgs[@]}"; do
-    iDeb "$PKG"
+    install_deb_pkg "$PKG"
 done
 
 # install gum (requirement)

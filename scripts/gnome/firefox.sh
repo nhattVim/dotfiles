@@ -6,7 +6,7 @@
 
 note "Customizing Firefox..."
 
-iDeb "firefox"
+install_deb_pkg "firefox"
 if [ $? -ne 0 ]; then
     exit 1
 fi

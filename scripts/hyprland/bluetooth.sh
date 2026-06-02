@@ -14,8 +14,8 @@ bluetooth=(
 # install bluetooth
 note "Installing bluetooth packages..."
 for BLUE in "${bluetooth[@]}"; do
-    iAur "$BLUE"
+    install_arch_pkg "$BLUE"
 done
 
 # enable service if needed
-enable_service bluetooth.service
+enable_service --now bluetooth.service

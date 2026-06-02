@@ -97,13 +97,13 @@ uninstall_pkgs=(
 # Cleanup conflicting packages
 note "Removing conflicting packages..."
 for pkg in "${uninstall_pkgs[@]}"; do
-    uPac "$pkg"
+    uninstall_arch_pkg "$pkg"
 done
 
 # Install packages
 note "Installing packages..."
 for pkg in "${pkgs[@]}"; do
-    iAur "$pkg"
+    install_arch_pkg "$pkg"
 done
 
 # ==============================================================================

@@ -5,7 +5,7 @@
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh) && clear
 
 # Require boot script
-exGnome "boot.sh"
+run_gnome_script "boot.sh"
 
 # Start script
 gum style \
@@ -34,7 +34,7 @@ gum style \
     "${YELLOW}WARN:${PINK} If you are installing on a VM, ensure to enable 3D acceleration else             ${RESET}"
 
 # Install package
-exGnome "pkgs.sh"
+run_gnome_script "pkgs.sh"
 
 # Install win32yank clipboard
 if ! command -v win32yank.exe &>/dev/null; then

@@ -17,7 +17,7 @@ sddm_packages=(
 # Install SDDM and dependencies
 note "Installing SDDM and dependencies..."
 for package in "${sddm_packages[@]}"; do
-    iAur "$package"
+    install_arch_pkg "$package"
 done
 
 # Disable other login managers
@@ -71,7 +71,7 @@ select_theme_variant() {
 
     # User selection
     note "Select theme variant (Preview on: ${CYAN}https://github.com/keyitdev/sddm-astronaut-theme):${RESET}"
-    local selected=$(gum choose "${variants[@]}")
+    local selected=$(gum ask_choice "${variants[@]}")
 
     # Apply selection
     sudo sed -i "s|^ConfigFile=.*|ConfigFile=Themes/$selected.conf|" "$metadata_file"

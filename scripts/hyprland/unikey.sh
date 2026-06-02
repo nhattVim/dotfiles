@@ -15,7 +15,7 @@ pkgs=(
 # Install packages
 note "Installing Fcitx5..."
 for PKG in "${pkgs[@]}"; do
-    iAur "$PKG"
+    install_arch_pkg "$PKG"
 done
 
 # Fcitx5 config directory
