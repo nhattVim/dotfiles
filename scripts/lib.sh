@@ -36,25 +36,6 @@ PKGMN=$(basename "$(command -v nala || command -v apt)")
 # ============================================================
 # Install functions
 # ============================================================
-iPac() {
-    if pacman -Q "$1" &>/dev/null; then
-        ok "$1 is already installed. Skipping ..."
-        return 0
-    fi
-
-    act "Installing $1 with pacman ..."
-    sudo pacman -S --noconfirm --needed "$1"
-
-    if pacman -Q "$1" &>/dev/null; then
-        ok "$1 was installed"
-        return 0
-    else
-        err "$1 failed to install."
-        echo "[pacman] $1 failed" >>"$LOG_FILE"
-        return 1
-    fi
-}
-
 iAur() {
     if $ISAUR -Q "$1" &>/dev/null; then
         ok "$1 is already installed. Skipping ..."
@@ -147,14 +128,6 @@ reinstall_failed_pkgs() {
     act "Retrying failed installations from install.log ..."
 
     [[ ! -f "$LOG_FILE" ]] && return 0
-
-    # pacman pkgs
-    while read -r pkg; do
-        [[ -z "$pkg" ]] && continue
-        if iPac "$pkg"; then
-            sed -i "\|^\[pacman\] $pkg failed|d" "$LOG_FILE"
-        fi
-    done < <(grep "^\[pacman\]" "$LOG_FILE" | awk '{print $2}')
 
     # aur pkgs
     ISAUR=$(basename "$(command -v paru || command -v yay)")

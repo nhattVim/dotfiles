@@ -12,7 +12,7 @@ aur=(asusctl supergfxctl)
 note "Installing ASUS ROG packages ..."
 
 for pkg in "${pacman[@]}"; do
-    iPac "$pkg"
+    iAur "$pkg"
 done
 
 for pkg in "${aur[@]}"; do

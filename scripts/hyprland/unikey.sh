@@ -15,7 +15,7 @@ pkgs=(
 # Install packages
 note "Installing Fcitx5..."
 for PKG in "${pkgs[@]}"; do
-    iPac "$PKG"
+    iAur "$PKG"
 done
 
 # Fcitx5 config directory

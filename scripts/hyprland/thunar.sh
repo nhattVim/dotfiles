@@ -15,7 +15,7 @@ thunar=(
 # install thunar
 note "Installing Thunar Packages..."
 for THUNAR in "${thunar[@]}"; do
-    iPac "$THUNAR"
+    iAur "$THUNAR"
 done
 
 # Ask the user if they want to use Thunar as the default file manager

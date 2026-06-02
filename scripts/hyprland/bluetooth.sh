@@ -14,7 +14,7 @@ bluetooth=(
 # install bluetooth
 note "Installing bluetooth packages..."
 for BLUE in "${bluetooth[@]}"; do
-    iPac "$BLUE"
+    iAur "$BLUE"
 done
 
 # enable service if needed

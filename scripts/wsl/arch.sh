@@ -41,14 +41,11 @@ choose "Choose your AUR helper" "yay" "paru" aur_helper
 
 exHypr "$aur_helper.sh"
 
-pacman_packages=(
+packages=(
     git unzip tmux starship zsh make python-pip nodejs npm
     ripgrep fzf fastfetch lsd lazygit net-tools neovim bat
     ranger openssh btop wget nvtop cargo python-virtualenv
     lolcat openssh curl aria2
-)
-
-aur_packages=(
     shell-color-scripts-git
     arttime-git
     pipes.sh
@@ -61,12 +58,8 @@ ISAUR=$(command -v yay || command -v paru)
 # Installation of main components
 note "Installing packages"
 
-for PKG1 in "${pacman_packages[@]}"; do
-    iPac "$PKG1"
-done
-
-for PKG2 in "${aur_packages[@]}"; do
-    iAur "$PKG2"
+for PKG in "${packages[@]}"; do
+    iAur "$PKG"
 done
 
 # Clone tpm

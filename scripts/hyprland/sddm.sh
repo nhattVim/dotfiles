@@ -17,7 +17,7 @@ sddm_packages=(
 # Install SDDM and dependencies
 note "Installing SDDM and dependencies..."
 for package in "${sddm_packages[@]}"; do
-    iPac "$package"
+    iAur "$package"
 done
 
 # Disable other login managers

@@ -21,14 +21,11 @@ remove=(
 
 # XDG-DESKTOP-PORTAL-HYPRLAND
 for xdgs in "${xdg[@]}"; do
-    iPac "$xdgs"
+    iAur "$xdgs"
 done
 
 # Remove conflic xdg-desktop-portal
 note "Clearing any other xdg-desktop-portal implementations..."
 for xdgs in "${remove[@]}"; do
-    if pacman -Q "$xdgs" >/dev/null; then
-        act "Removing $xdgs..."
-        sudo pacman -R --noconfirm "$xdgs"
-    fi
+    uPac "$xdgs"
 done

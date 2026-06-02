@@ -8,7 +8,7 @@
 # Pacman Package
 # ==============================================================================
 
-pacman_pkgs=(
+pkgs=(
 
     # ----------------------------------------------------
     # Core System & Development
@@ -60,23 +60,12 @@ pacman_pkgs=(
     ttf-jetbrains-mono
     ttf-jetbrains-mono-nerd
     ttf-nerd-fonts-symbols
-)
-
-# ==============================================================================
-# AUR Package
-# ==============================================================================
-
-aur_pkgs=(
 
     # ----------------------------------------------------
-    # Hyprland Ecosystem
+    # AUR Package
     # ----------------------------------------------------
     # wlogout pyprland cava wallust papirus-icon-theme
     caelestia-shell
-
-    # ----------------------------------------------------
-    # Extras Packages
-    # ----------------------------------------------------
     # arttime-git pipes.sh shell-color-scripts-git tty-clock
     # spotify
     # ferdium-bin
@@ -111,15 +100,9 @@ for pkg in "${uninstall_pkgs[@]}"; do
     uPac "$pkg"
 done
 
-# Install pacman packages
-note "Installing pacman packages..."
-for pkg in "${pacman_pkgs[@]}"; do
-    iPac "$pkg"
-done
-
-# Install AUR packages
-note "Installing AUR packages..."
-for pkg in "${aur_pkgs[@]}"; do
+# Install packages
+note "Installing packages..."
+for pkg in "${pkgs[@]}"; do
     iAur "$pkg"
 done
 

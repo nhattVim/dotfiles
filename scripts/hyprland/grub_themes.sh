@@ -23,7 +23,7 @@ fi
 
 # Install os-prober
 for PKG in os-prober fuse3; do
-    iPac "$PKG"
+    iAur "$PKG"
 done
 
 # Check folder

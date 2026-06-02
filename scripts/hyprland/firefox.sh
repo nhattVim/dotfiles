@@ -7,7 +7,7 @@
 note "Customizing Firefox..."
 
 # Ensure Firefox is installed
-iPac "firefox"
+iAur "firefox"
 
 get_profile_ini() {
     local paths=(

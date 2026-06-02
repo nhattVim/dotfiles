@@ -19,13 +19,13 @@ nvidia_pkgs=(
 # Install kernel headers
 note "Installing kernel headers..."
 while read -r kernel; do
-    iPac "${kernel}-headers"
+    iAur "${kernel}-headers"
 done < <(cat /usr/lib/modules/*/pkgbase)
 
 # Install NVIDIA packages
 note "Installing NVIDIA packages..."
 for pkg in "${nvidia_pkgs[@]}"; do
-    iPac "$pkg"
+    iAur "$pkg"
 done
 
 # Configure mkinitcpio
