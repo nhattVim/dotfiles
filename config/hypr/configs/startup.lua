@@ -8,7 +8,7 @@ local on = hl.on
 
 on("hyprland.start", function()
     -- shell
-    exec("caelestia shell -d")
+    exec("qs -c ei")
 
     -- one-time boot script (auto-commented after first run)
     exec("$HOME/.config/hypr/scripts/boot.sh")

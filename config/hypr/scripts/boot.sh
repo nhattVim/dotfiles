@@ -13,8 +13,6 @@ cursor_size=24
 sleep 2
 
 # Apply theme
-caelestia shell wallpaper set "$wallpaper"
-caelestia scheme set -n dynamic
 gsettings set org.gnome.desktop.interface color-scheme "$color_scheme"
 gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
 gsettings set org.gnome.desktop.interface icon-theme "$icon_theme"
