@@ -100,8 +100,11 @@ required_pkgs=(
 
 note "Installing essential packages..."
 
-for pkg in "${required_pkgs[@]}"; do
-    install_arch_pkg "$pkg"
-done
+if sudo pacman -S --noconfirm --needed "${required_pkgs[@]}"; then
+    ok "Essential packages installed"
+else
+    err "Failed to install essential packages"
+    exit 1
+fi
 
 ok "Pacman enhancements completed successfully!"

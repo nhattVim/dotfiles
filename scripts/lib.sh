@@ -23,8 +23,16 @@ err() { echo -e "\n${RED}[ERROR]${RESET} - $1\n"; }
 act() { echo -e "\n${CYAN}[ACTION]${RESET} - $1\n"; }
 note() { echo -e "\n${YELLOW}[NOTE]${RESET} - $1\n"; }
 
-ask_confirm() { gum confirm "${CYAN}$1${RESET}" && eval "$2='Y'" || eval "$2='N'"; }
-ask_choice() { gum confirm "${CYAN}$1${RESET}" --affirmative "$2" --negative "$3" && eval "$4=$2" || eval "$4=$3"; }
+ask_confirm() { gum confirm "${CYAN}$1${RESET}" && printf -v "$2" "Y" || printf -v "$2" "N"; }
+ask_choice() {
+    if [[ $# -eq 4 ]]; then
+        gum confirm "${CYAN}$1${RESET}" --affirmative "$2" --negative "$3" &&
+            printf -v "$4" "%s" "$2" ||
+            printf -v "$4" "%s" "$3"
+    else
+        gum choose "$@"
+    fi
+}
 
 # ============================================================
 # Globals
@@ -205,12 +213,20 @@ enable_service() {
         # Enable/start service
         if [[ "$with_now" == true ]]; then
             act "Enabling and starting $svc..."
-            "${cmd[@]}" enable --now "$svc"
-            ok "$svc enabled and started"
+            if "${cmd[@]}" enable --now "$svc"; then
+                ok "$svc enabled and started"
+            else
+                err "Failed to enable/start $svc"
+                return 1
+            fi
         else
             act "Enabling $svc (will start on next boot)..."
-            "${cmd[@]}" enable "$svc"
-            ok "$svc enabled (not started now)"
+            if "${cmd[@]}" enable "$svc"; then
+                ok "$svc enabled (not started now)"
+            else
+                err "Failed to enable $svc"
+                return 1
+            fi
         fi
     done
 }
