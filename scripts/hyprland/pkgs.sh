@@ -25,7 +25,7 @@ pkgs=(
     # ----------------------------------------------------
     hyprland hyprcursor hyprpicker hyprpaper hyprlock
     hyprshutdown grim slurp wl-clipboard cliphist wlsunset
-    qt6-declarative qt6-wayland quickshell-git
+    qt6-declarative qt6-wayland quickshell
 
     # ----------------------------------------------------
     # Audio, Power & Hardware
