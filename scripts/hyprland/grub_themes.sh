@@ -74,6 +74,7 @@ if gum confirm "${CYAN}Do you want to install grub custom theme?${RESET}"; then
     fi
 
     # Extract and copy theme
+    sudo rm -rf "$grub_dir/$theme"
     sudo cp -r "$temp_dir/assets/themes/$theme" "$grub_dir/"
 
     # Detect OS

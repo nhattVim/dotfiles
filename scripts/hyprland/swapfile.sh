@@ -61,7 +61,9 @@ while true; do
         fi
 
         act "Configuring /etc/fstab..."
-        if echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab >/dev/null; then
+        if grep -qE '^[[:space:]]*/swapfile[[:space:]]+none[[:space:]]+swap[[:space:]]' /etc/fstab; then
+            ok "/swapfile already exists in /etc/fstab"
+        elif echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab >/dev/null; then
             ok "Done"
         else
             err "Failed to configure /etc/fstab."

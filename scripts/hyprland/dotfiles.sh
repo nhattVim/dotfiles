@@ -107,8 +107,11 @@ done
 # Setup Fcitx5
 if command -v fcitx5 >/dev/null 2>&1; then
     act "Setting up Fcitx5..."
-    echo "--ozone-platform-hint=x11" >>"$HOME/.config/electron-flags.conf"
-    echo "--ozone-platform-hint=x11" >>"$HOME/.config/code-flags.conf"
+    for flags_file in "$HOME/.config/electron-flags.conf" "$HOME/.config/code-flags.conf"; do
+        touch "$flags_file"
+        grep -Fxq -- "--ozone-platform-hint=x11" "$flags_file" ||
+            echo "--ozone-platform-hint=x11" >>"$flags_file"
+    done
 fi
 
 # uncommenting if nvidia is detected
@@ -202,17 +205,20 @@ note "By default only a few wallpapers are copied..." && cd "$HOME"
 while true; do
     if gum confirm "${CAT} Would you like to download additional wallpapers?"; then
         note "Downloading additional wallpapers..."
-        if git clone https://github.com/nhattVim/wallpapers --depth 1; then
+        WALLPAPERS_DIR=$(mktemp -d)
+        if git clone https://github.com/nhattVim/wallpapers --depth 1 "$WALLPAPERS_DIR"; then
             note "Wallpapers downloaded successfully."
 
-            if cp -R wallpapers/wallpapers/* "$HOME/Pictures/Wallpapers/"; then
+            if cp -R "$WALLPAPERS_DIR/wallpapers/"* "$HOME/Pictures/Wallpapers/"; then
                 note "Wallpapers copied successfully."
-                rm -rf wallpapers
+                rm -rf "$WALLPAPERS_DIR"
                 break
             else
+                rm -rf "$WALLPAPERS_DIR"
                 err "Copying wallpapers failed."
             fi
         else
+            rm -rf "$WALLPAPERS_DIR"
             err "Downloading additional wallpapers failed"
         fi
     else
