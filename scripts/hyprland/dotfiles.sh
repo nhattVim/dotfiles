@@ -9,7 +9,7 @@ HYPR_FOLDER="$HOME/.config/hypr/configs"
 ENV_FILE="$HYPR_FOLDER/envs.lua"
 MONITOR_FILE="$HYPR_FOLDER/monitors.lua"
 SETTINGS_FILE="$HYPR_FOLDER/settings.lua"
-STARTUP_FILE="$HYPR_FOLDER/execs.lua"
+STARTUP_FILE="$HYPR_FOLDER/startup.lua"
 KEYBINDS_DIR="$HYPR_FOLDER/keybinds.lua"
 
 # start script
@@ -90,7 +90,7 @@ chmod +x "$HOME/.config/hypr/scripts/"*
 
 # Add apps to startup
 declare -A startup_apps=(
-    ["asusctl"]="rog-control-center"
+    # ["asusctl"]="rog-control-center"
     ["fcitx5"]="fcitx5 -d"
 )
 
