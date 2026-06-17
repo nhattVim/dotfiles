@@ -4,77 +4,63 @@
 # Source library
 . <(curl -sSL https://raw.githubusercontent.com/nhattVim/dotfiles/refs/heads/master/scripts/lib.sh)
 
-# ==============================================================================
-# Pacman Package
-# ==============================================================================
-
+# pkgs
 pkgs=(
 
     # ----------------------------------------------------
     # Core System & Development
     # ----------------------------------------------------
-    jdk-openjdk nodejs npm hyprland rustup
+    curl git wget make openssh net-tools jdk-openjdk npm
+    nodejs rustup tree-sitter-cli
 
     # ----------------------------------------------------
-    # Terminal & CLI Tools
+    # Shells, Terminal & CLI
     # ----------------------------------------------------
-    tmux zsh fish kitty vim neovim make ripgrep fzf fd jq
-    lazygit bat btop aria2 foot fastfetch ranger net-tools
-    lsd translate-shell trash-cli zip unzip wl-clipboard
-    tree-sitter-cli openssh cliphist
+    zsh tmux kitty vim neovim neovide ripgrep trash-cli
+    translate-shell unzip zip aria2 bat btop fastfetch fd
+    fzf jq lazygit lsd ranger
 
     # ----------------------------------------------------
-    # System utilities
+    # Hyprland & Wayland Ecosystem
     # ----------------------------------------------------
-    papirus-icon-theme adw-gtk-theme gnome-system-monitor
-    nwg-look polkit-gnome
+    hyprland hyprcursor hyprpicker hyprpaper hyprlock
+    hyprshutdown grim slurp wl-clipboard cliphist wlsunset
+    qt6-declarative qt6-wayland quickshell-git
+
+    # ----------------------------------------------------
+    # Audio, Power & Hardware
+    # ----------------------------------------------------
+    pipewire wireplumber upower networkmanager
+    power-profiles-daemon brightnessctl
+
+    # ----------------------------------------------------
+    # System Utilities
+    # ----------------------------------------------------
+    gnome-disk-utility gnome-system-monitor imagemagick
+    libnotify nwg-look polkit-gnome qalculate-gtk
+
+    # ----------------------------------------------------
+    # Themes & Icons
+    # ----------------------------------------------------
+    adw-gtk-theme papirus-icon-theme
 
     # ----------------------------------------------------
     # Multimedia
     # ----------------------------------------------------
-    mpv mpv-mpris yt-dlp ffmpeg
+    cava eog ffmpeg gpu-screen-recorder mpv mpv-mpris
+    yt-dlp
 
     # ----------------------------------------------------
     # GUI Applications
     # ----------------------------------------------------
-    # discord telegram-desktop libreoffice-fresh
-    neovide qalculate-gtk mousepad eog gnome-disk-utility
-
-    # ----------------------------------------------------
-    # Hyprland Ecosystem
-    # ----------------------------------------------------
-    hyprcursor hyprpicker hyprshutdown
+    mousepad
 
     # ----------------------------------------------------
     # Fonts
     # ----------------------------------------------------
-    otf-font-awesome
-    adobe-source-code-pro-fonts
-    noto-fonts
-    noto-fonts-cjk
+    hicolor-icon-theme
+    papirus-icon-theme
     noto-fonts-emoji
-    ttf-droid
-    ttf-dejavu
-    ttf-fira-code
-    ttf-liberation
-    ttf-jetbrains-mono
-    ttf-jetbrains-mono-nerd
-    ttf-nerd-fonts-symbols
-
-    # ----------------------------------------------------
-    # AUR Package
-    # ----------------------------------------------------
-    # wlogout pyprland cava wallust papirus-icon-theme
-    caelestia-shell
-    # arttime-git pipes.sh shell-color-scripts-git tty-clock
-    # spotify
-    # ferdium-bin
-    # visual-studio-code-bin
-    # onlyoffice-bin
-    # vmware-workstation
-    # xampp
-    # mssql
-    # mssql-tools
 )
 
 # ==============================================================================
@@ -82,16 +68,16 @@ pkgs=(
 # ==============================================================================
 
 uninstall_pkgs=(
-    dunst
-    mako
-    rofi
-    wallust-git
-    cachyos-hyprland-settings
     aylurs-gtk-shell
+    cachyos-hyprland-settings
+    dunst
     hyprland-git
     hyprland-nvidia
     hyprland-nvidia-git
     hyprland-nvidia-hidpi-git
+    mako
+    rofi
+    wallust-git
 )
 
 # Cleanup conflicting packages
@@ -115,35 +101,40 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     act "Installing Oh My Zsh..."
     sh -c "$(wget -O- https://install.ohmyz.sh)" "" --unattended && {
         git clone https://github.com/zsh-users/zsh-autosuggestions \
-            ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+            "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
         ok "Oh My Zsh configured"
     } || err "Oh My Zsh installation failed"
 else
     note "Oh My Zsh already installed"
 fi
 
-# TPM (Tmux Plugin Manager)
+# TPM - Tmux Plugin Manager
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     act "Installing TPM..."
     git clone https://github.com/tmux-plugins/tpm \
-        $HOME/.tmux/plugins/tpm --depth 1 && ok "TPM installed"
+        "$HOME/.tmux/plugins/tpm" --depth 1 && ok "TPM installed"
 else
     note "TPM already installed"
 fi
 
-# Set up Rustup
+# Rustup
 act "Configuring Rustup..."
-rustup default stable && { ok "Configuring Rustup completed"; } || {
-    err "Failed to Configuring Rustup"
+rustup default stable && {
+    ok "Configuring Rustup completed"
+} || {
+    err "Failed to configure Rustup"
 }
 
 ok "All packages installed successfully!"
 
-# Clear packages
-note "Clear packages."
+# Cleaning packages
+note "Cleaning package cache..."
 sudo pacman -Sc --noconfirm
+
 if [[ "$ISAUR" == "yay" ]]; then
-    yay -Sc --noconfirm && yay -Yc --noconfirm
+    yay -Sc --noconfirm
+    yay -Yc --noconfirm
 elif [[ "$ISAUR" == "paru" ]]; then
-    paru -Sc --noconfirm && paru -c --noconfirm
+    paru -Sc --noconfirm
+    paru -c --noconfirm
 fi
