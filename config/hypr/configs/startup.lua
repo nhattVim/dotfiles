@@ -28,6 +28,5 @@ on("hyprland.start", function()
     exec("trash-empty 30")
 
     --  Startup applications
-    exec("fcitx5 -d")
-    exec("rog-control-center")
+    -- exec("fcitx5 -d")
 end)
